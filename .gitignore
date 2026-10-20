@@ -1,0 +1,38 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Models / data / outputs
+models/
+outputs/
+checkpoints/
+*.safetensors
+*.bin
+*.gguf
+data/raw/
+data/processed/
+wandb/
+runs/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+
+# LaTeX build artifacts (Overleaf handles compilation)
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
+report/*.fdb_latexmk
+report/*.fls
+report/*.bbl
+report/*.blg
+
+# OS
+.DS_Store
+Thumbs.db

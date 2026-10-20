@@ -1,0 +1,117 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  columns=fullflexible,
+  showstringspaces=false
+}
+
+\title{基于开源多智能体框架的协作系统\\与工具调用 LoRA 微调研究}
+\author{你的名字}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+本文围绕多智能体协作与工具调用格式稳定性展开。首先基于开源框架搭建包含任务分解、
+执行与审查三个角色的多智能体系统；其次构造工具调用指令数据集，使用 QLoRA 对
+Qwen2.5-7B-Instruct 进行轻量微调；最后在相同任务与工具集上比较单智能体、串行、
+主管与辩论等协作模式，并分析微调前后 Agent 调用工具的 JSON 格式准确率与稳定性。
+% TODO: 填入最终实验数字与结论。
+\end{abstract}
+
+\section{引言}
+% TODO: 研究背景、问题定义、贡献列表。
+
+\section{相关工作}
+% TODO: 多智能体协作、ReAct、工具调用、LoRA/QLoRA。
+多智能体系统通过角色分工与消息传递扩展单模型能力\cite{yao2023react}；
+LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低显存需求\cite{dettmers2023qlora}。
+
+\section{系统设计}
+\subsection{总体架构}
+系统包含任务分解 Agent、执行 Agent 与审查/评估 Agent，三者通过共享状态与消息传递协作。
+图~\ref{fig:architecture} 给出整体流程。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    node distance=1.5cm and 1.8cm,
+    agent/.style={draw, rounded corners, minimum width=2.8cm,
+      minimum height=1.0cm, align=center},
+    >=Latex
+  ]
+    \node[agent] (planner) {Planner\\任务分解};
+    \node[agent, right=of planner] (executor) {Executor\\工具调用};
+    \node[agent, right=of executor] (reviewer) {Reviewer\\审查评估};
+
+    \draw[->] (planner) -- (executor);
+    \draw[->] (executor) -- (reviewer);
+    \draw[->] (reviewer.north) -- ++(0,0.9) -| node[pos=0.25, above] {不通过，带 critique 重规划} (planner.north);
+    \node[below=0.5cm of reviewer, align=center] {通过 $\rightarrow$ 输出};
+  \end{tikzpicture}
+  \caption{三角色多智能体协作流程}
+  \label{fig:architecture}
+\end{figure}
+
+\subsection{角色与状态}
+% TODO: 给出每个角色的 prompt 要点、输入输出契约、停止条件。
+共享状态包括任务、计划、执行结果、审查结果、轮数与 trace。
+
+\subsection{工具层}
+% TODO: 工具注册表、JSON Schema、错误处理、重试。
+工具调用统一为：
+\begin{lstlisting}
+{"name": "calculator", "arguments": {"expression": "(23*17+9)/5"}}
+\end{lstlisting}
+
+\section{工具调用数据与微调}
+\subsection{数据构造}
+% TODO: 数据规模、工具覆盖、硬负例、按工具划分训练/测试集。
+
+\subsection{QLoRA 配置}
+% TODO: rank、alpha、target modules、学习率、epoch、显存与耗时。
+
+\section{实验设置}
+\subsection{任务与指标}
+格式指标包括 JSON 可解析率、Schema 合规率、工具名准确率、参数完全匹配率；
+系统指标包括任务成功率、平均重试次数、延迟与 token 成本。
+
+\subsection{对照与协作模式}
+% TODO: base / few-shot / 约束解码 / LoRA / LoRA+约束解码。
+% TODO: 单 Agent、串行、主管、辩论四种拓扑。
+
+\section{结果与分析}
+% TODO: 表格与图。建议至少包含：
+% 1) 微调前后格式指标对比；
+% 2) 未见工具 OOD 结果；
+% 3) 四种协作模式的成功率-成本权衡；
+% 4) 失败案例分类。
+
+\section{讨论与局限性}
+% TODO: LoRA 与约束解码的边界、错误传播、成本、评测偏差。
+
+\section{结论}
+% TODO: 总结主要发现。
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,6 @@
+{
+  "toolcall_sft": {
+    "file_name": "toolcall_sft.jsonl",
+    "formatting": "sharegpt"
+  }
+}

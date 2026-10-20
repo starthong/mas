@@ -1,0 +1,6 @@
+# Fallback interactive chat without vLLM.
+# Usage: llamafactory-cli chat /root/autodl-tmp/mas/configs/inference.yaml
+model_name_or_path: /root/autodl-tmp/models/Qwen2.5-7B-Instruct
+adapter_name_or_path: /root/autodl-tmp/output/mas-qwen25-7b-toolcall-lora
+template: qwen
+finetuning_type: lora

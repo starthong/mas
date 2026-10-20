@@ -1,0 +1,12 @@
+openai>=1.40.0
+pydantic>=2.7.0
+jsonschema>=4.22.0
+python-dotenv>=1.0.1
+PyYAML>=6.0.1
+tqdm>=4.66.4
+pandas>=2.2.2
+matplotlib>=3.9.0
+langgraph>=0.2.0
+langchain-core>=0.3.0
+json-repair>=0.30.0
+pytest>=8.0.0
