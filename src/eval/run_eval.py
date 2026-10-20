@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -17,7 +18,7 @@ from src.eval.metrics import (
     validate_call,
     wilson_ci,
 )
-from src.llm.client import LLMClient
+from src.llm.factory import build_client
 from src.tools.builtin import build_default_registry
 
 
@@ -34,7 +35,15 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Evaluate tool-call JSON format.")
     parser.add_argument("--data", default="data/test/toolcall_test.jsonl")
-    parser.add_argument("--model", default="toolcall")
+    parser.add_argument("--backend", choices=["openai", "hf"], default=os.getenv("LLM_BACKEND", "openai"))
+    parser.add_argument("--model", default="toolcall", help="OpenAI model name")
+    parser.add_argument("--base-model", default=os.getenv("HF_BASE_MODEL"))
+    parser.add_argument("--adapter", default=os.getenv("HF_ADAPTER"))
+    parser.add_argument(
+        "--load-in-4bit",
+        action="store_true",
+        default=os.getenv("HF_LOAD_IN_4BIT", "1") == "1",
+    )
     parser.add_argument("--out", default="results/toolcall_eval.json")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--temperature", type=float, default=0.0)
@@ -50,10 +59,23 @@ def main() -> int:
 
     registry = build_default_registry()
     tools = registry.schemas()
-    client = LLMClient()
+
+    if args.backend == "hf":
+        if not args.base_model:
+            raise SystemExit("--base-model is required with --backend hf")
+        client = build_client(
+            "hf",
+            base_model=args.base_model,
+            adapter=args.adapter,
+            load_in_4bit=args.load_in_4bit,
+        )
+        model_label = args.adapter or args.base_model
+    else:
+        client = build_client("openai")
+        model_label = args.model
 
     records: list[dict[str, Any]] = []
-    for row in tqdm(rows, desc=f"eval {args.model}"):
+    for row in tqdm(rows, desc=f"eval {model_label}"):
         messages = row["messages"][:-1]
         ref_raw = row["messages"][-1]["content"]
         ref = json.loads(ref_raw) if isinstance(ref_raw, str) else ref_raw
@@ -93,7 +115,8 @@ def main() -> int:
 
     schema_ok_count = sum(1 for item in records if item["schema_ok"])
     summary = {
-        "model": args.model,
+        "model": model_label,
+        "backend": args.backend,
         "data": str(data_path),
         "n": n,
         "json_parse_rate": sum(1 for item in records if item["json_parse_ok"]) / n,

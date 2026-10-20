@@ -1,14 +1,16 @@
 from __future__ import annotations
 
-from typing import Any, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
 from src.agents.executor import Executor, results_to_context
 from src.agents.planner import Planner
 from src.agents.reviewer import Reviewer
-from src.llm.client import LLMClient
 from src.tools.registry import ToolRegistry
+
+if TYPE_CHECKING:
+    from src.llm.client import LLMClient
 
 
 class MASState(TypedDict, total=False):

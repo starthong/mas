@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import json
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from src.llm.client import LLMClient
 from src.llm.parsing import parse_json_loose
 from src.llm.prompts import build_system_prompt
 from src.tools.registry import ToolRegistry
+
+if TYPE_CHECKING:
+    from src.llm.client import LLMClient
 
 
 class Executor:
