@@ -1,6 +1,10 @@
 {
   "toolcall_sft": {
     "file_name": "toolcall_sft.jsonl",
-    "formatting": "sharegpt"
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "system": "system"
+    }
   }
 }

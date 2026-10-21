@@ -84,15 +84,31 @@ FINAL_PROMPTS = [
 ]
 
 
-def make_sample(system: str, user: str, name: str, arguments: dict) -> dict:
+def _assistant_json(name: str, arguments: dict) -> str:
+    return json.dumps(
+        {"name": name, "arguments": arguments},
+        ensure_ascii=False,
+    )
+
+
+def make_train_sample(system: str, user: str, name: str, arguments: dict) -> dict:
+    """LLaMA-Factory sharegpt format with a separate system column."""
+    return {
+        "system": system,
+        "conversations": [
+            {"from": "human", "value": user},
+            {"from": "gpt", "value": _assistant_json(name, arguments)},
+        ],
+    }
+
+
+def make_test_sample(system: str, user: str, name: str, arguments: dict) -> dict:
+    """OpenAI-style messages, used by src/eval/run_eval.py."""
     return {
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": user},
-            {"role": "assistant", "content": json.dumps(
-                {"name": name, "arguments": arguments},
-                ensure_ascii=False,
-            )},
+            {"role": "assistant", "content": _assistant_json(name, arguments)},
         ]
     }
 
@@ -121,7 +137,7 @@ def build_train(system: str, rng: random.Random) -> list[dict]:
         if user in seen:
             return
         seen.add(user)
-        samples.append(make_sample(system, user, name, args))
+        samples.append(make_train_sample(system, user, name, args))
 
     for city in WEATHER_CITIES:
         for template in WEATHER_TEMPLATES:
@@ -151,7 +167,7 @@ def build_test(system: str, rng: random.Random) -> list[dict]:
         if user in seen:
             return
         seen.add(user)
-        samples.append(make_sample(system, user, name, args))
+        samples.append(make_test_sample(system, user, name, args))
 
     # Held-out cities / topics / templates, so the test set is not a copy of train.
     for city in ["厦门", "青岛", "昆明"]:

@@ -3,14 +3,44 @@
 ## 文件
 
 - `toolcall_sft.jsonl`：训练集，LLaMA-Factory `sharegpt` 格式。
+- `test/toolcall_test.jsonl`：测试集，OpenAI `messages` 格式，供 `src/eval/run_eval.py` 使用。
 - `dataset_info.json`：LLaMA-Factory 数据集注册。
-- `samples/toolcall_sample.jsonl`：三条样例，只用于检查格式。
+- `samples/toolcall_sample.jsonl`：三条训练格式样例。
 
-> 注意：`samples/toolcall_sample.jsonl` 里的 system 是简化版，只用于检查消息结构。
-> 正式训练样本的 system 必须用 `src.llm.prompts.build_system_prompt(registry.describe())`
-> 生成，保证训练和推理的 prompt 完全一致，否则微调效果会被 prompt 差异污染。
+> 注意：正式训练样本的 `system` 由
+> `src.llm.prompts.build_system_prompt(registry.describe())` 生成，
+> 保证训练和推理的 prompt 一致。
 
-## 单条格式
+## 训练格式
+
+```json
+{
+  "system": "You are a tool-calling agent. ...",
+  "conversations": [
+    {"from": "human", "value": "北京今天天气怎么样？"},
+    {"from": "gpt", "value": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"}
+  ]
+}
+```
+
+`dataset_info.json` 把 `messages` 映射到 `conversations`，把 `system` 映射到 `system`：
+
+```json
+{
+  "toolcall_sft": {
+    "file_name": "toolcall_sft.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "system": "system"
+    }
+  }
+}
+```
+
+## 测试格式
+
+测试集用 OpenAI 消息格式，方便 `run_eval.py` 直接拿 `messages[:-1]` 当输入：
 
 ```json
 {
@@ -24,10 +54,9 @@
 
 要求：
 
-1. `system` 里放工具列表和输出协议；
-2. `assistant` 的 `content` 是**纯 JSON 字符串**，不要 Markdown 围栏、不要解释文字；
-3. 训练和推理使用完全相同的 system prompt；
-4. 输出统一为 `{"name": "...", "arguments": {...}}`；不需要工具时用 `{"name": "final_answer", "arguments": {"answer": "..."}}`。
+1. `gpt` / `assistant` 的内容是**纯 JSON 字符串**，不要 Markdown 围栏、不要解释；
+2. 输出统一为 `{"name": "...", "arguments": {...}}`；
+3. 不需要工具时用 `{"name": "final_answer", "arguments": {"answer": "..."}}`。
 
 ## 构造建议
 
@@ -40,7 +69,7 @@
 - 10% 未知工具，应拒绝或改用 `final_answer`；
 - 5–10% 故意带歧义、口语化、错别字。
 
-划分训练/验证/测试时**按工具或场景划分**，不要随机切分，否则同一模板会泄漏到测试集，指标虚高。
+划分训练/验证/测试时**按工具或场景划分**，不要随机切分，否则同一模板会泄漏到测试集。
 
 ## 快速校验
 
@@ -49,16 +78,19 @@ python - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("data/toolcall_sft.jsonl")
-for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+for line in Path("data/toolcall_sft.jsonl").read_text(encoding="utf-8").splitlines():
     obj = json.loads(line)
-    roles = [m["role"] for m in obj["messages"]]
-    assert roles[-1] == "assistant", (i, roles)
+    assert "system" in obj
+    turns = obj["conversations"]
+    assert turns[0]["from"] == "human"
+    assert turns[1]["from"] == "gpt"
+    json.loads(turns[1]["value"])
+print("train ok")
+
+for line in Path("data/test/toolcall_test.jsonl").read_text(encoding="utf-8").splitlines():
+    obj = json.loads(line)
+    assert [m["role"] for m in obj["messages"]] == ["system", "user", "assistant"]
     json.loads(obj["messages"][-1]["content"])
-print("ok", i)
+print("test ok")
 PY
 ```
-
-## 评测集
-
-另建 `data/test/toolcall_test.jsonl`，格式相同，但保留参考答案，不要混入训练集。建议至少 200 条，并单独留 50 条**未见工具**做 OOD 测试。
