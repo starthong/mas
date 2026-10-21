@@ -78,9 +78,9 @@ notebook 会做这几件事：
 Kaggle 免费 GPU 大约每周 30 小时，单次会话有时长上限，训练和评测不要卡着
 上限跑。第一次运行建议把 `--limit` 设成 20 先看流程通不通。
 
-## AutoDL（Kaggle 验证不过时）
+## 备用：AutoDL（仅 Kaggle 不可用时）
 
-Kaggle 手机验证对国内号码不太稳定。备选是 AutoDL 的 4090：
+正常用 Kaggle 可以跳过这一节。如果 Kaggle 的 GPU 或验证再次卡住，再走 AutoDL 的 4090：
 
 ```bash
 # AutoDL 实例：4090 24GB，PyTorch 2.5，数据盘 50GB

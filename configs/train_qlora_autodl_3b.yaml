@@ -1,5 +1,5 @@
 ### AutoDL fallback: RTX 4090 24GB, Qwen2.5-3B-Instruct.
-### Use this if Kaggle phone verification cannot be completed.
+### Only needed when Kaggle is unavailable.
 
 model_name_or_path: /root/autodl-tmp/models/Qwen2.5-3B-Instruct
 trust_remote_code: true

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-7B-Instruct}"
-MODEL_DIR="${1:-/root/autodl-tmp/models/Qwen2.5-7B-Instruct}"
+MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-3B-Instruct}"
+MODEL_DIR="${1:-/root/autodl-tmp/models/Qwen2.5-3B-Instruct}"
 
 python -m pip install -U modelscope
 

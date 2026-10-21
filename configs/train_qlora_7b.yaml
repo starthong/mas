@@ -1,3 +1,4 @@
+### Optional 7B config for AutoDL 4090. The default AutoDL config is 3B.
 ### Model
 model_name_or_path: /root/autodl-tmp/models/Qwen2.5-7B-Instruct
 trust_remote_code: true
