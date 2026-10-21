@@ -9,6 +9,7 @@ __pycache__/
 # Models / data / outputs
 models/
 outputs/
+artifacts/
 checkpoints/
 *.safetensors
 *.bin
