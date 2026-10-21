@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_DIR="${REPO_DIR:-/root/autodl-tmp/mas}"
 LF_DIR="${LF_DIR:-/root/LLaMA-Factory}"
-CONFIG="${1:-$REPO_DIR/configs/train_qlora.yaml}"
+CONFIG="${1:-$REPO_DIR/configs/train_qlora_autodl_3b.yaml}"
 
 cd "$LF_DIR"
 

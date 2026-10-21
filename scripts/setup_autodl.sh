@@ -12,7 +12,10 @@ cd LLaMA-Factory
 pip install -e .
 pip install -U modelscope bitsandbytes
 
+pip install -r "$REPO_DIR/requirements.txt"
+
 MODEL_ID=Qwen/Qwen2.5-3B-Instruct \
   bash "$REPO_DIR/scripts/download_model.sh" "$MODEL_DIR"
 
-echo "[done] install LLaMA-Factory and download 3B to $MODEL_DIR"
+command -v llamafactory-cli
+echo "[done] LLaMA-Factory, repo deps and 3B model are ready"
