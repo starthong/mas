@@ -90,22 +90,37 @@ cd mas
 bash scripts/setup_autodl.sh
 ```
 
-先小跑：
+先小跑 50 条，确认数据、模型和显存都没问题：
 
 ```bash
-cd /root/LLaMA-Factory
-llamafactory-cli train /root/autodl-tmp/mas/configs/train_qlora_autodl_3b.yaml \
-  max_samples=50 max_steps=20 \
-  output_dir=/root/autodl-tmp/output/smoke
+SMOKE=1 bash scripts/train_lora.sh
 ```
 
-再全量：
+再全量训练：
 
 ```bash
-llamafactory-cli train /root/autodl-tmp/mas/configs/train_qlora_autodl_3b.yaml
+bash scripts/train_lora.sh
 ```
 
-3B 在 4090 上大约 30–60 分钟，费用通常不到 10 元。
+3B 在 4090 上大约 30–60 分钟，费用通常不到 10 元。训练输出在
+`/root/autodl-tmp/output/mas-qwen25-3b-toolcall-lora`。
+
+评测：
+
+```bash
+bash scripts/eval_autodl.sh ft
+bash scripts/eval_autodl.sh base
+```
+
+需要起 OpenAI 兼容服务时，再装 vLLM：
+
+```bash
+bash scripts/install_vllm.sh
+bash scripts/serve_vllm.sh
+```
+
+vLLM 可能升级 torch，所以放在训练完成之后装。默认服务 3B base 和
+`toolcall` 两个模型名，端口 8000。
 
 ## 数据
 
@@ -121,14 +136,21 @@ python scripts/build_toolcall_dataset.py
 
 ## 评测
 
-本地或 Kaggle 都可以，关键是 `--backend`：
+AutoDL 上直接用包装脚本：
+
+```bash
+bash scripts/eval_autodl.sh ft
+bash scripts/eval_autodl.sh base
+```
+
+其它环境用 `--backend` 指定后端：
 
 ```bash
 # OpenAI 兼容接口（vLLM）
 python -m src.eval.run_eval --backend openai --model toolcall \
   --data data/test/toolcall_test.jsonl --out results/ft.json
 
-# 本地 transformers + peft（Kaggle T4）
+# 本地 transformers + peft
 python -m src.eval.run_eval --backend hf \
   --base-model /kaggle/temp/models/Qwen2.5-3B-Instruct \
   --adapter /kaggle/working/output/qwen25-3b-toolcall-lora \
