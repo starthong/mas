@@ -78,6 +78,35 @@ notebook 会做这几件事：
 Kaggle 免费 GPU 大约每周 30 小时，单次会话有时长上限，训练和评测不要卡着
 上限跑。第一次运行建议把 `--limit` 设成 20 先看流程通不通。
 
+## AutoDL（Kaggle 验证不过时）
+
+Kaggle 手机验证对国内号码不太稳定。备选是 AutoDL 的 4090：
+
+```bash
+# AutoDL 实例：4090 24GB，PyTorch 2.5，数据盘 50GB
+cd /root/autodl-tmp
+git clone git@github.com:starthong/mas.git
+cd mas
+bash scripts/setup_autodl.sh
+```
+
+先小跑：
+
+```bash
+cd /root/LLaMA-Factory
+llamafactory-cli train /root/autodl-tmp/mas/configs/train_qlora_autodl_3b.yaml \
+  max_samples=50 max_steps=20 \
+  output_dir=/root/autodl-tmp/output/smoke
+```
+
+再全量：
+
+```bash
+llamafactory-cli train /root/autodl-tmp/mas/configs/train_qlora_autodl_3b.yaml
+```
+
+3B 在 4090 上大约 30–60 分钟，费用通常不到 10 元。
+
 ## 数据
 
 ```bash
