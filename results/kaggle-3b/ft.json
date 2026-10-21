@@ -1,0 +1,882 @@
+{
+  "summary": {
+    "model": "/kaggle/working/output/qwen25-3b-toolcall-lora",
+    "backend": "hf",
+    "data": "data/test/toolcall_test.jsonl",
+    "n": 41,
+    "json_parse_rate": 1.0,
+    "schema_rate": 1.0,
+    "schema_rate_ci95": [
+      0.9143295511310926,
+      1.0
+    ],
+    "name_accuracy": 1.0,
+    "exact_match_rate": 0.8780487804878049,
+    "format_error_counts": {
+      "ok": 41
+    }
+  },
+  "records": [
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"700/5\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "700/5"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "700/5"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"905/5\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "905/5"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "905/5"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"383/4\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "383/4"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "383/4"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"162/8\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "162/8"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "162/8"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"806/7\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "806/7"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "806/7"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"联邦学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "联邦学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "联邦学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"知识图谱\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "知识图谱"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "知识图谱"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"151/7\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "151/7"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "151/7"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"907/2\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "907/2"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "907/2"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"对比学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "对比学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "对比学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"联邦学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "联邦学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "联邦学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"975/7\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "975/7"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "975/7"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"模型蒸馏\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "模型蒸馏"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "模型蒸馏"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"知识图谱\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "知识图谱"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "知识图谱"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "你好。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "嗨，我在。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"170/5\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "170/5"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "170/5"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"今天是星期一。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "今天是星期一。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "我这边没有日历工具，暂时查不了。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"225/9\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "225/9"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "225/9"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"模型蒸馏\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "模型蒸馏"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "模型蒸馏"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"青岛\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "青岛"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "青岛"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"青岛\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "青岛"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "青岛"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么在古代，人们用‘一’来表示数字？\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "为什么在古代，人们用‘一’来表示数字？"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "章鱼有三颗心脏。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"382/5\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "382/5"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "382/5"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"436/4\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "436/4"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "436/4"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"昆明\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "昆明"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "昆明"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"强化学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "强化学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "强化学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"先从最简单的任务开始。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "先从最简单的任务开始。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "先把最小的可验证步骤做完。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"昆明\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "昆明"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "昆明"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"对比学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "对比学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "对比学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"201/7\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "201/7"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "201/7"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"349/4\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "349/4"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "349/4"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"193/5\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "193/5"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "193/5"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"932/5\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "932/5"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "932/5"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"厦门\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "厦门"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "厦门"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"不用谢。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "不用谢。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "不辛苦。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"厦门\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "厦门"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "厦门"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"322/9\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "322/9"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "322/9"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"657/7\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "657/7"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "657/7"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"757/2\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "757/2"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "757/2"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"强化学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "强化学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "强化学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"555/5\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "555/5"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "555/5"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok"
+    }
+  ]
+}
