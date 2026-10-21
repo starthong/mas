@@ -24,7 +24,7 @@ mas/
 └── tests/
 ```
 
-## 本地环境
+## Linux 开发环境（Ubuntu）
 
 Ubuntu：
 
@@ -38,19 +38,23 @@ bash scripts/setup_ubuntu.sh
 source .venv/bin/activate
 ```
 
-Windows 上如果已经 clone 过，直接进目录建虚拟环境也可以：
-
-```powershell
-cd E:\学校\mas
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-```
-
 跑测试：
 
 ```bash
 pytest -q
+```
+
+开发和调试都在 Ubuntu 里做，Kaggle 只当远程 GPU 节点：代码先在 Ubuntu 改好、
+测试、push 到 GitHub；Kaggle clone 后只负责训练；adapter 和结果下载回 Ubuntu
+做分析、画图和写报告。这样本地 Linux 环境和 Kaggle GPU 是两条线，不会互相替代。
+
+环境信息可以留下来放进报告附录：
+
+```bash
+uname -a
+lsb_release -a
+python -V
+pip list | head -20
 ```
 
 ## Kaggle 训练
