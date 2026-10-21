@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -12,13 +11,14 @@ from tqdm import tqdm
 
 from src.eval.metrics import (
     classify_format_error,
+    error_counts,
     exact_match,
-    json_parse_ok,
     tool_name_match,
     validate_call,
     wilson_ci,
 )
 from src.llm.factory import build_client
+from src.llm.parsing import parse_json_strict
 from src.tools.builtin import build_default_registry
 
 
@@ -92,8 +92,13 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001 - record endpoint failures too
             error = f"{type(exc).__name__}: {exc}"
 
-        parse_ok = json_parse_ok(raw)
-        pred = json.loads(raw) if parse_ok else None
+        parse_ok = False
+        pred = None
+        try:
+            pred = parse_json_strict(raw)
+            parse_ok = True
+        except (json.JSONDecodeError, ValueError):
+            pass
 
         records.append(
             {
@@ -124,9 +129,7 @@ def main() -> int:
         "schema_rate_ci95": wilson_ci(schema_ok_count, n),
         "name_accuracy": sum(1 for item in records if item["name_ok"]) / n,
         "exact_match_rate": sum(1 for item in records if item["exact"]) / n,
-        "format_error_counts": dict(
-            Counter(item["format_error"] for item in records)
-        ),
+        "format_error_counts": error_counts(records),
     }
 
     out_path = Path(args.out)

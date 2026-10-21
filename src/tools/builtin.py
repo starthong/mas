@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import ast
 import operator
-from typing import Any
 
 from src.tools.registry import Tool, ToolRegistry
 
@@ -140,7 +139,3 @@ def build_default_registry() -> ToolRegistry:
     )
 
     return registry
-
-
-def tool_schema_map(registry: ToolRegistry) -> dict[str, dict[str, Any]]:
-    return {schema["name"]: schema for schema in registry.schemas()}

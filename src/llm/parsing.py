@@ -47,7 +47,3 @@ def parse_json_loose(text: str) -> dict[str, Any]:
     if not isinstance(obj, dict):
         raise ValueError("top-level JSON value is not an object")
     return obj
-
-
-def dump_json(obj: Any) -> str:
-    return json.dumps(obj, ensure_ascii=False)

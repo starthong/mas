@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from typing import TYPE_CHECKING, Any
 
 from src.llm.parsing import parse_json_loose
@@ -50,7 +49,3 @@ class Planner:
                 }
             )
         return normalized
-
-
-def format_plan(plan: list[dict[str, Any]]) -> str:
-    return json.dumps(plan, ensure_ascii=False, indent=2)
