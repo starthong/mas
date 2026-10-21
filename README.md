@@ -129,6 +129,22 @@ python -m src.experiments.run_modes \
   --out results/modes.json
 ```
 
+新开 Kaggle session 时，adapter 在 Dataset 里的话，把 `--adapter` 换成：
+
+```text
+/kaggle/input/mas-3b-toolcall-output
+```
+
+第一次先跑 2 条确认链路：
+
+```bash
+python -m src.experiments.run_modes --backend hf \
+  --base-model /kaggle/temp/models/Qwen2.5-3B-Instruct \
+  --adapter /kaggle/input/mas-3b-toolcall-output \
+  --tasks data/system_tasks.jsonl --modes single,sequential \
+  --runs 1 --temperatures 0 --limit 2 --out results/modes-smoke.json
+```
+
 base 模型去掉 `--adapter`，输出到 `results/modes-base.json`，然后对比两边的成功率、JSON 合法率、工具匹配和延迟。
 
 ## 报告
