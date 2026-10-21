@@ -1,0 +1,24 @@
+{"id": "weather_01", "category": "weather", "task": "北京今天天气怎么样？", "expected_tool": "get_weather", "expected_arguments": {"city": "北京"}}
+{"id": "weather_02", "category": "weather", "task": "上海现在天气如何？", "expected_tool": "get_weather", "expected_arguments": {"city": "上海"}}
+{"id": "weather_03", "category": "weather", "task": "帮我查一下广州的天气", "expected_tool": "get_weather", "expected_arguments": {"city": "广州"}}
+{"id": "weather_04", "category": "weather", "task": "深圳今天出门需要带伞吗？", "expected_tool": "get_weather", "expected_arguments": {"city": "深圳"}}
+{"id": "weather_05", "category": "weather", "task": "杭州现在气温多少？", "expected_tool": "get_weather", "expected_arguments": {"city": "杭州"}}
+{"id": "weather_06", "category": "weather", "task": "成都今天热不热？", "expected_tool": "get_weather", "expected_arguments": {"city": "成都"}}
+{"id": "calc_01", "category": "calculator", "task": "计算 (23*17+9)/5", "expected_tool": "calculator", "expected_arguments": {"expression": "(23*17+9)/5"}}
+{"id": "calc_02", "category": "calculator", "task": "帮我算一下 57*46-12", "expected_tool": "calculator", "expected_arguments": {"expression": "57*46-12"}}
+{"id": "calc_03", "category": "calculator", "task": "128/4+19 等于多少？", "expected_tool": "calculator", "expected_arguments": {"expression": "128/4+19"}}
+{"id": "calc_04", "category": "calculator", "task": "计算 (45+55)*3", "expected_tool": "calculator", "expected_arguments": {"expression": "(45+55)*3"}}
+{"id": "calc_05", "category": "calculator", "task": "7*8+9 是多少？", "expected_tool": "calculator", "expected_arguments": {"expression": "7*8+9"}}
+{"id": "calc_06", "category": "calculator", "task": "算一下 100-37+12", "expected_tool": "calculator", "expected_arguments": {"expression": "100-37+12"}}
+{"id": "search_01", "category": "search", "task": "搜索一下 LangGraph", "expected_tool": "search", "expected_arguments": {"query": "LangGraph"}}
+{"id": "search_02", "category": "search", "task": "我想了解多智能体系统", "expected_tool": "search", "expected_arguments": {"query": "多智能体系统"}}
+{"id": "search_03", "category": "search", "task": "帮我查查 LoRA 微调", "expected_tool": "search", "expected_arguments": {"query": "LoRA 微调"}}
+{"id": "search_04", "category": "search", "task": "介绍一下 ReAct 方法", "expected_tool": "search", "expected_arguments": {"query": "ReAct 方法"}}
+{"id": "search_05", "category": "search", "task": "找一些关于 RAG 检索增强的资料", "expected_tool": "search", "expected_arguments": {"query": "RAG 检索增强"}}
+{"id": "search_06", "category": "search", "task": "查一下 vLLM 推理", "expected_tool": "search", "expected_arguments": {"query": "vLLM 推理"}}
+{"id": "final_01", "category": "chat", "task": "你好", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_02", "category": "chat", "task": "你是谁？", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_03", "category": "chat", "task": "你能做什么？", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_04", "category": "chat", "task": "谢谢", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_05", "category": "chat", "task": "讲个笑话", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_06", "category": "chat", "task": "推荐一本书", "expected_tool": "final_answer", "expected_arguments": null}

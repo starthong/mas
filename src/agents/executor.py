@@ -18,9 +18,15 @@ class Executor:
     turn it into a ReAct loop with a max step budget and per-step observations.
     """
 
-    def __init__(self, client: LLMClient, registry: ToolRegistry) -> None:
+    def __init__(
+        self,
+        client: LLMClient,
+        registry: ToolRegistry,
+        temperature: float = 0.0,
+    ) -> None:
         self.client = client
         self.registry = registry
+        self.temperature = temperature
 
     def run(
         self,
@@ -44,7 +50,7 @@ class Executor:
                     {"role": "system", "content": system},
                     {"role": "user", "content": user},
                 ],
-                temperature=0.0,
+                temperature=self.temperature,
                 max_tokens=512,
             )
             call = parse_json_loose(raw)

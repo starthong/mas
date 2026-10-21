@@ -13,8 +13,9 @@ if TYPE_CHECKING:
 class Reviewer:
     """Check whether the executor's results satisfy the task."""
 
-    def __init__(self, client: LLMClient) -> None:
+    def __init__(self, client: LLMClient, temperature: float = 0.0) -> None:
         self.client = client
+        self.temperature = temperature
 
     def review(
         self,
@@ -36,7 +37,7 @@ class Reviewer:
                     {"role": "system", "content": REVIEWER_SYSTEM},
                     {"role": "user", "content": user},
                 ],
-                temperature=0.0,
+                temperature=self.temperature,
                 max_tokens=512,
             )
             data = parse_json_loose(raw)

@@ -26,10 +26,11 @@ def build_graph(
     client: LLMClient,
     registry: ToolRegistry,
     max_rounds: int = 2,
+    temperature: float = 0.0,
 ):
-    planner = Planner(client)
-    executor = Executor(client, registry)
-    reviewer = Reviewer(client)
+    planner = Planner(client, temperature=temperature)
+    executor = Executor(client, registry, temperature=temperature)
+    reviewer = Reviewer(client, temperature=temperature)
 
     def planner_node(state: MASState) -> dict[str, Any]:
         review = state.get("review") or {}

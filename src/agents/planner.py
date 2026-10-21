@@ -12,8 +12,9 @@ if TYPE_CHECKING:
 class Planner:
     """Decompose a task into ordered subtasks."""
 
-    def __init__(self, client: LLMClient) -> None:
+    def __init__(self, client: LLMClient, temperature: float = 0.0) -> None:
         self.client = client
+        self.temperature = temperature
 
     def plan(self, task: str, critique: str = "") -> list[dict[str, Any]]:
         user = f"Task:\n{task}\n"
@@ -26,7 +27,7 @@ class Planner:
                 {"role": "system", "content": PLANNER_SYSTEM},
                 {"role": "user", "content": user},
             ],
-            temperature=0.0,
+            temperature=self.temperature,
             max_tokens=512,
         )
         data = parse_json_loose(raw)
