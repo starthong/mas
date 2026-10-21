@@ -1,9 +1,0 @@
-### AutoDL export config for the default 3B run.
-model_name_or_path: /root/autodl-tmp/models/Qwen2.5-3B-Instruct
-adapter_name_or_path: /root/autodl-tmp/output/mas-qwen25-3b-toolcall-lora
-template: qwen
-finetuning_type: lora
-export_dir: /root/autodl-tmp/output/mas-qwen25-3b-toolcall-merged
-export_size: 2
-export_device: cpu
-export_legacy_format: false

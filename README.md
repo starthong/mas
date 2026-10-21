@@ -10,13 +10,14 @@
 
 ```
 mas/
-├── configs/                 # QLoRA 训练、导出、推理配置
-├── data/                    # 数据格式、样例、生成脚本输出
+├── configs/                 # Kaggle QLoRA 配置
+├── data/                    # 训练/测试数据、系统任务
 ├── notebooks/               # Kaggle notebook
 ├── report/                  # Overleaf 用的 ctexart 模板
-├── scripts/                 # 环境、数据、训练、部署
+├── scripts/                 # 环境、数据、评测脚本
 ├── src/
 │   ├── agents/              # planner / executor / reviewer
+│   ├── experiments/         # single / sequential 模式 runner
 │   ├── graph/               # LangGraph 工作流
 │   ├── llm/                 # OpenAI 与本地 HF 两种后端
 │   ├── tools/               # 工具注册表
@@ -82,50 +83,6 @@ notebook 会做这几件事：
 Kaggle 免费 GPU 大约每周 30 小时，单次会话有时长上限，训练和评测不要卡着
 上限跑。第一次运行建议把 `--limit` 设成 20 先看流程通不通。
 
-## 备用：AutoDL（仅 Kaggle 不可用时）
-
-正常用 Kaggle 可以跳过这一节。如果 Kaggle 的 GPU 或验证再次卡住，再走 AutoDL 的 4090：
-
-```bash
-# AutoDL 实例：4090 24GB，PyTorch 2.5，数据盘 50GB
-cd /root/autodl-tmp
-git clone git@github.com:starthong/mas.git
-cd mas
-bash scripts/setup_autodl.sh
-```
-
-先小跑 50 条，确认数据、模型和显存都没问题：
-
-```bash
-SMOKE=1 bash scripts/train_lora.sh
-```
-
-再全量训练：
-
-```bash
-bash scripts/train_lora.sh
-```
-
-3B 在 4090 上大约 30–60 分钟，费用通常不到 10 元。训练输出在
-`/root/autodl-tmp/output/mas-qwen25-3b-toolcall-lora`。
-
-评测：
-
-```bash
-bash scripts/eval_autodl.sh ft
-bash scripts/eval_autodl.sh base
-```
-
-需要起 OpenAI 兼容服务时，再装 vLLM：
-
-```bash
-bash scripts/install_vllm.sh
-bash scripts/serve_vllm.sh
-```
-
-vLLM 可能升级 torch，所以放在训练完成之后装。默认服务 3B base 和
-`toolcall` 两个模型名，端口 8000。
-
 ## 数据
 
 ```bash
@@ -140,17 +97,10 @@ python scripts/build_toolcall_dataset.py
 
 ## 评测
 
-AutoDL 上直接用包装脚本：
+用 `--backend` 指定后端：
 
 ```bash
-bash scripts/eval_autodl.sh ft
-bash scripts/eval_autodl.sh base
-```
-
-其它环境用 `--backend` 指定后端：
-
-```bash
-# OpenAI 兼容接口（vLLM）
+# OpenAI 兼容接口
 python -m src.eval.run_eval --backend openai --model toolcall \
   --data data/test/toolcall_test.jsonl --out results/ft.json
 
@@ -162,6 +112,24 @@ python -m src.eval.run_eval --backend hf \
 ```
 
 base 模型去掉 `--adapter` 再跑一遍，得到 `results/base.json`。
+
+## 多智能体实验
+
+`data/system_tasks.jsonl` 里有 24 条任务，runner 目前支持 `single` 和 `sequential`：
+
+```bash
+python -m src.experiments.run_modes \
+  --backend hf \
+  --base-model /kaggle/temp/models/Qwen2.5-3B-Instruct \
+  --adapter /kaggle/working/output/qwen25-3b-toolcall-lora \
+  --tasks data/system_tasks.jsonl \
+  --modes single,sequential \
+  --runs 5 \
+  --temperatures 0,0.7 \
+  --out results/modes.json
+```
+
+base 模型去掉 `--adapter`，输出到 `results/modes-base.json`，然后对比两边的成功率、JSON 合法率、工具匹配和延迟。
 
 ## 报告
 
