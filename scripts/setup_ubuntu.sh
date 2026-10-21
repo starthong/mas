@@ -4,8 +4,8 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_DIR"
 
-if ! command -v git >/dev/null 2>&1; then
-  echo "[setup] installing git and basic tools"
+if ! command -v git >/dev/null 2>&1 || ! command -v curl >/dev/null 2>&1; then
+  echo "[setup] installing git, curl and basic tools"
   sudo apt-get update
   sudo apt-get install -y git curl build-essential openssh-server
 fi
@@ -19,8 +19,9 @@ fi
 echo "[setup] installing Python 3.11"
 uv python install 3.11
 
-if [ ! -d ".venv" ]; then
+if [ ! -x ".venv/bin/python" ]; then
   echo "[setup] creating .venv"
+  rm -rf .venv
   uv venv --python 3.11 .venv
 fi
 
