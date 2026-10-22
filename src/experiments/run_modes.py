@@ -166,6 +166,7 @@ def main() -> int:
                             "latency_ms": latency_ms,
                             "results": results,
                             "trace": state.get("trace", []),
+                            "review": review,
                             "run_error": run_error,
                         }
                     )
