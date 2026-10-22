@@ -232,6 +232,20 @@ Reviewer 的通过率从 base 的 54.8\% 提升到 LoRA 的 77.4\%。这个提�
 可靠，后续需要用 base Reviewer 和去掉 Reviewer 的消融来区分“模型
 审查能力”与“工具结果质量”。
 
+\paragraph{多步任务的失败位置}
+检查 7 条多步任务的 trace 后，问题比较集中。6 条任务的 Planner 只
+给出了 1 个子任务，Executor 也只调用 1 个工具；只有
+\texttt{multi\_search\_weather} 被拆成 2 个子任务并成功。也就是说，
+多步任务的失败首先发生在计划层，而不是工具格式层。
+
+Reviewer 也没有起到兜底作用。多条只完成第一步的结果被
+\texttt{pass=true} 放行；\texttt{multi\_weather\_compare} 首轮拆成
+3 个子任务，Reviewer 判不通过，重规划后只剩 1 个子任务，Reviewer
+反而通过，最终缺少上海天气。另有一条任务把两个检索词合并成一个
+query，Reviewer 给了 0.95 分，但严格按 expected calls 判定失败；
+这说明当前的成功率口径偏严，也说明 Reviewer 的“通过”不能直接当作
+任务完成。
+
 \subsection{角色消融}
 表~\ref{tab:role} 比较了五种角色分配。全 LoRA 配置的成功率最高，
 为 80.6\%；只把 Planner 换成 base 模型，成功率降到 71.0\%（LoRA
@@ -355,8 +369,9 @@ Agent 在 MAS 中的工具调用稳定性。
 
 其二，多智能体并不自动优于单 Agent。LoRA 的 sequential 虽然成功率
 略高于 single，但只多解决了一条多步任务，延迟约为 single 的 6 倍。
-7 条多步任务中只完成 1 条，说明当前 Planner 的拆分能力不足；协作
-模式的价值需要在规划质量和多步任务覆盖上继续验证。
+7 条多步任务中只完成 1 条，trace 显示 6 条任务的 Planner 只给出
+1 个子任务，Reviewer 还会放行不完整的结果；协作模式的价值需要在
+规划质量和审查校准上继续验证。
 
 下一步将补难例/OOD 格式测试，并检查多步任务的 trace。温度实验
 表明 0.7 下格式仍然稳定，但任务成功率下降，说明需要把“格式稳定”
