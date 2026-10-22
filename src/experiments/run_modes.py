@@ -165,6 +165,14 @@ def main() -> int:
     reviewer_client = base_client if reviewer_mode == "base" else None
     enable_reviewer = reviewer_mode != "none"
 
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    partial_path = out_path.with_suffix(".partial.jsonl")
+    partial_handle = partial_path.open("w", encoding="utf-8")
+    total_runs = len(modes) * len(temperatures) * len(tasks) * args.runs
+    done = 0
+    print(f"checkpoint: {partial_path}", flush=True)
+
     records: list[dict[str, Any]] = []
     for mode in modes:
         for temperature in temperatures:
@@ -210,31 +218,43 @@ def main() -> int:
                     success = task_success(results, task)
                     review = state.get("review") or {}
 
-                    records.append(
-                        {
-                            "mode": mode,
-                            "planner": planner_mode,
-                            "reviewer": reviewer_mode,
-                            "temperature": temperature,
-                            "run": run_index,
-                            "task_id": task.get("id"),
-                            "category": task.get("category"),
-                            "task": task.get("task"),
-                            "expected_tool": task.get("expected_tool"),
-                            "expected_calls": task.get("expected_calls"),
-                            "success": success,
-                            "json_parse_ok": json_ok,
-                            "schema_ok": schema_ok,
-                            "review_pass": review.get("pass"),
-                            "rounds": state.get("rounds"),
-                            "num_results": len(results),
-                            "latency_ms": latency_ms,
-                            "results": results,
-                            "trace": state.get("trace", []),
-                            "review": review,
-                            "run_error": run_error,
-                        }
+                    record = {
+                        "mode": mode,
+                        "planner": planner_mode,
+                        "reviewer": reviewer_mode,
+                        "temperature": temperature,
+                        "run": run_index,
+                        "task_id": task.get("id"),
+                        "category": task.get("category"),
+                        "task": task.get("task"),
+                        "expected_tool": task.get("expected_tool"),
+                        "expected_calls": task.get("expected_calls"),
+                        "success": success,
+                        "json_parse_ok": json_ok,
+                        "schema_ok": schema_ok,
+                        "review_pass": review.get("pass"),
+                        "rounds": state.get("rounds"),
+                        "num_results": len(results),
+                        "latency_ms": latency_ms,
+                        "results": results,
+                        "trace": state.get("trace", []),
+                        "review": review,
+                        "run_error": run_error,
+                    }
+                    records.append(record)
+                    partial_handle.write(
+                        json.dumps(record, ensure_ascii=False) + "\n"
                     )
+                    partial_handle.flush()
+                    done += 1
+                    print(
+                        f"[{done}/{total_runs}] {mode}@{temperature} "
+                        f"{task.get('id')} run={run_index} "
+                        f"success={success} latency={latency_ms:.0f}ms",
+                        flush=True,
+                    )
+
+    partial_handle.close()
 
     groups: dict[tuple[str, float], list[dict[str, Any]]] = defaultdict(list)
     for record in records:
@@ -273,8 +293,6 @@ def main() -> int:
             ),
         }
 
-    out_path = Path(args.out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(
         json.dumps(
             {"summary": summary, "records": records},
