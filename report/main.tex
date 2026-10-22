@@ -231,9 +231,10 @@ Reviewer 的通过率从 base 的 54.8\% 提升到 LoRA 的 77.4\%。这个提�
 审查能力”与“工具结果质量”。
 
 \subsection{角色消融}
-表~\ref{tab:role} 比较了三种角色分配。全 LoRA 配置的成功率最高，
-为 80.6\%；把 Planner 换成 base 模型后，成功率反而降到 71.0\%（LoRA
-Reviewer）和 74.2\%（base Reviewer）。base Planner 产生的子任务更多
+表~\ref{tab:role} 比较了四种角色分配。全 LoRA 配置的成功率最高，
+为 80.6\%；只把 Planner 换成 base 模型，成功率降到 71.0\%（LoRA
+Reviewer）和 74.2\%（base Reviewer）。只把 Reviewer 换成 base 模型，
+成功率为 77.4\%，也低于全 LoRA。base Planner 产生的子任务更多
 （平均 1.26 和 1.42 个），但成功率没有提高，说明“拆得多”不等于
 “拆得对”。全 LoRA 配置的 schema 合规率和 errors 也最好。
 
@@ -246,6 +247,7 @@ Reviewer）和 74.2\%（base Reviewer）。base Planner 产生的子任务更多
     配置 & 成功率 & Schema & Reviewer 通过 & 延迟 \\
     \midrule
     全 LoRA & 0.806 & 1.000 & 0.774 & 20.07s \\
+    LoRA Planner + base Reviewer & 0.774 & 1.000 & 0.516 & 22.32s \\
     base Planner + LoRA Reviewer & 0.710 & 1.000 & 0.871 & 22.55s \\
     base Planner + base Reviewer & 0.742 & 0.968 & 0.677 & 24.46s \\
     \bottomrule
@@ -253,9 +255,10 @@ Reviewer）和 74.2\%（base Reviewer）。base Planner 产生的子任务更多
 \end{table}
 
 这个负结果说明，当前问题不完全是“LoRA 不会规划”。base Planner 的
-审查通过率更高，但端到端成功率更低；多步任务的失败可能同时来自
-Planner 的拆分粒度和 Executor 一次只调用一个工具的限制。下一步应
-单独检查多步任务的 trace，而不是继续换 Planner。
+审查通过率更高，但端到端成功率更低；base Reviewer 的通过率又明显
+低于 LoRA Reviewer。多步任务的失败可能同时来自 Planner 的拆分粒度
+和 Executor 一次只调用一个工具的限制。下一步应单独检查多步任务的
+trace，而不是继续换 Planner。
 
 \subsection{问题与处理}
 实验过程中遇到的几个问题及处理方式如下。
@@ -293,10 +296,10 @@ JSON 和 schema 合规率，LoRA 的两项提升都只对应一条样本，不�
 后续需要增加同类任务并做多次重复。
 
 第三，Reviewer 的角色适配还不充分。LoRA 主要学习工具调用格式，并不
-保证它能做好计划审查。当前 LoRA Reviewer 的通过率为 77.4\%，base
-Reviewer 为 67.7\%，但两者都还没有和“无 Reviewer”做完整对照。base
-Planner 的角色分离实验已经完成，成功率没有提升；下一步需要补
-LoRA Planner + base Reviewer、无 Reviewer，以及温度 0.7 的稳定性测试。
+保证它能做好计划审查。全 LoRA 的 Reviewer 通过率为 77.4\%，换成
+base Reviewer 后，LoRA Planner 下只有 51.6\%，base Planner 下为
+67.7\%，都低于 LoRA Reviewer。下一步需要补无 Reviewer 的对照，
+区分“审查通过”与“任务完成”。
 
 第四，工具层仍然很轻。天气和计算器是确定性 mock，search 是 20 篇
 文档的本地关键词检索，不能代表真实信息检索。系统成功率的解释要受
@@ -318,12 +321,11 @@ Agent 在 MAS 中的工具调用稳定性。
 7 条多步任务中只完成 1 条，说明当前 Planner 的拆分能力不足；协作
 模式的价值需要在规划质量和多步任务覆盖上继续验证。
 
-下一步将补 LoRA Planner + base Reviewer、无 Reviewer 和温度 0.7 的
-稳定性测试，并检查多步任务的 trace。base Planner 的角色分离实验没有
-带来提升，因此重点不再是换 Planner，而是看拆分粒度和 Executor 的
-单步限制。supervisor 与 debate 模式作为后续工作。报告中的格式指标、
-协作模式指标和稳定性指标需要分开呈现，避免把“工具调用正确”误写成
-“任务完成”。
+下一步将补无 Reviewer 和温度 0.7 的稳定性测试，并检查多步任务的
+trace。base Planner 和 base Reviewer 的角色替换都没有带来提升，因此
+重点不再是换模型，而是看拆分粒度和 Executor 的单步限制。supervisor
+与 debate 模式作为后续工作。报告中的格式指标、协作模式指标和稳定性
+指标需要分开呈现，避免把“工具调用正确”误写成“任务完成”。
 
 \bibliographystyle{plain}
 \bibliography{refs}
