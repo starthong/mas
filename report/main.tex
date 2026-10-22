@@ -35,8 +35,9 @@
 Qwen2.5-3B-Instruct 进行轻量微调；最后在同一任务与工具集上比较单智能体和
 串行流程，并把主管与辩论模式作为后续工作。
 初步实验显示，JSON 合法率在 41 条格式测试集上已经饱和，LoRA 主要改善参数匹配；
-在 24 条单步系统任务上，基座模型的串行成功率从单 Agent 的 83.3\% 降到 58.3\%，
-LoRA 串行则达到 100\%，但串行延迟约为单 Agent 的 7 倍。
+在 31 条系统任务（含 7 条多步任务）上，基座模型的串行成功率从单 Agent 的
+67.7\% 降到 51.6\%，LoRA 串行则为 80.6\%，但仍只比单 Agent 多解决一条任务，
+且串行延迟约为单 Agent 的 6 倍。
 \end{abstract}
 
 \section{引言}
@@ -148,7 +149,7 @@ paged AdamW。T4 不支持 bf16，因此使用 fp16。
 
 系统评测的任务集包含 31 条任务，其中 24 条为单步任务，7 条为多步任务。
 单步任务要求一次工具调用；多步任务要求按顺序完成两个及以上工具调用。
-当前已完成 24 条单步任务的对比，7 条多步任务用于下一轮实验。
+当前已完成 31 条任务各一轮的对比；温度和多次重复的稳定性实验尚未完成。
 
 \subsection{对照与协作模式}
 对照模型为原始 Qwen2.5-3B-Instruct 和加载 LoRA adapter 后的模型。
@@ -191,38 +192,43 @@ LoRA 在格式上有显著收益。真正的差异应通过更难的任务、未
 采样来观察。
 
 \subsection{多智能体任务}
-表~\ref{tab:modes} 给出 24 条单步任务、每条重复 3 次的结果。base 的
-single 成功率为 83.3\%（60/72），放进 sequential 后降到 58.3\%（42/72），
-并出现 6 次工具调用或 schema 错误。LoRA 的 single 和 sequential 都达到
-100\%（72/72），schema 合规率也从 91.7\% 提升到 100\%。
+表~\ref{tab:modes} 给出 31 条任务各执行一次的结果。任务集包含 24 条单步任务
+和 7 条多步任务，single 模式只能调用一次工具，因此多步任务在 single 下
+天然无法完成，single 的成功率不能直接和 sequential 等同看待。
 
 \begin{table}[htbp]
   \centering
-  \caption{单步任务上的协作模式对比（24 条任务 $\times$ 3 次）}
+  \caption{31 条任务上的协作模式对比（每条任务执行 1 次）}
   \label{tab:modes}
   \begin{tabular}{lcccc}
     \toprule
     模式 & base 成功率 & LoRA 成功率 & base 延迟 & LoRA 延迟 \\
     \midrule
-    single & 0.833 & 1.000 & 2.05s & 3.45s \\
-    sequential & 0.583 & 1.000 & 23.1s & 24.4s \\
+    single & 0.677 & 0.774 & 2.14s & 3.33s \\
+    sequential & 0.516 & 0.806 & 21.93s & 20.07s \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-这组结果有两个直接结论。第一，基座模型单独使用时还能完成大部分任务，
+base 的 single 成功率为 67.7\%（21/31），sequential 降到 51.6\%（16/31），
+并出现 3 次工具调用或 schema 错误；single 的 schema 合规率是 96.8\%，
+sequential 是 90.3\%。LoRA 的 single 成功率为 77.4\%（24/31），sequential
+为 80.6\%（25/31），两种模式的 schema 合规率都达到 100\%，errors 都为 0。
+
+这组结果有两个直接结论。第一，基座模型单独使用时还能完成大部分单步任务，
 但一旦放进 Planner/Executor/Reviewer 流程，工具调用错误会被放大；
 LoRA 微调显著恢复了 sequential 的成功率和 schema 合规率，说明微调
 对 MAS 中的工具调用稳定性有实际作用。第二，LoRA 的 sequential 相对
-single 没有成功率收益，延迟却约为单 Agent 的 7 倍。对于单工具、单步
-任务，多智能体流程并不划算。
+single 只多解决了一条任务，延迟却约为单 Agent 的 6 倍。多出来的收益
+主要来自多步任务，但 7 条多步任务中只完成了 1 条，说明当前 Planner
+对多步任务的拆分仍然很弱。
 
-Reviewer 的通过率仍然偏低：base sequential 为 45.8\%，LoRA sequential
-为 54.2\%。按类别看，search 任务的 Reviewer 通过率为 0，因为早期
-\texttt{search} 还是 mock，返回结果明确写着没有真实语料。Reviewer 的
-判断本身没有错，问题在工具实现。把 \texttt{search} 换成本地 20 篇文档
-的关键词检索后，search 任务才有条件通过审查；这部分结果需要下一轮
-31 条任务重新验证。
+Reviewer 的通过率从 base 的 54.8\% 提升到 LoRA 的 77.4\%。这个提升
+有一部分来自工具层：早期 \texttt{search} 是 mock，返回结果明确写着
+没有真实语料，Reviewer 判不通过是合理的；换成本地 20 篇文档的关键词
+检索后，search 任务才具备通过审查的条件。Reviewer 自身仍然不是完全
+可靠，后续需要用 base Reviewer 和去掉 Reviewer 的消融来区分“模型
+审查能力”与“工具结果质量”。
 
 \subsection{问题与处理}
 实验过程中遇到的几个问题及处理方式如下。
@@ -252,15 +258,16 @@ JSON 和 schema 合规率，LoRA 的两项提升都只对应一条样本，不�
 判断。后续需要增加未见工具、缺参数、歧义和多工具样本，并按工具划分
 训练/测试集。
 
-第二，系统任务目前主要覆盖单步工具调用，多步任务刚刚加入，还没有
-完整的 31 条任务结果。单步任务上 single 和 sequential 都容易达到
-100\%，无法体现 Planner 的价值；只有在多步任务上，规划、审查和重试
-才可能带来收益。
+第二，系统任务里 31 条已经跑完一轮，但多步任务只完成了 1 条。single
+模式天然只能调用一次工具，不能把它在多步任务上的失败解释为模型能力差；
+真正需要分析的是 sequential 下 Planner 为什么没有把多步任务拆开。
+目前多步任务的样本数也偏少，后续需要增加同类任务并做多次重复。
 
 第三，Reviewer 的角色适配还不充分。LoRA 主要学习工具调用格式，并不
-保证它能做好计划审查。当前 Reviewer 通过率只有 50\% 左右，可能是
-prompt、结果契约和角色数据共同造成的。后续需要做 Reviewer 消融，
-比较无 Reviewer、LoRA Reviewer 和 base Reviewer 的成功率与成本。
+保证它能做好计划审查。当前 LoRA Reviewer 的通过率为 77.4\%，base
+Reviewer 为 54.8\%，但两者都还没有和“无 Reviewer”做完整对照。后续
+需要比较无 Reviewer、LoRA Reviewer、base Reviewer，以及 base Planner
+加 LoRA Executor 的角色分离方案。
 
 第四，工具层仍然很轻。天气和计算器是确定性 mock，search 是 20 篇
 文档的本地关键词检索，不能代表真实信息检索。系统成功率的解释要受
@@ -271,20 +278,21 @@ prompt、结果契约和角色数据共同造成的。后续需要做 Reviewer �
 指令数据，并用 QLoRA 对 Qwen2.5-3B-Instruct 做了轻量微调。阶段性
 实验得到两个比较明确的观察。
 
-其一，基座模型在单 Agent 下还有 83.3\% 的任务成功率，但放进
-Planner/Executor/Reviewer 串行流程后降到 58.3\%，同时出现 6 次工具
-调用或 schema 错误。LoRA 微调后，single 和 sequential 都达到 100\%，
-schema 合规率从 91.7\% 提升到 100\%，说明微调确实改善了 Agent 在
-MAS 中的工具调用稳定性。
+其一，基座模型在单 Agent 下还有 67.7\% 的任务成功率，但放进
+Planner/Executor/Reviewer 串行流程后降到 51.6\%，同时出现 3 次工具
+调用或 schema 错误。LoRA 微调后，single 为 77.4\%，sequential 为
+80.6\%，schema 合规率从 90.3\% 提升到 100\%，说明微调确实改善了
+Agent 在 MAS 中的工具调用稳定性。
 
 其二，多智能体并不自动优于单 Agent。LoRA 的 sequential 虽然成功率
-达到 100\%，但延迟约为 single 的 7 倍；在单步任务上没有看到成功率
-收益。协作模式的价值需要在多步、歧义和需要审查的任务上继续验证。
+略高于 single，但只多解决了一条多步任务，延迟约为 single 的 6 倍。
+7 条多步任务中只完成 1 条，说明当前 Planner 的拆分能力不足；协作
+模式的价值需要在规划质量和多步任务覆盖上继续验证。
 
-下一步将补全 31 条任务（含 7 条多步任务）的实验，加入 Reviewer 消融
-和温度 0.7 的稳定性测试，并比较 supervisor 与 debate 模式。报告中的
-格式指标、协作模式指标和稳定性指标需要分开呈现，避免把“工具调用
-正确”误写成“任务完成”。
+下一步将用 base Planner 加 LoRA Executor 做角色分离实验，补全
+Reviewer 消融和温度 0.7 的稳定性测试，并比较 supervisor 与 debate
+模式。报告中的格式指标、协作模式指标和稳定性指标需要分开呈现，
+避免把“工具调用正确”误写成“任务完成”。
 
 \bibliographystyle{plain}
 \bibliography{refs}
