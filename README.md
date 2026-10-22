@@ -115,24 +115,32 @@ base 模型去掉 `--adapter` 再跑一遍，得到 `results/base.json`。
 
 ## 多智能体实验
 
-`data/system_tasks.jsonl` 里有 24 条任务，runner 目前支持 `single` 和 `sequential`：
+`data/system_tasks.jsonl` 里有 31 条任务：24 条单步任务 + 7 条多步任务。runner 支持 `single` 和 `sequential`，`--reviewer` 可选 `ft`、`base`、`none`。
 
 ```bash
 python -m src.experiments.run_modes \
   --backend hf \
   --base-model /kaggle/temp/models/Qwen2.5-3B-Instruct \
-  --adapter /kaggle/working/output/qwen25-3b-toolcall-lora \
+  --adapter /kaggle/input/datasets/starthong/mas-3b-toolcall-output \
   --tasks data/system_tasks.jsonl \
   --modes single,sequential \
-  --runs 5 \
-  --temperatures 0,0.7 \
-  --out results/modes.json
+  --reviewer ft \
+  --runs 3 \
+  --temperatures 0 \
+  --out results/modes-ft-0.json
 ```
 
-新开 Kaggle session 时，adapter 在 Dataset 里的话，把 `--adapter` 换成：
+Reviewer 消融：
 
-```text
-/kaggle/input/mas-3b-toolcall-output
+```bash
+# 无 Reviewer
+--reviewer none
+
+# base Reviewer + LoRA Planner/Executor
+--reviewer base
+
+# LoRA Reviewer（默认）
+--reviewer ft
 ```
 
 第一次先跑 2 条确认链路：
@@ -140,9 +148,10 @@ python -m src.experiments.run_modes \
 ```bash
 python -m src.experiments.run_modes --backend hf \
   --base-model /kaggle/temp/models/Qwen2.5-3B-Instruct \
-  --adapter /kaggle/input/mas-3b-toolcall-output \
+  --adapter /kaggle/input/datasets/starthong/mas-3b-toolcall-output \
   --tasks data/system_tasks.jsonl --modes single,sequential \
-  --runs 1 --temperatures 0 --limit 2 --out results/modes-smoke.json
+  --reviewer ft --runs 1 --temperatures 0 --limit 2 \
+  --out results/modes-smoke.json
 ```
 
 base 模型去掉 `--adapter`，输出到 `results/modes-base.json`，然后对比两边的成功率、JSON 合法率、工具匹配和延迟。
@@ -157,7 +166,7 @@ base 模型去掉 `--adapter`，输出到 `results/modes-base.json`，然后对�
 
 ## 备注
 
-- `search` 目前是 mock，系统级实验前要换成本地语料 + BM25 或 embedding。
-- Executor 现在一次只调用一个工具，多步 ReAct 还没写。
+- `search` 现在查本地 20 篇小文档，关键词/字符匹配，不依赖外部 API。
+- Executor 一个子任务只调用一次工具；多步任务靠 Planner 拆成多个子任务，还不是完整 ReAct 循环。
 - 训练数据是模板合成的，适合验证格式，不足以证明真实任务能力。
 - 报告里需要写清楚：协作模式对比、LoRA 前后对比、稳定性指标，三者缺一不可。

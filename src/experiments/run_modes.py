@@ -26,15 +26,30 @@ def load_tasks(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def result_matches(result: dict[str, Any], task: dict[str, Any]) -> bool:
+def result_matches(result: dict[str, Any], expected: dict[str, Any]) -> bool:
     if result.get("error"):
         return False
-    if result.get("tool") != task.get("expected_tool"):
+    if result.get("tool") != expected.get("tool"):
         return False
-    expected = task.get("expected_arguments")
-    if expected is None:
+    arguments = expected.get("arguments")
+    if arguments is None:
         return True
-    return result.get("arguments") == expected
+    return result.get("arguments") == arguments
+
+
+def task_success(results: list[dict[str, Any]], task: dict[str, Any]) -> bool:
+    expected_calls = task.get("expected_calls")
+    if expected_calls is None:
+        expected_calls = [
+            {
+                "tool": task.get("expected_tool"),
+                "arguments": task.get("expected_arguments"),
+            }
+        ]
+    return all(
+        any(result_matches(result, expected) for result in results)
+        for expected in expected_calls
+    )
 
 
 def run_single(
@@ -56,8 +71,17 @@ def run_sequential(
     registry: Any,
     task: dict[str, Any],
     temperature: float,
+    reviewer_client: Any = None,
+    enable_reviewer: bool = True,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    graph = build_graph(client, registry, max_rounds=2, temperature=temperature)
+    graph = build_graph(
+        client,
+        registry,
+        max_rounds=2,
+        temperature=temperature,
+        reviewer_client=reviewer_client,
+        enable_reviewer=enable_reviewer,
+    )
     state = graph.invoke(
         {
             "task": task["task"],
@@ -81,6 +105,7 @@ def main() -> int:
     parser.add_argument("--model", default="toolcall")
     parser.add_argument("--base-model", default=None)
     parser.add_argument("--adapter", default=None)
+    parser.add_argument("--reviewer", choices=["ft", "base", "none"], default="ft")
     parser.add_argument("--load-in-4bit", action="store_true", default=True)
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--out", default="results/modes.json")
@@ -109,6 +134,20 @@ def main() -> int:
         client = build_client("openai", default_model=args.model)
         model_label = args.model
 
+    reviewer_client = None
+    enable_reviewer = True
+    if args.reviewer == "base":
+        if args.backend != "hf":
+            raise SystemExit("--reviewer base is only supported with --backend hf")
+        reviewer_client = build_client(
+            "hf",
+            base_model=args.base_model,
+            adapter=None,
+            load_in_4bit=args.load_in_4bit,
+        )
+    elif args.reviewer == "none":
+        enable_reviewer = False
+
     records: list[dict[str, Any]] = []
     for mode in modes:
         for temperature in temperatures:
@@ -123,7 +162,12 @@ def main() -> int:
                             )
                         elif mode == "sequential":
                             results, state = run_sequential(
-                                client, registry, task, temperature
+                                client,
+                                registry,
+                                task,
+                                temperature,
+                                reviewer_client=reviewer_client,
+                                enable_reviewer=enable_reviewer,
                             )
                         else:
                             raise SystemExit(f"unknown mode: {mode}")
@@ -145,18 +189,20 @@ def main() -> int:
                     schema_ok = bool(parsed) and all(
                         validate_call(item, tools) for item in parsed
                     )
-                    success = any(result_matches(item, task) for item in results)
+                    success = task_success(results, task)
                     review = state.get("review") or {}
 
                     records.append(
                         {
                             "mode": mode,
+                            "reviewer": args.reviewer,
                             "temperature": temperature,
                             "run": run_index,
                             "task_id": task.get("id"),
                             "category": task.get("category"),
                             "task": task.get("task"),
                             "expected_tool": task.get("expected_tool"),
+                            "expected_calls": task.get("expected_calls"),
                             "success": success,
                             "json_parse_ok": json_ok,
                             "schema_ok": schema_ok,
@@ -178,6 +224,7 @@ def main() -> int:
     summary: dict[str, Any] = {
         "model": model_label,
         "backend": args.backend,
+        "reviewer": args.reviewer,
         "tasks": len(tasks),
         "runs": args.runs,
         "groups": {},

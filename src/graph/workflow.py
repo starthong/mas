@@ -27,10 +27,12 @@ def build_graph(
     registry: ToolRegistry,
     max_rounds: int = 2,
     temperature: float = 0.0,
+    reviewer_client: Any = None,
+    enable_reviewer: bool = True,
 ):
     planner = Planner(client, temperature=temperature)
     executor = Executor(client, registry, temperature=temperature)
-    reviewer = Reviewer(client, temperature=temperature)
+    reviewer = Reviewer(reviewer_client or client, temperature=temperature)
 
     def planner_node(state: MASState) -> dict[str, Any]:
         review = state.get("review") or {}
@@ -79,14 +81,19 @@ def build_graph(
     graph = StateGraph(MASState)
     graph.add_node("planner", planner_node)
     graph.add_node("executor", executor_node)
-    graph.add_node("reviewer", reviewer_node)
 
     graph.add_edge(START, "planner")
     graph.add_edge("planner", "executor")
-    graph.add_edge("executor", "reviewer")
-    graph.add_conditional_edges(
-        "reviewer",
-        route,
-        {"replan": "planner", "end": END},
-    )
+
+    if enable_reviewer:
+        graph.add_node("reviewer", reviewer_node)
+        graph.add_edge("executor", "reviewer")
+        graph.add_conditional_edges(
+            "reviewer",
+            route,
+            {"replan": "planner", "end": END},
+        )
+    else:
+        graph.add_edge("executor", END)
+
     return graph.compile()
