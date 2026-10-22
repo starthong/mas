@@ -1,0 +1,5338 @@
+{
+  "summary": {
+    "model": "/kaggle/temp/models/Qwen2.5-3B-Instruct",
+    "backend": "hf",
+    "tasks": 24,
+    "runs": 3,
+    "groups": {
+      "single@0.0": {
+        "n": 72,
+        "success_rate": 0.8333333333333334,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": null,
+        "avg_rounds": 1.0,
+        "avg_results": 1.0,
+        "avg_latency_ms": 2046.977176583356,
+        "errors": 0
+      },
+      "sequential@0.0": {
+        "n": 72,
+        "success_rate": 0.5833333333333334,
+        "json_parse_rate": 1.0,
+        "schema_rate": 0.9166666666666666,
+        "review_pass_rate": 0.4583333333333333,
+        "avg_rounds": 1.5416666666666667,
+        "avg_results": 1.375,
+        "avg_latency_ms": 23120.813719472197,
+        "errors": 6
+      }
+    }
+  },
+  "records": [
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2317.5039490001836,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "北京今天天气怎么样？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1731.769032000102,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "北京今天天气怎么样？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1776.4792370003306,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "北京今天天气怎么样？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1739.2085599999518,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "上海现在天气如何？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1716.375386999971,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "上海现在天气如何？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2054.1093540000475,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "上海现在天气如何？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1751.7280520000895,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我查一下广州的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1772.2253140000248,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我查一下广州的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1758.8710160002847,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我查一下广州的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1746.3694620000751,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "深圳今天出门需要带伞吗？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1740.0847290000456,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "深圳今天出门需要带伞吗？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1731.1022730000332,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "深圳今天出门需要带伞吗？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1731.7364440000347,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "杭州现在气温多少？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1777.2838320001938,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "杭州现在气温多少？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1737.3640399996475,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "杭州现在气温多少？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1733.7485789998937,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "成都今天热不热？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1725.2460609997797,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "成都今天热不热？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1733.3996399997886,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "成都今天热不热？",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2424.395132999962,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2366.82993300019,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2363.274096999703,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2304.606847999821,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我算一下 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2290.936322000107,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我算一下 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2349.345366000307,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我算一下 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2305.328150999685,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "128/4+19 等于多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4+19"
+          },
+          "result": "51.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4+19\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2295.7422659997064,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "128/4+19 等于多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4+19"
+          },
+          "result": "51.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4+19\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2296.930271000292,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "128/4+19 等于多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4+19"
+          },
+          "result": "51.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4+19\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2280.2347480001117,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2196.8249749997995,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2185.579627000152,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2008.466265000152,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "7*8+9 是多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8+9\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2008.8838900001065,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "7*8+9 是多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8+9\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2051.2596190001204,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "7*8+9 是多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8+9\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2382.9637210001238,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "算一下 100-37+12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2369.359118000375,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "算一下 100-37+12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2376.868062000085,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "算一下 100-37+12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1841.7701950002083,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索一下 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[mock search] query='LangGraph'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1854.4630930000494,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索一下 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[mock search] query='LangGraph'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1793.5470719999103,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索一下 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[mock search] query='LangGraph'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1918.5293479999928,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "我想了解多智能体系统",
+          "tool": "search",
+          "arguments": {
+            "query": "多智能体系统"
+          },
+          "result": "[mock search] query='多智能体系统'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多智能体系统\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1943.560301999696,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "我想了解多智能体系统",
+          "tool": "search",
+          "arguments": {
+            "query": "多智能体系统"
+          },
+          "result": "[mock search] query='多智能体系统'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多智能体系统\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1942.7874060002068,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "我想了解多智能体系统",
+          "tool": "search",
+          "arguments": {
+            "query": "多智能体系统"
+          },
+          "result": "[mock search] query='多智能体系统'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多智能体系统\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2030.7122490003167,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我查查 LoRA 微调",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[mock search] query='LoRA 微调'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2031.6809119999562,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我查查 LoRA 微调",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[mock search] query='LoRA 微调'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2009.7831650000444,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我查查 LoRA 微调",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[mock search] query='LoRA 微调'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1824.214259999735,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "介绍一下 ReAct 方法",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct method"
+          },
+          "result": "[mock search] query='ReAct method'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct method\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1843.2165310000528,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "介绍一下 ReAct 方法",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct method"
+          },
+          "result": "[mock search] query='ReAct method'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct method\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1866.3496199997098,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "介绍一下 ReAct 方法",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct method"
+          },
+          "result": "[mock search] query='ReAct method'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct method\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2583.169853000072,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "找一些关于 RAG 检索增强的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强 资料"
+          },
+          "result": "[mock search] query='RAG 检索增强 资料'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强 资料\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2577.048221000041,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "找一些关于 RAG 检索增强的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强 资料"
+          },
+          "result": "[mock search] query='RAG 检索增强 资料'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强 资料\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2550.606332999905,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "找一些关于 RAG 检索增强的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强 资料"
+          },
+          "result": "[mock search] query='RAG 检索增强 资料'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强 资料\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2146.388270999978,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查一下 vLLM 推理",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[mock search] query='vLLM 推理'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2116.860249000183,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查一下 vLLM 推理",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[mock search] query='vLLM 推理'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2111.4938219998294,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查一下 vLLM 推理",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[mock search] query='vLLM 推理'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1767.980329999773,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你好",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好"
+          },
+          "result": "你好",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1749.9635860003764,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你好",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好"
+          },
+          "result": "你好",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1786.6432929999974,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你好",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好"
+          },
+          "result": "你好",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 2054.7410260001016,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你是谁？",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我是你的助手"
+          },
+          "result": "我是你的助手",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我是你的助手\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1949.5282429998042,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你是谁？",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我是你的助手"
+          },
+          "result": "我是你的助手",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我是你的助手\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1959.019833000184,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你是谁？",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我是你的助手"
+          },
+          "result": "我是你的助手",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我是你的助手\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1839.957589000278,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你能做什么？",
+          "tool": "search",
+          "arguments": {
+            "query": "你能做什么？"
+          },
+          "result": "[mock search] query='你能做什么？'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"你能做什么？\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1865.39133999986,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你能做什么？",
+          "tool": "search",
+          "arguments": {
+            "query": "你能做什么？"
+          },
+          "result": "[mock search] query='你能做什么？'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"你能做什么？\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1852.7803160000076,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "你能做什么？",
+          "tool": "search",
+          "arguments": {
+            "query": "你能做什么？"
+          },
+          "result": "[mock search] query='你能做什么？'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"你能做什么？\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1717.0748780004033,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "谢谢",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "谢谢"
+          },
+          "result": "谢谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"谢谢\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1724.1566249999778,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "谢谢",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "谢谢"
+          },
+          "result": "谢谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"谢谢\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1721.3077409996913,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "谢谢",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "谢谢"
+          },
+          "result": "谢谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"谢谢\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 3391.97453900033,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "讲个笑话",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "为什么26岁的人总是形单影只？因为他们还没到三十岁！"
+          },
+          "result": "为什么26岁的人总是形单影只？因为他们还没到三十岁！",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么26岁的人总是形单影只？因为他们还没到三十岁！\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 3336.6039419997833,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "讲个笑话",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "为什么26岁的人总是形单影只？因为他们还没到三十岁！"
+          },
+          "result": "为什么26岁的人总是形单影只？因为他们还没到三十岁！",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么26岁的人总是形单影只？因为他们还没到三十岁！\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 3286.1399170001278,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "讲个笑话",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "为什么26岁的人总是形单影只？因为他们还没到三十岁！"
+          },
+          "result": "为什么26岁的人总是形单影只？因为他们还没到三十岁！",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么26岁的人总是形单影只？因为他们还没到三十岁！\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1776.2786530001904,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "推荐一本书",
+          "tool": "search",
+          "arguments": {
+            "query": "推荐一本书"
+          },
+          "result": "[mock search] query='推荐一本书'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"推荐一本书\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1772.199974999694,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "推荐一本书",
+          "tool": "search",
+          "arguments": {
+            "query": "推荐一本书"
+          },
+          "result": "[mock search] query='推荐一本书'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"推荐一本书\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "single",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": null,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 1712.0006129998728,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "推荐一本书",
+          "tool": "search",
+          "arguments": {
+            "query": "推荐一本书"
+          },
+          "result": "[mock search] query='推荐一本书'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"推荐一本书\"}}"
+        }
+      ],
+      "trace": [
+        "single"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8954.115229000308,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8918.471508000039,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8932.936518000133,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8328.901636999944,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海当前的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8196.385256999747,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海当前的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8218.682791999981,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海当前的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 7764.256381999985,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气信息",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 7767.177716000333,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气信息",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 7830.269632000181,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气信息",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 2,
+      "latency_ms": 35678.255541999984,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询深圳今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据查询到的天气信息判断是否需要带伞",
+          "tool": null,
+          "arguments": {},
+          "result": null,
+          "error": "ToolError: invalid arguments for get_weather: get_weather() missing 1 required positional argument: 'city'",
+          "raw": "{\"name\": \"get_weather\", \"parameters\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 2,
+      "latency_ms": 35777.55042900026,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询深圳今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据查询到的天气信息判断是否需要带伞",
+          "tool": null,
+          "arguments": {},
+          "result": null,
+          "error": "ToolError: invalid arguments for get_weather: get_weather() missing 1 required positional argument: 'city'",
+          "raw": "{\"name\": \"get_weather\", \"parameters\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 2,
+      "latency_ms": 35680.94959099972,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询深圳今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据查询到的天气信息判断是否需要带伞",
+          "tool": null,
+          "arguments": {},
+          "result": null,
+          "error": "ToolError: invalid arguments for get_weather: get_weather() missing 1 required positional argument: 'city'",
+          "raw": "{\"name\": \"get_weather\", \"parameters\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22641.13942200038,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "确认并使用get_weather工具以获取杭州的实时气温数据",
+          "tool": null,
+          "arguments": {},
+          "result": null,
+          "error": "ToolError: invalid arguments for get_weather: get_weather() missing 1 required positional argument: 'city'",
+          "raw": "{\"name\": \"get_weather\", \"parameters\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22600.118384000325,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "确认并使用get_weather工具以获取杭州的实时气温数据",
+          "tool": null,
+          "arguments": {},
+          "result": null,
+          "error": "ToolError: invalid arguments for get_weather: get_weather() missing 1 required positional argument: 'city'",
+          "raw": "{\"name\": \"get_weather\", \"parameters\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22545.334006000303,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "确认并使用get_weather工具以获取杭州的实时气温数据",
+          "tool": null,
+          "arguments": {},
+          "result": null,
+          "error": "ToolError: invalid arguments for get_weather: get_weather() missing 1 required positional argument: 'city'",
+          "raw": "{\"name\": \"get_weather\", \"parameters\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22299.737602000278,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用get_weather工具查询成都今天的天气状况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 21814.12629500028,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用get_weather工具查询成都今天的天气状况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 21722.788136000418,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用get_weather工具查询成都今天的天气状况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 16681.108893999408,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 23*17 的结果",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "将步骤1的结果加上 9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(391+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(391+9)/5\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "将步骤2的结果除以 5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "80/5"
+          },
+          "result": "16.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"80/5\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 16667.544455999632,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 23*17 的结果",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "将步骤1的结果加上 9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(391+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(391+9)/5\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "将步骤2的结果除以 5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "80/5"
+          },
+          "result": "16.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"80/5\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 16623.31606599946,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 23*17 的结果",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "将步骤1的结果加上 9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(391+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(391+9)/5\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "将步骤2的结果除以 5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "80/5"
+          },
+          "result": "16.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"80/5\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 51094.58509599972,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我算一下 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': 67}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 50834.54923099998,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我算一下 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': 67}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 50633.49345500046,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我算一下 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': 67}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 12724.416650999956,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 128 divided by 4",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4"
+          },
+          "result": "32.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "Add 19 to the result of the first calculation",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "32+19"
+          },
+          "result": "51",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"32+19\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 12694.83911899988,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 128 divided by 4",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4"
+          },
+          "result": "32.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "Add 19 to the result of the first calculation",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "32+19"
+          },
+          "result": "51",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"32+19\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 12601.458742000432,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 128 divided by 4",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4"
+          },
+          "result": "32.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "Add 19 to the result of the first calculation",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "32+19"
+          },
+          "result": "51",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"32+19\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 51534.433530999195,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': ''}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 51900.29934599988,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': ''}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 51758.825978999994,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': ''}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 12029.722272000072,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 7 times 8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8"
+          },
+          "result": "56",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "Add 9 to the result of step 1",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56+9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 12053.08877599964,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 7 times 8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8"
+          },
+          "result": "56",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "Add 9 to the result of step 1",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56+9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 12023.957014999723,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 7 times 8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8"
+          },
+          "result": "56",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "Add 9 to the result of step 1",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56+9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 24135.389136000413,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 100 - 37 + 12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23860.566330000438,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 100 - 37 + 12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 24092.427679999673,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate 100 - 37 + 12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22233.085362000566,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用搜索引擎查找关于LangGraph的信息",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[mock search] query='LangGraph'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22094.849199000237,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用搜索引擎查找关于LangGraph的信息",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[mock search] query='LangGraph'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22235.163149000073,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用搜索引擎查找关于LangGraph的信息",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[mock search] query='LangGraph'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23196.032114000445,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Search and summarize key concepts and resources related to multi-agent systems.",
+          "tool": "search",
+          "arguments": {
+            "query": "multi-agent systems"
+          },
+          "result": "[mock search] query='multi-agent systems'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"multi-agent systems\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23322.409719999996,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Search and summarize key concepts and resources related to multi-agent systems.",
+          "tool": "search",
+          "arguments": {
+            "query": "multi-agent systems"
+          },
+          "result": "[mock search] query='multi-agent systems'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"multi-agent systems\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23322.5410139994,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Search and summarize key concepts and resources related to multi-agent systems.",
+          "tool": "search",
+          "arguments": {
+            "query": "multi-agent systems"
+          },
+          "result": "[mock search] query='multi-agent systems'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"multi-agent systems\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23740.217620000294,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索关于 LoRA 微调的相关信息和资源",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[mock search] query='LoRA 微调'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23666.54560400002,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索关于 LoRA 微调的相关信息和资源",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[mock search] query='LoRA 微调'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23419.53337099949,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索关于 LoRA 微调的相关信息和资源",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[mock search] query='LoRA 微调'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 5,
+      "latency_ms": 68220.0421689995,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "研究 ReAct 方法的基本概念和工作原理，包括其核心组件和流程。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "为 'search' 工具准备一个实际的数据集，以便评估 ReAct 方法。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "撰写关于 ReAct 方法的介绍，包括其优点、应用场景和可能的改进方向。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "提交修改后的论文版本，包含对 ReAct 方法的介绍和评估数据集。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。"
+          },
+          "result": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。\"}}"
+        },
+        {
+          "subtask_id": 5,
+          "goal": "根据评审意见进行必要的修改，并再次提交论文。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。"
+          },
+          "result": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 5 subtask(s)",
+        "executor: 5 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 5,
+      "latency_ms": 68120.52226999913,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "研究 ReAct 方法的基本概念和工作原理，包括其核心组件和流程。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "为 'search' 工具准备一个实际的数据集，以便评估 ReAct 方法。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "撰写关于 ReAct 方法的介绍，包括其优点、应用场景和可能的改进方向。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "提交修改后的论文版本，包含对 ReAct 方法的介绍和评估数据集。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。"
+          },
+          "result": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。\"}}"
+        },
+        {
+          "subtask_id": 5,
+          "goal": "根据评审意见进行必要的修改，并再次提交论文。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。"
+          },
+          "result": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 5 subtask(s)",
+        "executor: 5 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 5,
+      "latency_ms": 68204.96936100062,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "研究 ReAct 方法的基本概念和工作原理，包括其核心组件和流程。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "为 'search' 工具准备一个实际的数据集，以便评估 ReAct 方法。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "撰写关于 ReAct 方法的介绍，包括其优点、应用场景和可能的改进方向。",
+          "tool": "search",
+          "arguments": {
+            "query": "React Method basic concept and working principle including its core components and flow"
+          },
+          "result": "[mock search] query='React Method basic concept and working principle including its core components and flow'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"React Method basic concept and working principle including its core components and flow\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "提交修改后的论文版本，包含对 ReAct 方法的介绍和评估数据集。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。"
+          },
+          "result": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。\"}}"
+        },
+        {
+          "subtask_id": 5,
+          "goal": "根据评审意见进行必要的修改，并再次提交论文。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。"
+          },
+          "result": "ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"ReAct 方法是一种用于解释和生成自然语言文本的方法。它结合了反应式编程（React）的思想，通过状态机来管理模型的状态变化。核心组件包括状态机、事件处理器和状态转换规则。流程从初始状态开始，根据输入事件进行状态转换，从而生成相应的输出。这种方法在生成任务中表现出色，如文本摘要、故事生成等。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 5 subtask(s)",
+        "executor: 5 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 24443.649356000606,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "检查并改进之前的搜索查询，或者扩大搜索范围以满足评审员的要求",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强 资料"
+          },
+          "result": "[mock search] query='RAG 检索增强 资料'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强 资料\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 24231.928421999328,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "检查并改进之前的搜索查询，或者扩大搜索范围以满足评审员的要求",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强 资料"
+          },
+          "result": "[mock search] query='RAG 检索增强 资料'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强 资料\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 24298.18357199929,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "检查并改进之前的搜索查询，或者扩大搜索范围以满足评审员的要求",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强 资料"
+          },
+          "result": "[mock search] query='RAG 检索增强 资料'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强 资料\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23951.66628900006,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Fetch information about vLLM's inference capabilities.",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[mock search] query='vLLM 推理'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23729.756148999513,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Fetch information about vLLM's inference capabilities.",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[mock search] query='vLLM 推理'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 23590.850298000078,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Fetch information about vLLM's inference capabilities.",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[mock search] query='vLLM 推理'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8051.497012999789,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and respond to the greeting '你好'",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好！"
+          },
+          "result": "你好！",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好！\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 7943.921045000025,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and respond to the greeting '你好'",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好！"
+          },
+          "result": "你好！",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好！\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 7951.725773999897,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and respond to the greeting '你好'",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好！"
+          },
+          "result": "你好！",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好！\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 9582.969116999266,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Identify the identity of the speaker",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "The speaker is asking 'Who am I?'"
+          },
+          "result": "The speaker is asking 'Who am I?'",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"The speaker is asking 'Who am I?'\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 9559.779844000332,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Identify the identity of the speaker",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "The speaker is asking 'Who am I?'"
+          },
+          "result": "The speaker is asking 'Who am I?'",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"The speaker is asking 'Who am I?'\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 9453.157848000046,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Identify the identity of the speaker",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "The speaker is asking 'Who am I?'"
+          },
+          "result": "The speaker is asking 'Who am I?'",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"The speaker is asking 'Who am I?'\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 27200.556507999863,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Generate a list of capabilities and functions based on the search result.",
+          "tool": "search",
+          "arguments": {
+            "query": "List of capabilities and functions based on the search result."
+          },
+          "result": "[mock search] query='List of capabilities and functions based on the search result.'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"List of capabilities and functions based on the search result.\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 27278.34169200014,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Generate a list of capabilities and functions based on the search result.",
+          "tool": "search",
+          "arguments": {
+            "query": "List of capabilities and functions based on the search result."
+          },
+          "result": "[mock search] query='List of capabilities and functions based on the search result.'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"List of capabilities and functions based on the search result.\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 27085.55255400006,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Generate a list of capabilities and functions based on the search result.",
+          "tool": "search",
+          "arguments": {
+            "query": "List of capabilities and functions based on the search result."
+          },
+          "result": "[mock search] query='List of capabilities and functions based on the search result.'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"List of capabilities and functions based on the search result.\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8982.909762000418,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and acknowledge the user's task.",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "谢谢"
+          },
+          "result": "谢谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"谢谢\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8970.313200999954,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and acknowledge the user's task.",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "谢谢"
+          },
+          "result": "谢谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"谢谢\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8868.513134999375,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and acknowledge the user's task.",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "谢谢"
+          },
+          "result": "谢谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"谢谢\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 20210.250520000045,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用搜索引擎查找一个笑话",
+          "tool": "search",
+          "arguments": {
+            "query": "笑话"
+          },
+          "result": "[mock search] query='笑话'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"笑话\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 20060.598265999943,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用搜索引擎查找一个笑话",
+          "tool": "search",
+          "arguments": {
+            "query": "笑话"
+          },
+          "result": "[mock search] query='笑话'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"笑话\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 19931.169764000515,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "使用搜索引擎查找一个笑话",
+          "tool": "search",
+          "arguments": {
+            "query": "笑话"
+          },
+          "result": "[mock search] query='笑话'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"笑话\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22759.887554999295,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "根据用户的偏好和需求，生成一个书目推荐列表",
+          "tool": "search",
+          "arguments": {
+            "query": "根据个人喜好和需求生成一本推荐书目"
+          },
+          "result": "[mock search] query='根据个人喜好和需求生成一本推荐书目'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"根据个人喜好和需求生成一本推荐书目\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 2,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22542.40378800023,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "根据用户的偏好和需求，生成一个书目推荐列表",
+          "tool": "search",
+          "arguments": {
+            "query": "根据个人喜好和需求生成一本推荐书目"
+          },
+          "result": "[mock search] query='根据个人喜好和需求生成一本推荐书目'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"根据个人喜好和需求生成一本推荐书目\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "temperature": 0.0,
+      "run": 3,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 22627.877523999814,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "根据用户的偏好和需求，生成一个书目推荐列表",
+          "tool": "search",
+          "arguments": {
+            "query": "根据个人喜好和需求生成一本推荐书目"
+          },
+          "result": "[mock search] query='根据个人喜好和需求生成一本推荐书目'. No real corpus is attached yet; replace this tool before system-level evaluation.",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"根据个人喜好和需求生成一本推荐书目\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "run_error": null
+    }
+  ]
+}
