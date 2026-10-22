@@ -115,7 +115,7 @@ base 模型去掉 `--adapter` 再跑一遍，得到 `results/base.json`。
 
 ## 多智能体实验
 
-`data/system_tasks.jsonl` 里有 31 条任务：24 条单步任务 + 7 条多步任务。runner 支持 `single` 和 `sequential`，`--planner` 可选 `ft/base`，`--reviewer` 可选 `ft/base/none`。
+`data/system_tasks.jsonl` 里有 31 条任务：24 条单步任务 + 7 条多步任务。runner 支持 `single` 和 `sequential`，`--planner` 可选 `lora/base`，`--reviewer` 可选 `lora/base/none`。`ft` 仍可作为 `lora` 的别名。
 
 ```bash
 python -m src.experiments.run_modes \
@@ -124,10 +124,10 @@ python -m src.experiments.run_modes \
   --adapter /kaggle/input/datasets/starthong/mas-3b-toolcall-output \
   --tasks data/system_tasks.jsonl \
   --modes single,sequential \
-  --reviewer ft \
+  --reviewer lora \
   --runs 3 \
   --temperatures 0 \
-  --out results/modes-ft-0.json
+  --out results/modes-lora-0.json
 ```
 
 Reviewer / Planner 消融：
@@ -146,7 +146,7 @@ Reviewer / Planner 消融：
 --planner base --reviewer base
 
 # 全 LoRA（默认）
---planner ft --reviewer ft
+--planner lora --reviewer lora
 ```
 
 第一次先跑 2 条确认链路：
@@ -156,7 +156,7 @@ python -m src.experiments.run_modes --backend hf \
   --base-model /kaggle/temp/models/Qwen2.5-3B-Instruct \
   --adapter /kaggle/input/datasets/starthong/mas-3b-toolcall-output \
   --tasks data/system_tasks.jsonl --modes single,sequential \
-  --reviewer ft --runs 1 --temperatures 0 --limit 2 \
+  --reviewer lora --runs 1 --temperatures 0 --limit 2 \
   --out results/modes-smoke.json
 ```
 

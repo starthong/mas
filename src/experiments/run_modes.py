@@ -107,12 +107,25 @@ def main() -> int:
     parser.add_argument("--model", default="toolcall")
     parser.add_argument("--base-model", default=None)
     parser.add_argument("--adapter", default=None)
-    parser.add_argument("--reviewer", choices=["ft", "base", "none"], default="ft")
-    parser.add_argument("--planner", choices=["ft", "base"], default="ft")
+    parser.add_argument(
+        "--reviewer",
+        choices=["lora", "ft", "base", "none"],
+        default="lora",
+        help="lora/ft use the fine-tuned model; ft is kept as an alias",
+    )
+    parser.add_argument(
+        "--planner",
+        choices=["lora", "ft", "base"],
+        default="lora",
+        help="lora/ft use the fine-tuned model; ft is kept as an alias",
+    )
     parser.add_argument("--load-in-4bit", action="store_true", default=True)
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--out", default="results/modes.json")
     args = parser.parse_args()
+
+    planner_mode = "lora" if args.planner in ("lora", "ft") else "base"
+    reviewer_mode = "lora" if args.reviewer in ("lora", "ft") else args.reviewer
 
     tasks = load_tasks(Path(args.tasks))
     if args.limit:
@@ -138,7 +151,7 @@ def main() -> int:
         model_label = args.model
 
     base_client = None
-    if args.planner == "base" or args.reviewer == "base":
+    if planner_mode == "base" or reviewer_mode == "base":
         if args.backend != "hf":
             raise SystemExit("base planner/reviewer is only supported with --backend hf")
         base_client = build_client(
@@ -148,9 +161,9 @@ def main() -> int:
             load_in_4bit=args.load_in_4bit,
         )
 
-    planner_client = base_client if args.planner == "base" else None
-    reviewer_client = base_client if args.reviewer == "base" else None
-    enable_reviewer = args.reviewer != "none"
+    planner_client = base_client if planner_mode == "base" else None
+    reviewer_client = base_client if reviewer_mode == "base" else None
+    enable_reviewer = reviewer_mode != "none"
 
     records: list[dict[str, Any]] = []
     for mode in modes:
@@ -200,8 +213,8 @@ def main() -> int:
                     records.append(
                         {
                             "mode": mode,
-                            "planner": args.planner,
-                            "reviewer": args.reviewer,
+                            "planner": planner_mode,
+                            "reviewer": reviewer_mode,
                             "temperature": temperature,
                             "run": run_index,
                             "task_id": task.get("id"),
@@ -230,8 +243,8 @@ def main() -> int:
     summary: dict[str, Any] = {
         "model": model_label,
         "backend": args.backend,
-        "planner": args.planner,
-        "reviewer": args.reviewer,
+        "planner": planner_mode,
+        "reviewer": reviewer_mode,
         "tasks": len(tasks),
         "runs": args.runs,
         "groups": {},
