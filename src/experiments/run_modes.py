@@ -71,6 +71,7 @@ def run_sequential(
     registry: Any,
     task: dict[str, Any],
     temperature: float,
+    planner_client: Any = None,
     reviewer_client: Any = None,
     enable_reviewer: bool = True,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -79,6 +80,7 @@ def run_sequential(
         registry,
         max_rounds=2,
         temperature=temperature,
+        planner_client=planner_client,
         reviewer_client=reviewer_client,
         enable_reviewer=enable_reviewer,
     )
@@ -106,6 +108,7 @@ def main() -> int:
     parser.add_argument("--base-model", default=None)
     parser.add_argument("--adapter", default=None)
     parser.add_argument("--reviewer", choices=["ft", "base", "none"], default="ft")
+    parser.add_argument("--planner", choices=["ft", "base"], default="ft")
     parser.add_argument("--load-in-4bit", action="store_true", default=True)
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--out", default="results/modes.json")
@@ -134,19 +137,20 @@ def main() -> int:
         client = build_client("openai", default_model=args.model)
         model_label = args.model
 
-    reviewer_client = None
-    enable_reviewer = True
-    if args.reviewer == "base":
+    base_client = None
+    if args.planner == "base" or args.reviewer == "base":
         if args.backend != "hf":
-            raise SystemExit("--reviewer base is only supported with --backend hf")
-        reviewer_client = build_client(
+            raise SystemExit("base planner/reviewer is only supported with --backend hf")
+        base_client = build_client(
             "hf",
             base_model=args.base_model,
             adapter=None,
             load_in_4bit=args.load_in_4bit,
         )
-    elif args.reviewer == "none":
-        enable_reviewer = False
+
+    planner_client = base_client if args.planner == "base" else None
+    reviewer_client = base_client if args.reviewer == "base" else None
+    enable_reviewer = args.reviewer != "none"
 
     records: list[dict[str, Any]] = []
     for mode in modes:
@@ -166,6 +170,7 @@ def main() -> int:
                                 registry,
                                 task,
                                 temperature,
+                                planner_client=planner_client,
                                 reviewer_client=reviewer_client,
                                 enable_reviewer=enable_reviewer,
                             )
@@ -195,6 +200,7 @@ def main() -> int:
                     records.append(
                         {
                             "mode": mode,
+                            "planner": args.planner,
                             "reviewer": args.reviewer,
                             "temperature": temperature,
                             "run": run_index,
@@ -224,6 +230,7 @@ def main() -> int:
     summary: dict[str, Any] = {
         "model": model_label,
         "backend": args.backend,
+        "planner": args.planner,
         "reviewer": args.reviewer,
         "tasks": len(tasks),
         "runs": args.runs,

@@ -27,10 +27,11 @@ def build_graph(
     registry: ToolRegistry,
     max_rounds: int = 2,
     temperature: float = 0.0,
+    planner_client: Any = None,
     reviewer_client: Any = None,
     enable_reviewer: bool = True,
 ):
-    planner = Planner(client, temperature=temperature)
+    planner = Planner(planner_client or client, temperature=temperature)
     executor = Executor(client, registry, temperature=temperature)
     reviewer = Reviewer(reviewer_client or client, temperature=temperature)
 

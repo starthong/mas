@@ -115,7 +115,7 @@ base 模型去掉 `--adapter` 再跑一遍，得到 `results/base.json`。
 
 ## 多智能体实验
 
-`data/system_tasks.jsonl` 里有 31 条任务：24 条单步任务 + 7 条多步任务。runner 支持 `single` 和 `sequential`，`--reviewer` 可选 `ft`、`base`、`none`。
+`data/system_tasks.jsonl` 里有 31 条任务：24 条单步任务 + 7 条多步任务。runner 支持 `single` 和 `sequential`，`--planner` 可选 `ft/base`，`--reviewer` 可选 `ft/base/none`。
 
 ```bash
 python -m src.experiments.run_modes \
@@ -130,7 +130,7 @@ python -m src.experiments.run_modes \
   --out results/modes-ft-0.json
 ```
 
-Reviewer 消融：
+Reviewer / Planner 消融：
 
 ```bash
 # 无 Reviewer
@@ -139,8 +139,14 @@ Reviewer 消融：
 # base Reviewer + LoRA Planner/Executor
 --reviewer base
 
-# LoRA Reviewer（默认）
---reviewer ft
+# base Planner + LoRA Executor
+--planner base
+
+# 角色分离：base Planner + LoRA Executor + base Reviewer
+--planner base --reviewer base
+
+# 全 LoRA（默认）
+--planner ft --reviewer ft
 ```
 
 第一次先跑 2 条确认链路：
