@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import operator
 
+from src.tools.corpus import search
 from src.tools.registry import Tool, ToolRegistry
 
 _BIN_OPS = {
@@ -14,18 +15,6 @@ _BIN_OPS = {
     ast.Mod: operator.mod,
     ast.Pow: operator.pow,
 }
-
-
-def search(query: str) -> str:
-    """Mock search tool.
-
-    TODO: replace with a local corpus and BM25 / embedding retrieval so the
-    evaluation is reproducible and does not depend on a live search API.
-    """
-    return (
-        f"[mock search] query={query!r}. "
-        "No real corpus is attached yet; replace this tool before system-level evaluation."
-    )
 
 
 def _eval_ast(node: ast.AST) -> int | float:
@@ -74,7 +63,7 @@ def build_default_registry() -> ToolRegistry:
     registry.register(
         Tool(
             name="search",
-            description="Search a local knowledge base. Currently a mock.",
+            description="Search a local knowledge base for relevant documents.",
             parameters={
                 "type": "object",
                 "properties": {
