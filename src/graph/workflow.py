@@ -37,6 +37,8 @@ def build_graph(
         critique = str(review.get("suggestion", "")) if state.get("rounds", 0) else ""
         plan = planner.plan(state["task"], critique=critique)
         trace = list(state.get("trace", []))
+        if planner.last_error:
+            trace.append(f"planner_error: {planner.last_error}")
         trace.append(f"planner: {len(plan)} subtask(s)")
         return {"plan": plan, "results": [], "trace": trace}
 

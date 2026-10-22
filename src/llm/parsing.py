@@ -40,9 +40,16 @@ def parse_json_loose(text: str) -> dict[str, Any]:
     except json.JSONDecodeError:
         start = raw.find("{")
         end = raw.rfind("}")
-        if start == -1 or end == -1 or end <= start:
-            raise
-        obj = json.loads(raw[start : end + 1])
+        candidate = raw[start : end + 1] if start != -1 and end > start else raw
+        try:
+            obj = json.loads(candidate)
+        except json.JSONDecodeError:
+            # Small models sometimes drop a comma or a closing bracket.
+            # Repair at runtime; strict evaluation still uses the raw output.
+            from json_repair import repair_json
+
+            repaired = repair_json(raw)
+            obj = json.loads(repaired)
 
     if not isinstance(obj, dict):
         raise ValueError("top-level JSON value is not an object")

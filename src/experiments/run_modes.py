@@ -115,16 +115,22 @@ def main() -> int:
             for task in tasks:
                 for run_index in range(1, args.runs + 1):
                     started = time.perf_counter()
-                    if mode == "single":
-                        results, state = run_single(
-                            client, registry, task, temperature
-                        )
-                    elif mode == "sequential":
-                        results, state = run_sequential(
-                            client, registry, task, temperature
-                        )
-                    else:
-                        raise SystemExit(f"unknown mode: {mode}")
+                    run_error: str | None = None
+                    try:
+                        if mode == "single":
+                            results, state = run_single(
+                                client, registry, task, temperature
+                            )
+                        elif mode == "sequential":
+                            results, state = run_sequential(
+                                client, registry, task, temperature
+                            )
+                        else:
+                            raise SystemExit(f"unknown mode: {mode}")
+                    except Exception as exc:  # noqa: BLE001 - one task must not abort the run
+                        results = []
+                        state = {}
+                        run_error = f"{type(exc).__name__}: {exc}"
                     latency_ms = (time.perf_counter() - started) * 1000
 
                     parsed: list[dict[str, Any] | None] = []
@@ -160,6 +166,7 @@ def main() -> int:
                             "latency_ms": latency_ms,
                             "results": results,
                             "trace": state.get("trace", []),
+                            "run_error": run_error,
                         }
                     )
 
@@ -190,9 +197,12 @@ def main() -> int:
             "avg_rounds": sum(row.get("rounds") or 0 for row in rows) / n,
             "avg_results": sum(row.get("num_results") or 0 for row in rows) / n,
             "avg_latency_ms": sum(row["latency_ms"] for row in rows) / n,
-            "errors": sum(1 for row in rows if any(
-                item.get("error") for item in row.get("results", [])
-            )),
+            "errors": sum(
+                1
+                for row in rows
+                if row.get("run_error")
+                or any(item.get("error") for item in row.get("results", []))
+            ),
         }
 
     out_path = Path(args.out)
