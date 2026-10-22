@@ -32,20 +32,33 @@
 \begin{abstract}
 本文围绕多智能体协作与工具调用格式稳定性展开。首先基于开源框架搭建包含任务分解、
 执行与审查三个角色的多智能体系统；其次构造工具调用指令数据集，使用 QLoRA 对
-Qwen2.5-3B-Instruct 进行轻量微调；最后在相同任务与工具集上比较单智能体、串行、
-主管与辩论等协作模式，并分析微调前后 Agent 调用工具的 JSON 格式准确率与稳定性。
-% TODO: 填入最终实验数字与结论。
+Qwen2.5-3B-Instruct 进行轻量微调；最后在同一任务与工具集上比较单智能体和
+串行流程，并把主管与辩论模式作为后续工作。
+初步实验显示，JSON 合法率在 41 条格式测试集上已经饱和，LoRA 主要改善参数匹配；
+在 24 条单步系统任务上，基座模型的串行成功率从单 Agent 的 83.3\% 降到 58.3\%，
+LoRA 串行则达到 100\%，但串行延迟约为单 Agent 的 7 倍。
 \end{abstract}
 
 \section{引言}
-% TODO: 研究背景、问题定义、贡献列表。
+大语言模型通过工具调用可以访问外部计算、检索和业务接口，但单 Agent
+在复杂任务上容易把规划、执行和检查混在一次生成中。多智能体系统通过
+角色分工把任务拆开，代价是更多的调用次数、更长的延迟和新的错误传播
+路径。另一个问题是基座模型的工具调用格式并不稳定，尤其在角色切换和
+多轮协作时，JSON 字段、工具名和参数都可能出错。
+
+本文用一个三角色系统研究两个问题：一是 LoRA 微调能否提升 Agent 在
+多智能体流程中的工具调用稳定性；二是单 Agent 与串行多 Agent 在成功率
+和延迟上的权衡。第~\ref{sec:system} 节介绍系统设计，第~\ref{sec:data}
+节介绍数据和微调，第~\ref{sec:experiments} 节给出实验设置与阶段性结果。
 
 \section{相关工作}
-% TODO: 多智能体协作、ReAct、工具调用、LoRA/QLoRA。
 多智能体系统通过角色分工与消息传递扩展单模型能力\cite{yao2023react}；
+LangGraph 用状态图描述节点和条件边，适合实现带循环的 Agent 流程\cite{langgraph}。
+工具调用评测通常把格式合法性和语义正确性分开，Berkeley Function Calling
+Leaderboard 就采用 AST 匹配和可执行性检查\cite{bfcl}。
 LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低显存需求\cite{dettmers2023qlora}。
 
-\section{系统设计}
+\section{系统设计}\label{sec:system}
 \subsection{总体架构}
 系统包含任务分解 Agent、执行 Agent 与审查/评估 Agent，三者通过共享状态与消息传递协作。
 图~\ref{fig:architecture} 给出整体流程。
@@ -72,44 +85,206 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
 \end{figure}
 
 \subsection{角色与状态}
-% TODO: 给出每个角色的 prompt 要点、输入输出契约、停止条件。
-共享状态包括任务、计划、执行结果、审查结果、轮数与 trace。
+Planner 接收任务，输出不超过 5 个有序子任务，每个子任务包含
+\texttt{id}、\texttt{goal} 和 \texttt{expected\_output}。
+Executor 接收当前子任务和历史结果，选择工具并输出
+\texttt{name} 和 \texttt{arguments}；一个子任务只调用一次工具。
+Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{score}、
+\texttt{issues} 和 \texttt{suggestion}。
+
+共享状态保存任务、计划、执行结果、审查结果、轮数和 trace。
+串行流程最多重规划 2 轮；Reviewer 通过或达到轮数上限时结束。
+运行时如果 Planner 输出坏 JSON，先尝试修复，失败则退化为单子任务，
+保证实验不会因为一条坏输出中断。
 
 \subsection{工具层}
-% TODO: 工具注册表、JSON Schema、错误处理、重试。
+工具通过 JSON Schema 注册，当前包含天气、计算器、本地检索和
+\texttt{final\_answer} 四类。天气和计算器是确定性 mock；本地检索
+包含 20 篇小文档，按关键词和字符重叠打分，返回 top 3 摘要。
 工具调用统一为：
 \begin{lstlisting}
 {"name": "calculator", "arguments": {"expression": "(23*17+9)/5"}}
 \end{lstlisting}
+工具名未知、参数不符合 schema 或执行异常时，Executor 把错误写入结果，
+由 Reviewer 判断是否重规划。
 
-\section{工具调用数据与微调}
+\section{工具调用数据与微调}\label{sec:data}
 \subsection{数据构造}
-% TODO: 数据规模、工具覆盖、硬负例、按工具划分训练/测试集。
+训练集包含 750 条样本，测试集包含 41 条样本，覆盖天气查询、四则运算、
+本地检索和无需工具的直接回答四类场景。每条样本由系统提示、用户请求和
+目标工具调用组成，目标输出统一为包含 \texttt{name} 和 \texttt{arguments}
+两个字段的 JSON 对象。
+
+数据首先按 LLaMA-Factory 的 \texttt{sharegpt} 格式组织：
+\texttt{system} 字段保存工具 schema 和输出协议，\texttt{conversations}
+字段保存 \texttt{human}/\texttt{gpt} 两轮对话。测试集保留 OpenAI
+\texttt{messages} 格式，供评测脚本直接截取上下文。训练和测试按场景划分，
+避免同一模板同时出现在两边。
 
 \subsection{QLoRA 配置}
-% TODO: rank、alpha、target modules、学习率、epoch、显存与耗时。
+基座模型为 Qwen2.5-3B-Instruct，使用 4-bit QLoRA 在单张 T4 上训练。
+LoRA rank 为 16，alpha 为 32，target 为全部线性层；学习率 $2\times10^{-4}$，
+训练 2 个 epoch，cutoff length 为 2048，开启 gradient checkpointing 和
+paged AdamW。T4 不支持 bf16，因此使用 fp16。
 
-\section{实验设置}
+第一次训练并未成功。数据文件使用了 OpenAI 的 \texttt{messages} 字段，
+而 LLaMA-Factory 的 \texttt{sharegpt} 转换器读取的是 \texttt{conversations}，
+训练在数据加载阶段报 \texttt{KeyError: 'conversations'}。将训练数据改为
+\texttt{system} + \texttt{conversations}，并在 \texttt{dataset\_info.json}
+中显式映射字段后，smoke 训练和全量训练才正常完成。这个问题说明，
+微调流程中最容易出错的不是模型本身，而是训练框架对数据 schema 的隐式约定。
+
+\section{实验设置}\label{sec:experiments}
+\subsection{环境与模型}
+开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码；
+训练在 Kaggle 的 Linux 容器中完成，GPU 为 Tesla T4 16GB。
+基座模型为 Qwen2.5-3B-Instruct，LoRA adapter 文件大小约 114MB。
+
 \subsection{任务与指标}
-格式指标包括 JSON 可解析率、Schema 合规率、工具名准确率、参数完全匹配率；
-系统指标包括任务成功率、平均重试次数、延迟与 token 成本。
+格式评测使用 41 条测试样本，指标包括 JSON 可解析率、Schema 合规率、
+工具名准确率、参数完全匹配率和格式错误类型。严格评测只接受原始输出，
+不在评测阶段做 JSON 修复；运行时的 Planner 解析则允许一次修复，避免
+单个坏输出中断整个流程。
+
+系统评测的任务集包含 31 条任务，其中 24 条为单步任务，7 条为多步任务。
+单步任务要求一次工具调用；多步任务要求按顺序完成两个及以上工具调用。
+当前已完成 24 条单步任务的对比，7 条多步任务用于下一轮实验。
 
 \subsection{对照与协作模式}
-% TODO: base / few-shot / 约束解码 / LoRA / LoRA+约束解码。
-% TODO: 单 Agent、串行、主管、辩论四种拓扑。
+对照模型为原始 Qwen2.5-3B-Instruct 和加载 LoRA adapter 后的模型。
+协作模式包括：
+\begin{itemize}
+  \item \textbf{single}：只使用一个 Executor，直接完成任务；
+  \item \textbf{sequential}：Planner 拆解任务，Executor 逐个子任务调用工具，
+        Reviewer 审查结果，不通过时带 critique 重规划。
+\end{itemize}
+Reviewer 还做了角色消融：使用 LoRA Reviewer、使用 base Reviewer，
+以及去掉 Reviewer。所有模式使用同一套工具和同一份任务集。
 
 \section{结果与分析}
-% TODO: 表格与图。建议至少包含：
-% 1) 微调前后格式指标对比；
-% 2) 未见工具 OOD 结果；
-% 3) 四种协作模式的成功率-成本权衡；
-% 4) 失败案例分类。
+\subsection{格式评测}
+表~\ref{tab:format} 给出 41 条测试样本上的格式指标。base 和 LoRA 的
+JSON 可解析率和 Schema 合规率都是 100\%，格式错误数均为 0。LoRA 的
+工具名准确率从 97.6\% 提升到 100\%，参数完全匹配率从 85.4\% 提升到
+87.8\%，但两者都只对应一条样本的差异。
+
+\begin{table}[htbp]
+  \centering
+  \caption{格式评测结果（41 条样本）}
+  \label{tab:format}
+  \begin{tabular}{lccc}
+    \toprule
+    指标 & base & LoRA & 差值 \\
+    \midrule
+    JSON 可解析率 & 1.000 & 1.000 & 0 \\
+    Schema 合规率 & 1.000 & 1.000 & 0 \\
+    工具名准确率 & 0.976 & 1.000 & +0.024 \\
+    参数完全匹配率 & 0.854 & 0.878 & +0.024 \\
+    格式错误数 & 0 & 0 & 0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+这组结果说明当前测试集对格式评测来说过于简单：基座模型已经能稳定输出
+合法 JSON，微调没有提升空间。由于 41 条样本中只差一条，不能据此认为
+LoRA 在格式上有显著收益。真正的差异应通过更难的任务、未见工具和多次
+采样来观察。
+
+\subsection{多智能体任务}
+表~\ref{tab:modes} 给出 24 条单步任务、每条重复 3 次的结果。base 的
+single 成功率为 83.3\%（60/72），放进 sequential 后降到 58.3\%（42/72），
+并出现 6 次工具调用或 schema 错误。LoRA 的 single 和 sequential 都达到
+100\%（72/72），schema 合规率也从 91.7\% 提升到 100\%。
+
+\begin{table}[htbp]
+  \centering
+  \caption{单步任务上的协作模式对比（24 条任务 $\times$ 3 次）}
+  \label{tab:modes}
+  \begin{tabular}{lcccc}
+    \toprule
+    模式 & base 成功率 & LoRA 成功率 & base 延迟 & LoRA 延迟 \\
+    \midrule
+    single & 0.833 & 1.000 & 2.05s & 3.45s \\
+    sequential & 0.583 & 1.000 & 23.1s & 24.4s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+这组结果有两个直接结论。第一，基座模型单独使用时还能完成大部分任务，
+但一旦放进 Planner/Executor/Reviewer 流程，工具调用错误会被放大；
+LoRA 微调显著恢复了 sequential 的成功率和 schema 合规率，说明微调
+对 MAS 中的工具调用稳定性有实际作用。第二，LoRA 的 sequential 相对
+single 没有成功率收益，延迟却约为单 Agent 的 7 倍。对于单工具、单步
+任务，多智能体流程并不划算。
+
+Reviewer 的通过率仍然偏低：base sequential 为 45.8\%，LoRA sequential
+为 54.2\%。按类别看，search 任务的 Reviewer 通过率为 0，因为早期
+\texttt{search} 还是 mock，返回结果明确写着没有真实语料。Reviewer 的
+判断本身没有错，问题在工具实现。把 \texttt{search} 换成本地 20 篇文档
+的关键词检索后，search 任务才有条件通过审查；这部分结果需要下一轮
+31 条任务重新验证。
+
+\subsection{问题与处理}
+实验过程中遇到的几个问题及处理方式如下。
+
+\paragraph{训练数据 schema 不一致}
+LLaMA-Factory 的 \texttt{sharegpt} 转换器读取 \texttt{conversations}，
+而最初的数据使用 OpenAI \texttt{messages}，训练在加载阶段直接失败。
+改为 \texttt{system} + \texttt{conversations}，并在
+\texttt{dataset\_info.json} 中显式映射字段后解决。
+
+\paragraph{Planner 输出坏 JSON}
+LoRA 模型在 Executor 角色上格式稳定，但换到 Planner 角色时会漏逗号或
+括号。运行时解析增加一次 \texttt{json\_repair} 修复，并在修复失败时
+回退为单子任务；评测仍然使用严格解析，不把修复后的结果算作格式正确。
+
+\paragraph{Reviewer 误判}
+Reviewer 通过率偏低并不完全等于模型能力差。search 任务早期使用 mock
+工具，返回内容本身不可用，Reviewer 判不通过是合理的。处理方式不是改
+Reviewer prompt，而是先把工具结果做真实。这个现象说明，多智能体系统
+的评测必须把工具质量、角色能力和协作协议分开看。
 
 \section{讨论与局限性}
-% TODO: LoRA 与约束解码的边界、错误传播、成本、评测偏差。
+本文的结果还只是阶段性结果，主要有四个局限。
+
+第一，格式测试集只有 41 条，而且过于简单。base 已经达到 100\% 的
+JSON 和 schema 合规率，LoRA 的两项提升都只对应一条样本，不能做显著性
+判断。后续需要增加未见工具、缺参数、歧义和多工具样本，并按工具划分
+训练/测试集。
+
+第二，系统任务目前主要覆盖单步工具调用，多步任务刚刚加入，还没有
+完整的 31 条任务结果。单步任务上 single 和 sequential 都容易达到
+100\%，无法体现 Planner 的价值；只有在多步任务上，规划、审查和重试
+才可能带来收益。
+
+第三，Reviewer 的角色适配还不充分。LoRA 主要学习工具调用格式，并不
+保证它能做好计划审查。当前 Reviewer 通过率只有 50\% 左右，可能是
+prompt、结果契约和角色数据共同造成的。后续需要做 Reviewer 消融，
+比较无 Reviewer、LoRA Reviewer 和 base Reviewer 的成功率与成本。
+
+第四，工具层仍然很轻。天气和计算器是确定性 mock，search 是 20 篇
+文档的本地关键词检索，不能代表真实信息检索。系统成功率的解释要受
+这个限制，不能把结果外推到开放域任务。
 
 \section{结论}
-% TODO: 总结主要发现。
+本文搭建了一个基于 LangGraph 的三角色多智能体系统，构造了工具调用
+指令数据，并用 QLoRA 对 Qwen2.5-3B-Instruct 做了轻量微调。阶段性
+实验得到两个比较明确的观察。
+
+其一，基座模型在单 Agent 下还有 83.3\% 的任务成功率，但放进
+Planner/Executor/Reviewer 串行流程后降到 58.3\%，同时出现 6 次工具
+调用或 schema 错误。LoRA 微调后，single 和 sequential 都达到 100\%，
+schema 合规率从 91.7\% 提升到 100\%，说明微调确实改善了 Agent 在
+MAS 中的工具调用稳定性。
+
+其二，多智能体并不自动优于单 Agent。LoRA 的 sequential 虽然成功率
+达到 100\%，但延迟约为 single 的 7 倍；在单步任务上没有看到成功率
+收益。协作模式的价值需要在多步、歧义和需要审查的任务上继续验证。
+
+下一步将补全 31 条任务（含 7 条多步任务）的实验，加入 Reviewer 消融
+和温度 0.7 的稳定性测试，并比较 supervisor 与 debate 模式。报告中的
+格式指标、协作模式指标和稳定性指标需要分开呈现，避免把“工具调用
+正确”误写成“任务完成”。
 
 \bibliographystyle{plain}
 \bibliography{refs}
