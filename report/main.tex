@@ -90,6 +90,49 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
   \label{fig:architecture}
 \end{figure}
 
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    box/.style={draw, rounded corners, minimum width=2.0cm,
+      minimum height=0.65cm, align=center, font=\small},
+    >=Latex
+  ]
+    % sequential
+    \node[font=\bfseries, anchor=west] at (-2.0,0) {Sequential};
+    \node[box] (p1) at (0,0) {Planner};
+    \node[box] (e1) at (2.6,0) {Executor};
+    \node[box] (r1) at (5.2,0) {Reviewer};
+    \draw[->] (p1) -- (e1);
+    \draw[->] (e1) -- (r1);
+    \draw[->] (r1.north) -- ++(0,0.55) -| node[pos=0.25, above, font=\scriptsize] {不通过} (p1.north);
+
+    % supervisor
+    \node[font=\bfseries, anchor=west] at (-2.0,-2.2) {Supervisor};
+    \node[box] (p2) at (0,-2.2) {Planner};
+    \node[box] (s2) at (2.6,-2.2) {Supervisor};
+    \node[box] (e2) at (5.2,-2.2) {Executor};
+    \node[box] (r2) at (2.6,-3.4) {Reviewer};
+    \draw[->] (p2) -- (s2);
+    \draw[->] (s2) -- (e2);
+    \draw[->] (e2.south) -- ++(0,-0.45) -| (s2.south);
+    \draw[->] (s2) -- (r2);
+
+    % debate
+    \node[font=\bfseries, anchor=west] at (-2.0,-5.1) {Debate};
+    \node[box] (pa) at (0,-4.7) {Planner A};
+    \node[box] (pb) at (0,-5.6) {Planner B};
+    \node[box] (j) at (2.6,-5.15) {Judge};
+    \node[box] (e3) at (5.2,-5.15) {Executor};
+    \node[box] (r3) at (7.8,-5.15) {Reviewer};
+    \draw[->] (pa) -- (j);
+    \draw[->] (pb) -- (j);
+    \draw[->] (j) -- (e3);
+    \draw[->] (e3) -- (r3);
+  \end{tikzpicture}
+  \caption{三种协作拓扑：串行、监督和辩论}
+  \label{fig:topologies}
+\end{figure}
+
 \subsection{角色与状态}
 Planner 接收任务，输出不超过 5 个有序子任务，每个子任务包含
 \texttt{id}、\texttt{goal} 和 \texttt{expected\_output}。
@@ -132,6 +175,15 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
 LoRA rank 为 16，alpha 为 32，target 为全部线性层；学习率 $2\times10^{-4}$，
 训练 2 个 epoch，cutoff length 为 2048，开启 gradient checkpointing 和
 paged AdamW。T4 不支持 bf16，因此使用 fp16。
+
+\IfFileExists{figures/training_loss.png}{
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\linewidth]{figures/training_loss.png}
+  \caption{QLoRA 训练损失曲线}
+  \label{fig:loss}
+\end{figure}
+}{}
 
 第一次训练并未成功。数据文件使用了 OpenAI 的 \texttt{messages} 字段，
 而 LLaMA-Factory 的 \texttt{sharegpt} 转换器读取的是 \texttt{conversations}，
@@ -285,6 +337,32 @@ schema 差异只有 0--1 条，McNemar 检验的 p 值为 1.0，不能称显著�
 选择而言，LoRA 对未见工具仍有泛化能力；就参数规范化而言，当前评测
 口径偏严，不能拿原始 exact 差异下结论。
 
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      ybar,
+      width=0.78\linewidth,
+      height=5.2cm,
+      ymin=0, ymax=1.05,
+      ylabel={比例},
+      symbolic x coords={hard,ood},
+      xtick={hard,ood},
+      xticklabels={hard schema, OOD name},
+      legend style={at={(0.5,-0.22)}, anchor=north, legend columns=-1},
+      nodes near coords,
+      nodes near coords style={font=\scriptsize},
+      bar width=14pt,
+    ]
+      \addplot coordinates {(hard,0.947) (ood,0.825)};
+      \addplot coordinates {(hard,0.982) (ood,0.900)};
+      \legend{base, LoRA}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{硬样本 schema 合规率与 OOD 工具名准确率}
+  \label{fig:format}
+\end{figure}
+
 \subsection{多智能体任务}
 表~\ref{tab:modes} 给出 31 条任务各执行一次的结果。任务集包含 24 条单步任务
 和 7 条多步任务，single 模式只能调用一次工具，因此多步任务在 single 下
@@ -411,6 +489,33 @@ debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94s。Judge 有�
 选择“把两个查询合并成一个”的短计划，有时选择过度拆分的计划；它没
 有稳定地选出更可执行的方案。两个 Planner 加一个 Judge 的辩论，没有
 超过一个 few-shot Planner。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=0.75\linewidth,
+      height=5.5cm,
+      xlabel={平均延迟（秒）},
+      ylabel={成功率},
+      xmin=15, xmax=45,
+      ymin=0.79, ymax=0.85,
+      grid=major,
+      clip=false,
+    ]
+      \addplot[only marks, mark=*, mark size=3pt] coordinates {
+        (17.86,0.839)
+        (29.22,0.839)
+        (40.94,0.806)
+      };
+      \node[font=\scriptsize, anchor=south] at (axis cs:17.86,0.839) {sequential};
+      \node[font=\scriptsize, anchor=south] at (axis cs:29.22,0.839) {supervisor};
+      \node[font=\scriptsize, anchor=north] at (axis cs:40.94,0.806) {debate};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{协作拓扑的成功率--延迟权衡（31 条任务，一轮）}
+  \label{fig:tradeoff}
+\end{figure}
 
 \subsection{温度稳定性}
 表~\ref{tab:temperature} 给出全 LoRA 在温度 0 和 0.7 下各重复 3 次的
