@@ -192,6 +192,35 @@ paged AdamW。T4 不支持 bf16，因此使用 fp16。
 中显式映射字段后，smoke 训练和全量训练才正常完成。这个问题说明，
 微调流程中最容易出错的不是模型本身，而是训练框架对数据 schema 的隐式约定。
 
+\subsection{训练数据扩展}
+为了验证“数据更多是否一定更好”，把训练集从 750 条扩到 1,124 条：
+增加未见城市和检索主题的模板，并补充 100 组随机四则运算。新 adapter 在
+同一 T4 上训练 2 个 epoch，耗时约 22 分钟，train loss 为 0.031，
+eval loss 为 0.012。表~\ref{tab:v2} 比较 v1 和 v2 在温度 0 下的结果。
+
+\begin{table}[htbp]
+  \centering
+  \caption{训练数据扩展前后对比（温度 0）}
+  \label{tab:v2}
+  \begin{tabular}{llccc}
+    \toprule
+    测试集 & Adapter & Schema & 工具名 & 参数匹配 \\
+    \midrule
+    hard & v1 (750) & 0.982 & 0.912 & 0.702 \\
+    hard & v2 (1,124) & 0.965 & 0.895 & 0.667 \\
+    OOD & v1 (750) & 1.000 & 0.900 & 0.575 \\
+    OOD & v2 (1,124) & 1.000 & 0.875 & 0.575 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+扩展数据没有带来提升，hard 的 schema 从 98.2\% 降到 96.5\%，参数匹配
+从 70.2\% 降到 66.7\%，OOD 工具名从 90.0\% 降到 87.5\%。温度 0.7 下
+v2 的 hard 参数匹配略高（68.4\% 对 63.2\%），但 schema 仍低于 v1，
+整体是混合结果。这说明在当前模板化数据上继续加量，主要增加的是相似
+样本，不是新的工具调用能力；最终报告保留 v1 adapter，把 v2 作为“数据
+扩展未提升”的负结果，而不是替换主结果。
+
 \section{实验设置}\label{sec:experiments}
 \subsection{环境与模型}
 开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码；
