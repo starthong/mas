@@ -31,6 +31,16 @@ class LLMClient:
             api_key=self.api_key,
             timeout=timeout,
         )
+        self.usage = {
+            "calls": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+        }
+        self.last_usage = {
+            "calls": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+        }
 
     def chat(
         self,
@@ -50,4 +60,15 @@ class LLMClient:
             temperature=temperature,
             max_tokens=max_tokens,
         )
+        usage = getattr(response, "usage", None)
+        prompt_tokens = int(getattr(usage, "prompt_tokens", 0) or 0)
+        completion_tokens = int(getattr(usage, "completion_tokens", 0) or 0)
+        self.last_usage = {
+            "calls": 1,
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": completion_tokens,
+        }
+        self.usage["calls"] += 1
+        self.usage["prompt_tokens"] += prompt_tokens
+        self.usage["completion_tokens"] += completion_tokens
         return response.choices[0].message.content or ""

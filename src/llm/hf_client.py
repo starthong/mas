@@ -51,6 +51,16 @@ class HFClient:
 
         self.model = model
         self.max_new_tokens = max_new_tokens
+        self.usage = {
+            "calls": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+        }
+        self.last_usage = {
+            "calls": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+        }
 
     def chat(
         self,
@@ -81,4 +91,14 @@ class HFClient:
             output = self.model.generate(**inputs, **generation_kwargs)
 
         generated = output[0][inputs["input_ids"].shape[-1] :]
+        prompt_tokens = int(inputs["input_ids"].shape[-1])
+        completion_tokens = int(generated.shape[-1])
+        self.last_usage = {
+            "calls": 1,
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": completion_tokens,
+        }
+        self.usage["calls"] += 1
+        self.usage["prompt_tokens"] += prompt_tokens
+        self.usage["completion_tokens"] += completion_tokens
         return self.tokenizer.decode(generated, skip_special_tokens=True).strip()

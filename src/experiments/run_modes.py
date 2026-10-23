@@ -52,6 +52,27 @@ def task_success(results: list[dict[str, Any]], task: dict[str, Any]) -> bool:
     )
 
 
+def _usage_snapshot(clients: list[Any]) -> dict[str, int]:
+    total = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0}
+    for client in clients:
+        usage = getattr(client, "usage", {}) or {}
+        for key in total:
+            total[key] += int(usage.get(key, 0) or 0)
+    return total
+
+
+def _usage_delta(before: dict[str, int], after: dict[str, int]) -> dict[str, int]:
+    return {key: after[key] - before.get(key, 0) for key in before}
+
+
+def _p95(values: list[float]) -> float | None:
+    if not values:
+        return None
+    ordered = sorted(values)
+    index = max(0, min(len(ordered) - 1, int(round(0.95 * (len(ordered) - 1)))))
+    return ordered[index]
+
+
 def run_single(
     client: Any,
     registry: Any,
@@ -176,6 +197,7 @@ def main() -> int:
     planner_client = base_client if planner_mode == "base" else None
     reviewer_client = base_client if reviewer_mode == "base" else None
     enable_reviewer = reviewer_mode != "none"
+    usage_clients = [client] + ([base_client] if base_client is not None else [])
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -190,6 +212,7 @@ def main() -> int:
         for temperature in temperatures:
             for task in tasks:
                 for run_index in range(1, args.runs + 1):
+                    usage_before = _usage_snapshot(usage_clients)
                     started = time.perf_counter()
                     run_error: str | None = None
                     try:
@@ -216,6 +239,9 @@ def main() -> int:
                         state = {}
                         run_error = f"{type(exc).__name__}: {exc}"
                     latency_ms = (time.perf_counter() - started) * 1000
+                    usage = _usage_delta(
+                        usage_before, _usage_snapshot(usage_clients)
+                    )
 
                     parsed: list[dict[str, Any] | None] = []
                     for result in results:
@@ -250,6 +276,9 @@ def main() -> int:
                         "rounds": state.get("rounds"),
                         "num_results": len(results),
                         "latency_ms": latency_ms,
+                        "prompt_tokens": usage["prompt_tokens"],
+                        "completion_tokens": usage["completion_tokens"],
+                        "llm_calls": usage["calls"],
                         "results": results,
                         "trace": state.get("trace", []),
                         "review": review,
@@ -299,6 +328,12 @@ def main() -> int:
             "avg_rounds": sum(row.get("rounds") or 0 for row in rows) / n,
             "avg_results": sum(row.get("num_results") or 0 for row in rows) / n,
             "avg_latency_ms": sum(row["latency_ms"] for row in rows) / n,
+            "p95_latency_ms": _p95([row["latency_ms"] for row in rows]),
+            "avg_prompt_tokens": sum(row.get("prompt_tokens", 0) for row in rows) / n,
+            "avg_completion_tokens": (
+                sum(row.get("completion_tokens", 0) for row in rows) / n
+            ),
+            "avg_llm_calls": sum(row.get("llm_calls", 0) for row in rows) / n,
             "errors": sum(
                 1
                 for row in rows

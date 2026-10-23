@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import time
 from pathlib import Path
 from typing import Any
 
@@ -88,6 +89,8 @@ def main() -> int:
 
         raw = ""
         error: str | None = None
+        usage_before = dict(getattr(client, "usage", {}) or {})
+        started = time.perf_counter()
         try:
             raw = client.chat(
                 messages,
@@ -97,6 +100,12 @@ def main() -> int:
             )
         except Exception as exc:  # noqa: BLE001 - record endpoint failures too
             error = f"{type(exc).__name__}: {exc}"
+        latency_ms = (time.perf_counter() - started) * 1000
+        usage_after = dict(getattr(client, "usage", {}) or {})
+        usage = {
+            key: int(usage_after.get(key, 0) or 0) - int(usage_before.get(key, 0) or 0)
+            for key in ("calls", "prompt_tokens", "completion_tokens")
+        }
 
         parse_ok = False
         pred = None
@@ -117,6 +126,10 @@ def main() -> int:
                 "name_ok": tool_name_match(pred, ref),
                 "exact": exact_match(pred, ref),
                 "format_error": classify_format_error(raw),
+                "latency_ms": latency_ms,
+                "prompt_tokens": usage["prompt_tokens"],
+                "completion_tokens": usage["completion_tokens"],
+                "llm_calls": usage["calls"],
             }
         )
 
@@ -137,6 +150,15 @@ def main() -> int:
         "name_accuracy": sum(1 for item in records if item["name_ok"]) / n,
         "exact_match_rate": sum(1 for item in records if item["exact"]) / n,
         "format_error_counts": error_counts(records),
+        "avg_latency_ms": sum(item["latency_ms"] for item in records) / n,
+        "p95_latency_ms": sorted(item["latency_ms"] for item in records)[
+            max(0, min(n - 1, int(round(0.95 * (n - 1)))))
+        ],
+        "avg_prompt_tokens": sum(item["prompt_tokens"] for item in records) / n,
+        "avg_completion_tokens": (
+            sum(item["completion_tokens"] for item in records) / n
+        ),
+        "avg_llm_calls": sum(item["llm_calls"] for item in records) / n,
     }
 
     out_path = Path(args.out)
