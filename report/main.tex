@@ -22,7 +22,7 @@
 }
 
 \title{基于开源多智能体框架的协作系统\\与工具调用 LoRA 微调研究}
-\author{你的名字}
+\author{王陈鸿}
 \date{\today}
 
 \begin{document}
@@ -32,17 +32,17 @@
 \begin{abstract}
 本文围绕多智能体协作与工具调用格式稳定性展开。首先基于开源框架搭建包含任务分解、
 执行与审查三个角色的多智能体系统；其次构造工具调用指令数据集，使用 QLoRA 对
-Qwen2.5-3B-Instruct 进行轻量微调；最后在同一任务与工具集上比较单智能体和
-串行流程，并把主管与辩论模式作为后续工作。
+Qwen2.5-3B-Instruct 进行轻量微调；最后在同一任务与工具集上比较单智能体、
+串行、主管和辩论四种拓扑。
 初步实验显示，41 条简单格式测试已经饱和，LoRA 主要改善参数匹配；
 在 57 条难例上，LoRA 的 schema 合规率为 98.2\%，base 在温度 0 和
 0.7 下分别为 94.7\% 和 91.2\%。在 40 条未见工具 OOD 上，LoRA 的
 工具名准确率为 90.0\%，base 为 82.5\%，但自由文本参数会让 exact
 match 偏低。在 31 条系统任务（含 7 条多步任务）上，基座模型的串行
-成功率从单 Agent 的 67.7\% 降到 51.6\%，LoRA 串行则为 80.6\%，但仍
-只比单 Agent 多解决一条任务，且串行延迟约为单 Agent 的 6 倍。温度
-0.7 下 JSON 和 schema 仍是 100\%，但任务成功率降到 74.2\%，格式稳定
-并不等于计划稳定。
+成功率从单 Agent 的 67.7\% 降到 51.6\%；LoRA 的 few-shot 串行为
+83.9\%，主管拓扑成功率相同但延迟增加约 64\%，辩论拓扑降到 80.6\%。
+温度 0.7 下 JSON 和 schema 仍是 100\%，但任务成功率降到 74.2\%，
+格式稳定并不等于计划稳定。
 \end{abstract}
 
 \section{引言}
@@ -164,8 +164,13 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
 \begin{itemize}
   \item \textbf{single}：只使用一个 Executor，直接完成任务；
   \item \textbf{sequential}：Planner 拆解任务，Executor 逐个子任务调用工具，
-        Reviewer 审查结果，不通过时带 critique 重规划。
+        Reviewer 审查结果，不通过时带 critique 重规划；
+  \item \textbf{supervisor}：Planner 给出计划后，Supervisor 在每一步决定
+        执行下一个子任务、交给 Reviewer，还是结束；
+  \item \textbf{debate}：两个 Planner 分别提出计划，Judge 选一个，再执行和审查。
 \end{itemize}
+sequential、supervisor 和 debate 都支持 \texttt{--planner-examples} 的
+few-shot Planner；该开关默认关闭，避免影响旧结果。
 Reviewer 还做了角色消融：使用 LoRA Reviewer、使用 base Reviewer，
 以及去掉 Reviewer。所有模式使用同一套工具和同一份任务集。
 
@@ -354,6 +359,41 @@ Reviewer）和 74.2\%（base Reviewer）。只把 Reviewer 换成 base 模型，
 Planner 的拆分粒度和 Executor 一次只调用一个工具的限制。下一步应
 单独检查多步任务的 trace，而不是继续换 Planner。
 
+\subsection{监督与辩论}
+表~\ref{tab:collab} 给出 31 条任务上三种新拓扑的结果，Planner 都打开了
+few-shot，Reviewer 使用 LoRA。三种拓扑的 JSON/schema 都是 100\%，
+errors 为 0。
+
+\begin{table}[htbp]
+  \centering
+  \caption{协作模式扩展（31 条任务，Planner few-shot）}
+  \label{tab:collab}
+  \begin{tabular}{lcccc}
+    \toprule
+    模式 & 成功率 & 多步成功率 & 平均结果数 & 延迟 \\
+    \midrule
+    sequential & 0.839 & 3/7 & 1.29 & 17.86s \\
+    supervisor & 0.839 & 3/7 & 1.29 & 29.22s \\
+    debate & 0.806 & 2/7 & 1.35 & 40.94s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+few-shot 对 sequential 有效：成功率从旧版的 80.6\%（25/31）提高到
+83.9\%（26/31），多步任务从 1/7 提高到 3/7。代价是 \texttt{final\_06}
+这样的“推荐一本书”被误拆成 search 子任务，chat 从 6/6 降到 5/6；
+净收益只有一条任务。
+
+supervisor 的成功率与 sequential 完全相同，但延迟从 17.86s 增到
+29.22s。原因是 supervisor 的提前 review 被 guard 阻止后，实际行为
+退化为“逐个子任务执行 + 一次审查”，路由层只增加了调用开销。这是一
+个明确的负结果：主管角色没有带来更好的任务完成，只是更贵。
+
+debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94s。Judge 有时
+选择“把两个查询合并成一个”的短计划，有时选择过度拆分的计划；它没
+有稳定地选出更可执行的方案。两个 Planner 加一个 Judge 的辩论，没有
+超过一个 few-shot Planner。
+
 \subsection{温度稳定性}
 表~\ref{tab:temperature} 给出全 LoRA 在温度 0 和 0.7 下各重复 3 次的
 结果。温度 0.7 下成功率从 80.6\% 降到 74.2\%，但 JSON 和 schema
@@ -436,7 +476,7 @@ base Reviewer 后，LoRA Planner 下只有 51.6\%，base Planner 下为
 \section{结论}
 本文搭建了一个基于 LangGraph 的三角色多智能体系统，构造了工具调用
 指令数据，并用 QLoRA 对 Qwen2.5-3B-Instruct 做了轻量微调。阶段性
-实验得到两个比较明确的观察。
+实验得到三个比较明确的观察。
 
 其一，LoRA 对工具调用格式有实际作用。57 条难例上，LoRA 的 JSON/schema
 合规率在温度 0 和 0.7 下都是 98.2\%，base 分别为 94.7\% 和 91.2\%；
@@ -450,19 +490,64 @@ Planner/Executor/Reviewer 串行流程后降到 51.6\%，同时出现 3 次工�
 80.6\%，schema 合规率从 90.3\% 提升到 100\%，说明微调同样改善了
 Agent 在 MAS 中的工具调用稳定性。
 
-其二，多智能体并不自动优于单 Agent。LoRA 的 sequential 虽然成功率
-略高于 single，但只多解决了一条多步任务，延迟约为 single 的 6 倍。
-7 条多步任务中只完成 1 条，trace 显示 6 条任务的 Planner 只给出
-1 个子任务，Reviewer 还会放行不完整的结果；协作模式的价值需要在
-规划质量和审查校准上继续验证。
+其二，多智能体并不自动优于单 Agent。旧版 LoRA sequential 只比 single
+多解决一条多步任务，延迟约为 single 的 6 倍。加入 few-shot Planner 后，
+sequential 提升到 83.9\%，多步从 1/7 提高到 3/7，但 chat 从 6/6 降到
+5/6，净收益只有一条任务；多步任务仍然有 4 条失败。
 
-下一步将补多工具 OOD 和参数规范化，并检查多步任务的 trace。温度实验
-表明 0.7 下格式仍然稳定，但任务成功率下降，说明需要把“格式稳定”
-和“计划稳定”分开分析。base Planner 和 base Reviewer 的角色替换都
-没有带来提升，因此重点不再是换模型，而是看拆分粒度和 Executor 的
-单步限制。supervisor 与 debate 模式作为后续工作。报告中的格式指标、
-协作模式指标和稳定性指标需要分开呈现，避免把“工具调用正确”误写成
-“任务完成”。
+其三，协作拓扑不是越多越好。监督拓扑与 sequential 的成功率完全相同，
+但延迟从 17.86s 增到 29.22s；辩论拓扑降到 80.6\%，延迟增到 40.94s。
+Supervisor 在 guard 之后退化为“逐个子任务执行 + 一次审查”，Debate
+的 Judge 也不能稳定选出更可执行的计划。增加角色和消息，并不会自动
+带来更好的任务完成。
+
+下一步将补多工具 OOD 和参数规范化，并把 token 成本、P95 延迟和配对
+显著性检验纳入评测。温度实验表明 0.7 下格式仍然稳定，但任务成功率
+下降，说明需要把“格式稳定”和“计划稳定”分开分析。base Planner 和
+base Reviewer 的角色替换都没有带来提升，few-shot、supervisor 和
+debate 也没有超过一个简单的串行流程；重点不再是增加角色，而是提高
+拆分质量和审查校准。
+
+\appendix
+\section{复现命令与提示词}
+
+\paragraph{数据}
+训练集和简单测试集由 \texttt{scripts/build\_toolcall\_dataset.py} 生成；
+难例和 OOD 分别由 \texttt{scripts/build\_hard\_test.py} 和
+\texttt{scripts/build\_ood\_test.py} 生成。
+
+\paragraph{训练}
+QLoRA 训练使用 LLaMA-Factory 和 \texttt{configs/train\_qlora\_kaggle.yaml}，
+在 Kaggle T4 上以 4-bit、rank 16、alpha 32 训练 3B 模型。
+
+\paragraph{格式评测}
+\begin{verbatim}
+python -m src.eval.run_eval --backend hf \
+  --base-model /path/Qwen2.5-3B-Instruct \
+  --data data/test/toolcall_hard.jsonl \
+  --out results/hard-base-0.json
+\end{verbatim}
+加载 adapter 时增加 \texttt{--adapter}；OOD 评测增加
+\texttt{--registry ood}。
+
+\paragraph{协作模式}
+\begin{verbatim}
+python -m src.experiments.run_modes --backend hf \
+  --base-model /path/Qwen2.5-3B-Instruct \
+  --adapter /path/adapter \
+  --modes sequential,supervisor,debate \
+  --planner-examples --runs 1 --temperatures 0 \
+  --out results/modes-new-full.json
+\end{verbatim}
+
+\paragraph{提示词}
+Planner 要求输出
+\texttt{\{"subtasks":[\{"id":1,"goal":"...","expected\_output":"..."\}]\}}；
+Executor 使用统一的工具 system prompt，目标输出
+\texttt{\{"name":"...","arguments":\{...\}\}}；
+Reviewer 输出
+\texttt{\{"pass":true,"score":0.0,"issues":[],"suggestion":"..."\}}。
+supervisor 和 judge 只增加路由/选择字段，不改变工具调用协议。
 
 \bibliographystyle{plain}
 \bibliography{refs}
