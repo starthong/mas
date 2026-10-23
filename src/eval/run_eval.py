@@ -20,6 +20,7 @@ from src.eval.metrics import (
 from src.llm.factory import build_client
 from src.llm.parsing import parse_json_strict
 from src.tools.builtin import build_default_registry
+from src.tools.ood import build_ood_registry
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -37,6 +38,7 @@ def main() -> int:
     parser.add_argument("--data", default="data/test/toolcall_test.jsonl")
     parser.add_argument("--backend", choices=["openai", "hf"], default=os.getenv("LLM_BACKEND", "openai"))
     parser.add_argument("--model", default="toolcall", help="OpenAI model name")
+    parser.add_argument("--registry", choices=["default", "ood"], default="default")
     parser.add_argument("--base-model", default=os.getenv("HF_BASE_MODEL"))
     parser.add_argument("--adapter", default=os.getenv("HF_ADAPTER"))
     parser.add_argument(
@@ -57,7 +59,11 @@ def main() -> int:
     if args.limit:
         rows = rows[: args.limit]
 
-    registry = build_default_registry()
+    registry = (
+        build_ood_registry()
+        if args.registry == "ood"
+        else build_default_registry()
+    )
     tools = registry.schemas()
 
     if args.backend == "hf":
@@ -122,6 +128,7 @@ def main() -> int:
     summary = {
         "model": model_label,
         "backend": args.backend,
+        "registry": args.registry,
         "data": str(data_path),
         "n": n,
         "json_parse_rate": sum(1 for item in records if item["json_parse_ok"]) / n,
