@@ -1,0 +1,175 @@
+{
+  "summary": {
+    "model": "/kaggle/input/datasets/starthong/mas-3b-toolcall-output",
+    "backend": "hf",
+    "planner": "lora",
+    "reviewer": "lora",
+    "tasks": 1,
+    "runs": 1,
+    "groups": {
+      "supervisor@0.0": {
+        "n": 1,
+        "success_rate": 1.0,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 1.0,
+        "avg_rounds": 1.0,
+        "avg_results": 1.0,
+        "avg_latency_ms": 20477.119209999953,
+        "errors": 0
+      },
+      "debate@0.0": {
+        "n": 1,
+        "success_rate": 1.0,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 1.0,
+        "avg_rounds": 2.0,
+        "avg_results": 5.0,
+        "avg_latency_ms": 82744.68607200016,
+        "errors": 0
+      }
+    }
+  },
+  "records": [
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20477.119209999953,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有执行的任务。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已经完成一个查询任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 5,
+      "latency_ms": 82744.68607200016,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "获取北京今天的天气数据。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "提取北京今天的温度范围。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "将北京今天的天气和温度范围整合。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 5,
+          "goal": "返回北京今天的天气和温度范围。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 provides a specific output with weather details, while Plan 1 is too vague. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers all necessary steps to get and return the weather and temperature range of Beijing today, while Plan 1 is too vague. -> 5 subtask(s)",
+        "executor: 5 result(s)",
+        "reviewer: pass=True score=0.9 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成度高，但可以进一步优化结果的格式。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成度高，但可以进一步优化结果的格式。\"}"
+      },
+      "run_error": null
+    }
+  ]
+}
