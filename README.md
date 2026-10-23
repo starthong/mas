@@ -115,7 +115,7 @@ base 模型去掉 `--adapter` 再跑一遍，得到 `results/base.json`。
 
 ## 多智能体实验
 
-`data/system_tasks.jsonl` 里有 31 条任务：24 条单步任务 + 7 条多步任务。runner 支持 `single` 和 `sequential`，`--planner` 可选 `lora/base`，`--reviewer` 可选 `lora/base/none`。`ft` 仍可作为 `lora` 的别名。
+`data/system_tasks.jsonl` 里有 31 条任务：24 条单步任务 + 7 条多步任务。runner 支持 `single`、`sequential`、`supervisor` 和 `debate` 四种拓扑，`--planner` 可选 `lora/base`，`--reviewer` 可选 `lora/base/none`，`--categories multi` 只跑多步子集，`--planner-examples` 打开 few-shot Planner。`ft` 仍可作为 `lora` 的别名。
 
 ```bash
 python -m src.experiments.run_modes \
@@ -148,6 +148,26 @@ Reviewer / Planner 消融：
 # 全 LoRA（默认）
 --planner lora --reviewer lora
 ```
+
+拓扑消融可以直接用脚本：
+
+```bash
+# 7 条多步任务，三种拓扑，各 3 次
+CATEGORIES=multi MODES=sequential,supervisor,debate RUNS=3 \
+OUT=results/modes-new-multi.json bash scripts/run_mode_ablation.sh
+
+# 31 条全量，三种拓扑
+CATEGORIES= MODES=sequential,supervisor,debate RUNS=1 \
+OUT=results/modes-new-full.json bash scripts/run_mode_ablation.sh
+```
+
+补充统计：
+
+```bash
+python scripts/analyze_results.py
+```
+
+会输出难例/OOD 的 Wilson 区间、归一化 exact match 和 McNemar 检验。
 
 第一次先跑 2 条确认链路：
 
