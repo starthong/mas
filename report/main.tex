@@ -398,8 +398,9 @@ few-shot 对 sequential 有效：成功率从旧版的 80.6\%（25/31）提高�
 
 sequential 和 supervisor 的 95\% Wilson 置信区间都是 [0.674, 0.929]，
 debate 是 [0.637, 0.908]；区间大幅重叠，一轮 31 条任务不足以声称
-三种拓扑有显著差异。这里报告的是效应方向和延迟代价，不做显著性
-宣称。
+三种拓扑有显著差异。Supervisor 与 sequential 的逐任务结果完全相同，
+Debate 只比 sequential 少一条，McNemar 检验 p=1.0。延迟的长尾更明显：
+三者的 P95 延迟分别为 30.9s、48.2s 和 83.7s。
 
 supervisor 的成功率与 sequential 完全相同，但延迟从 17.86s 增到
 29.22s。原因是 supervisor 的提前 review 被 guard 阻止后，实际行为
