@@ -6,5 +6,13 @@
       "messages": "conversations",
       "system": "system"
     }
+  },
+  "toolcall_sft_v2": {
+    "file_name": "toolcall_sft_v2.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "system": "system"
+    }
   }
 }
