@@ -59,6 +59,17 @@ class Supervisor:
                     "subtask_id": subtask_id,
                     "reason": str(data.get("reason", "")),
                 }
+
+            # Do not let the supervisor stop before the plan is actually done.
+            # A premature review is the main failure mode we observed in the
+            # first supervisor run.
+            has_error = any(item.get("error") for item in results)
+            if cursor < len(plan) and not has_error:
+                return {
+                    "action": "execute",
+                    "subtask_id": plan[cursor].get("id"),
+                    "reason": "guard: unexecuted subtasks remain",
+                }
             return {
                 "action": action,
                 "subtask_id": None,

@@ -13,7 +13,9 @@ class FakeClient:
         if "judge" in system.lower():
             return json.dumps({"choice": 1, "reason": "plan 1"})
         if "supervisor" in system.lower():
-            return "not a json object"
+            return json.dumps(
+                {"action": "review", "subtask_id": None, "reason": "stop early"}
+            )
         if "reviewer" in system.lower():
             return json.dumps(
                 {"pass": True, "score": 1.0, "issues": [], "suggestion": ""}
