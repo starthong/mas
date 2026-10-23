@@ -1,0 +1,5008 @@
+{
+  "summary": {
+    "model": "/kaggle/input/datasets/starthong/mas-3b-toolcall-output",
+    "backend": "hf",
+    "planner": "lora",
+    "reviewer": "lora",
+    "tasks": 31,
+    "runs": 1,
+    "groups": {
+      "sequential@0.0": {
+        "n": 31,
+        "success_rate": 0.8387096774193549,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 0.8709677419354839,
+        "avg_rounds": 1.1290322580645162,
+        "avg_results": 1.2903225806451613,
+        "avg_latency_ms": 17855.64062145157,
+        "errors": 0
+      },
+      "supervisor@0.0": {
+        "n": 31,
+        "success_rate": 0.8387096774193549,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 0.8709677419354839,
+        "avg_rounds": 1.1290322580645162,
+        "avg_results": 1.2903225806451613,
+        "avg_latency_ms": 29217.44388045168,
+        "errors": 0
+      },
+      "debate@0.0": {
+        "n": 31,
+        "success_rate": 0.8064516129032258,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 0.8064516129032258,
+        "avg_rounds": 1.3225806451612903,
+        "avg_results": 1.3548387096774193,
+        "avg_latency_ms": 40938.92222812907,
+        "errors": 0
+      }
+    }
+  },
+  "records": [
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12050.126289000218,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 13582.848962999378,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海当前的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度高，可以继续优化。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度高，可以继续优化。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12135.133214000234,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12245.074051999836,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询深圳今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 30396.472182000252,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询杭州当前的气温",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果中没有提供实际的气温数据。"
+        ],
+        "suggestion": "在执行任务时，确保返回实际的气温数据。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果中没有提供实际的气温数据。\"], \"suggestion\": \"在执行任务时，确保返回实际的气温数据。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 30911.543711000377,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "调用 get_weather 函数，查询成都今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果中没有提供成都今天的天气。"
+        ],
+        "suggestion": "在 get_weather 函数中添加成都今天的天气信息。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果中没有提供成都今天的天气。\"], \"suggestion\": \"在 get_weather 函数中添加成都今天的天气信息。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 14191.888831000142,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 13810.087220000241,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 13887.418729000274,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 128/4+19",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4+19"
+          },
+          "result": "51.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4+19\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 13419.550291000633,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12767.245775999982,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 7*8+9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8+9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 14265.092704999915,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 100-37+12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12485.163055999692,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续执行下一个子任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续执行下一个子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 15134.754035999322,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解多智能体系统",
+          "tool": "search",
+          "arguments": {
+            "query": "多智能体系统"
+          },
+          "result": "[1] 多智能体系统: 多智能体系统让多个角色通过消息或共享状态协作。常见角色包括规划者、执行者和审查者，协作模式有串行、主管和辩论。\n[2] 提示工程: 提示工程通过系统提示、示例和输出约束引导模型。对工具调用来说，固定输出协议和少量示例通常最有效。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多智能体系统\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度高，但可以添加更多关于多智能体系统的详细信息。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度高，但可以添加更多关于多智能体系统的详细信息。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 14175.484872999732,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询 LoRA 微调的相关资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] 函数调用微调: 函数调用微调用工具 schema、用户请求和目标 JSON 训练模型。数据要覆盖多工具、缺参数、无需调用和未知工具等难例。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成其他子任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成其他子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 13369.677886000318,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "介绍 ReAct 方法",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct 方法"
+          },
+          "result": "[1] ReAct 方法: ReAct 交替进行推理和行动：模型先写出思考，再调用工具，根据观察继续下一步，直到给出答案。\n[2] Agent 记忆: Agent 记忆分为短期上下文和长期存储。短期记忆放当前对话，长期记忆通常用向量库或结构化数据库。\n[3] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct 方法\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度较高，但可以添加更多细节。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度较高，但可以添加更多细节。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 14848.483115999443,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查找关于 RAG 检索增强的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强"
+          },
+          "result": "[1] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。\n[2] BM25 检索: BM25 是经典的词频检索算法，按词项频率和文档长度归一化打分。它不需要训练，适合作为本地检索的基线。\n[3] 向量数据库: 向量数据库存储文本嵌入，支持近似最近邻检索。它常用于 RAG 的语义召回，也可以和 BM25 做混合检索。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续执行下一个子任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续执行下一个子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 15124.83741899996,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查 vLLM 推理",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[1] vLLM 推理: vLLM 是面向大模型的高吞吐推理引擎，使用 PagedAttention 管理 KV cache，并提供 OpenAI 兼容接口。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[3] ReAct 方法: ReAct 交替进行推理和行动：模型先写出思考，再调用工具，根据观察继续下一步，直到给出答案。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度较高，但可以进一步优化结果。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度较高，但可以进一步优化结果。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11296.830350000164,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "与用户打招呼",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好"
+          },
+          "result": "你好",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 13433.440555999368,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "回答问题",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我是多智能体系统中的执行者。"
+          },
+          "result": "我是多智能体系统中的执行者。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我是多智能体系统中的执行者。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12428.566992000015,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解并回答用户的问题",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我能回答问题，执行任务。"
+          },
+          "result": "我能回答问题，执行任务。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我能回答问题，执行任务。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10958.10977399924,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "表示感谢",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "感谢"
+          },
+          "result": "感谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"感谢\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 14327.119725000557,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "讲一个笑话",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。"
+          },
+          "result": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 31278.43511300034,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "在书目数据库中查找并推荐一本适合阅读的书",
+          "tool": "search",
+          "arguments": {
+            "query": "适合阅读"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[3] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"适合阅读\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果不完整，没有推荐具体的书名和作者。"
+        ],
+        "suggestion": "在搜索结果中找到合适的书名和作者。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果不完整，没有推荐具体的书名和作者。\"], \"suggestion\": \"在搜索结果中找到合适的书名和作者。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice",
+      "category": "multi",
+      "task": "先查北京今天天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 18373.58615499943,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据北京的天气建议穿衣",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary",
+      "category": "multi",
+      "task": "搜索 LangGraph，然后用三句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 20000.67293000029,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用三句话总结 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成其他任务。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成其他任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain",
+      "category": "multi",
+      "task": "计算 (23*17+9)/5，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 21801.482804999978,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 80。"
+          },
+          "result": "这个计算结果是 80。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 80。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare",
+      "category": "multi",
+      "task": "查北京和上海天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 3,
+      "latency_ms": 54224.64842199952,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询上海天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较北京和上海的温度",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "任务3的结果不正确。"
+        ],
+        "suggestion": "任务3应该比较北京和上海的温度。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"任务3的结果不正确。\"], \"suggestion\": \"任务3应该比较北京和上海的温度。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare",
+      "category": "multi",
+      "task": "搜索 LoRA 和 QLoRA，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 28648.90700000069,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LoRA 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 QLoRA 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          },
+          "result": "[1] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[2] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"QLoRA\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 LoRA 和 QLoRA 的区别",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc",
+      "category": "multi",
+      "task": "查北京天气，然后计算 23*17",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 19138.505779999832,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 23*17",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather",
+      "category": "multi",
+      "task": "搜索 LangGraph，再查北京天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 18813.671313999293,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 19406.916960999297,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有执行的任务。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已经完成一个查询任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22213.82729800007,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海当前的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的任务",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已完成第一个任务，但未完成第二个任务。",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度高，可以继续优化。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度高，可以继续优化。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20896.249768000416,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 先执行第一个子任务。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 任务已完成，下一步是检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20654.720016000283,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询深圳今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 先查询深圳今天的天气情况。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 先完成一个任务再做下一个。",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 48374.37800800035,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询杭州当前的气温",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为查询杭州现在的气温。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 暂无数据，先完成任务。",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的任务",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已执行第一个任务，但结果为暂无数据。",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果中没有提供实际的气温数据。"
+        ],
+        "suggestion": "在执行任务时，确保返回实际的气温数据。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果中没有提供实际的气温数据。\"], \"suggestion\": \"在执行任务时，确保返回实际的气温数据。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 48246.80063699998,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "调用 get_weather 函数，查询成都今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有完成的任务。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 暂无数据，先完成任务。",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务在第一个。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已完成第一个任务，但结果为假。",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果中没有提供成都今天的天气。"
+        ],
+        "suggestion": "在 get_weather 函数中添加成都今天的天气信息。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果中没有提供成都今天的天气。\"], \"suggestion\": \"在 get_weather 函数中添加成都今天的天气信息。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 23194.99580200045,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=review subtask=None 已经完成一个子任务，需要检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21900.46058400003,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 有未执行的任务。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=review subtask=None 已经完成了一个计算任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22762.820597999962,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 128/4+19",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4+19"
+          },
+          "result": "51.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4+19\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的第一个子任务。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor_error: ValueError: supervisor asked to execute with no subtasks left",
+        "supervisor: action=review subtask=None fallback: review completed plan",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21909.238946000187,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor_error: ValueError: supervisor asked to execute with no subtasks left",
+        "supervisor: action=review subtask=None fallback: review completed plan",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21720.87087699947,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 7*8+9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8+9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=review subtask=None 已执行第一个子任务，检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22140.769583999827,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 100-37+12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 有未执行的任务。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=review subtask=None 已经完成了一个计算任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21542.458688000806,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为搜索 LangGraph",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未完成的子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续执行下一个子任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续执行下一个子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 23457.55249099966,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解多智能体系统",
+          "tool": "search",
+          "arguments": {
+            "query": "多智能体系统"
+          },
+          "result": "[1] 多智能体系统: 多智能体系统让多个角色通过消息或共享状态协作。常见角色包括规划者、执行者和审查者，协作模式有串行、主管和辩论。\n[2] 提示工程: 提示工程通过系统提示、示例和输出约束引导模型。对工具调用来说，固定输出协议和少量示例通常最有效。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多智能体系统\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有完成的任务。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未完成的子任务。",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度高，但可以添加更多关于多智能体系统的详细信息。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度高，但可以添加更多关于多智能体系统的详细信息。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22130.69735800036,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询 LoRA 微调的相关资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] 函数调用微调: 函数调用微调用工具 schema、用户请求和目标 JSON 训练模型。数据要覆盖多工具、缺参数、无需调用和未知工具等难例。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有完成的任务。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未执行的任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成其他子任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成其他子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21784.544552000625,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "介绍 ReAct 方法",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct 方法"
+          },
+          "result": "[1] ReAct 方法: ReAct 交替进行推理和行动：模型先写出思考，再调用工具，根据观察继续下一步，直到给出答案。\n[2] Agent 记忆: Agent 记忆分为短期上下文和长期存储。短期记忆放当前对话，长期记忆通常用向量库或结构化数据库。\n[3] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct 方法\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未完成第一个子任务。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未完成的子任务。",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度较高，但可以添加更多细节。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度较高，但可以添加更多细节。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22173.658327999874,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查找关于 RAG 检索增强的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强"
+          },
+          "result": "[1] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。\n[2] BM25 检索: BM25 是经典的词频检索算法，按词项频率和文档长度归一化打分。它不需要训练，适合作为本地检索的基线。\n[3] 向量数据库: 向量数据库存储文本嵌入，支持近似最近邻检索。它常用于 RAG 的语义召回，也可以和 BM25 做混合检索。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的任务",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未执行的任务。",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续执行下一个子任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续执行下一个子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 23435.108186000434,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查 vLLM 推理",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[1] vLLM 推理: vLLM 是面向大模型的高吞吐推理引擎，使用 PagedAttention 管理 KV cache，并提供 OpenAI 兼容接口。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[3] ReAct 方法: ReAct 交替进行推理和行动：模型先写出思考，再调用工具，根据观察继续下一步，直到给出答案。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未执行的任务。",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度较高，但可以进一步优化结果。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度较高，但可以进一步优化结果。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20316.496876999736,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "与用户打招呼",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好"
+          },
+          "result": "你好",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 guard: unexecuted subtasks remain",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 已经完成第一个子任务，现在需要检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22434.3788340002,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "回答问题",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我是多智能体系统中的执行者。"
+          },
+          "result": "我是多智能体系统中的执行者。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我是多智能体系统中的执行者。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未完成第一个子任务。",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 已经完成第一个子任务，现在需要检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20736.958432999927,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解并回答用户的问题",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我能回答问题，执行任务。"
+          },
+          "result": "我能回答问题，执行任务。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我能回答问题，执行任务。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 有任务需要执行。",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 已执行第一个子任务，继续下一个。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20209.552904999327,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "表示感谢",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "感谢"
+          },
+          "result": "感谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"感谢\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务是第一个。",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 已经完成第一个子任务，现在需要检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 23134.37961999989,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "讲一个笑话",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。"
+          },
+          "result": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为第一个。",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 还有未执行的子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 47955.039598999974,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "在书目数据库中查找并推荐一本适合阅读的书",
+          "tool": "search",
+          "arguments": {
+            "query": "适合阅读"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[3] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"适合阅读\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为第一个，先执行。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未执行的任务。",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 尚未执行第一个子任务。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未执行的任务。",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果不完整，没有推荐具体的书名和作者。"
+        ],
+        "suggestion": "在搜索结果中找到合适的书名和作者。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果不完整，没有推荐具体的书名和作者。\"], \"suggestion\": \"在搜索结果中找到合适的书名和作者。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice",
+      "category": "multi",
+      "task": "先查北京今天天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 31609.113260000413,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据北京的天气建议穿衣",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 先查北京今天天气",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已完成第一个任务，现在完成第二个任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary",
+      "category": "multi",
+      "task": "搜索 LangGraph，然后用三句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 32815.79444900035,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用三句话总结 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为搜索 LangGraph",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> search error=None",
+        "supervisor: action=review subtask=None 所有子任务已完成。",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成其他任务。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成其他任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain",
+      "category": "multi",
+      "task": "计算 (23*17+9)/5，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 34808.01156100006,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 80。"
+          },
+          "result": "这个计算结果是 80。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 80。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务1尚未完成。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> final_answer error=None",
+        "supervisor: action=review subtask=None 还有未完成的子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare",
+      "category": "multi",
+      "task": "查北京和上海天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 3,
+      "latency_ms": 89206.01030599937,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询上海天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较北京和上海的温度",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "supervisor: action=execute subtask=1 先查询北京天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=2 已执行第一个任务，继续下一个。",
+        "executor: subtask 2 -> get_weather error=None",
+        "supervisor: action=execute subtask=3 guard: unexecuted subtasks remain",
+        "executor: subtask 3 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已完成第一个比较任务。",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 3 subtask(s)",
+        "supervisor: action=execute subtask=1 先查询北京天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> get_weather error=None",
+        "supervisor: action=execute subtask=3 guard: unexecuted subtasks remain",
+        "executor: subtask 3 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已完成第一个比较任务，现在完成第二个比较任务。",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "任务3的结果不正确。"
+        ],
+        "suggestion": "任务3应该比较北京和上海的温度。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"任务3的结果不正确。\"], \"suggestion\": \"任务3应该比较北京和上海的温度。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare",
+      "category": "multi",
+      "task": "搜索 LoRA 和 QLoRA，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 46912.79587400004,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LoRA 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 QLoRA 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          },
+          "result": "[1] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[2] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"QLoRA\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 LoRA 和 QLoRA 的区别",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "supervisor: action=execute subtask=1 第一个子任务未执行。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=execute subtask=1 已完成第一个搜索任务，继续下一个。",
+        "executor: subtask 2 -> search error=None",
+        "supervisor: action=execute subtask=3 guard: unexecuted subtasks remain",
+        "executor: subtask 3 -> search error=None",
+        "supervisor: action=review subtask=None 已完成所有计划中的子任务。",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc",
+      "category": "multi",
+      "task": "查北京天气，然后计算 23*17",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 33622.33740300053,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 23*17",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 先查北京天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=2 已执行第一个任务，现在进行第二个任务。",
+        "executor: subtask 2 -> calculator error=None",
+        "supervisor: action=review subtask=None Subtask 2 is done, but subtask 1 is still pending.",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather",
+      "category": "multi",
+      "task": "搜索 LangGraph，再查北京天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 34033.82249100014,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 第一个子任务未执行。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=execute subtask=1 已执行第一个子任务，继续下一个。",
+        "executor: subtask 2 -> get_weather error=None",
+        "supervisor: action=review subtask=None 已执行第 2 个子任务，等待第 1 个子任务的结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 5,
+      "latency_ms": 83708.02818299943,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "获取北京今天的天气数据。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "提取北京今天的温度范围。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "将北京今天的天气和温度范围整合。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 5,
+          "goal": "返回北京今天的天气和温度范围。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 provides a specific output with weather details, while Plan 1 is too vague. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers all necessary steps to get and return the weather and temperature range of Beijing today, while Plan 1 is too vague. -> 5 subtask(s)",
+        "executor: 5 result(s)",
+        "reviewer: pass=True score=0.9 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成度高，但可以进一步优化结果的格式。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成度高，但可以进一步优化结果的格式。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 57096.85443100079,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海当前天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 provides a specific output with a clear description of the weather, which is more complete and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=1 Plan 1 is simpler and covers all required actions (querying weather) without splitting the output into separate steps. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度高，可以提交。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度高，可以提交。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 24661.19416699985,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies the expected output as '广州的天气信息', which is more specific than just '广州的天气预报'. It also avoids merging two distinct tool calls into one query. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 2,
+      "latency_ms": 63684.37321999954,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询天气预报，获取深圳今天的天气情况。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据查询到的天气情况，判断是否需要带伞。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 explicitly includes the action of determining if it's necessary to bring an umbrella. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers the task with a single query and a single action, while Plan 1 merges the two steps into one. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.9 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成度较高，但可以进一步优化代码以减少重复调用。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成度较高，但可以进一步优化代码以减少重复调用。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 49051.2440399998,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询当前杭州的气温。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies the expected output more clearly and concisely. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 specifies the expected output clearly, which is more specific and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "任务未完成，没有获取到杭州的气温。"
+        ],
+        "suggestion": "重新执行任务，检查网络请求和返回值。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"任务未完成，没有获取到杭州的气温。\"], \"suggestion\": \"重新执行任务，检查网络请求和返回值。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 50171.45236200031,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询成都今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies the expected output format, which is more specific and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=1 Plan 1 specifies the expected output as a single sentence, which is more specific than Plan 2. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果中没有提供成都今天的天气信息。"
+        ],
+        "suggestion": "在 get_weather 函数中，需要返回成都今天的天气信息。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果中没有提供成都今天的天气信息。\"], \"suggestion\": \"在 get_weather 函数中，需要返回成都今天的天气信息。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 59931.46697300017,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies the expected output as a concrete number, which makes it more executable and less ambiguous. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 executes the calculation directly, while Plan 1 adds an extra step to check the result which is not necessary. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果为80.0，但原任务要求输出为10。"
+        ],
+        "suggestion": "检查计算公式。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果为80.0，但原任务要求输出为10。\"], \"suggestion\": \"检查计算公式。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 28378.869104999467,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 57*46-12 的结果",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers the calculation of 57*46-12 and provides an expected output, which makes it more executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成，但结果为2610，原任务要求为2602。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成，但结果为2610，原任务要求为2602。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 25469.498169999497,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算给定的算术表达式，即 128 / 4 + 19 的结果。",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4+19"
+          },
+          "result": "51.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4+19\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers the calculation of the arithmetic expression and provides an expected output. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 53983.08012900088,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers the calculation of (45+55)*3 exactly once, while Plan 1 merges the calculation into a single step without specifying the output. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 explicitly calculates the expression, while Plan 1 just checks the formula without performing the calculation. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "预期输出是 180，但实际结果是 300。"
+        ],
+        "suggestion": "检查计算公式。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"预期输出是 180，但实际结果是 300。\"], \"suggestion\": \"检查计算公式。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21432.881337000254,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 7*8+9 的结果",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8+9\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies the exact output, which makes it more executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 58651.2037980001,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 100 - 37 + 12 的结果。",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies the exact calculation and expected output, while Plan 1 is too vague. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers the calculation process and the expected output, while Plan 1 adds an extra step of checking the process which is not necessary. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "计算结果为75，而不是65。"
+        ],
+        "suggestion": "重新计算。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"计算结果为75，而不是65。\"], \"suggestion\": \"重新计算。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22402.32327600006,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies a single goal and expected output, which is more focused and executable than Plan 2. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续执行下一个子任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续执行下一个子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22862.505159000648,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解多智能体系统",
+          "tool": "search",
+          "arguments": {
+            "query": "多智能体系统"
+          },
+          "result": "[1] 多智能体系统: 多智能体系统让多个角色通过消息或共享状态协作。常见角色包括规划者、执行者和审查者，协作模式有串行、主管和辩论。\n[2] 提示工程: 提示工程通过系统提示、示例和输出约束引导模型。对工具调用来说，固定输出协议和少量示例通常最有效。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多智能体系统\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 covers the goal of understanding multi-agent systems with a single step. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度高，但可以添加更多关于多智能体系统的详细信息。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度高，但可以添加更多关于多智能体系统的详细信息。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 26662.472618999345,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询 LoRA 微调的相关信息",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] 函数调用微调: 函数调用微调用工具 schema、用户请求和目标 JSON 训练模型。数据要覆盖多工具、缺参数、无需调用和未知工具等难例。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 provides a more detailed output, covering the definition, application, and implementation methods of LoRA微调。 -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续查询其他相关文献。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续查询其他相关文献。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21169.11830800018,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "介绍 ReAct 方法",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct 方法"
+          },
+          "result": "[1] ReAct 方法: ReAct 交替进行推理和行动：模型先写出思考，再调用工具，根据观察继续下一步，直到给出答案。\n[2] Agent 记忆: Agent 记忆分为短期上下文和长期存储。短期记忆放当前对话，长期记忆通常用向量库或结构化数据库。\n[3] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct 方法\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 covers the task of introducing ReAct 方法 with a single step. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度较高，但可以添加更多细节。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度较高，但可以添加更多细节。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 26783.83025600033,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查找关于 RAG 检索增强的相关资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强"
+          },
+          "result": "[1] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。\n[2] BM25 检索: BM25 是经典的词频检索算法，按词项频率和文档长度归一化打分。它不需要训练，适合作为本地检索的基线。\n[3] 向量数据库: 向量数据库存储文本嵌入，支持近似最近邻检索。它常用于 RAG 的语义召回，也可以和 BM25 做混合检索。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2's goal is more specific and clear, and it includes the expected output which is more informative. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续执行下一个子任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续执行下一个子任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 28726.06431299937,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查一下 vLLM 推理",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[1] vLLM 推理: vLLM 是面向大模型的高吞吐推理引擎，使用 PagedAttention 管理 KV cache，并提供 OpenAI 兼容接口。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[3] ReAct 方法: ReAct 交替进行推理和行动：模型先写出思考，再调用工具，根据观察继续下一步，直到给出答案。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies the expected output to include 'vLLM 推理的相关信息', which is more comprehensive than just 'vLLM 推理'. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "任务完成度较高，但可以进一步筛选出与推理相关的部分。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"任务完成度较高，但可以进一步筛选出与推理相关的部分。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 19915.765674000795,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "与用户打招呼",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好"
+          },
+          "result": "你好",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies a clear goal and expected output, while Plan 2 has an incomplete goal and expected output. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 24257.683461000852,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "回答问题",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我是多智能体系统中的执行者。"
+          },
+          "result": "我是多智能体系统中的执行者。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我是多智能体系统中的执行者。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 covers the task of identifying the identity, while Plan 2 just asks for an expected output without specifying the goal. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22460.84196800075,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解并回答用户的问题",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我能回答问题，执行任务。"
+          },
+          "result": "我能回答问题，执行任务。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我能回答问题，执行任务。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 covers the task of understanding and answering user questions, which is more aligned with the task description. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 19154.280312999617,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "表示感谢",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "感谢"
+          },
+          "result": "感谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"感谢\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies a clear goal and expected output, while Plan 2 lacks details. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 24289.503816000433,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "讲一个笑话",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。"
+          },
+          "result": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 has the same goal and expected output as Plan 2, but it's redundant to have the same plan twice. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 3,
+      "latency_ms": 87938.25489600022,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "收集关于书的信息，包括作者、出版社和简介。",
+          "tool": "search",
+          "arguments": {
+            "query": "书"
+          },
+          "result": "没有找到与“书”相关的本地文档。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"书\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据收集的信息，筛选出适合推荐的一本书。",
+          "tool": "search",
+          "arguments": {
+            "query": "书"
+          },
+          "result": "没有找到与“书”相关的本地文档。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"书\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "将推荐的书详细描述给用户。",
+          "tool": "search",
+          "arguments": {
+            "query": "书"
+          },
+          "result": "没有找到与“书”相关的本地文档。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"书\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 is more general and can recommend any book, while Plan 2 narrows down to a specific type of book. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers all necessary steps: collecting information, filtering suitable books, and providing detailed descriptions. Plan 1 merges these steps into a single step which is less clear and executable. -> 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "{'subtask_id': 1, 'goal': '收集关于书的信息，包括作者、出版社和简介。', 'error': '没有找到与“书”相关的本地文档。'}",
+          "{'subtask_id': 2, 'goal': '根据收集的信息，筛选出适合推荐的一本书。', 'error': '没有找到与“书”相关的本地文档。'}",
+          "{'subtask_id': 3, 'goal': '将推荐的书详细描述给用户。', 'error': '没有找到与“书”相关的本地文档。'}"
+        ],
+        "suggestion": "重新搜索，确保找到合适的书籍。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [{\"subtask_id\": 1, \"goal\": \"收集关于书的信息，包括作者、出版社和简介。\", \"error\": \"没有找到与“书”相关的本地文档。\"}, {\"subtask_id\": 2, \"goal\": \"根据收集的信息，筛选出适合推荐的一本书。\", \"error\": \"没有找到与“书”相关的本地文档。\"}, {\"subtask_id\": 3, \"subtask_id\": 3, \"goal\": \"将推荐的书详细描述给用户。\", \"error\": \"没有找到与“书”相关的本地文档。\"}], \"suggestion\": \"重新搜索，确保找到合适的书籍。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice",
+      "category": "multi",
+      "task": "先查北京今天天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 31136.724904001312,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查北京今天天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据温度建议穿衣",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers both tasks with distinct queries, while Plan 1 merges them. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary",
+      "category": "multi",
+      "task": "搜索 LangGraph，然后用三句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 34521.67043699956,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "用三句话总结搜索结果",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 ensures that the search and summary steps are performed separately, which is more modular and thus more complete and executable. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成其他任务。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成其他任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain",
+      "category": "multi",
+      "task": "计算 (23*17+9)/5，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 29177.633031998994,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算表达式 (23*17+9)/5 的值",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers the calculation and provides the expected output, while Plan 1 requires an additional step to explain the result. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare",
+      "category": "multi",
+      "task": "查北京和上海天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 153019.36157099955,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查北京和上海天气，比较温度",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 ensures each city's weather is queried separately and the temperature comparison is a distinct step. -> 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers all goals with a single query and comparison, while Plan 1 splits them into separate steps. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "继续执行上海的天气查询。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"继续执行上海的天气查询。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare",
+      "category": "multi",
+      "task": "搜索 LoRA 和 QLoRA，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 35572.54585900046,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LoRA 和 QLoRA，比较区别",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA QLoRA"
+          },
+          "result": "[1] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[2] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA QLoRA\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers all goals with a single query and comparison, making it more complete and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成对 LoRA 和 QLoRA 的搜索。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成对 LoRA 和 QLoRA 的搜索。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc",
+      "category": "multi",
+      "task": "查北京天气，然后计算 23*17",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 31253.442589999395,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 23*17",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 executes both tasks without merging them. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather",
+      "category": "multi",
+      "task": "搜索 LangGraph，再查北京天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 31582.420704999095,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 ensures each goal is executed separately, which is more modular and thus more complete. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续下一个任务。\"}"
+      },
+      "run_error": null
+    }
+  ]
+}
