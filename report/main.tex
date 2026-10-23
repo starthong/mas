@@ -487,10 +487,10 @@ base Reviewer 后，LoRA Planner 下只有 51.6\%，base Planner 下为
 这个限制，不能把结果外推到开放域任务。
 
 第五，缺少约束解码基线。本文只比较了 base 和 LoRA 的自由生成，
-没有做 JSON mode、grammar-constrained decoding 或 LoRA + 约束解码
-的对照，因此不能把格式收益完全归因于微调；也没有统计 token 成本和
-P95 延迟，只有平均延迟。后续应在 vLLM 上接入 guided decoding，并把
-格式约束、微调和任务成功分开评估。
+没有做 base + few-shot、JSON mode、grammar-constrained decoding 或
+LoRA + 约束解码的对照，因此不能把格式收益完全归因于微调；也没有
+统计 token 成本和 P95 延迟，只有平均延迟。后续应在 vLLM 上接入
+guided decoding，并把格式约束、微调和任务成功分开评估。
 
 \section{结论}
 本文搭建了一个基于 LangGraph 的三角色多智能体系统，构造了工具调用
