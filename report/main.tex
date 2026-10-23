@@ -145,6 +145,10 @@ paged AdamW。T4 不支持 bf16，因此使用 fp16。
 开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码；
 训练在 Kaggle 的 Linux 容器中完成，GPU 为 Tesla T4 16GB。
 基座模型为 Qwen2.5-3B-Instruct，LoRA adapter 文件大小约 114MB。
+推理使用 transformers + PEFT 的 4-bit 加载，没有使用 vLLM：当前
+任务是串行依赖调用，vLLM 的 continuous batching 主要提高独立请求的
+吞吐，不能直接降低单个任务的端到端延迟；同时 adapter 兼容和部署
+风险高于当前 31 条任务规模带来的收益。
 
 \subsection{任务与指标}
 格式评测使用 41 条简单样本和 57 条难例，指标包括 JSON 可解析率、
