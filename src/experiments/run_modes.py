@@ -74,6 +74,8 @@ def run_sequential(
     planner_client: Any = None,
     reviewer_client: Any = None,
     enable_reviewer: bool = True,
+    mode: str = "sequential",
+    planner_few_shot: bool = False,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     graph = build_graph(
         client,
@@ -83,6 +85,8 @@ def run_sequential(
         planner_client=planner_client,
         reviewer_client=reviewer_client,
         enable_reviewer=enable_reviewer,
+        mode=mode,
+        planner_few_shot=planner_few_shot,
     )
     state = graph.invoke(
         {
@@ -91,6 +95,7 @@ def run_sequential(
             "results": [],
             "review": {},
             "rounds": 0,
+            "cursor": 0,
             "trace": [],
         }
     )
@@ -101,6 +106,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--tasks", default="data/system_tasks.jsonl")
     parser.add_argument("--modes", default="single,sequential")
+    parser.add_argument("--categories", default=None)
+    parser.add_argument("--planner-examples", action="store_true")
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--temperatures", default="0")
     parser.add_argument("--backend", choices=["openai", "hf"], default="hf")
@@ -130,6 +137,11 @@ def main() -> int:
     tasks = load_tasks(Path(args.tasks))
     if args.limit:
         tasks = tasks[: args.limit]
+    categories = {
+        item.strip() for item in (args.categories or "").split(",") if item.strip()
+    }
+    if categories:
+        tasks = [task for task in tasks if task.get("category") in categories]
     modes = [item.strip() for item in args.modes.split(",") if item.strip()]
     temperatures = [float(item) for item in args.temperatures.split(",") if item.strip()]
 
@@ -185,7 +197,7 @@ def main() -> int:
                             results, state = run_single(
                                 client, registry, task, temperature
                             )
-                        elif mode == "sequential":
+                        elif mode in ("sequential", "supervisor", "debate"):
                             results, state = run_sequential(
                                 client,
                                 registry,
@@ -194,6 +206,8 @@ def main() -> int:
                                 planner_client=planner_client,
                                 reviewer_client=reviewer_client,
                                 enable_reviewer=enable_reviewer,
+                                mode=mode,
+                                planner_few_shot=args.planner_examples,
                             )
                         else:
                             raise SystemExit(f"unknown mode: {mode}")

@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from src.llm.parsing import parse_json_loose
-from src.llm.prompts import PLANNER_SYSTEM
+from src.llm.prompts import PLANNER_SYSTEM, PLANNER_SYSTEM_FEWSHOT
 
 if TYPE_CHECKING:
     from src.llm.client import LLMClient
@@ -12,9 +12,18 @@ if TYPE_CHECKING:
 class Planner:
     """Decompose a task into ordered subtasks."""
 
-    def __init__(self, client: LLMClient, temperature: float = 0.0) -> None:
+    def __init__(
+        self,
+        client: LLMClient,
+        temperature: float = 0.0,
+        few_shot: bool = False,
+        system_prompt: str | None = None,
+    ) -> None:
         self.client = client
         self.temperature = temperature
+        self.system_prompt = system_prompt or (
+            PLANNER_SYSTEM_FEWSHOT if few_shot else PLANNER_SYSTEM
+        )
         self.last_error: str | None = None
 
     def plan(self, task: str, critique: str = "") -> list[dict[str, Any]]:
@@ -26,7 +35,7 @@ class Planner:
 
         raw = self.client.chat(
             [
-                {"role": "system", "content": PLANNER_SYSTEM},
+                {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": user},
             ],
             temperature=self.temperature,
