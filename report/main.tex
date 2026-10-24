@@ -226,7 +226,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     >=Latex
   ]
     % sequential
-    \node[font=\bfseries, anchor=west] at (-3.4,0) {Sequential};
+    \node[font=\bfseries, anchor=east] at (-0.4,0) {Sequential};
     \node[box] (p1) at (0,0) {Planner};
     \node[box] (e1) at (2.6,0) {Executor};
     \node[box] (r1) at (5.2,0) {Reviewer};
@@ -235,7 +235,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     \draw[->] (r1.north) -- ++(0,0.55) -| node[pos=0.25, above, font=\scriptsize] {不通过} (p1.north);
 
     % supervisor
-    \node[font=\bfseries, anchor=west] at (-3.4,-2.2) {Supervisor};
+    \node[font=\bfseries, anchor=east] at (-0.4,-2.2) {Supervisor};
     \node[box] (p2) at (0,-2.2) {Planner};
     \node[box] (s2) at (2.6,-2.2) {Supervisor};
     \node[box] (e2) at (5.2,-2.2) {Executor};
@@ -246,7 +246,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     \draw[->] (s2) -- (r2);
 
     % debate
-    \node[font=\bfseries, anchor=west] at (-3.4,-5.1) {Debate};
+    \node[font=\bfseries, anchor=east] at (-0.4,-5.1) {Debate};
     \node[box] (pa) at (0,-4.7) {Planner A};
     \node[box] (pb) at (0,-5.6) {Planner B};
     \node[box] (j) at (2.6,-5.15) {Judge};
@@ -287,6 +287,22 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
 
 \clearpage
 \section{工具调用数据与微调}\label{sec:data}
+\subsection{原生模型的缺陷与微调动机}
+基座模型具备通用世界知识，但直接作为多智能体中的执行节点时，仍有四类
+缺陷。第一，任务专一性弱：通用模型不一定理解垂直领域的参数约定和业务
+边界。第二，指令遵循与协作规范不足：角色切换时容易越界回答，Planner
+可能拒绝拆解，Reviewer 可能直接给出答案。第三，输出冗余：模型倾向于
+先解释再给 JSON，或用 Markdown 包裹，增加上下游解析负担。第四，工具
+调用格式易错：面对必填字段、枚举值和类型约束时，漏括号、漏逗号、参数
+名不一致都很常见。
+
+单 Agent 场景下，这些错误还可以人工兜底；在 MAS 的自动链路中，一次
+格式错误就会让后续角色拿到无效输入，错误被放大。本文用 QLoRA 做轻量
+对齐，目标不是让 3B 模型获得新的世界知识，而是让它稳定遵守工具调用
+协议，为后面的拓扑比较提供一个可预测的 Executor。需要强调的是，格式
+对齐不等于规划和审查能力，这也是后文把格式、工具选择和任务完成分开
+评测的原因。
+
 \subsection{数据构造}
 训练集包含 750 条样本，简单测试集包含 41 条样本，难例测试集包含 57 条样本，
 覆盖天气查询、四则运算、本地检索和无需工具的直接回答四类场景。每条样本由
@@ -552,10 +568,11 @@ schema 差异只有 0--1 条，McNemar 检验的 p 值为 1.0，不能称显著�
       symbolic x coords={hard,ood},
       xtick={hard,ood},
       xticklabels={hard schema, OOD name},
+      enlarge x limits=0.25,
       legend style={at={(0.5,-0.22)}, anchor=north, legend columns=-1},
       nodes near coords,
-      nodes near coords style={font=\scriptsize},
-      bar width=14pt,
+      nodes near coords style={font=\tiny},
+      bar width=24pt,
     ]
       \addplot coordinates {(hard,0.947) (ood,0.825)};
       \addplot coordinates {(hard,0.982) (ood,0.900)};
