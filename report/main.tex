@@ -36,13 +36,14 @@ Qwen2.5-3B-Instruct 进行轻量微调；最后在同一任务与工具集上比
 串行、主管和辩论四种拓扑。
 初步实验显示，41 条简单格式测试已经饱和，LoRA 主要改善参数匹配；
 在 57 条难例上，LoRA 的 schema 合规率为 98.2\%，base 在温度 0 和
-0.7 下分别为 94.7\% 和 91.2\%。在 40 条未见工具 OOD 上，LoRA 的
-工具名准确率为 90.0\%，base 为 82.5\%，但自由文本参数会让 exact
-match 偏低。在 31 条系统任务（含 7 条多步任务）上，基座模型的串行
-成功率从单 Agent 的 67.7\% 降到 51.6\%；LoRA 的 few-shot 串行为
-83.9\%，主管拓扑成功率相同但延迟增加约 64\%，辩论拓扑降到 80.6\%。
-温度 0.7 下 JSON 和 schema 仍是 100\%，但任务成功率降到 74.2\%，
-格式稳定并不等于计划稳定。
+0.7 下分别为 94.7\% 和 91.2\%。base + few-shot 能把 hard schema 提到
+96.5\%，但工具名仍只有 82.5\%，低于 LoRA 的 91.2\%，说明收益不只是
+prompt 示例。在 40 条未见工具 OOD 上，LoRA 的工具名准确率为 90.0\%，
+base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系统
+任务（含 7 条多步任务）上，基座模型的串行成功率从单 Agent 的 67.7\%
+降到 51.6\%；LoRA 的 few-shot 串行为 83.9\%，主管拓扑成功率相同但
+延迟增加约 64\%，辩论拓扑降到 80.6\%。温度 0.7 下 JSON 和 schema
+仍是 100\%，但任务成功率降到 74.2\%，格式稳定并不等于计划稳定。
 \end{abstract}
 
 \section{引言}
@@ -392,6 +393,37 @@ schema 差异只有 0--1 条，McNemar 检验的 p 值为 1.0，不能称显著�
   \label{fig:format}
 \end{figure}
 
+\subsection{base + few-shot 基线}
+为了区分“LoRA 的提升”与“只是 prompt 里多了示例”，给 base 模型加入
+3 个 few-shot 示例，重新跑 hard 和 OOD。表~\ref{tab:fewshot} 对比
+zero-shot base、few-shot base 和 zero-shot LoRA。
+
+\begin{table}[htbp]
+  \centering
+  \caption{base + few-shot 与 LoRA 的格式对比（温度 0）}
+  \label{tab:fewshot}
+  \begin{tabular}{lccccc}
+    \toprule
+    配置 & hard Schema & hard 工具名 & hard 参数 & OOD 工具名 & OOD 参数 \\
+    \midrule
+    base zero-shot & 0.947 & 0.860 & 0.614 & 0.825 & 0.625 \\
+    base few-shot & 0.965 & 0.825 & 0.667 & 0.850 & 0.750 \\
+    LoRA zero-shot & 0.982 & 0.912 & 0.702 & 0.900 & 0.575 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+few-shot 确实缩小了格式差距：hard 的 schema 从 94.7\% 提到 96.5\%，
+OOD 的参数匹配从 62.5\% 提到 75.0\%。但 hard 的工具名从 86.0\% 降到
+82.5\%，说明示例改变了输出分布，并没有稳定提升工具选择；OOD 工具名
+只从 82.5\% 提到 85.0\%。
+
+LoRA 仍然领先：hard 工具名 91.2\% 对 82.5\%，OOD 工具名 90.0\% 对
+85.0\%；schema 也保持在 98.2\%。OOD 的原始参数匹配看起来 LoRA 更低，
+但把语言代码和股票别名归一化后，LoRA 是 32/32，base few-shot 是
+31/32，差异只有一条。因此 LoRA 的收益不能简单归因于“多了几个示例”；
+它主要改善的是工具名选择和格式稳定性。
+
 \subsection{多智能体任务}
 表~\ref{tab:modes} 给出 31 条任务各执行一次的结果。任务集包含 24 条单步任务
 和 7 条多步任务，single 模式只能调用一次工具，因此多步任务在 single 下
@@ -625,11 +657,11 @@ base Reviewer 后，LoRA Planner 下只有 51.6\%，base Planner 下为
 文档的本地关键词检索，不能代表真实信息检索。系统成功率的解释要受
 这个限制，不能把结果外推到开放域任务。
 
-第五，缺少约束解码基线。本文只比较了 base 和 LoRA 的自由生成，
-没有做 base + few-shot、JSON mode、grammar-constrained decoding 或
-LoRA + 约束解码的对照，因此不能把格式收益完全归因于微调；也没有
-统计 token 成本和 P95 延迟，只有平均延迟。后续应在 vLLM 上接入
-guided decoding，并把格式约束、微调和任务成功分开评估。
+第五，缺少约束解码基线。本文比较了 base zero-shot、base + few-shot 和
+LoRA，但没有做 JSON mode、grammar-constrained decoding 或 LoRA + 约束
+解码的对照，因此不能把格式收益完全归因于微调。token 成本和 P95 延迟
+只在部分新实验中采集，早期稳定性结果没有逐样本 token 数；后续应在
+vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分开评估。
 
 \section{结论}
 本文搭建了一个基于 LangGraph 的三角色多智能体系统，构造了工具调用
@@ -641,8 +673,13 @@ guided decoding，并把格式约束、微调和任务成功分开评估。
 参数完全匹配率在温度 0 下从 61.4\% 提升到 70.2\%。在 40 条未见工具
 OOD 上，LoRA 的工具名准确率为 90.0\%，base 为 82.5\%，schema 为 100\%；
 但自由文本参数让 exact match 不适合直接比较。把语言代码和股票别名
-归一化后，四个配置在非 final_answer 样本上的参数匹配都是 32/32，
-OOD 上并没有 LoRA 参数更准的证据；LoRA 的收益只在工具名选择。
+归一化后，zero-shot 的四个配置在非 final_answer 样本上的参数匹配都是
+32/32；base + few-shot 是 31/32，OOD 上并没有 LoRA 参数更准的证据；
+LoRA 的收益主要在工具名选择。
+
+base + few-shot 能把 hard schema 从 94.7\% 提到 96.5\%，但工具名只有
+82.5\%，仍低于 LoRA 的 91.2\%；OOD 工具名是 85.0\% 对 90.0\%。这排除了
+“LoRA 只是多了几个 prompt 示例”的解释。
 
 在系统层面，基座模型在单 Agent 下还有 67.7\% 的任务成功率，但放进
 Planner/Executor/Reviewer 串行流程后降到 51.6\%，同时出现 3 次工具
