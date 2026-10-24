@@ -1,0 +1,1094 @@
+{
+  "summary": {
+    "model": "/kaggle/working/output/seeds/v2-seed43",
+    "backend": "hf",
+    "registry": "ood",
+    "data": "data/test/toolcall_ood.jsonl",
+    "n": 40,
+    "json_parse_rate": 1.0,
+    "schema_rate": 0.975,
+    "schema_rate_ci95": [
+      0.8711834051199223,
+      0.9955732825922052
+    ],
+    "name_accuracy": 0.875,
+    "exact_match_rate": 0.6,
+    "format_error_counts": {
+      "ok": 40
+    },
+    "avg_latency_ms": 4075.108195949815,
+    "p95_latency_ms": 5237.136698999166,
+    "avg_prompt_tokens": 583.6,
+    "avg_completion_tokens": 26.725,
+    "avg_llm_calls": 1.0
+  },
+  "records": [
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 100, \"from_currency\": \"USD\", \"to_currency\": \"CNY\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 100,
+          "from_currency": "USD",
+          "to_currency": "CNY"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 100,
+          "from_currency": "USD",
+          "to_currency": "CNY"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 5554.570062999119,
+      "prompt_tokens": 586,
+      "completion_tokens": 34,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 500, \"from_currency\": \"CNY\", \"to_currency\": \"USD\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 500,
+          "from_currency": "CNY",
+          "to_currency": "USD"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 500,
+          "from_currency": "CNY",
+          "to_currency": "USD"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 5060.25183499878,
+      "prompt_tokens": 585,
+      "completion_tokens": 34,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 50, \"from_currency\": \"EUR\", \"to_currency\": \"JPY\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 50,
+          "from_currency": "EUR",
+          "to_currency": "JPY"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 50,
+          "from_currency": "EUR",
+          "to_currency": "JPY"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4873.715390000143,
+      "prompt_tokens": 586,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 1000, \"from_currency\": \"JPY\", \"to_currency\": \"CNY\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 1000,
+          "from_currency": "JPY",
+          "to_currency": "CNY"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 1000,
+          "from_currency": "JPY",
+          "to_currency": "CNY"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 5445.704525998735,
+      "prompt_tokens": 583,
+      "completion_tokens": 36,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 20, \"from_currency\": \"GBP\", \"to_currency\": \"USD\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 20,
+          "from_currency": "GBP",
+          "to_currency": "USD"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 20,
+          "from_currency": "GBP",
+          "to_currency": "USD"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4774.904403000619,
+      "prompt_tokens": 585,
+      "completion_tokens": 32,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 300, \"from_currency\": \"USD\", \"to_currency\": \"EUR\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 300,
+          "from_currency": "USD",
+          "to_currency": "EUR"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 300,
+          "from_currency": "USD",
+          "to_currency": "EUR"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4924.893102999704,
+      "prompt_tokens": 584,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 100, \"from_currency\": \"HKD\", \"to_currency\": \"CNY\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 100,
+          "from_currency": "HKD",
+          "to_currency": "CNY"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 100,
+          "from_currency": "HKD",
+          "to_currency": "CNY"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 5237.136698999166,
+      "prompt_tokens": 583,
+      "completion_tokens": 35,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 50, \"from_currency\": \"AUD\", \"to_currency\": \"USD\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 50,
+          "from_currency": "AUD",
+          "to_currency": "USD"
+        }
+      },
+      "ref": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 50,
+          "from_currency": "AUD",
+          "to_currency": "USD"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4827.487720000136,
+      "prompt_tokens": 583,
+      "completion_tokens": 32,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-10-26\", \"days\": 7}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-10-26",
+          "days": 7
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-10-26",
+          "days": 7
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4773.329623998507,
+      "prompt_tokens": 593,
+      "completion_tokens": 32,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-01-01\", \"days\": 30}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-01-01",
+          "days": 30
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-01-01",
+          "days": 30
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4987.16088600122,
+      "prompt_tokens": 591,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-12-31\", \"days\": 1}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-12-31",
+          "days": 1
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-12-31",
+          "days": 1
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4775.456187999225,
+      "prompt_tokens": 592,
+      "completion_tokens": 32,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-03-01\", \"days\": -10}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-03-01",
+          "days": -10
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-03-01",
+          "days": -10
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4932.35761699907,
+      "prompt_tokens": 592,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-05-20\", \"days\": 100}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-05-20",
+          "days": 100
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-05-20",
+          "days": 100
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 5105.291283000042,
+      "prompt_tokens": 592,
+      "completion_tokens": 34,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-10-01\", \"days\": 14}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-10-01",
+          "days": 14
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-10-01",
+          "days": 14
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 5042.837359000259,
+      "prompt_tokens": 593,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-02-28\", \"days\": 1}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-02-28",
+          "days": 1
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-02-28",
+          "days": 1
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4828.779180999845,
+      "prompt_tokens": 590,
+      "completion_tokens": 32,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calendar_add\", \"arguments\": {\"date\": \"2026-07-15\", \"days\": -30}}",
+      "pred": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-07-15",
+          "days": -30
+        }
+      },
+      "ref": {
+        "name": "calendar_add",
+        "arguments": {
+          "date": "2026-07-15",
+          "days": -30
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4988.304778999009,
+      "prompt_tokens": 592,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"你好\", \"target_language\": \"en\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "你好",
+          "target_language": "en"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "你好",
+          "target_language": "English"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3474.920046999614,
+      "prompt_tokens": 582,
+      "completion_tokens": 23,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"good morning\", \"target_language\": \"zh\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "good morning",
+          "target_language": "zh"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "good morning",
+          "target_language": "Chinese"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3623.5704660011834,
+      "prompt_tokens": 583,
+      "completion_tokens": 24,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"谢谢\", \"target_language\": \"ja\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "谢谢",
+          "target_language": "ja"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "谢谢",
+          "target_language": "Japanese"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3546.1768160002975,
+      "prompt_tokens": 583,
+      "completion_tokens": 23,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"多智能体系统\", \"target_language\": \"英语\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "多智能体系统",
+          "target_language": "英语"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "多智能体系统",
+          "target_language": "English"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3959.58703100041,
+      "prompt_tokens": 585,
+      "completion_tokens": 26,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"模型微调\", \"target_language\": \"fr\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "模型微调",
+          "target_language": "fr"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "模型微调",
+          "target_language": "French"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3847.144348999791,
+      "prompt_tokens": 585,
+      "completion_tokens": 25,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"hello world\", \"target_language\": \"zh\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "hello world",
+          "target_language": "zh"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "hello world",
+          "target_language": "Chinese"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3628.139921998809,
+      "prompt_tokens": 583,
+      "completion_tokens": 24,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"再见\", \"target_language\": \"韩文\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "再见",
+          "target_language": "韩文"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "再见",
+          "target_language": "Korean"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3593.8115089993516,
+      "prompt_tokens": 583,
+      "completion_tokens": 24,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"工具调用\", \"target_language\": \"英语\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "工具调用",
+          "target_language": "英语"
+        }
+      },
+      "ref": {
+        "name": "translate",
+        "arguments": {
+          "text": "工具调用",
+          "target_language": "English"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3863.2790350002324,
+      "prompt_tokens": 584,
+      "completion_tokens": 25,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"AAPL\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "AAPL"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "AAPL"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2983.065981999971,
+      "prompt_tokens": 581,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"腾讯控股\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "腾讯控股"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "0700.HK"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2959.7760060005385,
+      "prompt_tokens": 580,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"MSFT\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "MSFT"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "MSFT"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3014.159137999741,
+      "prompt_tokens": 581,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"TSLA\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "TSLA"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "TSLA"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3112.684437999633,
+      "prompt_tokens": 578,
+      "completion_tokens": 20,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"BABA\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "BABA"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "BABA"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2978.659926000546,
+      "prompt_tokens": 578,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"GOOGL\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "GOOGL"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "GOOGL"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3138.7127509988204,
+      "prompt_tokens": 583,
+      "completion_tokens": 20,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"AMZN\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "AMZN"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "AMZN"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3013.563881000664,
+      "prompt_tokens": 577,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"NVDA\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "NVDA"
+        }
+      },
+      "ref": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "NVDA"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2868.7963469983515,
+      "prompt_tokens": 580,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"currency_convert\", \"arguments\": {\"amount\": 100, \"from_currency\": \"USD\", \"to_currency\": \"EUR\"}}",
+      "pred": {
+        "name": "currency_convert",
+        "arguments": {
+          "amount": 100,
+          "from_currency": "USD",
+          "to_currency": "EUR"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请提供金额、源货币和目标货币。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 5138.599402000182,
+      "prompt_tokens": 579,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"AAPL\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "AAPL"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "你是指苹果公司股票还是水果？请提供股票代码。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3037.8257320007833,
+      "prompt_tokens": 578,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"flight_book\", \"arguments\": {\"destination\": \"北京\"}}",
+      "pred": {
+        "name": "flight_book",
+        "arguments": {
+          "destination": "北京"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "当前没有订票工具，无法完成。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2676.8584759993246,
+      "prompt_tokens": 582,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"把这句话翻译一下\", \"target_language\": \"en\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "把这句话翻译一下",
+          "target_language": "en"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请提供要翻译的文本和目标语言。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3904.910686000221,
+      "prompt_tokens": 579,
+      "completion_tokens": 26,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_stock_price\", \"arguments\": {\"symbol\": \"AAPL\"}}",
+      "pred": {
+        "name": "get_stock_price",
+        "arguments": {
+          "symbol": "AAPL"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请提供具体的股票代码。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2943.8819019997027,
+      "prompt_tokens": 578,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"等你把任务拆小了再做。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "等你把任务拆小了再做。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请提供要计算的表达式。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3931.596387999889,
+      "prompt_tokens": 578,
+      "completion_tokens": 26,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好，有什么可以帮你？\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "你好，有什么可以帮你？"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "你好，有什么可以帮你？"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3449.9246070008667,
+      "prompt_tokens": 576,
+      "completion_tokens": 22,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我可以拆解任务、调用工具并检查结果。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "我可以拆解任务、调用工具并检查结果。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "我可以做货币换算、日期计算、翻译和股票查询。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 4182.502345000103,
+      "prompt_tokens": 578,
+      "completion_tokens": 28,
+      "llm_calls": 1
+    }
+  ]
+}
