@@ -76,20 +76,31 @@
 \pagenumbering{Roman}
 
 \begin{abstract}
-本文围绕多智能体协作与工具调用格式稳定性展开。首先基于开源框架搭建包含任务分解、
-执行与审查三个角色的多智能体系统；其次构造工具调用指令数据集，使用 QLoRA 对
-Qwen2.5-3B-Instruct 进行轻量微调；最后在同一任务与工具集上比较单智能体、
-串行、主管和辩论四种拓扑。
-初步实验显示，41 条简单格式测试已经饱和，LoRA 主要改善参数匹配；
-在 57 条难例上，LoRA 的 schema 合规率为 98.2\%，base 在温度 0 和
-0.7 下分别为 94.7\% 和 91.2\%。base + few-shot 能把 hard schema 提到
-96.5\%，但工具名仍只有 82.5\%，低于 LoRA 的 91.2\%，说明收益不只是
-prompt 示例。在 40 条未见工具 OOD 上，LoRA 的工具名准确率为 90.0\%，
-base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系统
-任务（含 7 条多步任务）上，基座模型的串行成功率从单 Agent 的 67.7\%
-降到 51.6\%；LoRA 的 few-shot 串行为 83.9\%，主管拓扑成功率相同但
-延迟增加约 64\%，辩论拓扑降到 80.6\%。温度 0.7 下 JSON 和 schema
-仍是 100\%，但任务成功率降到 74.2\%，格式稳定并不等于计划稳定。
+大语言模型已经能通过工具调用完成计算、检索和业务操作，但基座模型在角色
+切换和多轮协作中经常出现 JSON 字段、工具名或参数错误；多智能体系统虽然
+能拆分任务，也会放大这些错误并增加延迟。本文研究两个问题：LoRA 微调能否
+稳定多智能体流程中的工具调用；不同协作拓扑是否真的提升任务完成。
+
+我们在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，并扩展出
+sequential、supervisor 和 debate 三种拓扑；构造 750 条工具调用 SFT 数据，
+用 4-bit QLoRA 微调 Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成
+分开：41 条简单样本、57 条难例、40 条未见工具 OOD、31 条系统任务，并加入
+base + few-shot、角色、温度和 seed 消融。
+
+实验表明，LoRA 把难例 schema 合规率从 94.7\% 提升到 98.2\%，工具名准确率
+从 86.0\% 提升到 91.2\%；base + few-shot 虽然把 schema 提到 96.5\%，工具名
+仍只有 82.5\%，说明收益不只是 prompt 示例。OOD 上 LoRA 的工具名为 90.0\%，
+base 为 82.5\%，但参数归一化后两者都是 32/32，LoRA 的优势主要在工具选择。
+系统任务上，base 的 sequential 成功率从 single 的 67.7\% 降到 51.6\%；
+LoRA sequential 为 80.6\%，few-shot 后为 83.9\%，但只比 single 多解决一条
+任务，延迟约为 6 倍；supervisor 成功率相同但延迟增加约 64\%，debate 降到
+80.6\% 且更慢。温度 0.7 下 JSON/schema 仍为 100\%，任务成功率却降到
+74.2\%；seed 对照进一步说明，57/40 条格式测试上的小差异不能直接归因于
+数据量。
+
+因此，LoRA 改善的是工具调用协议和工具选择，而不是规划和审查能力；“更多
+角色”或“更多数据”都不会自动带来更好的任务完成，协作拓扑的延迟和错误
+传播必须和成功率一起评估。
 
 \vspace{0.5em}
 \noindent\textbf{关键词：}多智能体系统；工具调用；LoRA；LangGraph；稳定性
@@ -97,26 +108,38 @@ base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系
 
 \clearpage
 \section*{Abstract}
-This report studies tool-calling stability in a small multi-agent system built
-on LangGraph. The system has three roles: a Planner that decomposes a task, an
-Executor that selects and calls one tool per subtask, and a Reviewer that checks
-the result and can trigger a bounded replan. We construct a 750-sample
-tool-calling SFT set, fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA, and compare
-single-agent, sequential, supervisor, and debate topologies on the same tools and
-task set.
+Large language models can call tools for computation, retrieval, and business
+operations, but base models still produce malformed JSON, wrong tool names, or
+wrong arguments when roles switch or a task needs several turns. A multi-agent
+system can decompose such a task, but it can also amplify these errors and add
+latency. This report asks two questions: can LoRA fine-tuning stabilize tool
+calling inside a multi-agent system, and do different collaboration topologies
+actually improve task completion?
 
-On 57 hard format cases, LoRA reaches 98.2\% JSON/schema compliance, versus
-94.7\% and 91.2\% for the base model at temperatures 0 and 0.7. A base + few-shot
-baseline raises hard schema compliance to 96.5\%, but its tool-name accuracy is
-only 82.5\%, below LoRA's 91.2\%; on 40 unseen-tool OOD cases, LoRA reaches 90.0\%
-tool-name accuracy versus 82.5\% for the base model. On 31 system tasks, base
-sequential success drops to 51.6\% from 67.7\% for single-agent, while LoRA
-sequential reaches 80.6\% (83.9\% with a few-shot Planner). Supervisor matches
-sequential success but adds about 64\% latency; debate falls to 80.6\% and is
-slower still. At temperature 0.7, JSON/schema remains 100\% but task success drops
-to 74.2\%, showing that format stability is not the same as plan stability. A
-three-seed control further shows that small adapter differences on 57/40 format
+We implement a Planner/Executor/Reviewer system on LangGraph and extend it with
+sequential, supervisor, and debate topologies. A 750-sample tool-calling SFT set
+is used to fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA. Evaluation separates
+format, tool selection, and task success on 41 simple cases, 57 hard cases, 40
+unseen-tool OOD cases, and 31 system tasks; we also run base + few-shot, role,
+temperature, and seed ablations.
+
+LoRA raises hard-case schema compliance from 94.7\% to 98.2\% and tool-name
+accuracy from 86.0\% to 91.2\%. A base + few-shot baseline reaches 96.5\% schema
+compliance but only 82.5\% tool-name accuracy, so the gain is not just prompt
+examples. On OOD cases, LoRA reaches 90.0\% tool-name accuracy versus 82.5\% for
+the base model, while normalized argument matching is 32/32 for both. On system
+tasks, base sequential success drops from 67.7\% (single-agent) to 51.6\%; LoRA
+sequential reaches 80.6\% (83.9\% with a few-shot Planner), but only solves one
+more task than single-agent at about 6$\times$ the latency. Supervisor matches
+sequential success with about 64\% more latency, and debate falls to 80.6\% and
+is slower. At temperature 0.7, JSON/schema remains 100\% but task success drops
+to 74.2\%, and the seed control shows that small differences on 57/40 format
 cases are within training variance.
+
+LoRA therefore improves the tool-calling protocol and tool selection, not
+planning or review. More roles or more data do not automatically improve task
+completion; latency and error propagation must be evaluated together with
+success rate.
 
 \vspace{0.5em}
 \noindent\textbf{Keywords:} multi-agent system; tool calling; LoRA; LangGraph;
@@ -822,51 +845,39 @@ vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分�
 
 \clearpage
 \section{结论}\label{sec:conclusion}
-本文搭建了一个基于 LangGraph 的三角色多智能体系统，构造了工具调用
-指令数据，并用 QLoRA 对 Qwen2.5-3B-Instruct 做了轻量微调。阶段性
-实验得到三个比较明确的观察。
+本文围绕“LoRA 能否稳定多智能体中的工具调用”和“协作拓扑是否真的提升
+任务完成”两个问题，搭建了 LangGraph 三角色系统，构造了 750 条工具调用
+SFT 数据，并用 4-bit QLoRA 微调 Qwen2.5-3B-Instruct。实验结果可以按三个
+研究问题总结。
 
-其一，LoRA 对工具调用格式有实际作用。57 条难例上，LoRA 的 JSON/schema
-合规率在温度 0 和 0.7 下都是 98.2\%，base 分别为 94.7\% 和 91.2\%；
-参数完全匹配率在温度 0 下从 61.4\% 提升到 70.2\%。在 40 条未见工具
-OOD 上，LoRA 的工具名准确率为 90.0\%，base 为 82.5\%，schema 为 100\%；
-但自由文本参数让 exact match 不适合直接比较。把语言代码和股票别名
-归一化后，zero-shot 的四个配置在非 \path{final_answer} 样本上的参数匹配都是
-32/32；base + few-shot 是 31/32，OOD 上并没有 LoRA 参数更准的证据；
-LoRA 的收益主要在工具名选择。
+\textbf{RQ1：LoRA 改善的是格式和工具选择，不是参数细节。}
+在 57 条难例上，LoRA 把 schema 合规率从 94.7\% 提升到 98.2\%，工具名
+准确率从 86.0\% 提升到 91.2\%。base + few-shot 能把 schema 提到 96.5\%，
+但工具名仍只有 82.5\%，说明收益不只是 prompt 示例。在 40 条未见工具
+OOD 上，LoRA 的工具名为 90.0\%，base 为 82.5\%；但语言代码和股票别名
+归一化后，两者在非 \path{final_answer} 样本上的参数匹配都是 32/32。
+因此，LoRA 的主要作用是把输出协议和工具名对齐，而不是让参数推理更准。
 
-base + few-shot 能把 hard schema 从 94.7\% 提到 96.5\%，但工具名只有
-82.5\%，仍低于 LoRA 的 91.2\%；OOD 工具名是 85.0\% 对 90.0\%。这排除了
-“LoRA 只是多了几个 prompt 示例”的解释。
+\textbf{RQ2：多智能体不自动优于单 Agent，拓扑有明确的延迟代价。}
+base 的 sequential 成功率从 single 的 67.7\% 降到 51.6\%，说明把基座模型
+直接放进 Planner/Executor/Reviewer 流程会放大工具调用错误。LoRA 把
+sequential 恢复到 80.6\%，few-shot 后为 83.9\%，但只比 single 多解决
+一条任务，延迟约为 6 倍；7 条多步任务仍有 4 条失败。supervisor 的成功率
+与 sequential 相同，延迟却增加约 64\%；debate 降到 80.6\%，延迟更高。
+多出来的角色和消息没有转化为更高的完成率，瓶颈在 Planner 的拆分质量
+和 Reviewer 的审查校准，而不是“角色数量”。
 
-在系统层面，基座模型在单 Agent 下还有 67.7\% 的任务成功率，但放进
-Planner/Executor/Reviewer 串行流程后降到 51.6\%，同时出现 3 次工具
-调用或 schema 错误。LoRA 微调后，single 为 77.4\%，sequential 为
-80.6\%，schema 合规率从 90.3\% 提升到 100\%，说明微调同样改善了
-Agent 在 MAS 中的工具调用稳定性。
+\textbf{RQ3：格式稳定不等于任务稳定，小样本差异需要方差控制。}
+温度 0.7 下 JSON/schema 仍是 100\%，任务成功率却从 80.6\% 降到 74.2\%；
+Reviewer 通过率反而升高，说明它更容易放行不完整的计划。seed 对照表明，
+v1/v2 以及部分 adapter 之间 1--2 条格式差异落在训练方差内，不能据此
+判断数据量或微调版本的优劣。后续的小数据 adapter 比较至少应报告 3 个
+seed 的均值和方差。
 
-其二，多智能体并不自动优于单 Agent。旧版 LoRA sequential 只比 single
-多解决一条多步任务，延迟约为 single 的 6 倍。加入 few-shot Planner 后，
-sequential 提升到 83.9\%，多步从 1/7 提高到 3/7，但 chat 从 6/6 降到
-5/6，净收益只有一条任务；多步任务仍然有 4 条失败。
-
-其三，协作拓扑不是越多越好。监督拓扑与 sequential 的成功率完全相同，
-但延迟从 17.86s 增到 29.22s；辩论拓扑降到 80.6\%，延迟增到 40.94s。
-Supervisor 在 guard 之后退化为“逐个子任务执行 + 一次审查”，Debate
-的 Judge 也不能稳定选出更可执行的计划。增加角色和消息，并不会自动
-带来更好的任务完成。
-
-在数据扩展上，v1/v2 的 3 个 seed 均值差异都在一个标准差以内，单次
-v2 的下降主要来自 seed42 的波动。这说明 57/40 条格式测试上的 1--2 条
-差异不能直接支持“数据量有效/无效”的结论；后续小数据 adapter 对比
-至少应报告 3 个 seed 的均值和方差。
-
-下一步将补多工具 OOD 和参数规范化，并把 token 成本、P95 延迟和配对
-显著性检验纳入评测。温度实验表明 0.7 下格式仍然稳定，但任务成功率
-下降，说明需要把“格式稳定”和“计划稳定”分开分析。base Planner 和
-base Reviewer 的角色替换都没有带来提升，few-shot、supervisor 和
-debate 也没有超过一个简单的串行流程；重点不再是增加角色，而是提高
-拆分质量和审查校准。
+这些结果说明，LoRA 解决的是“模型会不会按协议调用工具”，而不是“模型
+会不会规划和审查”。多智能体系统的设计应同时报告成功率、延迟和错误
+传播；在工具协议稳定之后，更值得投入的是 Planner 的任务拆分、Reviewer
+的完整性检查，以及约束解码和多工具 OOD 评测，而不是继续增加角色。
 
 \clearpage
 \appendix
