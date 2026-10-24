@@ -78,14 +78,16 @@
 \begin{abstract}
 大语言模型已经能通过工具调用完成计算、检索和业务操作，但基座模型在角色
 切换和多轮协作中经常出现 JSON 字段、工具名或参数错误；多智能体系统虽然
-能拆分任务，也会放大这些错误并增加延迟。本文研究两个问题：LoRA 微调能否
-稳定多智能体流程中的工具调用；不同协作拓扑是否真的提升任务完成。
+能拆分任务，也会放大这些错误并增加延迟。本文研究三个问题：LoRA 微调能否
+稳定多智能体流程中的工具调用；不同协作拓扑是否真的提升任务完成；温度、
+数据规模和随机种子会不会改变结论。
 
 我们在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，并扩展出
 sequential、supervisor 和 debate 三种拓扑；构造 750 条工具调用 SFT 数据，
-用 4-bit QLoRA 微调 Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成
-分开：41 条简单样本、57 条难例、40 条未见工具 OOD、31 条系统任务，并加入
-base + few-shot、角色、温度和 seed 消融。
+另构造 1,124 条扩展数据并训练 3 个 seed 做方差对照；用 4-bit QLoRA 微调
+Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成分开：41 条简单样本、
+57 条难例、40 条未见工具 OOD、31 条系统任务，并加入 base + few-shot、
+角色和温度消融。
 
 实验表明，LoRA 把难例 schema 合规率从 94.7\% 提升到 98.2\%，工具名准确率
 从 86.0\% 提升到 91.2\%；base + few-shot 虽然把 schema 提到 96.5\%，工具名
@@ -112,14 +114,17 @@ Large language models can call tools for computation, retrieval, and business
 operations, but base models still produce malformed JSON, wrong tool names, or
 wrong arguments when roles switch or a task needs several turns. A multi-agent
 system can decompose such a task, but it can also amplify these errors and add
-latency. This report asks two questions: can LoRA fine-tuning stabilize tool
-calling inside a multi-agent system, and do different collaboration topologies
-actually improve task completion?
+latency. This report asks three questions: can LoRA fine-tuning stabilize tool
+calling inside a multi-agent system; do different collaboration topologies
+actually improve task completion; and do temperature, data scale, and random
+seeds change the conclusion?
 
 We implement a Planner/Executor/Reviewer system on LangGraph and extend it with
 sequential, supervisor, and debate topologies. A 750-sample tool-calling SFT set
-is used to fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA. Evaluation separates
-format, tool selection, and task success on 41 simple cases, 57 hard cases, 40
+is used to fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA; a 1,124-sample
+expanded set is also trained with three seeds for variance control. Evaluation
+separates format, tool selection, and task success on 41 simple cases, 57 hard
+cases, 40
 unseen-tool OOD cases, and 31 system tasks; we also run base + few-shot, role,
 temperature, and seed ablations.
 
@@ -173,8 +178,9 @@ stability
 \begin{itemize}
   \item 在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，
         并扩展到 supervisor 与 debate 两种拓扑，保留完整 trace 和重规划上限；
-  \item 构造 750 条工具调用 SFT 数据，比较 base、LoRA、base + few-shot
-        在 41 条简单样本、57 条难例和 40 条未见工具 OOD 上的差异；
+  \item 构造 750 条主训练集和 1,124 条扩展训练集，比较 base、LoRA、
+        base + few-shot 在 41 条简单样本、57 条难例和 40 条未见工具 OOD
+        上的差异，并用 3 个 seed 估计数据扩展的方差；
   \item 在 31 条系统任务上做拓扑、角色、温度和 seed 消融，报告负结果：
         更多角色、更多数据和更复杂的辩论并不自动带来更高成功率。
 \end{itemize}
@@ -308,6 +314,31 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
 覆盖天气查询、四则运算、本地检索和无需工具的直接回答四类场景。每条样本由
 系统提示、用户请求和目标工具调用组成，目标输出统一为包含 \texttt{name}
 和 \texttt{arguments} 两个字段的 JSON 对象。
+
+表~\ref{tab:data} 汇总了本文用到的数据与评测规模。主实验使用 750 条
+训练集；数据扩展实验使用 1,124 条，并训练 3 个 seed 估计方差；格式评测
+分为 41 条简单样本、57 条难例和 40 条未见工具 OOD；系统任务 31 条，
+其中 24 条单步、7 条多步。
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{数据与评测规模}
+  \label{tab:data}
+  \begin{tabular}{lll}
+    \toprule
+    用途 & 规模 & 说明 \\
+    \midrule
+    主训练集 & 750 & 天气、计算、检索、final\_answer \\
+    扩展训练集 & 1,124 & 增加城市、主题和随机算式，用于 seed 对照 \\
+    简单格式测试 & 41 & 模板内样本，base 已接近饱和 \\
+    难例测试 & 57 & 未见城市/主题、缺参、格式诱导 \\
+    未见工具 OOD & 40 & 4 个训练中未出现的工具 \\
+    系统任务 & 31 & 24 条单步 + 7 条多步 \\
+    seed 对照 & 2 数据 $\times$ 3 seed & 用于估计 adapter 方差 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 数据首先按 LLaMA-Factory 的 \texttt{sharegpt} 格式组织：
 \texttt{system} 字段保存工具 schema 和输出协议，\texttt{conversations}
