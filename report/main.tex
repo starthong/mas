@@ -72,6 +72,7 @@ base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系
 和延迟上的权衡。第~\ref{sec:system} 节介绍系统设计，第~\ref{sec:data}
 节介绍数据和微调，第~\ref{sec:experiments} 节给出实验设置与阶段性结果。
 
+\clearpage
 \section{相关工作}
 多智能体系统通过角色分工与消息传递扩展单模型能力\cite{yao2023react}；
 LangGraph 用状态图描述节点和条件边，适合实现带循环的 Agent 流程\cite{langgraph}。
@@ -79,6 +80,7 @@ LangGraph 用状态图描述节点和条件边，适合实现带循环的 Agent 
 Leaderboard 就采用 AST 匹配和可执行性检查\cite{bfcl}。
 LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低显存需求\cite{dettmers2023qlora}。
 
+\clearpage
 \section{系统设计}\label{sec:system}
 \subsection{总体架构}
 系统包含任务分解 Agent、执行 Agent 与审查/评估 Agent，三者通过共享状态与消息传递协作。
@@ -113,7 +115,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     >=Latex
   ]
     % sequential
-    \node[font=\bfseries, anchor=west] at (-2.0,0) {Sequential};
+    \node[font=\bfseries, anchor=west] at (-3.4,0) {Sequential};
     \node[box] (p1) at (0,0) {Planner};
     \node[box] (e1) at (2.6,0) {Executor};
     \node[box] (r1) at (5.2,0) {Reviewer};
@@ -122,7 +124,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     \draw[->] (r1.north) -- ++(0,0.55) -| node[pos=0.25, above, font=\scriptsize] {不通过} (p1.north);
 
     % supervisor
-    \node[font=\bfseries, anchor=west] at (-2.0,-2.2) {Supervisor};
+    \node[font=\bfseries, anchor=west] at (-3.4,-2.2) {Supervisor};
     \node[box] (p2) at (0,-2.2) {Planner};
     \node[box] (s2) at (2.6,-2.2) {Supervisor};
     \node[box] (e2) at (5.2,-2.2) {Executor};
@@ -133,7 +135,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     \draw[->] (s2) -- (r2);
 
     % debate
-    \node[font=\bfseries, anchor=west] at (-2.0,-5.1) {Debate};
+    \node[font=\bfseries, anchor=west] at (-3.4,-5.1) {Debate};
     \node[box] (pa) at (0,-4.7) {Planner A};
     \node[box] (pb) at (0,-5.6) {Planner B};
     \node[box] (j) at (2.6,-5.15) {Judge};
@@ -172,6 +174,7 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
 工具名未知、参数不符合 schema 或执行异常时，Executor 把错误写入结果，
 由 Reviewer 判断是否重规划。
 
+\clearpage
 \section{工具调用数据与微调}\label{sec:data}
 \subsection{数据构造}
 训练集包含 750 条样本，简单测试集包含 41 条样本，难例测试集包含 57 条样本，
@@ -240,6 +243,7 @@ v2 的 hard 参数匹配略高（68.4\% 对 63.2\%），但 schema 仍低于 v1�
 样本，不是新的工具调用能力；最终报告保留 v1 adapter，把 v2 作为“数据
 扩展未提升”的负结果，而不是替换主结果。
 
+\clearpage
 \section{实验设置}\label{sec:experiments}
 \subsection{环境与模型}
 开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码；
@@ -282,6 +286,7 @@ few-shot Planner；该开关默认关闭，避免影响旧结果。
 Reviewer 还做了角色消融：使用 LoRA Reviewer、使用 base Reviewer，
 以及去掉 Reviewer。所有模式使用同一套工具和同一份任务集。
 
+\clearpage
 \section{结果与分析}
 \subsection{格式评测}
 表~\ref{tab:format} 给出 41 条测试样本上的格式指标。base 和 LoRA 的
@@ -400,7 +405,7 @@ schema 差异只有 0--1 条，McNemar 检验的 p 值为 1.0，不能称显著�
       ybar,
       width=0.78\linewidth,
       height=5.2cm,
-      ymin=0, ymax=1.05,
+      ymin=0, ymax=1.15,
       ylabel={比例},
       symbolic x coords={hard,ood},
       xtick={hard,ood},
@@ -660,6 +665,7 @@ Reviewer 通过率偏低并不完全等于模型能力差。search 任务早期�
 Reviewer prompt，而是先把工具结果做真实。这个现象说明，多智能体系统
 的评测必须把工具质量、角色能力和协作协议分开看。
 
+\clearpage
 \section{讨论与局限性}
 本文的结果还只是阶段性结果，主要有五个局限。
 
@@ -694,6 +700,7 @@ LoRA，但没有做 JSON mode、grammar-constrained decoding 或 LoRA + 约束
 只在部分新实验中采集，早期稳定性结果没有逐样本 token 数；后续应在
 vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分开评估。
 
+\clearpage
 \section{结论}
 本文搭建了一个基于 LangGraph 的三角色多智能体系统，构造了工具调用
 指令数据，并用 QLoRA 对 Qwen2.5-3B-Instruct 做了轻量微调。阶段性
@@ -704,7 +711,7 @@ vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分�
 参数完全匹配率在温度 0 下从 61.4\% 提升到 70.2\%。在 40 条未见工具
 OOD 上，LoRA 的工具名准确率为 90.0\%，base 为 82.5\%，schema 为 100\%；
 但自由文本参数让 exact match 不适合直接比较。把语言代码和股票别名
-归一化后，zero-shot 的四个配置在非 final_answer 样本上的参数匹配都是
+归一化后，zero-shot 的四个配置在非 \path{final_answer} 样本上的参数匹配都是
 32/32；base + few-shot 是 31/32，OOD 上并没有 LoRA 参数更准的证据；
 LoRA 的收益主要在工具名选择。
 
@@ -736,6 +743,7 @@ base Reviewer 的角色替换都没有带来提升，few-shot、supervisor 和
 debate 也没有超过一个简单的串行流程；重点不再是增加角色，而是提高
 拆分质量和审查校准。
 
+\clearpage
 \appendix
 \section{复现命令与提示词}
 
@@ -783,6 +791,7 @@ Reviewer 的输出：
 \end{verbatim}
 supervisor 和 judge 只增加路由/选择字段，不改变工具调用协议。
 
+\clearpage
 \bibliographystyle{plain}
 \bibliography{refs}
 
