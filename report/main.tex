@@ -35,9 +35,44 @@
 
 \begin{document}
 
-\maketitle
-\thispagestyle{empty}
-\clearpage
+\begin{titlepage}
+  \thispagestyle{empty}
+  \centering
+  \vspace*{1.6cm}
+
+  {\large GOODLAB 挑战性测试技术报告\par}
+  \vspace{1.0cm}
+  \rule{0.72\linewidth}{0.4pt}\par
+  \vspace{1.0cm}
+
+  {\Huge\bfseries 基于开源多智能体框架的协作系统\par}
+  \vspace{0.45cm}
+  {\Huge\bfseries 与工具调用 LoRA 微调研究\par}
+  \vspace{0.7cm}
+  {\large\itshape A Collaborative Multi-Agent System on an Open-Source
+  Framework and Tool-Calling LoRA Fine-Tuning\par}
+
+  \vspace{1.2cm}
+  \rule{0.72\linewidth}{0.4pt}\par
+
+  \vspace{1.8cm}
+  {\Large 王陈鸿\par}
+  \vspace{0.5cm}
+  {\large \today\par}
+
+  \vfill
+  \begin{tabular}{rl}
+    报告类型 & 技术报告 \\
+    开发环境 & Ubuntu 22.04 / Python 3.11 \\
+    系统框架 & LangGraph \\
+    基座模型 & Qwen2.5-3B-Instruct \\
+    微调方法 & 4-bit QLoRA \\
+  \end{tabular}
+  \vfill
+
+  {\small GOODLAB 多智能体系统挑战\par}
+\end{titlepage}
+
 \pagenumbering{Roman}
 
 \begin{abstract}
@@ -61,6 +96,33 @@ base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系
 \end{abstract}
 
 \clearpage
+\section*{Abstract}
+This report studies tool-calling stability in a small multi-agent system built
+on LangGraph. The system has three roles: a Planner that decomposes a task, an
+Executor that selects and calls one tool per subtask, and a Reviewer that checks
+the result and can trigger a bounded replan. We construct a 750-sample
+tool-calling SFT set, fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA, and compare
+single-agent, sequential, supervisor, and debate topologies on the same tools and
+task set.
+
+On 57 hard format cases, LoRA reaches 98.2\% JSON/schema compliance, versus
+94.7\% and 91.2\% for the base model at temperatures 0 and 0.7. A base + few-shot
+baseline raises hard schema compliance to 96.5\%, but its tool-name accuracy is
+only 82.5\%, below LoRA's 91.2\%; on 40 unseen-tool OOD cases, LoRA reaches 90.0\%
+tool-name accuracy versus 82.5\% for the base model. On 31 system tasks, base
+sequential success drops to 51.6\% from 67.7\% for single-agent, while LoRA
+sequential reaches 80.6\% (83.9\% with a few-shot Planner). Supervisor matches
+sequential success but adds about 64\% latency; debate falls to 80.6\% and is
+slower still. At temperature 0.7, JSON/schema remains 100\% but task success drops
+to 74.2\%, showing that format stability is not the same as plan stability. A
+three-seed control further shows that small adapter differences on 57/40 format
+cases are within training variance.
+
+\vspace{0.5em}
+\noindent\textbf{Keywords:} multi-agent system; tool calling; LoRA; LangGraph;
+stability
+
+\clearpage
 \tableofcontents
 \clearpage
 \pagenumbering{arabic}
@@ -72,10 +134,31 @@ base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系
 路径。另一个问题是基座模型的工具调用格式并不稳定，尤其在角色切换和
 多轮协作时，JSON 字段、工具名和参数都可能出错。
 
-本文用一个三角色系统研究两个问题：一是 LoRA 微调能否提升 Agent 在
-多智能体流程中的工具调用稳定性；二是单 Agent 与串行多 Agent 在成功率
-和延迟上的权衡。第~\ref{sec:system} 节介绍系统设计，第~\ref{sec:data}
-节介绍数据和微调，第~\ref{sec:experiments} 节给出实验设置与阶段性结果。
+本文用一个三角色系统研究三个问题：
+
+\begin{itemize}
+  \item \textbf{RQ1（格式与工具选择）}：LoRA 微调能否提升工具调用 JSON
+        合规率、工具名准确率和参数匹配率？收益是否只是 few-shot prompt？
+  \item \textbf{RQ2（协作拓扑）}：single、sequential、supervisor、debate
+        四种拓扑在成功率、延迟和审查行为上有什么差异？
+  \item \textbf{RQ3（稳定性）}：温度、重复运行和数据规模变化会不会改变
+        结论？格式稳定是否等于任务稳定？
+\end{itemize}
+
+本文的主要贡献如下：
+
+\begin{itemize}
+  \item 在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，
+        并扩展到 supervisor 与 debate 两种拓扑，保留完整 trace 和重规划上限；
+  \item 构造 750 条工具调用 SFT 数据，比较 base、LoRA、base + few-shot
+        在 41 条简单样本、57 条难例和 40 条未见工具 OOD 上的差异；
+  \item 在 31 条系统任务上做拓扑、角色、温度和 seed 消融，报告负结果：
+        更多角色、更多数据和更复杂的辩论并不自动带来更高成功率。
+\end{itemize}
+
+第~\ref{sec:system} 节介绍系统设计，第~\ref{sec:data} 节介绍数据和微调，
+第~\ref{sec:experiments} 节给出实验设置与结果，第~\ref{sec:conclusion}
+节总结。
 
 \clearpage
 \section{相关工作}
@@ -738,7 +821,7 @@ LoRA，但没有做 JSON mode、grammar-constrained decoding 或 LoRA + 约束
 vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分开评估。
 
 \clearpage
-\section{结论}
+\section{结论}\label{sec:conclusion}
 本文搭建了一个基于 LangGraph 的三角色多智能体系统，构造了工具调用
 指令数据，并用 QLoRA 对 Qwen2.5-3B-Instruct 做了轻量微调。阶段性
 实验得到三个比较明确的观察。
