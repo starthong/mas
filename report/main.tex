@@ -232,7 +232,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     >=Latex
   ]
     % sequential
-    \node[font=\bfseries, anchor=east] at (-0.4,0) {Sequential};
+    \node[font=\bfseries, anchor=west] at (-3.6,1.2) {Sequential};
     \node[box] (p1) at (0,0) {Planner};
     \node[box] (e1) at (2.6,0) {Executor};
     \node[box] (r1) at (5.2,0) {Reviewer};
@@ -241,7 +241,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     \draw[->] (r1.north) -- ++(0,0.55) -| node[pos=0.25, above, font=\scriptsize] {不通过} (p1.north);
 
     % supervisor
-    \node[font=\bfseries, anchor=east] at (-0.4,-2.2) {Supervisor};
+    \node[font=\bfseries, anchor=west] at (-3.6,-1.0) {Supervisor};
     \node[box] (p2) at (0,-2.2) {Planner};
     \node[box] (s2) at (2.6,-2.2) {Supervisor};
     \node[box] (e2) at (5.2,-2.2) {Executor};
@@ -252,7 +252,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
     \draw[->] (s2) -- (r2);
 
     % debate
-    \node[font=\bfseries, anchor=east] at (-0.4,-5.1) {Debate};
+    \node[font=\bfseries, anchor=west] at (-3.6,-3.9) {Debate};
     \node[box] (pa) at (0,-4.7) {Planner A};
     \node[box] (pb) at (0,-5.6) {Planner B};
     \node[box] (j) at (2.6,-5.15) {Judge};
