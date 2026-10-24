@@ -10,8 +10,16 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{microtype}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,positioning}
+\urlstyle{same}
+\captionsetup{font=small,labelfont=bf}
+\setlist{nosep}
+\setlength{\emergencystretch}{3em}
 
 \lstset{
   basicstyle=\ttfamily\small,
@@ -44,7 +52,13 @@ base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系
 降到 51.6\%；LoRA 的 few-shot 串行为 83.9\%，主管拓扑成功率相同但
 延迟增加约 64\%，辩论拓扑降到 80.6\%。温度 0.7 下 JSON 和 schema
 仍是 100\%，但任务成功率降到 74.2\%，格式稳定并不等于计划稳定。
+
+\vspace{0.5em}
+\noindent\textbf{关键词：}多智能体系统；工具调用；LoRA；LangGraph；稳定性
 \end{abstract}
+
+\tableofcontents
+\newpage
 
 \section{引言}
 大语言模型通过工具调用可以访问外部计算、检索和业务接口，但单 Agent
@@ -186,6 +200,10 @@ paged AdamW。T4 不支持 bf16，因此使用 fp16。
 \end{figure}
 }{}
 
+图~\ref{fig:loss} 给出扩展数据训练的损失曲线：前 100 步下降较快，
+之后趋于平稳，最终 train loss 为 0.031，eval loss 为 0.012。曲线没有
+明显反弹，说明 2 个 epoch 的学习率设置基本稳定。
+
 第一次训练并未成功。数据文件使用了 OpenAI 的 \texttt{messages} 字段，
 而 LLaMA-Factory 的 \texttt{sharegpt} 转换器读取的是 \texttt{conversations}，
 训练在数据加载阶段报 \texttt{KeyError: 'conversations'}。将训练数据改为
@@ -255,7 +273,11 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
         执行下一个子任务、交给 Reviewer，还是结束；
   \item \textbf{debate}：两个 Planner 分别提出计划，Judge 选一个，再执行和审查。
 \end{itemize}
-sequential、supervisor 和 debate 都支持 \texttt{--planner-examples} 的
+图~\ref{fig:topologies} 把三种拓扑放在同一视角下：sequential 是固定
+顺序链，supervisor 有中心调度节点，debate 先并行产生两个计划再交给
+Judge。三者的消息数和失败模式因此不同，后文的延迟差异也来自这里。
+
+sequential、supervisor 和 debate 都支持 \path{--planner-examples} 的
 few-shot Planner；该开关默认关闭，避免影响旧结果。
 Reviewer 还做了角色消融：使用 LoRA Reviewer、使用 base Reviewer，
 以及去掉 Reviewer。所有模式使用同一套工具和同一份任务集。
@@ -345,7 +367,7 @@ LoRA 是 [0.907, 0.997]；按配对样本做 McNemar 检验，温度 0 的 p 值
   \end{tabular}
 \end{table}
 
-OOD 上的工具选择确实有提升：温度 0 下工具名准确率从 82.5\% 提升到
+表~\ref{tab:ood} 显示，OOD 上的工具选择确实有提升：温度 0 下工具名准确率从 82.5\% 提升到
 90.0\%，温度 0.7 下从 82.5\% 提升到 87.5\%；LoRA 的 JSON/schema
 在两种温度下都保持 100\%，base 在温度 0 下有一条纯文本输出。
 
@@ -366,6 +388,10 @@ schema 差异只有 0--1 条，McNemar 检验的 p 值为 1.0，不能称显著�
 否则会把 \texttt{en} 和 \texttt{English} 这种等价写法算成错误。就工具
 选择而言，LoRA 对未见工具仍有泛化能力；就参数规范化而言，当前评测
 口径偏严，不能拿原始 exact 差异下结论。
+
+图~\ref{fig:format} 把两个最关键的指标放在同一尺度上：hard schema 的
+提升较小，OOD 工具名的提升更明显；这也说明格式合规和工具选择不是
+同一个维度。
 
 \begin{figure}[htbp]
   \centering
@@ -467,11 +493,11 @@ Reviewer 的通过率从 base 的 54.8\% 提升到 LoRA 的 77.4\%。这个提�
 \paragraph{多步任务的失败位置}
 检查 7 条多步任务的 trace 后，问题比较集中。6 条任务的 Planner 只
 给出了 1 个子任务，Executor 也只调用 1 个工具；只有
-\texttt{multi\_search\_weather} 被拆成 2 个子任务并成功。也就是说，
+\path{multi_search_weather} 被拆成 2 个子任务并成功。也就是说，
 多步任务的失败首先发生在计划层，而不是工具格式层。
 
 Reviewer 也没有起到兜底作用。多条只完成第一步的结果被
-\texttt{pass=true} 放行；\texttt{multi\_weather\_compare} 首轮拆成
+\texttt{pass=true} 放行；\path{multi_weather_compare} 首轮拆成
 3 个子任务，Reviewer 判不通过，重规划后只剩 1 个子任务，Reviewer
 反而通过，最终缺少上海天气。另有一条任务把两个检索词合并成一个
 query，Reviewer 给了 0.95 分，但严格按 expected calls 判定失败；
@@ -578,6 +604,10 @@ debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94s。Judge 有�
   \caption{协作拓扑的成功率--延迟权衡（31 条任务，一轮）}
   \label{fig:tradeoff}
 \end{figure}
+
+图~\ref{fig:tradeoff} 中，supervisor 与 sequential 落在同一成功率
+水平，但横轴明显右移；debate 同时损失成功率和延迟。这张图比单看
+成功率更能说明“多一个角色”并不划算。
 
 \subsection{温度稳定性}
 表~\ref{tab:temperature} 给出全 LoRA 在温度 0 和 0.7 下各重复 3 次的
@@ -710,12 +740,12 @@ debate 也没有超过一个简单的串行流程；重点不再是增加角色�
 \section{复现命令与提示词}
 
 \paragraph{数据}
-训练集和简单测试集由 \texttt{scripts/build\_toolcall\_dataset.py} 生成；
-难例和 OOD 分别由 \texttt{scripts/build\_hard\_test.py} 和
-\texttt{scripts/build\_ood\_test.py} 生成。
+训练集和简单测试集由 \path{scripts/build_toolcall_dataset.py} 生成；
+难例和 OOD 分别由 \path{scripts/build_hard_test.py} 和
+\path{scripts/build_ood_test.py} 生成。
 
 \paragraph{训练}
-QLoRA 训练使用 LLaMA-Factory 和 \texttt{configs/train\_qlora\_kaggle.yaml}，
+QLoRA 训练使用 LLaMA-Factory 和 \path{configs/train_qlora_kaggle.yaml}，
 在 Kaggle T4 上以 4-bit、rank 16、alpha 32 训练 3B 模型。
 
 \paragraph{格式评测}
@@ -739,12 +769,18 @@ python -m src.experiments.run_modes --backend hf \
 \end{verbatim}
 
 \paragraph{提示词}
-Planner 要求输出
-\texttt{\{"subtasks":[\{"id":1,"goal":"...","expected\_output":"..."\}]\}}；
-Executor 使用统一的工具 system prompt，目标输出
-\texttt{\{"name":"...","arguments":\{...\}\}}；
-Reviewer 输出
-\texttt{\{"pass":true,"score":0.0,"issues":[],"suggestion":"..."\}}。
+Planner 要求输出：
+\begin{verbatim}
+{"subtasks":[{"id":1,"goal":"...","expected_output":"..."}]}
+\end{verbatim}
+Executor 的目标输出：
+\begin{verbatim}
+{"name":"...","arguments":{...}}
+\end{verbatim}
+Reviewer 的输出：
+\begin{verbatim}
+{"pass":true,"score":0.0,"issues":[],"suggestion":"..."}
+\end{verbatim}
 supervisor 和 judge 只增加路由/选择字段，不改变工具调用协议。
 
 \bibliographystyle{plain}
