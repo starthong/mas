@@ -36,6 +36,9 @@
 \begin{document}
 
 \maketitle
+\thispagestyle{empty}
+\clearpage
+\pagenumbering{Roman}
 
 \begin{abstract}
 本文围绕多智能体协作与工具调用格式稳定性展开。首先基于开源框架搭建包含任务分解、
@@ -57,8 +60,10 @@ base 为 82.5\%，但自由文本参数会让 exact match 偏低。在 31 条系
 \noindent\textbf{关键词：}多智能体系统；工具调用；LoRA；LangGraph；稳定性
 \end{abstract}
 
+\clearpage
 \tableofcontents
-\newpage
+\clearpage
+\pagenumbering{arabic}
 
 \section{引言}
 大语言模型通过工具调用可以访问外部计算、检索和业务接口，但单 Agent
@@ -194,19 +199,6 @@ LoRA rank 为 16，alpha 为 32，target 为全部线性层；学习率 $2\times
 训练 2 个 epoch，cutoff length 为 2048，开启 gradient checkpointing 和
 paged AdamW。T4 不支持 bf16，因此使用 fp16。
 
-\IfFileExists{figures/training_loss.png}{
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.75\linewidth]{figures/training_loss.png}
-  \caption{QLoRA 训练损失曲线}
-  \label{fig:loss}
-\end{figure}
-}{}
-
-图~\ref{fig:loss} 给出扩展数据训练的损失曲线：前 100 步下降较快，
-之后趋于平稳，最终 train loss 为 0.031，eval loss 为 0.012。曲线没有
-明显反弹，说明 2 个 epoch 的学习率设置基本稳定。
-
 第一次训练并未成功。数据文件使用了 OpenAI 的 \texttt{messages} 字段，
 而 LLaMA-Factory 的 \texttt{sharegpt} 转换器读取的是 \texttt{conversations}，
 训练在数据加载阶段报 \texttt{KeyError: 'conversations'}。将训练数据改为
@@ -273,6 +265,19 @@ seed 对照把结论改了回来：v2 并不稳定地更差。hard schema 的均
 1,124 没有带来稳定提升，也没有稳定损害；v2 的均值略高，但差异在
 seed 方差内。** 最终报告保留 v1 作为主 adapter，原因是 750 条数据更小、
 训练更省，且没有证据表明 v2 更好；v2 作为“数据扩展的方差分析”保留。
+
+\IfFileExists{figures/training_loss.png}{
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\linewidth]{figures/training_loss.png}
+  \caption{v2 扩展数据训练的损失曲线}
+  \label{fig:loss}
+\end{figure}
+}{}
+
+图~\ref{fig:loss} 给出 v2 的损失曲线：前 100 步下降较快，之后趋于
+平稳，最终 train loss 为 0.031，eval loss 为 0.012。曲线没有明显反弹，
+说明 2 个 epoch 的学习率设置基本稳定。
 
 \clearpage
 \section{实验设置}\label{sec:experiments}
@@ -494,7 +499,7 @@ LoRA 仍然领先：hard 工具名 91.2\% 对 82.5\%，OOD 工具名 90.0\% 对
 
 \begin{table}[htbp]
   \centering
-  \caption{31 条任务上的协作模式对比（每条任务执行 1 次）}
+  \caption{31 条任务上的协作模式对比（未加 few-shot，每条任务 1 次）}
   \label{tab:modes}
   \begin{tabular}{lcccc}
     \toprule
@@ -527,7 +532,7 @@ Reviewer 的通过率从 base 的 54.8\% 提升到 LoRA 的 77.4\%。这个提�
 审查能力”与“工具结果质量”。
 
 \paragraph{多步任务的失败位置}
-检查 7 条多步任务的 trace 后，问题比较集中。6 条任务的 Planner 只
+在未加 few-shot 的 sequential 中，检查 7 条多步任务的 trace 后，问题比较集中。6 条任务的 Planner 只
 给出了 1 个子任务，Executor 也只调用 1 个工具；只有
 \path{multi_search_weather} 被拆成 2 个子任务并成功。也就是说，
 多步任务的失败首先发生在计划层，而不是工具格式层。
@@ -541,7 +546,7 @@ query，Reviewer 给了 0.95 分，但严格按 expected calls 判定失败；
 任务完成。
 
 \subsection{角色消融}
-表~\ref{tab:role} 比较了五种角色分配。全 LoRA 配置的成功率最高，
+表~\ref{tab:role} 比较了五种角色分配。未加 few-shot 时，全 LoRA 配置的成功率最高，
 为 80.6\%；只把 Planner 换成 base 模型，成功率降到 71.0\%（LoRA
 Reviewer）和 74.2\%（base Reviewer）。只把 Reviewer 换成 base 模型，
 成功率为 77.4\%，也低于全 LoRA。去掉 Reviewer 后，成功率降到
@@ -551,7 +556,7 @@ Reviewer）和 74.2\%（base Reviewer）。只把 Reviewer 换成 base 模型，
 
 \begin{table}[htbp]
   \centering
-  \caption{角色分配消融（31 条任务，每条 1 次）}
+  \caption{角色分配消融（未加 few-shot，31 条任务各 1 次）}
   \label{tab:role}
   \begin{tabular}{lcccc}
     \toprule
@@ -653,7 +658,7 @@ debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94s。Judge 有�
 
 \begin{table}[htbp]
   \centering
-  \caption{温度对全 LoRA 串行流程的影响（31 条任务 $\times$ 3 次）}
+  \caption{温度对全 LoRA 串行流程的影响（未加 few-shot，31 条任务 $\times$ 3 次）}
   \label{tab:temperature}
   \begin{tabular}{lccccc}
     \toprule
@@ -707,8 +712,9 @@ Reviewer prompt，而是先把工具结果做真实。这个现象说明，多�
 自由文本参数也没有做规范化。后续需要扩大 OOD，加入多工具调用，并对
 枚举参数和文本参数分别评测。
 
-第二，系统任务里 31 条已经跑完一轮，但多步任务只完成了 1 条。single
-模式天然只能调用一次工具，不能把它在多步任务上的失败解释为模型能力差；
+第二，系统任务里 31 条已经跑完一轮，但多步任务在未加 few-shot 时
+只完成了 1 条；加 few-shot 后提高到 3/7，仍有 4 条失败。single 模式
+天然只能调用一次工具，不能把它在多步任务上的失败解释为模型能力差；
 真正需要分析的是 sequential 下 Planner 的拆分粒度和 Executor 的单步
 执行限制。base Planner 的子任务更多，但成功率反而下降，说明问题不只是
 “Planner 不拆”，还包括“拆得对不对”。目前多步任务的样本数也偏少，
