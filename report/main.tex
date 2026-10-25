@@ -93,7 +93,8 @@ Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成分开：41 �
 实验表明，LoRA 把难例 schema 合规率从 94.7\% 提升到 98.2\%，工具名准确率
 从 86.0\% 提升到 91.2\%；base + few-shot 虽然把 schema 提到 96.5\%，工具名
 仍只有 82.5\%，说明收益不只是 prompt 示例。OOD 上 LoRA 的工具名为 90.0\%，
-base 为 82.5\%，但参数归一化后两者都是 32/32，LoRA 的优势主要在工具选择。
+base 为 82.5\%，但参数归一化后，zero-shot 四个配置都是 32/32，base +
+few-shot 是 31/32，LoRA 的优势主要在工具选择。
 系统任务上，base 的 sequential 成功率从 single 的 67.7\% 降到 51.6\%；
 LoRA sequential 为 80.6\%，few-shot 后为 83.9\%，但只比 single 多解决一条
 任务，延迟约为 6 倍；supervisor 成功率相同但延迟增加约 64\%，debate 降到
@@ -133,7 +134,8 @@ LoRA raises hard-case schema compliance from 94.7\% to 98.2\% and tool-name
 accuracy from 86.0\% to 91.2\%. A base + few-shot baseline reaches 96.5\% schema
 compliance but only 82.5\% tool-name accuracy, so the gain is not just prompt
 examples. On OOD cases, LoRA reaches 90.0\% tool-name accuracy versus 82.5\% for
-the base model, while normalized argument matching is 32/32 for both. On system
+the base model, while normalized argument matching is 32/32 for the four
+zero-shot runs and 31/32 for base + few-shot. On system
 tasks, base sequential success drops from 67.7\% (single-agent) to 51.6\%; LoRA
 sequential reaches 80.6\% (83.9\% with a few-shot Planner), but only solves one
 more task than single-agent at about 6$\times$ the latency. Supervisor matches
@@ -910,7 +912,7 @@ vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分�
 Qwen2.5-3B-Instruct；评测覆盖 41 条简单样本、57 条难例、40 条未见工具
 OOD 和 31 条系统任务。实验结果可以按三个研究问题总结。
 
-\textbf{RQ1：LoRA 改善的是格式和工具选择，不是参数细节。}
+\textbf{RQ1：LoRA 改善的是格式和工具选择，并不主要改善参数细节。}
 在 57 条难例上，LoRA 把 schema 合规率从 94.7\% 提升到 98.2\%，工具名
 准确率从 86.0\% 提升到 91.2\%。base + few-shot 能把 schema 提到 96.5\%，
 但工具名仍只有 82.5\%，说明收益不只是 prompt 示例。在 40 条未见工具
@@ -931,7 +933,7 @@ sequential 恢复到 80.6\%，few-shot 后为 83.9\%，但只比 single 多解�
 
 \textbf{RQ3：格式稳定不等于任务稳定，小样本差异需要方差控制。}
 温度 0.7 下 JSON/schema 仍是 100\%，任务成功率却从 80.6\% 降到 74.2\%；
-Reviewer 通过率反而升高，说明它更容易放行不完整的计划。v1（750）与
+Reviewer 通过率反而升高，说明通过率不能直接当作任务完成率。v1（750）与
 v2（1,124）各训练 3 个 seed 后，均值差异落在一个标准差以内，单次
 v1/v2 的 1--2 条格式差异不能直接支持“数据量有效/无效”的结论。后续
 的小数据 adapter 比较至少应报告 3 个 seed 的均值和方差。
