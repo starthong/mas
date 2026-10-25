@@ -224,48 +224,7 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
   \label{fig:architecture}
 \end{figure}
 
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[
-    box/.style={draw, rounded corners, minimum width=2.0cm,
-      minimum height=0.65cm, align=center, font=\small},
-    >=Latex
-  ]
-    % sequential
-    \node[font=\bfseries, anchor=west] at (-3.6,1.2) {Sequential};
-    \node[box] (p1) at (0,0) {Planner};
-    \node[box] (e1) at (2.6,0) {Executor};
-    \node[box] (r1) at (5.2,0) {Reviewer};
-    \draw[->] (p1) -- (e1);
-    \draw[->] (e1) -- (r1);
-    \draw[->] (r1.north) -- ++(0,0.55) -| node[pos=0.25, above, font=\scriptsize] {不通过} (p1.north);
 
-    % supervisor
-    \node[font=\bfseries, anchor=west] at (-3.6,-1.0) {Supervisor};
-    \node[box] (p2) at (0,-2.2) {Planner};
-    \node[box] (s2) at (2.6,-2.2) {Supervisor};
-    \node[box] (e2) at (5.2,-2.2) {Executor};
-    \node[box] (r2) at (2.6,-3.4) {Reviewer};
-    \draw[->] (p2) -- (s2);
-    \draw[->] (s2) -- (e2);
-    \draw[->] (e2.south) -- ++(0,-0.45) -| (s2.south);
-    \draw[->] (s2) -- (r2);
-
-    % debate
-    \node[font=\bfseries, anchor=west] at (-3.6,-3.9) {Debate};
-    \node[box] (pa) at (0,-4.7) {Planner A};
-    \node[box] (pb) at (0,-5.6) {Planner B};
-    \node[box] (j) at (2.6,-5.15) {Judge};
-    \node[box] (e3) at (5.2,-5.15) {Executor};
-    \node[box] (r3) at (7.8,-5.15) {Reviewer};
-    \draw[->] (pa) -- (j);
-    \draw[->] (pb) -- (j);
-    \draw[->] (j) -- (e3);
-    \draw[->] (e3) -- (r3);
-  \end{tikzpicture}
-  \caption{三种协作拓扑：串行、监督和辩论}
-  \label{fig:topologies}
-\end{figure}
 
 \subsection{角色与状态}
 Planner 接收任务，输出不超过 5 个有序子任务，每个子任务包含
@@ -448,10 +407,12 @@ seed 方差内。** 最终报告保留 v1 作为主 adapter，原因是 750 条�
 开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码；
 训练在 Kaggle 的 Linux 容器中完成，GPU 为 Tesla T4 16GB。
 基座模型为 Qwen2.5-3B-Instruct，LoRA adapter 文件大小约 114MB。
-推理使用 transformers + PEFT 的 4-bit 加载，没有使用 vLLM：当前
-任务是串行依赖调用，vLLM 的 continuous batching 主要提高独立请求的
-吞吐，不能直接降低单个任务的端到端延迟；同时 adapter 兼容和部署
-风险高于当前 31 条任务规模带来的收益。
+推理使用 transformers + PEFT 的 4-bit 加载，与训练和评测端保持一致。
+本文没有把 serving 优化作为实验变量：当前流程是串行依赖调用，
+continuous batching 主要面向独立请求的吞吐，不改变单个任务内部的
+依赖延迟；在 31 条任务的评测规模下，引入新的 serving 栈会增加环境
+变量，不利于复现。vLLM 的吞吐收益属于后续部署工作，不是本文结论的
+一部分。
 
 \subsection{任务与指标}
 格式评测使用 41 条简单样本和 57 条难例，指标包括 JSON 可解析率、
@@ -461,9 +422,11 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
 
 系统评测的任务集包含 31 条任务，其中 24 条为单步任务，7 条为多步任务。
 单步任务要求一次工具调用；多步任务要求按顺序完成两个及以上工具调用。
-当前已完成 31 条任务各一轮的对比，全 LoRA 在温度 0 和 0.7 下各 3 次的
-稳定性实验，57 条难例的四组格式评测，以及 40 条未见工具 OOD 的四组
-格式评测。OOD 只检查格式和工具选择，不执行工具。
+数据规模上，主实验使用 750 条训练集；4.3 节另用 1,124 条扩展集训练
+3 个 seed，估计数据配方和训练方差。评测覆盖 41 条简单样本、57 条难例、
+40 条未见工具 OOD 和 31 条系统任务；对照包括 base、LoRA、base +
+few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度和
+seed。OOD 只检查格式和工具选择，不执行工具。
 
 \subsection{对照与协作模式}
 对照模型为原始 Qwen2.5-3B-Instruct 和加载 LoRA adapter 后的模型。
@@ -476,6 +439,50 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
         执行下一个子任务、交给 Reviewer，还是结束；
   \item \textbf{debate}：两个 Planner 分别提出计划，Judge 选一个，再执行和审查。
 \end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    box/.style={draw, rounded corners, minimum width=2.0cm,
+      minimum height=0.65cm, align=center, font=\small},
+    >=Latex
+  ]
+    % sequential
+    \node[font=\bfseries, anchor=west] at (-3.6,1.2) {Sequential};
+    \node[box] (p1) at (0,0) {Planner};
+    \node[box] (e1) at (2.6,0) {Executor};
+    \node[box] (r1) at (5.2,0) {Reviewer};
+    \draw[->] (p1) -- (e1);
+    \draw[->] (e1) -- (r1);
+    \draw[->] (r1.north) -- ++(0,0.55) -| node[pos=0.25, above, font=\scriptsize] {不通过} (p1.north);
+
+    % supervisor
+    \node[font=\bfseries, anchor=west] at (-3.6,-1.0) {Supervisor};
+    \node[box] (p2) at (0,-2.2) {Planner};
+    \node[box] (s2) at (2.6,-2.2) {Supervisor};
+    \node[box] (e2) at (5.2,-2.2) {Executor};
+    \node[box] (r2) at (2.6,-3.4) {Reviewer};
+    \draw[->] (p2) -- (s2);
+    \draw[->] (s2) -- (e2);
+    \draw[->] (e2.south) -- ++(0,-0.45) -| (s2.south);
+    \draw[->] (s2) -- (r2);
+
+    % debate
+    \node[font=\bfseries, anchor=west] at (-3.6,-3.9) {Debate};
+    \node[box] (pa) at (0,-4.7) {Planner A};
+    \node[box] (pb) at (0,-5.6) {Planner B};
+    \node[box] (j) at (2.6,-5.15) {Judge};
+    \node[box] (e3) at (5.2,-5.15) {Executor};
+    \node[box] (r3) at (7.8,-5.15) {Reviewer};
+    \draw[->] (pa) -- (j);
+    \draw[->] (pb) -- (j);
+    \draw[->] (j) -- (e3);
+    \draw[->] (e3) -- (r3);
+  \end{tikzpicture}
+  \caption{三种协作拓扑：串行、监督和辩论}
+  \label{fig:topologies}
+\end{figure}
+
 图~\ref{fig:topologies} 把三种拓扑放在同一视角下：sequential 是固定
 顺序链，supervisor 有中心调度节点，debate 先并行产生两个计划再交给
 Judge。三者的消息数和失败模式因此不同，后文的延迟差异也来自这里。
