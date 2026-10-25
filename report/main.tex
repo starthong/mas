@@ -126,9 +126,8 @@ sequential, supervisor, and debate topologies. A 750-sample tool-calling SFT set
 is used to fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA; a 1,124-sample
 expanded set is also trained with three seeds for variance control. Evaluation
 separates format, tool selection, and task success on 41 simple cases, 57 hard
-cases, 40
-unseen-tool OOD cases, and 31 system tasks; we also run base + few-shot, role,
-temperature, and seed ablations.
+cases, 40 unseen-tool OOD cases, and 31 system tasks; we also run base +
+few-shot, role, temperature, and seed ablations.
 
 LoRA raises hard-case schema compliance from 94.7\% to 98.2\% and tool-name
 accuracy from 86.0\% to 91.2\%. A base + few-shot baseline reaches 96.5\% schema
@@ -194,8 +193,11 @@ stability
 
 \clearpage
 \section{相关工作}
-多智能体系统通过角色分工与消息传递扩展单模型能力\cite{yao2023react}；
-LangGraph 用状态图描述节点和条件边，适合实现带循环的 Agent 流程\cite{langgraph}。
+多智能体系统通过角色分工与消息传递扩展单模型能力，已被用于任务规划、
+代码生成、信息检索和复杂问答等场景\cite{yao2023react}。LangGraph 用状态
+图描述节点和条件边，适合实现带循环的 Agent 流程\cite{langgraph}。现有
+工作往往关注拓扑设计或提示策略，较少在相同工具和任务集上同时控制模型
+微调与协作成本；本文把这两条线放在同一套评测下比较。
 工具调用评测通常把格式合法性和语义正确性分开，Berkeley Function Calling
 Leaderboard 就采用 AST 匹配和可执行性检查\cite{bfcl}。
 LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低显存需求\cite{dettmers2023qlora}。
@@ -226,7 +228,6 @@ LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低�
   \caption{三角色多智能体协作流程}
   \label{fig:architecture}
 \end{figure}
-
 
 
 \subsection{角色与状态}
@@ -347,6 +348,13 @@ eval loss 为 0.012。表~\ref{tab:v2} 先给出一次运行的结果。
 降到 66.7\%，OOD 工具名从 90.0\% 降到 87.5\%。但这个差异只有 1--2 条
 样本，不能直接归因于数据量。为了区分真实效应和训练噪声，用 seed
 42/43/44 各训练一次 v1 和 v2，表~\ref{tab:seed} 给出均值和标准差。
+
+这里比较的不是同一组参数的两个 checkpoint：v1 和 v2 的 adapter 参数
+本来就会不同，因为训练数据不同。实验控制同一基座模型、同一超参、同一
+评测集和同一组 seed，把“数据配方”作为干预变量；seed 重复用来估计训练
+噪声。由于 v1/v2 同时改变了数据量和数据组成，这个对照只能回答“这套
+扩展配方是否稳定更好”，不能单独把差异归因于数据量。若要分离纯数据量，
+还需要构造 v1 重复到 1,124 条、或从 v2 中抽样 750 条的对照。
 
 \begin{table}[htbp]
   \centering
@@ -671,8 +679,8 @@ LoRA 仍然领先：hard 工具名 91.2\% 对 82.5\%，OOD 工具名 90.0\% 对
     \toprule
     模式 & base 成功率 & LoRA 成功率 & base 延迟 & LoRA 延迟 \\
     \midrule
-    single & 0.677 & 0.774 & 2.14s & 3.33s \\
-    sequential & 0.516 & 0.806 & 21.93s & 20.07s \\
+    single & 0.677 & 0.774 & 2.14~s & 3.33~s \\
+    sequential & 0.516 & 0.806 & 21.93~s & 20.07~s \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -716,7 +724,7 @@ query，Reviewer 给了 0.95 分，但严格按 expected calls 判定失败；
 为 80.6\%；只把 Planner 换成 base 模型，成功率降到 71.0\%（LoRA
 Reviewer）和 74.2\%（base Reviewer）。只把 Reviewer 换成 base 模型，
 成功率为 77.4\%，也低于全 LoRA。去掉 Reviewer 后，成功率降到
-74.2\%，延迟从 20.07s 降到 9.96s。base Planner 产生的子任务更多
+74.2\%，延迟从 20.07~s 降到 9.96~s。base Planner 产生的子任务更多
 （平均 1.26 和 1.42 个），但成功率没有提高，说明“拆得多”不等于
 “拆得对”。
 
@@ -728,11 +736,11 @@ Reviewer）和 74.2\%（base Reviewer）。只把 Reviewer 换成 base 模型，
     \toprule
     配置 & 成功率 & Schema & Reviewer 通过 & 延迟 \\
     \midrule
-    全 LoRA & 0.806 & 1.000 & 0.774 & 20.07s \\
-    LoRA Planner + base Reviewer & 0.774 & 1.000 & 0.516 & 22.32s \\
-    LoRA Planner + 无 Reviewer & 0.742 & 1.000 & - & 9.96s \\
-    base Planner + LoRA Reviewer & 0.710 & 1.000 & 0.871 & 22.55s \\
-    base Planner + base Reviewer & 0.742 & 0.968 & 0.677 & 24.46s \\
+    全 LoRA & 0.806 & 1.000 & 0.774 & 20.07~s \\
+    LoRA Planner + base Reviewer & 0.774 & 1.000 & 0.516 & 22.32~s \\
+    LoRA Planner + 无 Reviewer & 0.742 & 1.000 & - & 9.96~s \\
+    base Planner + LoRA Reviewer & 0.710 & 1.000 & 0.871 & 22.55~s \\
+    base Planner + base Reviewer & 0.742 & 0.968 & 0.677 & 24.46~s \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -757,9 +765,9 @@ errors 为 0。
     \toprule
     模式 & 成功率 & 多步成功率 & 平均结果数 & 延迟 \\
     \midrule
-    sequential & 0.839 & 3/7 & 1.29 & 17.86s \\
-    supervisor & 0.839 & 3/7 & 1.29 & 29.22s \\
-    debate & 0.806 & 2/7 & 1.35 & 40.94s \\
+    sequential & 0.839 & 3/7 & 1.29 & 17.86~s \\
+    supervisor & 0.839 & 3/7 & 1.29 & 29.22~s \\
+    debate & 0.806 & 2/7 & 1.35 & 40.94~s \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -773,14 +781,14 @@ sequential 和 supervisor 的 95\% Wilson 置信区间都是 [0.674, 0.929]，
 debate 是 [0.637, 0.908]；区间大幅重叠，一轮 31 条任务不足以声称
 三种拓扑有显著差异。Supervisor 与 sequential 的逐任务结果完全相同，
 Debate 只比 sequential 少一条，McNemar 检验 p=1.0。延迟的长尾更明显：
-三者的 P95 延迟分别为 30.9s、48.2s 和 83.7s。
+三者的 P95 延迟分别为 30.9~s、48.2~s 和 83.7~s。
 
-supervisor 的成功率与 sequential 完全相同，但延迟从 17.86s 增到
-29.22s。原因是 supervisor 的提前 review 被 guard 阻止后，实际行为
+supervisor 的成功率与 sequential 完全相同，但延迟从 17.86~s 增到
+29.22~s。原因是 supervisor 的提前 review 被 guard 阻止后，实际行为
 退化为“逐个子任务执行 + 一次审查”，路由层只增加了调用开销。这是一
 个明确的负结果：主管角色没有带来更好的任务完成，只是更贵。
 
-debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94s。Judge 有时
+debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94~s。Judge 有时
 选择“把两个查询合并成一个”的短计划，有时选择过度拆分的计划；它没
 有稳定地选出更可执行的方案。两个 Planner 加一个 Judge 的辩论，没有
 超过一个 few-shot Planner。
@@ -830,8 +838,8 @@ debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94s。Judge 有�
     \toprule
     温度 & 成功率 & JSON/Schema & Reviewer 通过 & 平均结果数 & 延迟 \\
     \midrule
-    0 & 0.806 & 1.000 & 0.774 & 1.03 & 20.26s \\
-    0.7 & 0.742 & 1.000 & 0.860 & 1.17 & 21.05s \\
+    0 & 0.806 & 1.000 & 0.774 & 1.03 & 20.26~s \\
+    0.7 & 0.742 & 1.000 & 0.860 & 1.17 & 21.05~s \\
     \bottomrule
   \end{tabular}
 \end{table}
