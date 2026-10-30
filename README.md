@@ -3,9 +3,9 @@
 多智能体工具调用研究原型：Planner / Executor / Reviewer 三角色协作，
 以及面向工具调用 JSON 协议的 QLoRA 微调实验。
 
-项目面向有限、可复现的工具集，重点不是构建通用 Agent 平台，而是研究两个
+项目面向有限、可复现的工具集，重点不是构建通用 Agent 平台，而是研究三个
 问题：LoRA 能否稳定多智能体链路中的工具调用；不同协作拓扑是否真的提升
-任务完成率，代价是什么。
+任务完成率、代价是什么；温度、数据规模和随机种子是否改变结论。
 
 ## 系统
 
@@ -40,7 +40,7 @@
 | 系统任务 | 31 | 24 条单步 + 7 条多步 |
 
 基座模型为 Qwen2.5-3B-Instruct，训练使用 4-bit QLoRA（rank 16，alpha 32，
-2 epoch，T4）。主 adapter 位于 Kaggle 私有 Dataset
+2 epoch，T4）。主 adapter 位于 Kaggle Dataset
 `starthong/mas-3b-toolcall-output`；v1/v2 的 seed 对照各自训练 3 个 adapter。
 训练和测试按场景划分，避免同一模板同时出现在两边。
 
