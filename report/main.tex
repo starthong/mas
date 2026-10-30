@@ -15,8 +15,10 @@
 \usepackage{xurl}
 \usepackage{microtype}
 \usepackage{float}
+\usepackage{etoolbox}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,positioning}
+\AtBeginEnvironment{table}{\small}
 \urlstyle{same}
 \captionsetup{font=small,labelfont=bf}
 \setlist{nosep}
@@ -906,7 +908,7 @@ Reviewer prompt，而是先把工具结果做真实。这个现象说明，多�
 
 \clearpage
 \section{讨论与局限性}
-本文的结果还只是阶段性结果，主要有五个局限。
+本文的结果还只是阶段性结果，主要有六个局限。
 
 第一，简单格式测试只有 41 条，而且过于简单，base 的 JSON/schema 已经
 达到 100\%。57 条难例把 base 拉低到 91.2\%--94.7\%，LoRA 仍有 98.2\%。
@@ -939,6 +941,11 @@ LoRA，但没有做 JSON mode、grammar-constrained decoding 或 LoRA + 约束
 解码的对照，因此不能把格式收益完全归因于微调。token 成本和 P95 延迟
 只在部分新实验中采集，早期稳定性结果没有逐样本 token 数；后续应在
 vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分开评估。
+
+第六，微调只覆盖单步工具调用协议，没有为 Planner 的任务拆解和 Reviewer
+的完整性检查构造专用训练数据；这些角色仍共享同一个 adapter，角色能力的
+差异不能完全归因于微调数据。后续可以分别构造“规划/审查”样本，并比较
+分角色 adapter 与共享 adapter 的差异。
 
 \clearpage
 \section{结论}\label{sec:conclusion}
@@ -995,6 +1002,7 @@ Reviewer 的完整性检查，以及约束解码和多工具 OOD 评测，而不
   \item \path{results/}：每个配置的逐样本 JSON 记录和 summary，不只保留聚合指标；
   \item \path{configs/}：QLoRA 主配置、扩展数据配置和 6 个 seed 配置。
 \end{itemize}
+代码仓库：\url{https://github.com/starthong/mas}。
 adapter 约 114MB，未放入 Git，保存在 Kaggle Dataset
 \texttt{starthong/mas-3b-toolcall-output}；报告结果对应主 adapter 和
 \texttt{results/} 中的记录。

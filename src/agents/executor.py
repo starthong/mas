@@ -14,8 +14,9 @@ if TYPE_CHECKING:
 class Executor:
     """Execute one subtask by selecting and calling one tool.
 
-    This is intentionally a single-step executor. The next iteration should
-    turn it into a ReAct loop with a max step budget and per-step observations.
+    The executor is single-step by design: each subtask selects one tool.
+    Tool and parsing errors are recorded and passed to the reviewer instead of
+    being silently retried.
     """
 
     def __init__(
