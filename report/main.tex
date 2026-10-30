@@ -20,6 +20,8 @@
 \urlstyle{same}
 \captionsetup{font=small,labelfont=bf}
 \setlist{nosep}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
 \setlength{\emergencystretch}{3em}
 
 \lstset{
@@ -103,7 +105,7 @@ LoRA sequential 为 80.6\%，few-shot 后为 83.9\%，但只比 single 多解决
 数据量。
 
 因此，LoRA 改善的是工具调用协议和工具选择，而不是规划和审查能力；“更多
-角色”或“更多数据”都不会自动带来更好的任务完成，协作拓扑的延迟和错误
+角色”或“更多数据”并不能自动保证更好的任务完成，协作拓扑的延迟和错误
 传播必须和成功率一起评估。
 
 \vspace{0.5em}
@@ -698,6 +700,33 @@ single 只多解决了一条任务，延迟却约为单 Agent 的 6 倍。多出
 主要来自多步任务，但 7 条多步任务中只完成了 1 条，说明当前 Planner
 对多步任务的拆分仍然很弱。
 
+\paragraph{样本量与统计口径}
+31 条系统任务中只有 7 条多步任务，单组结果不足以做稳定的显著性判断。
+表~\ref{tab:ci} 给出主要配置的成功率和 Wilson 95\% 置信区间；区间大量
+重叠，说明本文的系统成功率应作为描述性结果，而不是“显著优于”的证据。
+3 个 seed 的对照只用于 v1/v2 格式评测，不是 31 条系统任务各跑 3 次；
+系统任务只跑了 1 轮，温度稳定性另行跑了 3 次。
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{系统任务成功率的 95\% Wilson 置信区间（n=31）}
+  \label{tab:ci}
+  \begin{tabular}{lccc}
+    \toprule
+    配置 & 成功数 & 成功率 & 95\% CI \\
+    \midrule
+    base single & 21/31 & 0.677 & [0.501, 0.814] \\
+    base sequential & 16/31 & 0.516 & [0.348, 0.680] \\
+    LoRA single & 24/31 & 0.774 & [0.602, 0.886] \\
+    LoRA sequential & 25/31 & 0.806 & [0.637, 0.908] \\
+    few-shot sequential & 26/31 & 0.839 & [0.674, 0.929] \\
+    supervisor & 26/31 & 0.839 & [0.674, 0.929] \\
+    debate & 25/31 & 0.806 & [0.637, 0.908] \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 Reviewer 的通过率从 base 的 54.8\% 提升到 LoRA 的 77.4\%。这个提升
 有一部分来自工具层：早期 \texttt{search} 是 mock，返回结果明确写着
 没有真实语料，Reviewer 判不通过是合理的；换成本地 20 篇文档的关键词
@@ -927,8 +956,8 @@ OOD 和 31 条系统任务。实验结果可以按三个研究问题总结。
 OOD 上，LoRA 的工具名为 90.0\%，base 为 82.5\%；但语言代码和股票别名
 归一化后，zero-shot 的四个配置（base/LoRA × 温度 0/0.7）在非
 \path{final_answer} 样本上的参数匹配都是 32/32，base + few-shot 是
-31/32。因此，LoRA 的主要作用是把输出协议和工具名对齐，而不是让参数
-推理更准。
+31/32。因此，LoRA 的主要作用是把输出协议和工具名对齐，但没有证据表明它让
+参数推理更准。
 
 \textbf{RQ2：多智能体不自动优于单 Agent，拓扑有明确的延迟代价。}
 base 的 sequential 成功率从 single 的 67.7\% 降到 51.6\%，说明把基座模型
@@ -947,14 +976,28 @@ v1/v2 的 1--2 条格式差异不能直接支持“数据量有效/无效”的�
 已经用 3 个 seed 报告了均值和方差；后续其他小数据 adapter 比较也应
 沿用这一设置，而不是只看单次运行。
 
-这些结果说明，LoRA 解决的是“模型会不会按协议调用工具”，而不是“模型
-会不会规划和审查”。多智能体系统的设计应同时报告成功率、延迟和错误
-传播；在工具协议稳定之后，更值得投入的是 Planner 的任务拆分、Reviewer
-的完整性检查，以及约束解码和多工具 OOD 评测，而不是继续增加角色。
+这些结果说明，LoRA 主要解决的是“模型会不会按协议调用工具”，并没有
+解决“模型会不会规划和审查”。多智能体系统的设计应同时报告成功率、延迟
+和错误传播；在工具协议稳定之后，更值得投入的是 Planner 的任务拆分、
+Reviewer 的完整性检查，以及约束解码和多工具 OOD 评测，而不是继续
+增加角色。
 
 \clearpage
 \appendix
 \section{复现命令与提示词}
+
+\paragraph{材料清单}
+仓库包含完整源码、训练/测试数据、配置和原始评测记录：
+\begin{itemize}
+  \item \path{src/}：三角色 Agent、LangGraph 工作流、工具层和评测代码；
+  \item \path{data/}：750 条主训练集、1,124 条扩展集、41/57/40 三套测试集、
+        31 条系统任务和 seed 配置；
+  \item \path{results/}：每个配置的逐样本 JSON 记录和 summary，不只保留聚合指标；
+  \item \path{configs/}：QLoRA 主配置、扩展数据配置和 6 个 seed 配置。
+\end{itemize}
+adapter 约 114MB，未放入 Git，保存在 Kaggle Dataset
+\texttt{starthong/mas-3b-toolcall-output}；报告结果对应主 adapter 和
+\texttt{results/} 中的记录。
 
 \paragraph{数据}
 训练集和简单测试集由 \path{scripts/build_toolcall_dataset.py} 生成；
