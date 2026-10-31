@@ -142,6 +142,7 @@ def main() -> int:
     parser.add_argument("--adapter", default=None)
     parser.add_argument("--planner-adapter", default=None)
     parser.add_argument("--reviewer-adapter", default=None)
+    parser.add_argument("--planner-base-model", default=None)
     parser.add_argument(
         "--reviewer",
         choices=["lora", "ft", "base", "none"],
@@ -191,9 +192,9 @@ def main() -> int:
         model_label = args.model
 
     base_client = None
-    if planner_mode == "base" or reviewer_mode == "base":
+    if reviewer_mode == "base":
         if args.backend != "hf":
-            raise SystemExit("base planner/reviewer is only supported with --backend hf")
+            raise SystemExit("base reviewer is only supported with --backend hf")
         base_client = build_client(
             "hf",
             base_model=args.base_model,
@@ -201,13 +202,24 @@ def main() -> int:
             load_in_4bit=args.load_in_4bit,
         )
 
-    planner_client = base_client if planner_mode == "base" else None
+    planner_base_model = args.planner_base_model or args.base_model
+    planner_client = None
     reviewer_client = base_client if reviewer_mode == "base" else None
     extra_clients = []
-    if planner_mode == "lora" and args.planner_adapter:
+    if planner_mode == "base":
+        if args.backend != "hf":
+            raise SystemExit("base planner is only supported with --backend hf")
         planner_client = build_client(
             "hf",
-            base_model=args.base_model,
+            base_model=planner_base_model,
+            adapter=None,
+            load_in_4bit=args.load_in_4bit,
+        )
+        extra_clients.append(planner_client)
+    elif args.planner_adapter:
+        planner_client = build_client(
+            "hf",
+            base_model=planner_base_model,
             adapter=args.planner_adapter,
             load_in_4bit=args.load_in_4bit,
         )

@@ -11,6 +11,8 @@ CATEGORIES="${CATEGORIES:-}"
 PLANNER_SAMPLES="${PLANNER_SAMPLES:-1}"
 PLANNER_ADAPTER="${PLANNER_ADAPTER:-}"
 REVIEWER_ADAPTER="${REVIEWER_ADAPTER:-}"
+PLANNER_MODE="${PLANNER_MODE:-lora}"
+PLANNER_BASE_MODEL="${PLANNER_BASE_MODEL:-}"
 
 # 默认使用主 adapter（v1 数据训练），不是 v2 扩展数据 adapter。
 cd "$REPO_DIR"
@@ -24,13 +26,16 @@ fi
 if [ -n "$REVIEWER_ADAPTER" ]; then
   extra+=(--reviewer-adapter "$REVIEWER_ADAPTER")
 fi
+if [ -n "$PLANNER_BASE_MODEL" ]; then
+  extra+=(--planner-base-model "$PLANNER_BASE_MODEL")
+fi
 python -m src.experiments.run_modes \
   --backend hf \
   --base-model "$BASE_MODEL" \
   --adapter "$ADAPTER" \
   --tasks data/system_tasks_expanded.jsonl \
   --modes "$MODES" \
-  --planner lora \
+  --planner "$PLANNER_MODE" \
   --reviewer lora \
   --planner-examples \
   --planner-samples "$PLANNER_SAMPLES" \
