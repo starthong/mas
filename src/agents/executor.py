@@ -18,6 +18,8 @@ class Executor:
     不会静默重试。
     """
 
+    _SYNTHESIS_CUES = ("总结", "建议", "比较", "解释", "说明", "分析", "回答")
+
     def __init__(
         self,
         client: LLMClient,
@@ -35,6 +37,7 @@ class Executor:
         context: str = "",
     ) -> dict[str, Any]:
         system = build_system_prompt(self.registry.describe())
+        goal = str(subtask.get("goal", ""))
         user = (
             f"Overall task:\n{task}\n\n"
             f"Current subtask:\n{json.dumps(subtask, ensure_ascii=False)}\n\n"
@@ -42,6 +45,12 @@ class Executor:
             "Choose one tool call for the current subtask. "
             "Return only the JSON object."
         )
+        if context and any(cue in goal for cue in self._SYNTHESIS_CUES):
+            user += (
+                "\n\nThe previous results already contain the data needed by "
+                "this subtask. Required tool for this step: final_answer. "
+                "Do not repeat the previous lookup."
+            )
 
         raw = ""
         try:
