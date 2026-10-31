@@ -36,11 +36,13 @@ def build_graph(
     enable_reviewer: bool = True,
     mode: str = "sequential",
     planner_few_shot: bool = False,
+    planner_samples: int = 1,
 ):
     planner = Planner(
         planner_client or client,
         temperature=temperature,
         few_shot=planner_few_shot,
+        samples=planner_samples,
     )
     executor = Executor(client, registry, temperature=temperature)
     reviewer = Reviewer(reviewer_client or client, temperature=temperature)
@@ -190,6 +192,7 @@ def build_graph(
             planner_client or client,
             temperature=temperature,
             few_shot=planner_few_shot,
+            samples=planner_samples,
         )
 
         def debate_planner_node(state: MASState) -> dict[str, Any]:

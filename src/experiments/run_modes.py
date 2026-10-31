@@ -98,6 +98,7 @@ def run_sequential(
     mode: str = "sequential",
     planner_few_shot: bool = False,
     max_rounds: int = 2,
+    planner_samples: int = 1,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     graph = build_graph(
         client,
@@ -109,6 +110,7 @@ def run_sequential(
         enable_reviewer=enable_reviewer,
         mode=mode,
         planner_few_shot=planner_few_shot,
+        planner_samples=planner_samples,
     )
     state = graph.invoke(
         {
@@ -130,6 +132,7 @@ def main() -> int:
     parser.add_argument("--modes", default="single,sequential")
     parser.add_argument("--categories", default=None)
     parser.add_argument("--planner-examples", action="store_true")
+    parser.add_argument("--planner-samples", type=int, default=1)
     parser.add_argument("--max-rounds", type=int, default=2)
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--temperatures", default="0")
@@ -234,6 +237,7 @@ def main() -> int:
                                 mode=mode,
                                 planner_few_shot=args.planner_examples,
                                 max_rounds=args.max_rounds,
+                                planner_samples=args.planner_samples,
                             )
                         else:
                             raise SystemExit(f"unknown mode: {mode}")

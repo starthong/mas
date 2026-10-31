@@ -20,10 +20,12 @@ class Planner:
         temperature: float = 0.0,
         few_shot: bool = False,
         system_prompt: str | None = None,
+        samples: int = 1,
     ) -> None:
         self.client = client
         self.temperature = temperature
         self.few_shot = few_shot
+        self.samples = max(1, samples)
         self.system_prompt = system_prompt or (
             PLANNER_SYSTEM_FEWSHOT if few_shot else PLANNER_SYSTEM
         )
@@ -51,6 +53,17 @@ class Planner:
             )
         return normalized
 
+    def _call(self, user: str, temperature: float) -> list[dict[str, Any]]:
+        raw = self.client.chat(
+            [
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": user},
+            ],
+            temperature=temperature,
+            max_tokens=512,
+        )
+        return self._parse_plan(raw)
+
     def plan(self, task: str, critique: str = "") -> list[dict[str, Any]]:
         self.last_error = None
         user = f"Task:\n{task}\n"
@@ -58,17 +71,17 @@ class Planner:
             user += f"\nThe reviewer rejected the previous attempt:\n{critique}\n"
             user += "Produce a revised plan that fixes these issues.\n"
 
-        raw = self.client.chat(
-            [
-                {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": user},
-            ],
-            temperature=self.temperature,
-            max_tokens=512,
-        )
+        multi_cue = any(cue in task for cue in self._MULTI_CUES)
+        plans: list[list[dict[str, Any]]] = []
 
         try:
-            plan = self._parse_plan(raw)
+            if self.samples > 1 and multi_cue:
+                # 多动作任务用多次采样，选子任务最多的一份；不读取 gold 计划。
+                for _ in range(self.samples):
+                    plans.append(self._call(user, max(0.7, self.temperature)))
+                plan = max(plans, key=len)
+            else:
+                plan = self._call(user, self.temperature)
         except Exception as exc:
             # 单条坏计划不应中断整个实验。
             self.last_error = f"{type(exc).__name__}: {exc}"
@@ -76,26 +89,14 @@ class Planner:
 
         # few-shot Planner 在明确的多动作任务上偶尔仍只给一个子任务；
         # 此时追加一次“必须拆开”的提示，不依赖 gold 工具序列。
-        if (
-            self.few_shot
-            and len(plan) == 1
-            and any(cue in task for cue in self._MULTI_CUES)
-        ):
+        if self.few_shot and len(plan) == 1 and multi_cue:
             retry_user = (
                 user
                 + "\nThis task contains multiple actions. Return at least two "
                 "ordered subtasks; do not merge two lookups into one step.\n"
             )
-            retry_raw = self.client.chat(
-                [
-                    {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": retry_user},
-                ],
-                temperature=self.temperature,
-                max_tokens=512,
-            )
             try:
-                retry_plan = self._parse_plan(retry_raw)
+                retry_plan = self._call(retry_user, self.temperature)
             except Exception:
                 return plan
             if len(retry_plan) > 1:

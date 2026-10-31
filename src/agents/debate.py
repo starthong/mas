@@ -19,14 +19,18 @@ class DebatePlanner:
         client: LLMClient,
         temperature: float = 0.0,
         few_shot: bool = False,
+        samples: int = 1,
     ) -> None:
         self.client = client
         self.temperature = temperature
-        self.planner_a = Planner(client, temperature, few_shot=few_shot)
+        self.planner_a = Planner(
+            client, temperature, few_shot=few_shot, samples=samples
+        )
         self.planner_b = Planner(
             client,
             temperature,
             system_prompt=PLANNER_CRITIC_SYSTEM,
+            samples=samples,
         )
         self.last_error: str | None = None
         self.last_choice: int | None = None
