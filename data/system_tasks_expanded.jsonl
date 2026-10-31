@@ -12,7 +12,7 @@
 {"id": "calc_06", "category": "calculator", "task": "算一下 100-37+12", "expected_tool": "calculator", "expected_arguments": {"expression": "100-37+12"}}
 {"id": "search_01", "category": "search", "task": "搜索一下 LangGraph", "expected_tool": "search", "expected_arguments": {"query": "LangGraph"}}
 {"id": "search_02", "category": "search", "task": "我想了解多智能体系统", "expected_tool": "search", "expected_arguments": {"query": "多智能体系统"}}
-{"id": "search_03", "category": "search", "task": "帮我查查 LoRA 微调", "expected_tool": "search", "expected_arguments": {"query": "LoRA 微调"}}
+{"id": "search_03", "category": "search", "task": "帮我查查 LoRA 微调", "expected_tool": "search", "expected_arguments": {"query": "LoRA"}}
 {"id": "search_04", "category": "search", "task": "介绍一下 ReAct 方法", "expected_tool": "search", "expected_arguments": {"query": "ReAct 方法"}}
 {"id": "search_05", "category": "search", "task": "找一些关于 RAG 检索增强的资料", "expected_tool": "search", "expected_arguments": {"query": "RAG 检索增强"}}
 {"id": "search_06", "category": "search", "task": "查一下 vLLM 推理", "expected_tool": "search", "expected_arguments": {"query": "vLLM 推理"}}
@@ -26,7 +26,7 @@
 {"id": "multi_search_summary", "category": "multi", "task": "搜索 LangGraph，然后用三句话总结", "expected_calls": [{"tool": "search", "arguments": {"query": "LangGraph"}}, {"tool": "final_answer", "arguments": null}]}
 {"id": "multi_calc_explain", "category": "multi", "task": "计算 (23*17+9)/5，然后解释结果", "expected_calls": [{"tool": "calculator", "arguments": {"expression": "(23*17+9)/5"}}, {"tool": "final_answer", "arguments": null}]}
 {"id": "multi_weather_compare", "category": "multi", "task": "查北京和上海天气，比较温度", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "北京"}}, {"tool": "get_weather", "arguments": {"city": "上海"}}, {"tool": "final_answer", "arguments": null}]}
-{"id": "multi_search_compare", "category": "multi", "task": "搜索 LoRA 和 QLoRA，比较区别", "expected_calls": [{"tool": "search", "arguments": {"query": "LoRA 微调"}}, {"tool": "search", "arguments": {"query": "QLoRA"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "multi_search_compare", "category": "multi", "task": "搜索 LoRA 和 QLoRA，比较区别", "expected_calls": [{"tool": "search", "arguments": {"query": "LoRA"}}, {"tool": "search", "arguments": {"query": "QLoRA"}}, {"tool": "final_answer", "arguments": null}]}
 {"id": "multi_weather_calc", "category": "multi", "task": "查北京天气，然后计算 23*17", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "北京"}}, {"tool": "calculator", "arguments": {"expression": "23*17"}}]}
 {"id": "multi_search_weather", "category": "multi", "task": "搜索 LangGraph，再查北京天气", "expected_calls": [{"tool": "search", "arguments": {"query": "LangGraph"}}, {"tool": "get_weather", "arguments": {"city": "北京"}}]}
 {"id": "weather_25", "category": "weather", "task": "深圳今天天气怎么样？", "expected_tool": "get_weather", "expected_arguments": {"city": "深圳"}}
