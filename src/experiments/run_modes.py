@@ -97,11 +97,12 @@ def run_sequential(
     enable_reviewer: bool = True,
     mode: str = "sequential",
     planner_few_shot: bool = False,
+    max_rounds: int = 2,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     graph = build_graph(
         client,
         registry,
-        max_rounds=2,
+        max_rounds=max_rounds,
         temperature=temperature,
         planner_client=planner_client,
         reviewer_client=reviewer_client,
@@ -129,6 +130,7 @@ def main() -> int:
     parser.add_argument("--modes", default="single,sequential")
     parser.add_argument("--categories", default=None)
     parser.add_argument("--planner-examples", action="store_true")
+    parser.add_argument("--max-rounds", type=int, default=2)
     parser.add_argument("--runs", type=int, default=1)
     parser.add_argument("--temperatures", default="0")
     parser.add_argument("--backend", choices=["openai", "hf"], default="hf")
@@ -231,6 +233,7 @@ def main() -> int:
                                 enable_reviewer=enable_reviewer,
                                 mode=mode,
                                 planner_few_shot=args.planner_examples,
+                                max_rounds=args.max_rounds,
                             )
                         else:
                             raise SystemExit(f"unknown mode: {mode}")

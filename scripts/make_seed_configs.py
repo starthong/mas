@@ -1,4 +1,4 @@
-"""Generate seed-controlled training configs for the v1/v2 data comparison."""
+"""生成 v1/v2 数据配方对照所需的 seed 训练配置。"""
 from __future__ import annotations
 
 from pathlib import Path
@@ -11,13 +11,13 @@ BASES = {
     "v1": ROOT / "configs" / "train_qlora_kaggle.yaml",
     "v2": ROOT / "configs" / "train_qlora_kaggle_v2.yaml",
 }
-SEEDS = (42, 43, 44)
+SEEDS = (42, 43, 44, 45, 46)
 
 for name, path in BASES.items():
     text = path.read_text(encoding="utf-8")
     for seed in SEEDS:
         body = text
-        # Replace the output directory line.
+        # 替换输出目录，使每个 seed 写入独立目录。
         lines = []
         for line in body.splitlines():
             if line.startswith("output_dir:"):
