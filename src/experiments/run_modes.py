@@ -140,6 +140,8 @@ def main() -> int:
     parser.add_argument("--model", default="toolcall")
     parser.add_argument("--base-model", default=None)
     parser.add_argument("--adapter", default=None)
+    parser.add_argument("--planner-adapter", default=None)
+    parser.add_argument("--reviewer-adapter", default=None)
     parser.add_argument(
         "--reviewer",
         choices=["lora", "ft", "base", "none"],
@@ -201,8 +203,25 @@ def main() -> int:
 
     planner_client = base_client if planner_mode == "base" else None
     reviewer_client = base_client if reviewer_mode == "base" else None
+    extra_clients = []
+    if planner_mode == "lora" and args.planner_adapter:
+        planner_client = build_client(
+            "hf",
+            base_model=args.base_model,
+            adapter=args.planner_adapter,
+            load_in_4bit=args.load_in_4bit,
+        )
+        extra_clients.append(planner_client)
+    if reviewer_mode == "lora" and args.reviewer_adapter:
+        reviewer_client = build_client(
+            "hf",
+            base_model=args.base_model,
+            adapter=args.reviewer_adapter,
+            load_in_4bit=args.load_in_4bit,
+        )
+        extra_clients.append(reviewer_client)
     enable_reviewer = reviewer_mode != "none"
-    usage_clients = [client] + ([base_client] if base_client is not None else [])
+    usage_clients = [client] + ([base_client] if base_client is not None else []) + extra_clients
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

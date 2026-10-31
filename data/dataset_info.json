@@ -14,5 +14,13 @@
       "messages": "conversations",
       "system": "system"
     }
+  },
+  "planner_sft": {
+    "file_name": "planner_sft.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "system": "system"
+    }
   }
 }
