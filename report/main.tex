@@ -797,12 +797,13 @@ Planner 的初始拆分，而不是“轮数不够”。
 \end{table}
 
 \paragraph{Planner 干预的负结果}
-多步成功率低，首先尝试了三种不改训练数据的方法：单次重试、3 次采样选
-最长计划，以及 Planner 专用 SFT（49 条和 110 条合成数据）。表~\ref{tab:planner}
-显示，五种设置都只完成 6/14，成功率完全相同；self-consistency 还把延迟
-从 25.1~s 拉到 47.7~s。Planner SFT 也没有改变子任务数量，说明问题不是
-“提示词不够强”或“再采样一次”，而是 3B Planner 本身没有学会稳定的多步
-拆分。这个负结果保留在报告中，不把多步任务写成已解决。
+多步成功率低，先尝试了不改训练数据的方法：单次重试、3 次采样选最长
+计划、Planner 专用 SFT（49 条和 110 条合成数据），以及独立的 7B base
+Planner。表~\ref{tab:planner} 显示，六种设置都只完成 6/14，成功率完全
+相同；self-consistency 还把延迟从 25.1~s 拉到 47.7~s。连 7B base
+Planner 也没有改变子任务数量，说明问题不在 3B 提示词或采样，而在当前
+任务/数据下 Planner 没有学会稳定的多步拆分。这个负结果保留在报告中，
+不把多步任务写成已解决。
 
 \begin{table}[htbp]
   \centering
@@ -818,6 +819,7 @@ Planner 的初始拆分，而不是“轮数不够”。
     3 次采样选最长 & 6/14 & 47.7~s \\
     Planner SFT（49 条） & 6/14 & 23.8~s \\
     Planner SFT（110 条） & 6/14 & 26.4~s \\
+    7B base Planner & 6/14 & 21.3~s \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1017,8 +1019,8 @@ Reviewer prompt，而是先把工具结果做真实。这个现象说明，多�
 sequential 下 Planner 的拆分粒度和 Executor 的单步执行限制。base
 Planner 的子任务更多，但成功率反而下降，说明问题不只是“Planner 不拆”，
 还包括“拆得对不对”。55 条扩展集仍只跑一次，Planner 专用 SFT（110 条）
-也没有提高 14 条多步任务的成功数；多步拆分仍是未解决的瓶颈，后续需要
-更大模型或更多规划数据。
+和 7B base Planner 都没有提高 14 条多步任务的成功数；多步拆分仍是未解决
+的瓶颈，后续需要更多规划数据或更强模型。
 
 第三，Reviewer 的角色适配还不充分。LoRA 主要学习工具调用格式，并不
 保证它能做好计划审查。全 LoRA 的 Reviewer 通过率为 77.4\%，换成
@@ -1070,9 +1072,9 @@ sequential 恢复到 80.6\%，few-shot 后为 83.9\%，但只比 single 多解�
 与 sequential 相同，延迟却增加约 64\%；debate 降到 80.6\%，延迟更高。
 55 条扩展集复核仍显示 sequential/supervisor 同为 74.5\%、debate 72.7\%；
 max\_rounds 从 1 增加到 3 没有提高多步成功率，只把延迟从 20.43~s 拉到
-29.27~s；Planner 重试、3 次采样和专用 SFT 也都停在 6/14。多出来的角色
-和消息没有转化为更高的完成率，瓶颈在 Planner 的拆分质量，而不是角色
-数量或重规划预算。
+29.27~s；Planner 重试、3 次采样、专用 SFT 和 7B base Planner 也都停在
+6/14。多出来的角色和消息没有转化为更高的完成率，瓶颈在 Planner 的拆分
+质量，而不是角色数量或重规划预算。
 
 \textbf{RQ3：格式稳定不等于任务稳定，小样本差异需要方差控制。}
 温度 0.7 下 JSON/schema 仍是 100\%，任务成功率却从 80.6\% 降到 74.2\%；

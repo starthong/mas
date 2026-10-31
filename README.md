@@ -152,6 +152,6 @@ mas/
 - 没有 JSON mode / grammar-constrained decoding 基线；
 - 系统任务 31 条、多步 7 条，扩展后 55 条、多步 14 条，但仍各只跑 1 轮；
 - 5-seed 对照只覆盖 v1/v2 格式评测，不覆盖全部系统任务；
-- Planner 重试、self-consistency 和专用 SFT 都没有提高 14 条多步任务（均 6/14），多步拆分仍未解决。
+- Planner 重试、self-consistency、专用 SFT 和 7B base Planner 都没有提高 14 条多步任务（均 6/14），多步拆分仍未解决。
 
 项目是研究原型，不是生产级 Agent 平台。
