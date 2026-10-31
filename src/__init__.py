@@ -1,3 +1,3 @@
-"""mas: research prototype for multi-agent tool calling and LoRA evaluation."""
+"""多智能体工具调用与 LoRA 评测研究原型。"""
 
 __version__ = "0.1.0"

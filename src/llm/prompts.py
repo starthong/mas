@@ -2,11 +2,11 @@ from __future__ import annotations
 
 
 def build_system_prompt(tools_description: str) -> str:
-    """Canonical tool-calling prompt.
+    """标准的工具调用提示词。
 
-    Train and inference must use this exact prompt (or an identical copy) so
-    that the LoRA comparison is not confounded by prompt changes.
+    训练和推理必须使用完全一致的提示词，避免提示词变化混淆 LoRA 对比。
     """
+    # 提示词正文保持英文，保证训练和推理分布一致。
     return f"""You are a tool-calling agent.
 
 Available tools (JSON Schema):

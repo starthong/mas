@@ -38,10 +38,12 @@
 | 难例测试 | 57 | 未见城市/主题、缺参、格式诱导 |
 | 未见工具 OOD | 40 | 4 个训练中未出现的工具 |
 | 系统任务 | 31 | 24 条单步 + 7 条多步 |
+| 扩展系统任务 | 55 | 41 条单步 + 14 条多步，用于样本量复核 |
 
 基座模型为 Qwen2.5-3B-Instruct，训练使用 4-bit QLoRA（rank 16，alpha 32，
 2 epoch，T4）。主 adapter 位于 Kaggle Dataset
-`starthong/mas-3b-toolcall-output`；v1/v2 的 seed 对照各自训练 3 个 adapter。
+`starthong/mas-3b-toolcall-output`；报告中的 v1/v2 对照各训练 3 个 adapter，
+`configs/seeds/` 已扩展到 seed 42–46，seed 45/46 用于 5-seed 复核。
 训练和测试按场景划分，避免同一模板同时出现在两边。
 
 ## 评测
@@ -54,6 +56,16 @@
 - LoRA / base Planner、LoRA / base / 无 Reviewer；
 - 温度 0 / 0.7；
 - 750 与 1,124 数据配方，各 3 个 seed（仅格式评测）。
+
+补充实验入口：
+
+| 脚本 | 内容 |
+|---|---|
+| `scripts/run_system_v2.sh` | 在 55 条扩展系统任务上跑 sequential/supervisor/debate |
+| `scripts/run_sensitivity.sh` | 在 14 条多步任务上比较 max_rounds=1/2/3 |
+| `configs/seeds/*-seed45.yaml`、`*-seed46.yaml` | v1/v2 的 5-seed 复核配置 |
+
+这些脚本用于扩大样本量和参数敏感性检验，结果尚未写入当前报告表。
 
 31 条系统任务只有 7 条多步任务，单组结果不足以做稳定的显著性判断。报告
 给出 Wilson 95% 置信区间，并将系统成功率作为描述性结果，而不是“显著优于”

@@ -1,4 +1,4 @@
-"""Compute normalized OOD exact match, Wilson intervals, and McNemar tests."""
+"""计算 OOD 归一化 exact match、Wilson 区间和 McNemar 检验。"""
 from __future__ import annotations
 
 import json

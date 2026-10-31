@@ -1,7 +1,4 @@
-"""Small local corpus used by the search tool.
-
-This keeps system experiments reproducible and avoids a live search API.
-"""
+"""检索工具使用的本地小语料。"""
 from __future__ import annotations
 
 import re
@@ -103,7 +100,7 @@ def _tokens(text: str) -> set[str]:
 
 
 def search(query: str) -> str:
-    """Return the top local documents for a query."""
+    """返回与查询最相关的本地文档。"""
     query = (query or "").strip()
     if not query:
         return "未提供检索关键词。"

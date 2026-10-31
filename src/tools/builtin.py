@@ -35,7 +35,7 @@ def _eval_ast(node: ast.AST) -> int | float:
 
 
 def calculator(expression: str) -> str:
-    """Safely evaluate a small arithmetic expression."""
+    """安全求值小型算术表达式。"""
     if not isinstance(expression, str) or len(expression) > 200:
         raise ValueError("expression must be a string shorter than 200 chars")
     tree = ast.parse(expression, mode="eval")
@@ -43,7 +43,7 @@ def calculator(expression: str) -> str:
 
 
 def get_weather(city: str) -> str:
-    """Mock weather tool with a deterministic table."""
+    """使用确定性表格的 mock 天气工具。"""
     table = {
         "北京": "晴，18-27°C，北风 2 级",
         "上海": "多云，20-26°C，东风 3 级",

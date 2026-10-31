@@ -1,1 +1,1 @@
-"""Agent roles: planner, executor, reviewer."""
+"""规划、执行和审查三类 Agent。"""

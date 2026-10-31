@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class Planner:
-    """Decompose a task into ordered subtasks."""
+    """把任务拆成有序子任务。"""
 
     def __init__(
         self,
@@ -63,6 +63,6 @@ class Planner:
                 )
             return normalized
         except Exception as exc:
-            # A broken plan should not abort the whole experiment.
+            # 单条坏计划不应中断整个实验。
             self.last_error = f"{type(exc).__name__}: {exc}"
             return [{"id": 1, "goal": task, "expected_output": ""}]

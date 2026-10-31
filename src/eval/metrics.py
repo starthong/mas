@@ -17,7 +17,7 @@ def json_parse_ok(text: str) -> bool:
 
 
 def validate_call(call: Any, tools: list[dict[str, Any]] | dict[str, Any]) -> bool:
-    """Return True only if the call names a known tool and matches its schema."""
+    """只有工具名存在且参数符合 schema 时才返回 True。"""
     if not isinstance(call, dict):
         return False
 
@@ -64,7 +64,7 @@ def exact_match(pred: Any, ref: Any) -> bool:
 
 
 def classify_format_error(text: str) -> str:
-    """Coarse taxonomy for the report's error analysis."""
+    """用于报告错误分析的粗粒度分类。"""
     raw = (text or "").strip()
     if not raw:
         return "empty"
@@ -96,7 +96,7 @@ def error_counts(records: list[dict[str, Any]]) -> dict[str, int]:
 
 
 def wilson_ci(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
-    """95% Wilson interval for a binomial proportion."""
+    """二项比例的 95% Wilson 区间。"""
     if n <= 0:
         return (0.0, 0.0)
     p = k / n

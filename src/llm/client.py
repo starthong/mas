@@ -8,10 +8,10 @@ from openai import OpenAI
 
 
 class LLMClient:
-    """Thin wrapper around an OpenAI-compatible chat endpoint.
+    """OpenAI 兼容对话接口的轻量封装。
 
-    The same client is used for the base model and the LoRA model; only the
-    model name changes. This keeps the system experiment controlled.
+    base 模型和 LoRA 模型共用同一客户端，只改变模型名，
+    以保证系统实验的其他变量不变。
     """
 
     def __init__(

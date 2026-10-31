@@ -1,4 +1,4 @@
-"""Build an OOD tool-calling test set with tools that are not in training."""
+"""构造包含训练中未见工具的 OOD 测试集。"""
 from __future__ import annotations
 
 import json
@@ -18,7 +18,7 @@ def main() -> int:
 
     cases: list[tuple[str, str, dict | None]] = []
 
-    # currency_convert
+    # 货币换算
     for user, amount, src, dst in [
         ("把 100 美元换成人民币", 100, "USD", "CNY"),
         ("500 元人民币能换多少美元", 500, "CNY", "USD"),
@@ -33,7 +33,7 @@ def main() -> int:
             "amount": amount, "from_currency": src, "to_currency": dst
         }))
 
-    # calendar_add
+    # 日期加减
     for user, date, days in [
         ("2026-10-26 往后推 7 天", "2026-10-26", 7),
         ("2026-01-01 加 30 天", "2026-01-01", 30),
@@ -46,7 +46,7 @@ def main() -> int:
     ]:
         cases.append((user, "calendar_add", {"date": date, "days": days}))
 
-    # translate
+    # 翻译
     for user, text, lang in [
         ("把“你好”翻译成英文", "你好", "English"),
         ("把“good morning”翻译成中文", "good morning", "Chinese"),
@@ -59,7 +59,7 @@ def main() -> int:
     ]:
         cases.append((user, "translate", {"text": text, "target_language": lang}))
 
-    # get_stock_price
+    # 股票查询
     for user, symbol in [
         ("查一下 AAPL 的股价", "AAPL"),
         ("腾讯控股现在股价多少", "0700.HK"),
@@ -72,7 +72,7 @@ def main() -> int:
     ]:
         cases.append((user, "get_stock_price", {"symbol": symbol}))
 
-    # Missing arguments, ambiguity, refusal, no-tool.
+    # 缺参数、歧义、拒绝和无需工具。
     for user, answer in [
         ("帮我换一下货币", "请提供金额、源货币和目标货币。"),
         ("查一下苹果", "你是指苹果公司股票还是水果？请提供股票代码。"),

@@ -6,7 +6,7 @@ from typing import Any, Callable
 
 
 class ToolError(RuntimeError):
-    """Raised when a tool is unknown or its arguments are invalid."""
+    """工具未知或参数非法时抛出。"""
 
 
 @dataclass(frozen=True)

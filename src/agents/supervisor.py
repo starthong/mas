@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class Supervisor:
-    """Choose the next action after each executor step."""
+    """在每次执行后选择下一步动作。"""
 
     def __init__(self, client: LLMClient, temperature: float = 0.0) -> None:
         self.client = client
@@ -60,9 +60,8 @@ class Supervisor:
                     "reason": str(data.get("reason", "")),
                 }
 
-            # Do not let the supervisor stop before the plan is actually done.
-            # A premature review is the main failure mode we observed in the
-            # first supervisor run.
+            # 计划尚未执行完时，不允许监督器提前结束。
+            # 首轮监督实验中观察到的主要失败模式就是过早审查。
             has_error = any(item.get("error") for item in results)
             if cursor < len(plan) and not has_error:
                 return {

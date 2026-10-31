@@ -1,9 +1,4 @@
-"""Generate a small tool-calling SFT set from templates.
-
-This is deliberately synthetic: the goal is to teach output format and tool
-selection, not world knowledge. Replace or extend the templates with real
-queries before drawing conclusions about task quality.
-"""
+"""按模板生成工具调用 SFT 数据。"""
 from __future__ import annotations
 
 import argparse
@@ -92,7 +87,7 @@ def _assistant_json(name: str, arguments: dict) -> str:
 
 
 def make_train_sample(system: str, user: str, name: str, arguments: dict) -> dict:
-    """LLaMA-Factory sharegpt format with a separate system column."""
+    """LLaMA-Factory 的 sharegpt 格式，system 单独一列。"""
     return {
         "system": system,
         "conversations": [
@@ -103,7 +98,7 @@ def make_train_sample(system: str, user: str, name: str, arguments: dict) -> dic
 
 
 def make_test_sample(system: str, user: str, name: str, arguments: dict) -> dict:
-    """OpenAI-style messages, used by src/eval/run_eval.py."""
+    """OpenAI messages 格式，供 run_eval.py 使用。"""
     return {
         "messages": [
             {"role": "system", "content": system},
@@ -169,7 +164,7 @@ def build_test(system: str, rng: random.Random) -> list[dict]:
         seen.add(user)
         samples.append(make_test_sample(system, user, name, args))
 
-    # Held-out cities / topics / templates, so the test set is not a copy of train.
+    # 留出城市、主题和模板，避免测试集直接复制训练集。
     for city in ["厦门", "青岛", "昆明"]:
         for template in ["{city}天气怎么样？", "查一下{city}的天气"]:
             add(template.format(city=city), "get_weather", {"city": city})

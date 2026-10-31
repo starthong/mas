@@ -1,4 +1,4 @@
-"""Build few-shot variants of the hard and OOD test sets."""
+"""为 hard 和 OOD 测试集生成 few-shot 版本。"""
 from __future__ import annotations
 
 import json

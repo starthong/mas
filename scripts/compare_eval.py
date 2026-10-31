@@ -1,4 +1,4 @@
-"""Compare two run_eval.py outputs and show the cases where they differ."""
+"""比较两份 run_eval 输出并列出差异样本。"""
 from __future__ import annotations
 
 import argparse

@@ -5,10 +5,10 @@ from typing import Any
 
 
 class HFClient:
-    """Local transformers/peft backend, mainly for Kaggle evaluation.
+    """本地 transformers/peft 后端，主要用于 Kaggle 评测。
 
-    The public ``chat`` interface mirrors ``LLMClient`` so the evaluation and
-    agent code do not need to know which backend is used.
+    对外提供与 ``LLMClient`` 一致的 ``chat`` 接口，
+    因此评测和 Agent 代码不需要感知后端差异。
     """
 
     def __init__(
@@ -69,7 +69,7 @@ class HFClient:
         temperature: float | None = None,
         max_tokens: int | None = None,
     ) -> str:
-        # ``model`` is accepted for interface compatibility and ignored.
+        # 为保持接口兼容，接受 ``model`` 参数但忽略它。
         del model
         text = self.tokenizer.apply_chat_template(
             list(messages),

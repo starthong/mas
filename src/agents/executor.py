@@ -12,11 +12,10 @@ if TYPE_CHECKING:
 
 
 class Executor:
-    """Execute one subtask by selecting and calling one tool.
+    """执行单个子任务：为当前子任务选择并调用一个工具。
 
-    The executor is single-step by design: each subtask selects one tool.
-    Tool and parsing errors are recorded and passed to the reviewer instead of
-    being silently retried.
+    执行器按设计只执行一步；工具错误和解析错误会写入结果并交给审查器，
+    不会静默重试。
     """
 
     def __init__(

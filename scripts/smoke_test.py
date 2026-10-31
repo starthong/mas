@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Minimal smoke test for an OpenAI-compatible endpoint.
+"""对 OpenAI 兼容端点做最小连通性测试。
 
-Run from the repository root:
+在仓库根目录运行：
     python scripts/smoke_test.py
     MODEL_NAME=base python scripts/smoke_test.py
 """

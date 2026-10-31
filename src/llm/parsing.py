@@ -5,10 +5,10 @@ from typing import Any
 
 
 def parse_json_strict(text: str) -> dict[str, Any]:
-    """Parse exactly what the model returned.
+    """严格解析模型原始输出。
 
-    Used by evaluation: markdown fences, prose, or trailing text must count as
-    format errors, so this function deliberately does not repair anything.
+    评测使用该函数：Markdown 围栏、解释文字或尾随文本都算格式错误，
+    因此这里故意不做任何修复。
     """
     obj = json.loads(text)
     if not isinstance(obj, dict):
@@ -17,11 +17,10 @@ def parse_json_strict(text: str) -> dict[str, Any]:
 
 
 def parse_json_loose(text: str) -> dict[str, Any]:
-    """Best-effort parser used at runtime, not for reporting metrics.
+    """运行时尽力解析，不能用于报告指标。
 
-    The agent should keep running even if the model wraps JSON in a markdown
-    fence or adds a short explanation. The evaluation pipeline uses
-    ``parse_json_strict`` instead.
+    即使模型把 JSON 包在 Markdown 中或加了解释，Agent 也应继续运行；
+    评测流程使用 ``parse_json_strict``。
     """
     raw = (text or "").strip()
     if not raw:
@@ -44,8 +43,7 @@ def parse_json_loose(text: str) -> dict[str, Any]:
         try:
             obj = json.loads(candidate)
         except json.JSONDecodeError:
-            # Small models sometimes drop a comma or a closing bracket.
-            # Repair at runtime; strict evaluation still uses the raw output.
+            # 小模型偶尔会漏逗号或右括号；运行时修复，严格评测仍使用原始输出。
             from json_repair import repair_json
 
             repaired = repair_json(raw)

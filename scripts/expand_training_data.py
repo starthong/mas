@@ -1,4 +1,4 @@
-"""Append more template coverage to the SFT set without touching the original."""
+"""在原始 SFT 数据后追加更多模板覆盖。"""
 from __future__ import annotations
 
 import json

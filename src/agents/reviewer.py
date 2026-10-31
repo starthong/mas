@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class Reviewer:
-    """Check whether the executor's results satisfy the task."""
+    """检查执行结果是否满足原任务。"""
 
     def __init__(self, client: LLMClient, temperature: float = 0.0) -> None:
         self.client = client

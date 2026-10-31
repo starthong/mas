@@ -1,4 +1,4 @@
-"""Run single-agent vs sequential multi-agent experiments on system tasks."""
+"""在系统任务上运行单 Agent 和多智能体实验。"""
 from __future__ import annotations
 
 import argparse

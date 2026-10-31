@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class DebatePlanner:
-    """Two planners propose plans; a judge picks one."""
+    """两个规划器分别提出计划，由裁判选择一个。"""
 
     def __init__(
         self,
@@ -63,7 +63,7 @@ class DebatePlanner:
             return plan_a if choice == 1 else plan_b
         except Exception as exc:  # noqa: BLE001 - judge failure should not abort
             self.last_error = f"{type(exc).__name__}: {exc}"
-            # The longer plan is the safer fallback for multi-step tasks.
+            # 多步任务下，选择更长的计划作为兜底。
             choice = 1 if len(plan_a) >= len(plan_b) else 2
             self.last_choice = choice
             self.last_reason = "fallback: choose the longer plan"

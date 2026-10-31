@@ -1,1 +1,1 @@
-"""Evaluation metrics and format-error taxonomy."""
+"""评测指标和格式错误分类。"""

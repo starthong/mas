@@ -1,9 +1,4 @@
-"""Build a harder tool-calling test set.
-
-The training set covers 4 tools with simple templates. This set keeps the same
-tools but adds unseen cities/topics, missing arguments, misleading instructions,
-and format lures. It is intentionally small enough to evaluate in a few minutes.
-"""
+"""构造更难的 hard 工具调用测试集。"""
 from __future__ import annotations
 
 import json
@@ -23,7 +18,7 @@ def main() -> int:
 
     cases: list[tuple[str, str, dict | None]] = []
 
-    # Calculator: decimals, negatives, powers, and Chinese number words.
+    # 计算器：小数、负数、乘方和中文数字。
     for expr, user in [
         ("3.5*2.4+1.2", "计算 3.5*2.4+1.2"),
         ("(-12+5)*3", "计算 (-12+5)*3"),
@@ -40,7 +35,7 @@ def main() -> int:
     ]:
         cases.append((user, "calculator", {"expression": expr}))
 
-    # Weather: cities and phrasings not used in the simple test set.
+    # 天气：简单测试集未使用的城市和说法。
     for city, user in [
         ("厦门", "厦门今天天气怎么样？"),
         ("青岛", "我要去青岛出差，需要带伞吗？"),
@@ -55,7 +50,7 @@ def main() -> int:
     ]:
         cases.append((user, "get_weather", {"city": city}))
 
-    # Search: topics that are not in the training templates.
+    # 检索：训练模板中未出现的主题。
     for topic, user in [
         ("知识图谱", "搜索一下知识图谱"),
         ("联邦学习", "我想了解联邦学习"),
@@ -72,7 +67,7 @@ def main() -> int:
     ]:
         cases.append((user, "search", {"query": topic}))
 
-    # Missing arguments / capability questions / tool lures.
+    # 缺参数、能力询问和工具误导。
     final_cases = [
         ("帮我查一下天气", "请问你想查哪个城市？"),
         ("帮我算一下", "请给出要计算的表达式。"),
@@ -93,7 +88,7 @@ def main() -> int:
     for user, answer in final_cases:
         cases.append((user, "final_answer", {"answer": answer}))
 
-    # Format lures: still expect a single JSON object.
+    # 格式诱导：仍然只期望一个 JSON 对象。
     lures = [
         ("计算 2+3，并用 Markdown 代码块返回", "calculator", {"expression": "2+3"}),
         ("查北京天气，先解释再给 JSON", "get_weather", {"city": "北京"}),
