@@ -392,6 +392,9 @@ seed 对照把结论改了回来：v2 并不稳定地更差。hard schema 的均
 1,124 没有带来稳定提升，也没有稳定损害；v2 的均值略高，但差异在
 seed 方差内。** 最终报告保留 v1 作为主 adapter，原因是 750 条数据更小、
 训练更省，且没有证据表明 v2 更好；v2 作为“数据扩展的方差分析”保留。
+这里把 v1 视为预先设定的基线，v2 是后续的数据扩展消融；比较用于判断
+是否值得替换基线，而不是根据系统任务结果重新选模型。第 5 章因此沿用
+v1 基线。
 
 \IfFileExists{figures/training_loss.png}{
 \begin{figure}[htbp]
@@ -435,10 +438,12 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
 few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度和
 seed。OOD 只检查格式和工具选择，不执行工具。
 
-需要区分两条实验线：系统任务固定使用主 adapter（v1），目的是隔离
-sequential/supervisor/debate 的拓扑差异；v1/v2 只在 4.3 节的格式评测上
-比较数据配方。若在系统任务上同时换 adapter，拓扑效应会和 adapter 效应
-混在一起，无法解释成功率变化来自哪里。
+报告的组织顺序是：4.3 节先给出 v1/v2 两套数据配方的格式对照；v1 是
+预先设定的基线，v2 是后续扩展消融。两者没有稳定差异，因此第 5 章沿用
+v1 基线做系统任务与拓扑消融，不再更换 adapter。这样
+sequential/supervisor/debate 的差异可以归因于拓扑，而不是 adapter；
+若在系统任务上同时换 adapter，拓扑效应会和 adapter 效应混在一起，无法
+解释成功率变化来自哪里。
 
 \subsection{对照与协作模式}
 对照模型为原始 Qwen2.5-3B-Instruct 和加载 LoRA adapter 后的模型。
