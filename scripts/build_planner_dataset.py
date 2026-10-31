@@ -123,6 +123,76 @@ for prompt, expr in zip(chat_prompts[:3], calc_exprs[:3]):
         ),
     )
 
+# 额外模板：增加城市、算式和主题覆盖，仍避开 55 条评测集的主模板。
+extra_cities = ["济南", "合肥", "福州", "南昌", "贵阳", "南宁", "海口", "兰州", "银川", "乌鲁木齐"]
+for city in extra_cities:
+    add(f"{city}天气如何？", ((f"查询{city}的天气", "天气信息"),))
+    add(f"查一下{city}现在的温度", ((f"查询{city}当前的温度", "温度信息"),))
+
+extra_exprs = [
+    "36*5+12",
+    "(120-24)/8",
+    "11**2+19",
+    "84/7-3",
+    "27*3+18",
+    "144/12+9",
+    "15*6-21",
+    "96/8+17",
+]
+for expr in extra_exprs:
+    add(f"帮我计算 {expr}", ((f"计算表达式 {expr}", "数值结果"),))
+
+extra_topics = ["稠密检索", "稀疏检索", "语义缓存", "提示压缩", "工具学习", "函数调用", "规划器", "审查器"]
+for topic in extra_topics:
+    add(f"查一下{topic}的资料", ((f"搜索{topic}的相关资料", "检索结果"),))
+
+extra_chats = [
+    "用一句话解释什么是 RAG",
+    "给我一个学习建议",
+    "推荐一个开源项目",
+    "现在适合休息吗",
+    "你有哪些限制",
+]
+for prompt in extra_chats:
+    add(prompt, (("直接回答用户的问题", "回答"),))
+
+for left, right in zip(extra_cities[:5], extra_cities[5:]):
+    add(
+        f"查{left}和{right}的天气，比较温度",
+        (
+            (f"查询{left}的天气", "天气信息"),
+            (f"查询{right}的天气", "天气信息"),
+            (f"比较{left}和{right}的温度", "比较结果"),
+        ),
+    )
+
+for topic, expr in zip(extra_topics[:5], extra_exprs[:5]):
+    add(
+        f"搜索{topic}，再计算 {expr}",
+        (
+            (f"搜索{topic}的相关资料", "检索结果"),
+            (f"计算表达式 {expr}", "数值结果"),
+        ),
+    )
+
+for city, topic in zip(extra_cities[:5], extra_topics[3:8]):
+    add(
+        f"先查{topic}，再查{city}天气",
+        (
+            (f"搜索{topic}的相关资料", "检索结果"),
+            (f"查询{city}的天气", "天气信息"),
+        ),
+    )
+
+for prompt, expr in zip(extra_chats[:5], extra_exprs[3:8]):
+    add(
+        f"计算 {expr}，然后{prompt}",
+        (
+            (f"计算表达式 {expr}", "数值结果"),
+            (f"{prompt}", "最终回答"),
+        ),
+    )
+
 OUT.write_text(
     "\n".join(json.dumps(row, ensure_ascii=False) for row in rows) + "\n",
     encoding="utf-8",
