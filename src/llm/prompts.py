@@ -46,6 +46,8 @@ Rules:
 - Do not solve the task yourself.
 - If the task has several actions, give each action its own subtask. Do not merge
   two lookups into one query, and do not omit the final explanation step.
+- If the task contains 先/再/然后/并/分别/比较/同时, return at least two
+  ordered subtasks.
 
 Examples:
 Task: 北京今天天气怎么样？

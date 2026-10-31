@@ -12,6 +12,8 @@ if TYPE_CHECKING:
 class Planner:
     """把任务拆成有序子任务。"""
 
+    _MULTI_CUES = ("先", "再", "然后", "并", "分别", "比较", "同时")
+
     def __init__(
         self,
         client: LLMClient,
@@ -21,10 +23,33 @@ class Planner:
     ) -> None:
         self.client = client
         self.temperature = temperature
+        self.few_shot = few_shot
         self.system_prompt = system_prompt or (
             PLANNER_SYSTEM_FEWSHOT if few_shot else PLANNER_SYSTEM
         )
         self.last_error: str | None = None
+
+    def _parse_plan(self, raw: str) -> list[dict[str, Any]]:
+        data = parse_json_loose(raw)
+        subtasks = data.get("subtasks")
+        if not isinstance(subtasks, list) or not subtasks:
+            raise ValueError(f"planner returned no subtasks: {raw!r}")
+
+        normalized: list[dict[str, Any]] = []
+        for index, item in enumerate(subtasks[:5], start=1):
+            if not isinstance(item, dict):
+                raise ValueError(f"subtask is not an object: {item!r}")
+            goal = str(item.get("goal", "")).strip()
+            if not goal:
+                raise ValueError(f"subtask has no goal: {item!r}")
+            normalized.append(
+                {
+                    "id": item.get("id", index),
+                    "goal": goal,
+                    "expected_output": str(item.get("expected_output", "")).strip(),
+                }
+            )
+        return normalized
 
     def plan(self, task: str, critique: str = "") -> list[dict[str, Any]]:
         self.last_error = None
@@ -41,28 +66,39 @@ class Planner:
             temperature=self.temperature,
             max_tokens=512,
         )
-        try:
-            data = parse_json_loose(raw)
-            subtasks = data.get("subtasks")
-            if not isinstance(subtasks, list) or not subtasks:
-                raise ValueError(f"planner returned no subtasks: {raw!r}")
 
-            normalized: list[dict[str, Any]] = []
-            for index, item in enumerate(subtasks[:5], start=1):
-                if not isinstance(item, dict):
-                    raise ValueError(f"subtask is not an object: {item!r}")
-                goal = str(item.get("goal", "")).strip()
-                if not goal:
-                    raise ValueError(f"subtask has no goal: {item!r}")
-                normalized.append(
-                    {
-                        "id": item.get("id", index),
-                        "goal": goal,
-                        "expected_output": str(item.get("expected_output", "")).strip(),
-                    }
-                )
-            return normalized
+        try:
+            plan = self._parse_plan(raw)
         except Exception as exc:
             # 单条坏计划不应中断整个实验。
             self.last_error = f"{type(exc).__name__}: {exc}"
             return [{"id": 1, "goal": task, "expected_output": ""}]
+
+        # few-shot Planner 在明确的多动作任务上偶尔仍只给一个子任务；
+        # 此时追加一次“必须拆开”的提示，不依赖 gold 工具序列。
+        if (
+            self.few_shot
+            and len(plan) == 1
+            and any(cue in task for cue in self._MULTI_CUES)
+        ):
+            retry_user = (
+                user
+                + "\nThis task contains multiple actions. Return at least two "
+                "ordered subtasks; do not merge two lookups into one step.\n"
+            )
+            retry_raw = self.client.chat(
+                [
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": retry_user},
+                ],
+                temperature=self.temperature,
+                max_tokens=512,
+            )
+            try:
+                retry_plan = self._parse_plan(retry_raw)
+            except Exception:
+                return plan
+            if len(retry_plan) > 1:
+                return retry_plan
+
+        return plan
