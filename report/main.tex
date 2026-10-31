@@ -435,6 +435,11 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
 few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度和
 seed。OOD 只检查格式和工具选择，不执行工具。
 
+需要区分两条实验线：系统任务固定使用主 adapter（v1），目的是隔离
+sequential/supervisor/debate 的拓扑差异；v1/v2 只在 4.3 节的格式评测上
+比较数据配方。若在系统任务上同时换 adapter，拓扑效应会和 adapter 效应
+混在一起，无法解释成功率变化来自哪里。
+
 \subsection{对照与协作模式}
 对照模型为原始 Qwen2.5-3B-Instruct 和加载 LoRA adapter 后的模型。
 协作模式包括：
