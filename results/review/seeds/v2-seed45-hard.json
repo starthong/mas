@@ -1,0 +1,1452 @@
+{
+  "summary": {
+    "model": "/kaggle/working/output/seeds/v2-seed45",
+    "backend": "hf",
+    "registry": "default",
+    "data": "data/test/toolcall_hard.jsonl",
+    "n": 57,
+    "json_parse_rate": 1.0,
+    "schema_rate": 0.9824561403508771,
+    "schema_rate_ci95": [
+      0.9070903306173727,
+      0.9968964152933198
+    ],
+    "name_accuracy": 0.9122807017543859,
+    "exact_match_rate": 0.7368421052631579,
+    "format_error_counts": {
+      "ok": 57
+    },
+    "avg_latency_ms": 3045.959944350934,
+    "p95_latency_ms": 4209.809587000564,
+    "avg_prompt_tokens": 472.7543859649123,
+    "avg_completion_tokens": 20.31578947368421,
+    "avg_llm_calls": 1.0
+  },
+  "records": [
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"3.5*2.4+1.2\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "3.5*2.4+1.2"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "3.5*2.4+1.2"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 4353.199757999391,
+      "prompt_tokens": 479,
+      "completion_tokens": 26,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(-12+5)*3\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(-12+5)*3"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(-12+5)*3"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3247.7547959997537,
+      "prompt_tokens": 474,
+      "completion_tokens": 22,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(100-37)/7\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(100-37)/7"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(100-37)/7"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3360.448247000022,
+      "prompt_tokens": 476,
+      "completion_tokens": 23,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"2^10\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "2^10"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "2**10"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2882.440104000125,
+      "prompt_tokens": 477,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"1/3+1/6\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "1/3+1/6"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "1/3+1/6"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3248.9857999999003,
+      "prompt_tokens": 477,
+      "completion_tokens": 22,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "23*17"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "23*17"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2989.555492999898,
+      "prompt_tokens": 473,
+      "completion_tokens": 20,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(8.5+1.5)*4\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(8.5+1.5)*4"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(8.5+1.5)*4"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3556.61215300006,
+      "prompt_tokens": 477,
+      "completion_tokens": 24,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"99/9-2\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "99/9-2"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "99/9-2"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3154.097917999934,
+      "prompt_tokens": 478,
+      "completion_tokens": 21,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*(8+9)-10\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "7*(8+9)-10"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "7*(8+9)-10"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3410.000379999474,
+      "prompt_tokens": 476,
+      "completion_tokens": 23,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"144/12+18\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "144/12+18"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "144/12+18"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3554.7722740002428,
+      "prompt_tokens": 478,
+      "completion_tokens": 24,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"-5*6+40\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "-5*6+40"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "-5*6+40"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3176.4705309997225,
+      "prompt_tokens": 474,
+      "completion_tokens": 21,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"2.5^2\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "2.5^2"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "2.5**2"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3022.703617000843,
+      "prompt_tokens": 473,
+      "completion_tokens": 20,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"厦门\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "厦门"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "厦门"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2608.38983100075,
+      "prompt_tokens": 471,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"青岛\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "青岛"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "青岛"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2647.0984389998193,
+      "prompt_tokens": 476,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"昆明\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "昆明"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "昆明"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2631.750219999958,
+      "prompt_tokens": 471,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"长沙\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "长沙"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "长沙"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2629.8236120001093,
+      "prompt_tokens": 472,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"苏州\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "苏州"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "苏州"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2656.2113010004396,
+      "prompt_tokens": 471,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"天津\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "天津"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "天津"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2670.764476999466,
+      "prompt_tokens": 472,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"郑州\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "郑州"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "郑州"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2604.1033999999854,
+      "prompt_tokens": 470,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"济南\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "济南"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "济南"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2607.9587510002966,
+      "prompt_tokens": 472,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"福州\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "福州"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "福州"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2625.7337680008277,
+      "prompt_tokens": 471,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"合肥\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "合肥"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "合肥"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2553.8309559997288,
+      "prompt_tokens": 474,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"知识图谱\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "知识图谱"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "知识图谱"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2683.116596999753,
+      "prompt_tokens": 471,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"联邦学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "联邦学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "联邦学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2554.393839000113,
+      "prompt_tokens": 470,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"模型蒸馏\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "模型蒸馏"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "模型蒸馏"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2724.9882370015257,
+      "prompt_tokens": 472,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"对比学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "对比学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "对比学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2544.527742000355,
+      "prompt_tokens": 469,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"强化学习\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "强化学习"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "强化学习"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2539.6478029997525,
+      "prompt_tokens": 469,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"数字孪生\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "数字孪生"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "数字孪生"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2691.6021189990715,
+      "prompt_tokens": 473,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"边缘计算\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "边缘计算"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "边缘计算"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2583.157310999013,
+      "prompt_tokens": 470,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"差分隐私\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "差分隐私"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "差分隐私"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2676.957260000563,
+      "prompt_tokens": 471,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"图神经网络\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "图神经网络"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "图神经网络"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2672.037407000971,
+      "prompt_tokens": 470,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"因果推断\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "因果推断"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "因果推断"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2710.1935490009055,
+      "prompt_tokens": 470,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多模态大模型\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "多模态大模型"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "多模态大模型"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3019.6717500002705,
+      "prompt_tokens": 474,
+      "completion_tokens": 20,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"模型对齐\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "模型对齐"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "模型对齐"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2685.0946330014267,
+      "prompt_tokens": 470,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "北京"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请问你想查哪个城市？"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2547.4374929999613,
+      "prompt_tokens": 470,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5.\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(23*17+9)/5."
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请给出要计算的表达式。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3712.0227309987968,
+      "prompt_tokens": 469,
+      "completion_tokens": 25,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "北京"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "可以，请告诉我要查询的城市。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2570.7643130008364,
+      "prompt_tokens": 472,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"2+2\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "2+2"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "4"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2698.756540001341,
+      "prompt_tokens": 476,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"translate\", \"arguments\": {\"text\": \"请用 translate 工具把这句话翻译成英文。\"}}",
+      "pred": {
+        "name": "translate",
+        "arguments": {
+          "text": "请用 translate 工具把这句话翻译成英文。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "当前没有 translate 工具，无法完成翻译。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": false,
+      "name_ok": false,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3993.0265759994654,
+      "prompt_tokens": 477,
+      "completion_tokens": 27,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"好的，我先查一下天气。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "好的，我先查一下天气。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "好的。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3574.0807069996663,
+      "prompt_tokens": 472,
+      "completion_tokens": 24,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"好的，我先查一下天气。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "好的，我先查一下天气。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请给出具体任务。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3477.1423199999845,
+      "prompt_tokens": 473,
+      "completion_tokens": 24,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"好的，我查一下。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "好的，我查一下。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "请说明要处理的任务。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3248.621144999561,
+      "prompt_tokens": 474,
+      "completion_tokens": 22,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好，有什么可以帮你？\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "你好，有什么可以帮你？"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "你好，有什么可以帮你？"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3225.990679999086,
+      "prompt_tokens": 467,
+      "completion_tokens": 22,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"不用谢。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "不用谢。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "不客气。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2838.9975160007452,
+      "prompt_tokens": 467,
+      "completion_tokens": 19,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我可以查天气、做四则运算和查本地资料。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "我可以查天气、做四则运算和查本地资料。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "我可以查询天气、做四则运算和检索本地资料。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 4209.809587000564,
+      "prompt_tokens": 469,
+      "completion_tokens": 29,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"《动手学深度学习》适合从零开始，适合边做边学。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "《动手学深度学习》适合从零开始，适合边做边学。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "《动手学深度学习》适合边做边学。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 4754.638378999516,
+      "prompt_tokens": 469,
+      "completion_tokens": 33,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我这边没有日历工具，暂时查不了。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "我这边没有日历工具，暂时查不了。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "当前没有日历工具，无法查询。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 3908.710888999849,
+      "prompt_tokens": 470,
+      "completion_tokens": 27,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 5435.821040000519,
+      "prompt_tokens": 469,
+      "completion_tokens": 38,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"先把任务拆小，完成一个算一个。\"}}",
+      "pred": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "先把任务拆小，完成一个算一个。"
+        }
+      },
+      "ref": {
+        "name": "final_answer",
+        "arguments": {
+          "answer": "先把任务拆小，完成一个算一个。"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 3793.2181790001778,
+      "prompt_tokens": 469,
+      "completion_tokens": 26,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"2+3\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "2+3"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "2+3"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2759.8095449993707,
+      "prompt_tokens": 478,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "北京"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "北京"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2592.5130949999584,
+      "prompt_tokens": 475,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "LangGraph"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "LangGraph"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2522.1948830003385,
+      "prompt_tokens": 473,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"9*9\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "9*9"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "9*9"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2713.298922000831,
+      "prompt_tokens": 477,
+      "completion_tokens": 18,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "上海"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "上海"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2577.0789939997485,
+      "prompt_tokens": 473,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}",
+      "pred": {
+        "name": "search",
+        "arguments": {
+          "query": "LoRA"
+        }
+      },
+      "ref": {
+        "name": "search",
+        "arguments": {
+          "query": "LoRA 微调"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": false,
+      "format_error": "ok",
+      "latency_ms": 2593.369308999172,
+      "prompt_tokens": 474,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(7+8)*3\"}}",
+      "pred": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(7+8)*3"
+        }
+      },
+      "ref": {
+        "name": "calculator",
+        "arguments": {
+          "expression": "(7+8)*3"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2991.826620998836,
+      "prompt_tokens": 480,
+      "completion_tokens": 20,
+      "llm_calls": 1
+    },
+    {
+      "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}",
+      "pred": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "广州"
+        }
+      },
+      "ref": {
+        "name": "get_weather",
+        "arguments": {
+          "city": "广州"
+        }
+      },
+      "error": null,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "name_ok": true,
+      "exact": true,
+      "format_error": "ok",
+      "latency_ms": 2602.493291000428,
+      "prompt_tokens": 473,
+      "completion_tokens": 17,
+      "llm_calls": 1
+    }
+  ]
+}

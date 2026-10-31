@@ -1,0 +1,1098 @@
+{
+  "summary": {
+    "model": "/kaggle/input/datasets/starthong/mas-3b-toolcall-output",
+    "backend": "hf",
+    "planner": "lora",
+    "reviewer": "lora",
+    "tasks": 14,
+    "runs": 1,
+    "groups": {
+      "sequential@0.0": {
+        "n": 14,
+        "success_rate": 0.42857142857142855,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 0.8571428571428571,
+        "avg_rounds": 1.2142857142857142,
+        "avg_results": 2.2857142857142856,
+        "avg_latency_ms": 26334.55381507182,
+        "p95_latency_ms": 56370.37771500036,
+        "avg_prompt_tokens": 2961.0714285714284,
+        "avg_completion_tokens": 176.0,
+        "avg_llm_calls": 5.357142857142857,
+        "errors": 0
+      }
+    }
+  },
+  "records": [
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice",
+      "category": "multi",
+      "task": "先查北京今天天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17367.73306199757,
+      "prompt_tokens": 1962,
+      "completion_tokens": 113,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据北京的天气建议穿衣",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary",
+      "category": "multi",
+      "task": "搜索 LangGraph，然后用三句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 18450.793814001372,
+      "prompt_tokens": 2308,
+      "completion_tokens": 121,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用三句话总结 LangGraph",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成其他任务。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成其他任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain",
+      "category": "multi",
+      "task": "计算 (23*17+9)/5，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 19783.345282998198,
+      "prompt_tokens": 1989,
+      "completion_tokens": 133,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 80。"
+          },
+          "result": "这个计算结果是 80。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 80。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare",
+      "category": "multi",
+      "task": "查北京和上海天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 3,
+      "latency_ms": 49633.761430999584,
+      "prompt_tokens": 5339,
+      "completion_tokens": 334,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询上海天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较北京和上海的温度",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "任务3的结果不正确。"
+        ],
+        "suggestion": "任务3应该比较北京和上海的温度。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"任务3的结果不正确。\"], \"suggestion\": \"任务3应该比较北京和上海的温度。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare",
+      "category": "multi",
+      "task": "搜索 LoRA 和 QLoRA，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 26166.401600003155,
+      "prompt_tokens": 3433,
+      "completion_tokens": 171,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LoRA 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 QLoRA 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          },
+          "result": "[1] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[2] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"QLoRA\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 LoRA 和 QLoRA 的区别",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          },
+          "result": "[1] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。\n[2] QLoRA: QLoRA 在 4-bit 量化基座上做 LoRA，进一步降低显存需求。它让 7B 级模型可以在 16GB 显存的卡上微调。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc",
+      "category": "multi",
+      "task": "查北京天气，然后计算 23*17",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17291.565999999875,
+      "prompt_tokens": 1955,
+      "completion_tokens": 117,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 23*17",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather",
+      "category": "multi",
+      "task": "搜索 LangGraph，再查北京天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17151.169632001256,
+      "prompt_tokens": 2171,
+      "completion_tokens": 114,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[1] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[2] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。\n[3] LoRA 微调: LoRA 冻结基座权重，只训练低秩适配矩阵。它显著减少可训练参数和显存占用，适合任务格式对齐。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询北京天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "晴，18-27°C，北风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice_expanded",
+      "category": "multi",
+      "task": "先查上海天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 16619.91735000265,
+      "prompt_tokens": 1951,
+      "completion_tokens": 112,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据上海天气建议穿衣",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary_expanded",
+      "category": "multi",
+      "task": "搜索 RAG，然后用两句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 18199.81021300191,
+      "prompt_tokens": 2311,
+      "completion_tokens": 121,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 RAG 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          },
+          "result": "[1] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用两句话总结 RAG",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          },
+          "result": "[1] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain_expanded",
+      "category": "multi",
+      "task": "计算 45/9+8，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "45/9+8"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 18374.905409997154,
+      "prompt_tokens": 1958,
+      "completion_tokens": 124,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 45/9+8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "45/9+8"
+          },
+          "result": "13.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"45/9+8\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 13。"
+          },
+          "result": "这个计算结果是 13。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 13。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare_expanded",
+      "category": "multi",
+      "task": "查广州和深圳天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 3,
+      "latency_ms": 56370.37771500036,
+      "prompt_tokens": 5356,
+      "completion_tokens": 382,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询深圳天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "多云，25-31°C，东南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较广州和深圳的温度",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "雷阵雨，24-31°C，南风 2 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "{'subtask_id': 3, 'goal': '比较广州和深圳的温度', 'error': '任务未完成，需要查询深圳的温度。'}"
+        ],
+        "suggestion": "继续执行查询深圳天气的任务。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [{\"subtask_id\": 3, \"goal\": \"比较广州和深圳的温度\", \"error\": \"任务未完成，需要查询深圳的温度。\"}], \"suggestion\": \"继续执行查询深圳天气的任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare_expanded",
+      "category": "multi",
+      "task": "搜索 RAG 和 vLLM，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 3,
+      "latency_ms": 58133.012686001166,
+      "prompt_tokens": 6668,
+      "completion_tokens": 386,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 RAG",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          },
+          "result": "[1] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 vLLM",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM"
+          },
+          "result": "[1] vLLM 推理: vLLM 是面向大模型的高吞吐推理引擎，使用 PagedAttention 管理 KV cache，并提供 OpenAI 兼容接口。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 RAG 和 vLLM 的区别",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          },
+          "result": "[1] RAG 检索增强: RAG 先从外部知识库检索相关片段，再把片段放进上下文让模型回答。它适合知识密集、需要引用的问答任务。\n[2] LangGraph: LangGraph 用状态图编排 LLM 应用，节点是函数，边定义控制流。它适合实现带循环、条件分支和多角色的 Agent 工作流。\n[3] Transformer 架构: Transformer 用自注意力建模序列，核心是 query/key/value 和多头注意力。它取消了循环结构，训练时可以并行处理整个序列。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.85 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.85,
+        "issues": [],
+        "suggestion": "继续完成第二个 subtask。",
+        "raw": "{\"pass\": true, \"score\": 0.85, \"issues\": [], \"suggestion\": \"继续完成第二个 subtask。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc_expanded",
+      "category": "multi",
+      "task": "查上海天气，然后计算 12.5*4",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "12.5*4"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17817.07467399974,
+      "prompt_tokens": 1964,
+      "completion_tokens": 120,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查上海天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "多云，20-26°C，东风 3 级",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 12.5*4",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "12.5*4"
+          },
+          "result": "50.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"12.5*4\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather_expanded",
+      "category": "multi",
+      "task": "搜索 BM25，再查杭州天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "BM25"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17323.884541001462,
+      "prompt_tokens": 2090,
+      "completion_tokens": 116,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 BM25 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "BM25"
+          },
+          "result": "[1] BM25 检索: BM25 是经典的词频检索算法，按词项频率和文档长度归一化打分。它不需要训练，适合作为本地检索的基线。\n[2] 向量数据库: 向量数据库存储文本嵌入，支持近似最近邻检索。它常用于 RAG 的语义召回，也可以和 BM25 做混合检索。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"BM25\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询杭州天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：暂无数据（mock）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    }
+  ]
+}
