@@ -11,7 +11,7 @@
 | 目录 | 内容 |
 |---|---|
 | `kaggle-3b/` | v1 主 adapter 的 base/LoRA 格式评测、31 条系统任务、角色消融、温度稳定性和 hard/OOD/few-shot 结果 |
-| `kaggle-3b-v2/` | 1,124 条扩展数据训练出的 v2 adapter 的格式评测和训练指标 |
+| `kaggle-3b-expanded/` | 1,124 条扩展数据训练出的 v2 adapter 的格式评测和训练指标 |
 | `seeds/` | v1/v2 各 3 个 seed 的 hard/OOD 结果，用于方差分析 |
 
 `hard-*.json`、`ood-*.json` 和 `fewshot/*.json` 是格式评测；
