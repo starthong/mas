@@ -61,7 +61,7 @@
 
 | 脚本 | 内容 |
 |---|---|
-| `scripts/run_system_v2.sh` | 在 55 条扩展系统任务上跑 sequential/supervisor/debate |
+| `scripts/run_system_expanded.sh` | 在 55 条扩展系统任务上跑 sequential/supervisor/debate（使用主 adapter） |
 | `scripts/run_sensitivity.sh` | 在 14 条多步任务上比较 max_rounds=1/2/3 |
 | `scripts/summarize_modes.py` | 从 run_modes 输出汇总成功率、Wilson 区间和延迟 |
 | `scripts/analyze_seeds.py` | 汇总 5 个 seed 的均值、标准差和差值 |

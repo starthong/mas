@@ -46,10 +46,10 @@
 {"id": "final_39", "category": "chat", "task": "现在几点？", "expected_tool": "final_answer", "expected_arguments": {"answer": "当前没有时钟工具，无法查询。"}}
 {"id": "final_40", "category": "chat", "task": "我有点累", "expected_tool": "final_answer", "expected_arguments": {"answer": "先休息十分钟，再回来做最小的一步。"}}
 {"id": "final_41", "category": "chat", "task": "辛苦你了", "expected_tool": "final_answer", "expected_arguments": {"answer": "不辛苦，继续。"}}
-{"id": "multi_weather_advice_v2", "category": "multi", "task": "先查上海天气，再根据温度建议穿什么", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "上海"}}, {"tool": "final_answer", "arguments": null}]}
-{"id": "multi_search_summary_v2", "category": "multi", "task": "搜索 RAG，然后用两句话总结", "expected_calls": [{"tool": "search", "arguments": {"query": "RAG"}}, {"tool": "final_answer", "arguments": null}]}
-{"id": "multi_calc_explain_v2", "category": "multi", "task": "计算 45/9+8，然后解释结果", "expected_calls": [{"tool": "calculator", "arguments": {"expression": "45/9+8"}}, {"tool": "final_answer", "arguments": null}]}
-{"id": "multi_weather_compare_v2", "category": "multi", "task": "查广州和深圳天气，比较温度", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "广州"}}, {"tool": "get_weather", "arguments": {"city": "深圳"}}, {"tool": "final_answer", "arguments": null}]}
-{"id": "multi_search_compare_v2", "category": "multi", "task": "搜索 RAG 和 vLLM，比较区别", "expected_calls": [{"tool": "search", "arguments": {"query": "RAG"}}, {"tool": "search", "arguments": {"query": "vLLM"}}, {"tool": "final_answer", "arguments": null}]}
-{"id": "multi_weather_calc_v2", "category": "multi", "task": "查上海天气，然后计算 12.5*4", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "上海"}}, {"tool": "calculator", "arguments": {"expression": "12.5*4"}}]}
-{"id": "multi_search_weather_v2", "category": "multi", "task": "搜索 BM25，再查杭州天气", "expected_calls": [{"tool": "search", "arguments": {"query": "BM25"}}, {"tool": "get_weather", "arguments": {"city": "杭州"}}]}
+{"id": "multi_weather_advice_expanded", "category": "multi", "task": "先查上海天气，再根据温度建议穿什么", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "上海"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "multi_search_summary_expanded", "category": "multi", "task": "搜索 RAG，然后用两句话总结", "expected_calls": [{"tool": "search", "arguments": {"query": "RAG"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "multi_calc_explain_expanded", "category": "multi", "task": "计算 45/9+8，然后解释结果", "expected_calls": [{"tool": "calculator", "arguments": {"expression": "45/9+8"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "multi_weather_compare_expanded", "category": "multi", "task": "查广州和深圳天气，比较温度", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "广州"}}, {"tool": "get_weather", "arguments": {"city": "深圳"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "multi_search_compare_expanded", "category": "multi", "task": "搜索 RAG 和 vLLM，比较区别", "expected_calls": [{"tool": "search", "arguments": {"query": "RAG"}}, {"tool": "search", "arguments": {"query": "vLLM"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "multi_weather_calc_expanded", "category": "multi", "task": "查上海天气，然后计算 12.5*4", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "上海"}}, {"tool": "calculator", "arguments": {"expression": "12.5*4"}}]}
+{"id": "multi_search_weather_expanded", "category": "multi", "task": "搜索 BM25，再查杭州天气", "expected_calls": [{"tool": "search", "arguments": {"query": "BM25"}}, {"tool": "get_weather", "arguments": {"city": "杭州"}}]}

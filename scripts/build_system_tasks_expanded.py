@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 source = ROOT / "data" / "system_tasks.jsonl"
-target = ROOT / "data" / "system_tasks_v2.jsonl"
+target = ROOT / "data" / "system_tasks_expanded.jsonl"
 
 rows = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines() if line.strip()]
 seen = {row["id"] for row in rows}
@@ -64,7 +64,7 @@ for idx, (prompt, answer) in enumerate(
     single(f"final_{idx:02d}", "chat", prompt, "final_answer", {"answer": answer})
 
 multi(
-    "multi_weather_advice_v2",
+    "multi_weather_advice_expanded",
     "先查上海天气，再根据温度建议穿什么",
     [
         {"tool": "get_weather", "arguments": {"city": "上海"}},
@@ -72,7 +72,7 @@ multi(
     ],
 )
 multi(
-    "multi_search_summary_v2",
+    "multi_search_summary_expanded",
     "搜索 RAG，然后用两句话总结",
     [
         {"tool": "search", "arguments": {"query": "RAG"}},
@@ -80,7 +80,7 @@ multi(
     ],
 )
 multi(
-    "multi_calc_explain_v2",
+    "multi_calc_explain_expanded",
     "计算 45/9+8，然后解释结果",
     [
         {"tool": "calculator", "arguments": {"expression": "45/9+8"}},
@@ -88,7 +88,7 @@ multi(
     ],
 )
 multi(
-    "multi_weather_compare_v2",
+    "multi_weather_compare_expanded",
     "查广州和深圳天气，比较温度",
     [
         {"tool": "get_weather", "arguments": {"city": "广州"}},
@@ -97,7 +97,7 @@ multi(
     ],
 )
 multi(
-    "multi_search_compare_v2",
+    "multi_search_compare_expanded",
     "搜索 RAG 和 vLLM，比较区别",
     [
         {"tool": "search", "arguments": {"query": "RAG"}},
@@ -106,7 +106,7 @@ multi(
     ],
 )
 multi(
-    "multi_weather_calc_v2",
+    "multi_weather_calc_expanded",
     "查上海天气，然后计算 12.5*4",
     [
         {"tool": "get_weather", "arguments": {"city": "上海"}},
@@ -114,7 +114,7 @@ multi(
     ],
 )
 multi(
-    "multi_search_weather_v2",
+    "multi_search_weather_expanded",
     "搜索 BM25，再查杭州天气",
     [
         {"tool": "search", "arguments": {"query": "BM25"}},

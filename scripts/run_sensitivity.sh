@@ -11,7 +11,7 @@ for rounds in 1 2 3; do
     --backend hf \
     --base-model "$BASE_MODEL" \
     --adapter "$ADAPTER" \
-    --tasks data/system_tasks_v2.jsonl \
+    --tasks data/system_tasks_expanded.jsonl \
     --categories multi \
     --modes sequential \
     --planner lora \
