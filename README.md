@@ -71,6 +71,7 @@
 |---|---|
 | `scripts/run_system_expanded.sh` | 在 55 条扩展系统任务上跑 sequential/supervisor/debate（使用主 adapter） |
 | `scripts/run_sensitivity.sh` | 在 14 条多步任务上比较 max_rounds=1/2/3 |
+| `scripts/run_constrained.sh` | vLLM guided-JSON 约束解码基线（base/LoRA，hard/OOD） |
 | `scripts/summarize_modes.py` | 从 run_modes 输出汇总成功率、Wilson 区间和延迟 |
 | `scripts/analyze_seeds.py` | 汇总 5 个 seed 的均值、标准差和差值 |
 | `configs/seeds/*-seed45.yaml`、`*-seed46.yaml` | v1/v2 的 5-seed 复核配置 |
