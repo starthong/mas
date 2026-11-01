@@ -20,22 +20,23 @@ dataset: reviewer_sft
 template: qwen
 cutoff_len: 2048
 overwrite_cache: true
-preprocessing_num_workers: 2
+preprocessing_num_workers: 4
 
 output_dir: /kaggle/working/output/reviewer-lora
-logging_steps: 5
-save_steps: 50
+logging_steps: 10
+save_steps: 100
 save_total_limit: 2
 plot_loss: true
 overwrite_output_dir: true
 report_to: none
 
-per_device_train_batch_size: 1
-gradient_accumulation_steps: 8
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 4
 learning_rate: 1.0e-4
 num_train_epochs: 3.0
 lr_scheduler_type: cosine
 warmup_ratio: 0.05
+dataloader_num_workers: 4
 
 fp16: true
 bf16: false
@@ -44,6 +45,6 @@ optim: paged_adamw_8bit
 
 do_eval: true
 val_size: 0.1
-per_device_eval_batch_size: 1
+per_device_eval_batch_size: 2
 eval_strategy: steps
-eval_steps: 50
+eval_steps: 100
