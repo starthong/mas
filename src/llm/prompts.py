@@ -48,6 +48,8 @@ Rules:
   two lookups into one query, and do not omit the final explanation step.
 - If the task contains 先/再/然后/并/分别/比较/同时, return at least two
   ordered subtasks.
+- If the task is a single arithmetic expression or a single lookup, return
+  exactly one subtask; do not split intermediate arithmetic.
 
 Examples:
 Task: 北京今天天气怎么样？
