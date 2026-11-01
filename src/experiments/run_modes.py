@@ -167,13 +167,13 @@ def main() -> int:
     reviewer_mode = "lora" if args.reviewer in ("lora", "ft") else args.reviewer
 
     tasks = load_tasks(Path(args.tasks))
-    if args.limit:
-        tasks = tasks[: args.limit]
     categories = {
         item.strip() for item in (args.categories or "").split(",") if item.strip()
     }
     if categories:
         tasks = [task for task in tasks if task.get("category") in categories]
+    if args.limit:
+        tasks = tasks[: args.limit]
     modes = [item.strip() for item in args.modes.split(",") if item.strip()]
     temperatures = [float(item) for item in args.temperatures.split(",") if item.strip()]
 
