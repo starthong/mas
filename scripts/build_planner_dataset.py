@@ -193,6 +193,17 @@ for prompt, expr in zip(extra_chats[:5], extra_exprs[3:8]):
         ),
     )
 
+# 轻量复述增强：同一组合成计划换两种请求前缀，不引入评测任务。
+base_rows = list(rows)
+for prefix in ("请帮我", "麻烦你"):
+    for row in base_rows:
+        cloned = json.loads(json.dumps(row, ensure_ascii=False))
+        human = cloned["conversations"][0]["value"]
+        cloned["conversations"][0]["value"] = human.replace(
+            "Task:\n", f"Task:\n{prefix}", 1
+        )
+        rows.append(cloned)
+
 OUT.write_text(
     "\n".join(json.dumps(row, ensure_ascii=False) for row in rows) + "\n",
     encoding="utf-8",
