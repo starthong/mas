@@ -10,3 +10,4 @@ langgraph>=0.2.0
 langchain-core>=0.3.0
 json-repair>=0.30.0
 pytest>=8.0.0
+requests>=2.31.0

@@ -29,6 +29,9 @@ def load_tasks(path: Path) -> list[dict[str, Any]]:
 def result_matches(result: dict[str, Any], expected: dict[str, Any]) -> bool:
     if result.get("error"):
         return False
+    text = str(result.get("result") or "").strip()
+    if not text or "暂无数据" in text:
+        return False
     if result.get("tool") != expected.get("tool"):
         return False
     arguments = expected.get("arguments")

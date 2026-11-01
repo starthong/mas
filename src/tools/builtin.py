@@ -3,8 +3,8 @@ from __future__ import annotations
 import ast
 import operator
 
-from src.tools.corpus import search
 from src.tools.registry import Tool, ToolRegistry
+from src.tools.web import get_weather, search
 
 _BIN_OPS = {
     ast.Add: operator.add,
@@ -40,17 +40,6 @@ def calculator(expression: str) -> str:
         raise ValueError("expression must be a string shorter than 200 chars")
     tree = ast.parse(expression, mode="eval")
     return str(_eval_ast(tree))
-
-
-def get_weather(city: str) -> str:
-    """使用确定性表格的 mock 天气工具。"""
-    table = {
-        "北京": "晴，18-27°C，北风 2 级",
-        "上海": "多云，20-26°C，东风 3 级",
-        "广州": "雷阵雨，24-31°C，南风 2 级",
-        "深圳": "多云，25-31°C，东南风 2 级",
-    }
-    return table.get(city, f"{city}：暂无数据（mock）")
 
 
 def final_answer(answer: str) -> str:

@@ -32,9 +32,11 @@
 | `supervisor` | Supervisor 在子任务之间决定继续执行、审查或结束 |
 | `debate` | 两个 Planner 提出计划，Judge 选择后执行和审查 |
 
-工具层包含天气、计算器、本地检索和 `final_answer` 四类；天气和计算器是
-确定性 mock，检索基于 20 篇本地文档的关键词/字符重叠。工具通过 JSON Schema
-注册，调用结果和错误写入共享状态。
+工具层包含天气、计算器、检索和 `final_answer` 四类。天气通过 Open-Meteo
+实时查询；检索按 Serper、Tavily、Wikipedia 的顺序调用外部服务，可用
+`SERPER_API_KEY` 或 `TAVILY_API_KEY` 提高稳定性；计算器和 `final_answer`
+是本地确定性实现。工具通过 JSON Schema 注册，调用结果和错误写入共享状态。
+OOD 工具只做 schema 注册，不执行真实操作。
 
 ## 数据与模型
 
@@ -146,12 +148,12 @@ mas/
 
 ## 范围与限制
 
-- 工具是 mock 或本地小语料，不能代表开放域真实工具；
+- 天气和检索依赖外部服务；离线时需要 API key 或缓存，OOD 工具仍是 schema 级 mock；
 - Executor 一个子任务只调用一次工具，不是完整 ReAct 循环；
 - 微调只覆盖单步工具调用协议，没有 Planner/Reviewer 专用微调数据；
 - 没有 JSON mode / grammar-constrained decoding 基线；
 - 系统任务 31 条、多步 7 条，扩展后 55 条、多步 14 条，但仍各只跑 1 轮；
 - 5-seed 对照只覆盖 v1/v2 格式评测，不覆盖全部系统任务；
-- Planner 重试、self-consistency、专用 SFT 和 7B base Planner 都没有提高 14 条多步任务（均 6/14），多步拆分仍未解决。
+- 早期 Planner 干预没有提升 14 条多步任务；后续定位为 Executor 最终答案路由，修复后的 55/25 条结果见报告。
 
 项目是研究原型，不是生产级 Agent 平台。
