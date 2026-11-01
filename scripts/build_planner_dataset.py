@@ -1,7 +1,8 @@
-"""生成 Planner 专用 SFT 数据；任务模板与评测集不重合。"""
+"""生成较大规模的 Planner SFT 数据；任务模板避开 55 条和 holdout。"""
 from __future__ import annotations
 
 import json
+import random
 import sys
 from pathlib import Path
 
@@ -12,6 +13,7 @@ from src.llm.prompts import PLANNER_SYSTEM_FEWSHOT
 
 OUT = ROOT / "data" / "planner_sft.jsonl"
 rows: list[dict] = []
+seen_tasks: set[str] = set()
 
 
 def plan(*subtasks: tuple[str, str]) -> dict:
@@ -24,6 +26,9 @@ def plan(*subtasks: tuple[str, str]) -> dict:
 
 
 def add(task: str, subtasks: tuple[tuple[str, str], ...]) -> None:
+    if task in seen_tasks:
+        return
+    seen_tasks.add(task)
     rows.append(
         {
             "system": PLANNER_SYSTEM_FEWSHOT,
@@ -38,64 +43,77 @@ def add(task: str, subtasks: tuple[tuple[str, str], ...]) -> None:
     )
 
 
-weather_cities = ["南京", "苏州", "天津", "重庆", "长沙", "厦门", "青岛", "昆明"]
-for city in weather_cities:
-    add(
-        f"{city}今天天气怎么样？",
-        ((f"查询{city}今天的天气", "天气信息"),),
-    )
-    add(
-        f"帮我看看{city}现在多少度",
-        ((f"查询{city}当前的温度", "温度信息"),),
-    )
-
-calc_exprs = [
-    "18*7+6",
-    "(64-16)/8",
-    "9**2-11",
-    "72/9+14",
-    "31*4-25",
-    "125/5+7",
+# 避开 55 条和 holdout 使用的主城市。
+cities = [
+    "南京", "苏州", "天津", "重庆", "长沙", "厦门", "青岛", "昆明",
+    "济南", "合肥", "福州", "南昌", "贵阳", "南宁", "海口", "兰州",
+    "银川", "乌鲁木齐", "郑州", "西安", "沈阳", "大连", "无锡", "宁波",
+    "佛山", "东莞", "珠海", "三亚",
 ]
-for expr in calc_exprs:
-    add(
-        f"计算 {expr}",
-        ((f"计算表达式 {expr}", "数值结果"),),
-    )
-
-search_topics = ["向量数据库", "混合检索", "BM25", "LangGraph", "ReAct", "QLoRA", "重排序"]
-for topic in search_topics:
-    add(
-        f"搜索一下{topic}",
-        ((f"搜索{topic}的相关资料", "检索结果"),),
-    )
-
-chat_prompts = [
-    "给我一句鼓励",
-    "解释一下什么是过拟合",
-    "推荐一部纪录片",
-    "现在适合做什么",
-    "你更擅长什么",
+weather_templates = [
+    "{city}今天天气怎么样？",
+    "帮我查查{city}的天气",
+    "{city}现在多少度？",
+    "看看{city}的天气",
 ]
-for prompt in chat_prompts:
-    add(
-        prompt,
-        (("直接回答用户的问题", "回答"),),
-    )
+for city in cities:
+    for template in weather_templates:
+        add(template.format(city=city), ((f"查询{city}的天气", "天气信息"),))
 
-for index, city in enumerate(weather_cities[:4]):
-    other = weather_cities[(index + 1) % len(weather_cities)]
+random.seed(20261101)
+exprs: list[str] = []
+for _ in range(80):
+    a = random.randint(2, 40)
+    b = random.randint(2, 12)
+    op = random.choice(["+", "-", "*", "/"])
+    if op == "/":
+        a = a * b
+        expr = f"{a}/{b}"
+    else:
+        expr = f"{a}{op}{b}"
+    if expr not in exprs:
+        exprs.append(expr)
+for expr in exprs:
+    add(f"计算 {expr}", ((f"计算表达式 {expr}", "数值结果"),))
+    add(f"{expr} 的结果是多少？", ((f"计算表达式 {expr}", "数值结果"),))
+
+topics = [
+    "向量数据库", "混合检索", "重排序", "语义缓存", "提示压缩",
+    "工具学习", "函数调用", "多模态检索", "长上下文", "推理缓存",
+    "模型量化", "知识蒸馏", "稀疏激活", "检索增强", "文档切分",
+    "嵌入模型", "对比学习", "指令微调", "奖励模型", "偏好优化",
+    "智能体规划", "任务分解", "工具路由", "记忆机制", "反思机制",
+    "多智能体", "图数据库", "倒排索引", "近似最近邻", "查询扩展",
+]
+for topic in topics:
+    add(f"搜索一下{topic}", ((f"搜索{topic}的相关资料", "检索结果"),))
+    add(f"帮我查查{topic}的资料", ((f"搜索{topic}的相关资料", "检索结果"),))
+
+chats = [
+    "给我一句鼓励", "解释一下过拟合", "推荐一部纪录片", "你更擅长什么",
+    "现在适合做什么", "用一句话解释 RAG", "给我一个学习建议",
+    "推荐一个开源项目", "你有哪些限制", "怎么安排一天的学习",
+    "什么是梯度消失", "为什么要做数据清洗", "怎么评估检索质量",
+    "什么是指令遵循", "如何避免过拟合", "解释一下注意力机制",
+    "推荐一本技术书", "我应该先学 Python 还是数学", "怎么读论文",
+    "如何做消融实验",
+]
+for prompt in chats:
+    add(prompt, (("直接回答用户的问题", "回答"),))
+
+for index in range(len(cities) - 1):
+    left, right = cities[index], cities[index + 1]
     add(
-        f"先查{city}天气，再查{other}天气，比较温度",
+        f"先查{left}天气，再查{right}天气，比较温度",
         (
-            (f"查询{city}的天气", "天气信息"),
-            (f"查询{other}的天气", "天气信息"),
-            (f"比较{city}和{other}的温度", "比较结果"),
+            (f"查询{left}的天气", "天气信息"),
+            (f"查询{right}的天气", "天气信息"),
+            (f"比较{left}和{right}的温度", "比较结果"),
         ),
     )
 
-for index, topic in enumerate(search_topics[:4]):
-    expr = calc_exprs[index]
+for index in range(0, min(len(topics), len(exprs)), 2):
+    topic, expr = topics[index], exprs[index]
     add(
         f"搜索{topic}，然后计算 {expr}",
         (
@@ -104,8 +122,8 @@ for index, topic in enumerate(search_topics[:4]):
         ),
     )
 
-for index, city in enumerate(weather_cities[2:6]):
-    topic = search_topics[(index + 1) % len(search_topics)]
+for index in range(len(cities) - 2):
+    city, topic = cities[index], topics[index % len(topics)]
     add(
         f"先搜索{topic}，再查{city}天气",
         (
@@ -114,86 +132,38 @@ for index, city in enumerate(weather_cities[2:6]):
         ),
     )
 
-for prompt, expr in zip(chat_prompts[:3], calc_exprs[:3]):
+for index in range(0, min(len(cities), len(exprs)), 2):
+    city, expr = cities[index], exprs[index]
     add(
-        f"计算 {expr}，然后{prompt}",
+        f"查{city}天气，然后计算 {expr}",
         (
-            (f"计算表达式 {expr}", "数值结果"),
-            (f"{prompt}", "最终回答"),
-        ),
-    )
-
-# 额外模板：增加城市、算式和主题覆盖，仍避开 55 条评测集的主模板。
-extra_cities = ["济南", "合肥", "福州", "南昌", "贵阳", "南宁", "海口", "兰州", "银川", "乌鲁木齐"]
-for city in extra_cities:
-    add(f"{city}天气如何？", ((f"查询{city}的天气", "天气信息"),))
-    add(f"查一下{city}现在的温度", ((f"查询{city}当前的温度", "温度信息"),))
-
-extra_exprs = [
-    "36*5+12",
-    "(120-24)/8",
-    "11**2+19",
-    "84/7-3",
-    "27*3+18",
-    "144/12+9",
-    "15*6-21",
-    "96/8+17",
-]
-for expr in extra_exprs:
-    add(f"帮我计算 {expr}", ((f"计算表达式 {expr}", "数值结果"),))
-
-extra_topics = ["稠密检索", "稀疏检索", "语义缓存", "提示压缩", "工具学习", "函数调用", "规划器", "审查器"]
-for topic in extra_topics:
-    add(f"查一下{topic}的资料", ((f"搜索{topic}的相关资料", "检索结果"),))
-
-extra_chats = [
-    "用一句话解释什么是 RAG",
-    "给我一个学习建议",
-    "推荐一个开源项目",
-    "现在适合休息吗",
-    "你有哪些限制",
-]
-for prompt in extra_chats:
-    add(prompt, (("直接回答用户的问题", "回答"),))
-
-for left, right in zip(extra_cities[:5], extra_cities[5:]):
-    add(
-        f"查{left}和{right}的天气，比较温度",
-        (
-            (f"查询{left}的天气", "天气信息"),
-            (f"查询{right}的天气", "天气信息"),
-            (f"比较{left}和{right}的温度", "比较结果"),
-        ),
-    )
-
-for topic, expr in zip(extra_topics[:5], extra_exprs[:5]):
-    add(
-        f"搜索{topic}，再计算 {expr}",
-        (
-            (f"搜索{topic}的相关资料", "检索结果"),
-            (f"计算表达式 {expr}", "数值结果"),
-        ),
-    )
-
-for city, topic in zip(extra_cities[:5], extra_topics[3:8]):
-    add(
-        f"先查{topic}，再查{city}天气",
-        (
-            (f"搜索{topic}的相关资料", "检索结果"),
             (f"查询{city}的天气", "天气信息"),
+            (f"计算表达式 {expr}", "数值结果"),
         ),
     )
 
-for prompt, expr in zip(extra_chats[:5], extra_exprs[3:8]):
+for index in range(0, min(len(topics) - 1, 20)):
+    left, right = topics[index], topics[index + 1]
     add(
-        f"计算 {expr}，然后{prompt}",
+        f"搜索 {left} 和 {right}，比较区别",
+        (
+            (f"搜索{left}的相关资料", "检索结果"),
+            (f"搜索{right}的相关资料", "检索结果"),
+            (f"比较{left}和{right}的区别", "比较结果"),
+        ),
+    )
+
+for index in range(0, min(len(chats), len(exprs)), 2):
+    chat, expr = chats[index], exprs[index]
+    add(
+        f"计算 {expr}，然后{chat}",
         (
             (f"计算表达式 {expr}", "数值结果"),
-            (f"{prompt}", "最终回答"),
+            (f"{chat}", "最终回答"),
         ),
     )
 
-# 轻量复述增强：同一组合成计划换两种请求前缀，不引入评测任务。
+# 请求前缀复述，进一步扩大规模；不改变任务语义。
 base_rows = list(rows)
 for prefix in ("请帮我", "麻烦你"):
     for row in base_rows:
