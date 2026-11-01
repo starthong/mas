@@ -49,6 +49,9 @@
 | 未见工具 OOD | 40 | 4 个训练中未出现的工具 |
 | 系统任务 | 31 | 24 条单步 + 7 条多步 |
 | 扩展系统任务 | 55 | 41 条单步 + 14 条多步，用于样本量复核 |
+| 系统 holdout | 25 | 15 单步 + 10 多步，不参与调参 |
+| Planner SFT | 1,392 | 合成规划数据，避开 55/holdout |
+| Reviewer SFT | 2,784 | 上述任务的正/负审查样本 |
 
 基座模型为 Qwen2.5-3B-Instruct，训练使用 4-bit QLoRA（rank 16，alpha 32，
 2 epoch，T4）。主 adapter 位于 Kaggle Dataset
@@ -150,7 +153,7 @@ mas/
 
 - 天气和检索依赖外部服务；离线时需要 API key 或缓存，OOD 工具仍是 schema 级 mock；
 - Executor 一个子任务只调用一次工具，不是完整 ReAct 循环；
-- 微调只覆盖单步工具调用协议，没有 Planner/Reviewer 专用微调数据；
+- 微调只覆盖单步工具调用协议；Planner/Reviewer 使用单独的合成 SFT 数据（Planner 1,392 条，Reviewer 2,784 条），但尚未与共享 adapter 做完整对比；
 - 没有 JSON mode / grammar-constrained decoding 基线；
 - 系统任务 31 条、多步 7 条，扩展后 55 条、多步 14 条，但仍各只跑 1 轮；
 - 5-seed 对照只覆盖 v1/v2 格式评测，不覆盖全部系统任务；
