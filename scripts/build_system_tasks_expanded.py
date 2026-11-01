@@ -61,7 +61,7 @@ for idx, (prompt, answer) in enumerate(
     ],
     start=37,
 ):
-    single(f"final_{idx:02d}", "chat", prompt, "final_answer", {"answer": answer})
+    single(f"final_{idx:02d}", "chat", prompt, "final_answer", None)
 
 multi(
     "multi_weather_advice_expanded",

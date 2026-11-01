@@ -12,7 +12,7 @@
 {"id": "calc_06", "category": "calculator", "task": "算一下 100-37+12", "expected_tool": "calculator", "expected_arguments": {"expression": "100-37+12"}}
 {"id": "search_01", "category": "search", "task": "搜索一下 LangGraph", "expected_tool": "search", "expected_arguments": {"query": "LangGraph"}}
 {"id": "search_02", "category": "search", "task": "我想了解多智能体系统", "expected_tool": "search", "expected_arguments": {"query": "多智能体系统"}}
-{"id": "search_03", "category": "search", "task": "帮我查查 LoRA 微调", "expected_tool": "search", "expected_arguments": {"query": "LoRA"}}
+{"id": "search_03", "category": "search", "task": "帮我查查 LoRA 微调", "expected_tool": "search", "expected_arguments": {"query": "LoRA 微调"}}
 {"id": "search_04", "category": "search", "task": "介绍一下 ReAct 方法", "expected_tool": "search", "expected_arguments": {"query": "ReAct 方法"}}
 {"id": "search_05", "category": "search", "task": "找一些关于 RAG 检索增强的资料", "expected_tool": "search", "expected_arguments": {"query": "RAG 检索增强"}}
 {"id": "search_06", "category": "search", "task": "查一下 vLLM 推理", "expected_tool": "search", "expected_arguments": {"query": "vLLM 推理"}}

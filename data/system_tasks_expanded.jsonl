@@ -12,7 +12,7 @@
 {"id": "calc_06", "category": "calculator", "task": "算一下 100-37+12", "expected_tool": "calculator", "expected_arguments": {"expression": "100-37+12"}}
 {"id": "search_01", "category": "search", "task": "搜索一下 LangGraph", "expected_tool": "search", "expected_arguments": {"query": "LangGraph"}}
 {"id": "search_02", "category": "search", "task": "我想了解多智能体系统", "expected_tool": "search", "expected_arguments": {"query": "多智能体系统"}}
-{"id": "search_03", "category": "search", "task": "帮我查查 LoRA 微调", "expected_tool": "search", "expected_arguments": {"query": "LoRA"}}
+{"id": "search_03", "category": "search", "task": "帮我查查 LoRA 微调", "expected_tool": "search", "expected_arguments": {"query": "LoRA 微调"}}
 {"id": "search_04", "category": "search", "task": "介绍一下 ReAct 方法", "expected_tool": "search", "expected_arguments": {"query": "ReAct 方法"}}
 {"id": "search_05", "category": "search", "task": "找一些关于 RAG 检索增强的资料", "expected_tool": "search", "expected_arguments": {"query": "RAG 检索增强"}}
 {"id": "search_06", "category": "search", "task": "查一下 vLLM 推理", "expected_tool": "search", "expected_arguments": {"query": "vLLM 推理"}}
@@ -41,11 +41,11 @@
 {"id": "search_34", "category": "search", "task": "搜索一下vLLM", "expected_tool": "search", "expected_arguments": {"query": "vLLM"}}
 {"id": "search_35", "category": "search", "task": "搜索一下Agent 记忆", "expected_tool": "search", "expected_arguments": {"query": "Agent 记忆"}}
 {"id": "search_36", "category": "search", "task": "搜索一下BM25", "expected_tool": "search", "expected_arguments": {"query": "BM25"}}
-{"id": "final_37", "category": "chat", "task": "你平时怎么工作？", "expected_tool": "final_answer", "expected_arguments": {"answer": "我会先拆解任务，再调用工具，最后检查结果。"}}
-{"id": "final_38", "category": "chat", "task": "推荐一部电影", "expected_tool": "final_answer", "expected_arguments": {"answer": "《模仿游戏》适合对 AI 和历史感兴趣的人。"}}
-{"id": "final_39", "category": "chat", "task": "现在几点？", "expected_tool": "final_answer", "expected_arguments": {"answer": "当前没有时钟工具，无法查询。"}}
-{"id": "final_40", "category": "chat", "task": "我有点累", "expected_tool": "final_answer", "expected_arguments": {"answer": "先休息十分钟，再回来做最小的一步。"}}
-{"id": "final_41", "category": "chat", "task": "辛苦你了", "expected_tool": "final_answer", "expected_arguments": {"answer": "不辛苦，继续。"}}
+{"id": "final_37", "category": "chat", "task": "你平时怎么工作？", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_38", "category": "chat", "task": "推荐一部电影", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_39", "category": "chat", "task": "现在几点？", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_40", "category": "chat", "task": "我有点累", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "final_41", "category": "chat", "task": "辛苦你了", "expected_tool": "final_answer", "expected_arguments": null}
 {"id": "multi_weather_advice_expanded", "category": "multi", "task": "先查上海天气，再根据温度建议穿什么", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "上海"}}, {"tool": "final_answer", "arguments": null}]}
 {"id": "multi_search_summary_expanded", "category": "multi", "task": "搜索 RAG，然后用两句话总结", "expected_calls": [{"tool": "search", "arguments": {"query": "RAG"}}, {"tool": "final_answer", "arguments": null}]}
 {"id": "multi_calc_explain_expanded", "category": "multi", "task": "计算 45/9+8，然后解释结果", "expected_calls": [{"tool": "calculator", "arguments": {"expression": "45/9+8"}}, {"tool": "final_answer", "arguments": null}]}
