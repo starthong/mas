@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_DIR="${REPO_DIR:-/kaggle/working/mas}"
+BASE_MODEL="${BASE_MODEL:-/kaggle/temp/models/Qwen2.5-3B-Instruct}"
+ADAPTER="${ADAPTER:-/kaggle/input/datasets/starthong/mas-3b-toolcall-output}"
+OUT_DIR="${OUT_DIR:-results/postfix}"
+TASKS="${TASKS:-data/system_tasks.jsonl}"
+
+cd "$REPO_DIR"
+mkdir -p "$OUT_DIR"
+
+echo "===== base 31: single + sequential ====="
+python -m src.experiments.run_modes \
+  --backend hf \
+  --base-model "$BASE_MODEL" \
+  --tasks "$TASKS" \
+  --modes single,sequential \
+  --planner base \
+  --reviewer base \
+  --runs 1 \
+  --temperatures 0 \
+  --out "$OUT_DIR/base31.json"
+
+echo "===== LoRA 31: single + sequential ====="
+python -m src.experiments.run_modes \
+  --backend hf \
+  --base-model "$BASE_MODEL" \
+  --adapter "$ADAPTER" \
+  --tasks "$TASKS" \
+  --modes single,sequential \
+  --planner lora \
+  --reviewer lora \
+  --runs 1 \
+  --temperatures 0 \
+  --out "$OUT_DIR/lora31.json"
+
+for spec in \
+  "all_lora:lora:lora" \
+  "lora_planner_base_reviewer:lora:base" \
+  "no_reviewer:lora:none" \
+  "base_planner_lora_reviewer:base:lora" \
+  "base_both:base:base"; do
+  name="${spec%%:*}"
+  rest="${spec#*:}"
+  planner="${rest%%:*}"
+  reviewer="${rest##*:}"
+  echo "===== role ${name} ====="
+  python -m src.experiments.run_modes \
+    --backend hf \
+    --base-model "$BASE_MODEL" \
+    --adapter "$ADAPTER" \
+    --tasks "$TASKS" \
+    --modes sequential \
+    --planner "$planner" \
+    --reviewer "$reviewer" \
+    --runs 1 \
+    --temperatures 0 \
+    --out "$OUT_DIR/role-${name}.json"
+done
+
+echo "===== temperature stability (3 runs, 0 and 0.7) ====="
+python -m src.experiments.run_modes \
+  --backend hf \
+  --base-model "$BASE_MODEL" \
+  --adapter "$ADAPTER" \
+  --tasks "$TASKS" \
+  --modes sequential \
+  --planner lora \
+  --reviewer lora \
+  --planner-examples \
+  --runs 3 \
+  --temperatures 0,0.7 \
+  --out "$OUT_DIR/temperature.json"
+
+echo "===== max_rounds on 14 multi tasks ====="
+for rounds in 1 2 3; do
+  python -m src.experiments.run_modes \
+    --backend hf \
+    --base-model "$BASE_MODEL" \
+    --adapter "$ADAPTER" \
+    --tasks data/system_tasks_expanded.jsonl \
+    --categories multi \
+    --modes sequential \
+    --planner lora \
+    --reviewer lora \
+    --planner-examples \
+    --max-rounds "$rounds" \
+    --runs 1 \
+    --temperatures 0 \
+    --out "$OUT_DIR/sensitivity-r${rounds}.json"
+done
+
+echo "===== done: $OUT_DIR ====="
