@@ -36,6 +36,17 @@ class DebatePlanner:
         self.last_choice: int | None = None
         self.last_reason = ""
 
+
+    def _prefer_longer(self, task, selected, plan_a, plan_b):
+        """多动作任务中，裁判偶尔把两个查询合并；此时回退到更长计划。"""
+        if any(cue in task for cue in Planner._MULTI_CUES) and len(selected) == 1:
+            longer = plan_a if len(plan_a) >= len(plan_b) else plan_b
+            if len(longer) > 1:
+                self.last_choice = 1 if longer is plan_a else 2
+                self.last_reason = (self.last_reason + "；多动作任务选择更长计划").strip("；")
+                return longer
+        return selected
+
     def plan(self, task: str, critique: str = "") -> list[dict[str, Any]]:
         self.last_error = None
         plan_a = self.planner_a.plan(task, critique=critique)
@@ -64,11 +75,13 @@ class DebatePlanner:
                 raise ValueError(f"judge returned invalid choice: {choice!r}")
             self.last_choice = choice
             self.last_reason = str(data.get("reason", ""))
-            return plan_a if choice == 1 else plan_b
+            selected = plan_a if choice == 1 else plan_b
+            return self._prefer_longer(task, selected, plan_a, plan_b)
         except Exception as exc:  # noqa: BLE001 - judge failure should not abort
             self.last_error = f"{type(exc).__name__}: {exc}"
             # 多步任务下，选择更长的计划作为兜底。
             choice = 1 if len(plan_a) >= len(plan_b) else 2
             self.last_choice = choice
             self.last_reason = "fallback: choose the longer plan"
-            return plan_a if choice == 1 else plan_b
+            selected = plan_a if choice == 1 else plan_b
+            return self._prefer_longer(task, selected, plan_a, plan_b)

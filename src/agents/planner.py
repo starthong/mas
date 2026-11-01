@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 from typing import TYPE_CHECKING, Any
 
 from src.llm.parsing import parse_json_loose
@@ -101,5 +103,13 @@ class Planner:
                 return plan
             if len(retry_plan) > 1:
                 return retry_plan
+
+        # 单个算式不应被拆成中间步骤，否则 exact match 会把正确结果判错。
+        if (
+            not multi_cue
+            and len(plan) > 1
+            and re.search(r"\d\s*[+\-*/]\s*\d", task)
+        ):
+            return [{"id": 1, "goal": task, "expected_output": ""}]
 
         return plan
