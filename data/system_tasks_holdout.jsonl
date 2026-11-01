@@ -1,0 +1,25 @@
+{"id": "hold_weather_01", "category": "weather", "task": "石家庄今天天气怎么样？", "expected_tool": "get_weather", "expected_arguments": {"city": "石家庄"}}
+{"id": "hold_weather_02", "category": "weather", "task": "太原今天天气怎么样？", "expected_tool": "get_weather", "expected_arguments": {"city": "太原"}}
+{"id": "hold_weather_03", "category": "weather", "task": "长春今天天气怎么样？", "expected_tool": "get_weather", "expected_arguments": {"city": "长春"}}
+{"id": "hold_weather_04", "category": "weather", "task": "哈尔滨今天天气怎么样？", "expected_tool": "get_weather", "expected_arguments": {"city": "哈尔滨"}}
+{"id": "hold_calc_01", "category": "calculator", "task": "计算 19*6+7", "expected_tool": "calculator", "expected_arguments": {"expression": "19*6+7"}}
+{"id": "hold_calc_02", "category": "calculator", "task": "计算 (81-9)/8", "expected_tool": "calculator", "expected_arguments": {"expression": "(81-9)/8"}}
+{"id": "hold_calc_03", "category": "calculator", "task": "计算 13**2-20", "expected_tool": "calculator", "expected_arguments": {"expression": "13**2-20"}}
+{"id": "hold_calc_04", "category": "calculator", "task": "计算 56/7+11", "expected_tool": "calculator", "expected_arguments": {"expression": "56/7+11"}}
+{"id": "hold_search_01", "category": "search", "task": "搜索一下GraphRAG", "expected_tool": "search", "expected_arguments": {"query": "GraphRAG"}}
+{"id": "hold_search_02", "category": "search", "task": "搜索一下MoE", "expected_tool": "search", "expected_arguments": {"query": "MoE"}}
+{"id": "hold_search_03", "category": "search", "task": "搜索一下DPO", "expected_tool": "search", "expected_arguments": {"query": "DPO"}}
+{"id": "hold_search_04", "category": "search", "task": "搜索一下FlashAttention", "expected_tool": "search", "expected_arguments": {"query": "FlashAttention"}}
+{"id": "hold_chat_01", "category": "chat", "task": "推荐一个学习路线", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "hold_chat_02", "category": "chat", "task": "解释一下过拟合", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "hold_chat_03", "category": "chat", "task": "你有哪些限制", "expected_tool": "final_answer", "expected_arguments": null}
+{"id": "hold_multi_weather_compare", "category": "multi", "task": "查石家庄和太原天气，比较温度", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "石家庄"}}, {"tool": "get_weather", "arguments": {"city": "太原"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "hold_multi_search_summary", "category": "multi", "task": "搜索 GraphRAG，然后用两句话总结", "expected_calls": [{"tool": "search", "arguments": {"query": "GraphRAG"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "hold_multi_calc_explain", "category": "multi", "task": "计算 19*6+7，然后解释结果", "expected_calls": [{"tool": "calculator", "arguments": {"expression": "19*6+7"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "hold_multi_weather_calc", "category": "multi", "task": "查长春天气，然后计算 13*2", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "长春"}}, {"tool": "calculator", "arguments": {"expression": "13*2"}}]}
+{"id": "hold_multi_search_compare", "category": "multi", "task": "搜索 MoE 和 DPO，比较区别", "expected_calls": [{"tool": "search", "arguments": {"query": "MoE"}}, {"tool": "search", "arguments": {"query": "DPO"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "hold_multi_weather_advice", "category": "multi", "task": "查哈尔滨天气，然后建议穿什么", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "哈尔滨"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "hold_multi_search_weather", "category": "multi", "task": "搜索 FlashAttention，再查石家庄天气", "expected_calls": [{"tool": "search", "arguments": {"query": "FlashAttention"}}, {"tool": "get_weather", "arguments": {"city": "石家庄"}}]}
+{"id": "hold_multi_calc_explain2", "category": "multi", "task": "计算 56/7+11，然后解释结果", "expected_calls": [{"tool": "calculator", "arguments": {"expression": "56/7+11"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "hold_multi_weather_compare2", "category": "multi", "task": "查太原和哈尔滨天气，比较温度", "expected_calls": [{"tool": "get_weather", "arguments": {"city": "太原"}}, {"tool": "get_weather", "arguments": {"city": "哈尔滨"}}, {"tool": "final_answer", "arguments": null}]}
+{"id": "hold_multi_search_calc", "category": "multi", "task": "搜索 DPO，再计算 81/9", "expected_calls": [{"tool": "search", "arguments": {"query": "DPO"}}, {"tool": "calculator", "arguments": {"expression": "81/9"}}]}

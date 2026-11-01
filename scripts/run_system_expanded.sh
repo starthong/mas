@@ -7,6 +7,7 @@ ADAPTER="${ADAPTER:-/kaggle/input/datasets/starthong/mas-3b-toolcall-output}"
 MODES="${MODES:-sequential,supervisor,debate}"
 MAX_ROUNDS="${MAX_ROUNDS:-2}"
 OUT="${OUT:-results/system-expanded.json}"
+TASKS="${TASKS:-data/system_tasks_expanded.jsonl}"
 CATEGORIES="${CATEGORIES:-}"
 PLANNER_SAMPLES="${PLANNER_SAMPLES:-1}"
 PLANNER_ADAPTER="${PLANNER_ADAPTER:-}"
@@ -33,7 +34,7 @@ python -m src.experiments.run_modes \
   --backend hf \
   --base-model "$BASE_MODEL" \
   --adapter "$ADAPTER" \
-  --tasks data/system_tasks_expanded.jsonl \
+  --tasks "$TASKS" \
   --modes "$MODES" \
   --planner "$PLANNER_MODE" \
   --reviewer lora \
