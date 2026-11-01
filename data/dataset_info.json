@@ -22,5 +22,13 @@
       "messages": "conversations",
       "system": "system"
     }
+  },
+  "reviewer_sft": {
+    "file_name": "reviewer_sft.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "system": "system"
+    }
   }
 }
