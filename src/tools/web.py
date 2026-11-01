@@ -1,4 +1,4 @@
-"""真实工具后端：Open-Meteo 天气、Serper/Tavily/Wikipedia 检索。"""
+"""真实工具后端：Open-Meteo 天气、Serper/Tavily/Sogou/Wikipedia 检索。"""
 from __future__ import annotations
 
 import html
@@ -117,6 +117,28 @@ def _tavily(query: str) -> list[str]:
     ]
 
 
+def _sogou(query: str) -> list[str]:
+    response = requests.get(
+        "https://www.sogou.com/web",
+        params={"query": query},
+        timeout=TIMEOUT,
+        headers={"User-Agent": USER_AGENT},
+    )
+    response.raise_for_status()
+    blocks = re.findall(
+        r"<h3[^>]*>(.*?)</h3>(.*?)(?=<h3|\Z)",
+        response.text,
+        flags=re.S,
+    )
+    rows = []
+    for heading, tail in blocks[:3]:
+        title = _strip_html(heading)
+        snippet = re.sub(r"\s+", " ", _strip_html(tail))[:240]
+        if title:
+            rows.append(f"{title}: {snippet}")
+    return rows
+
+
 def _wikipedia(query: str, lang: str) -> list[str]:
     response = requests.get(
         f"https://{lang}.wikipedia.org/w/api.php",
@@ -141,9 +163,13 @@ def _wikipedia(query: str, lang: str) -> list[str]:
 
 @lru_cache(maxsize=256)
 def search(query: str) -> str:
-    """按 Serper、Tavily、Wikipedia 顺序调用真实检索。"""
+    """按 Serper、Tavily、Sogou、Wikipedia 顺序调用真实检索。"""
     errors: list[str] = []
-    for provider, func in (("Serper", _serper), ("Tavily", _tavily)):
+    for provider, func in (
+        ("Serper", _serper),
+        ("Tavily", _tavily),
+        ("Sogou", _sogou),
+    ):
         try:
             rows = func(query)
             if rows:

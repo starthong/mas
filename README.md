@@ -33,10 +33,10 @@
 | `debate` | 两个 Planner 提出计划，Judge 选择后执行和审查 |
 
 工具层包含天气、计算器、检索和 `final_answer` 四类。天气通过 Open-Meteo
-实时查询；检索按 Serper、Tavily、Wikipedia 的顺序调用外部服务，可用
-`SERPER_API_KEY` 或 `TAVILY_API_KEY` 提高稳定性；计算器和 `final_answer`
-是本地确定性实现。工具通过 JSON Schema 注册，调用结果和错误写入共享状态。
-OOD 工具只做 schema 注册，不执行真实操作。
+实时查询；检索按 Serper、Tavily、Sogou、Wikipedia 的顺序调用外部服务，
+可用 `SERPER_API_KEY` 或 `TAVILY_API_KEY` 提高稳定性；计算器和
+`final_answer` 是本地确定性实现。工具通过 JSON Schema 注册，调用结果和
+错误写入共享状态。OOD 工具只做 schema 注册，不执行真实操作。
 
 ## 数据与模型
 
