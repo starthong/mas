@@ -6,9 +6,19 @@ BASE_MODEL="${BASE_MODEL:-/kaggle/temp/models/Qwen2.5-3B-Instruct}"
 ADAPTER="${ADAPTER:-/kaggle/input/datasets/starthong/mas-3b-toolcall-output}"
 OUT_DIR="${OUT_DIR:-results/postfix}"
 TASKS="${TASKS:-data/system_tasks.jsonl}"
+PLANNER_ADAPTER="${PLANNER_ADAPTER:-}"
+REVIEWER_ADAPTER="${REVIEWER_ADAPTER:-}"
 
 cd "$REPO_DIR"
 mkdir -p "$OUT_DIR"
+
+role_args=()
+if [ -n "$PLANNER_ADAPTER" ]; then
+  role_args+=(--planner-adapter "$PLANNER_ADAPTER")
+fi
+if [ -n "$REVIEWER_ADAPTER" ]; then
+  role_args+=(--reviewer-adapter "$REVIEWER_ADAPTER")
+fi
 
 echo "===== base 31: single + sequential ====="
 python -m src.experiments.run_modes \
@@ -31,6 +41,7 @@ python -m src.experiments.run_modes \
   --modes single,sequential \
   --planner lora \
   --reviewer lora \
+  "${role_args[@]}" \
   --runs 1 \
   --temperatures 0 \
   --out "$OUT_DIR/lora31.json"
@@ -54,6 +65,7 @@ for spec in \
     --modes sequential \
     --planner "$planner" \
     --reviewer "$reviewer" \
+    "${role_args[@]}" \
     --runs 1 \
     --temperatures 0 \
     --out "$OUT_DIR/role-${name}.json"
@@ -69,6 +81,7 @@ python -m src.experiments.run_modes \
   --planner lora \
   --reviewer lora \
   --planner-examples \
+  "${role_args[@]}" \
   --runs 3 \
   --temperatures 0,0.7 \
   --out "$OUT_DIR/temperature.json"
@@ -85,6 +98,7 @@ for rounds in 1 2 3; do
     --planner lora \
     --reviewer lora \
     --planner-examples \
+    "${role_args[@]}" \
     --max-rounds "$rounds" \
     --runs 1 \
     --temperatures 0 \
