@@ -97,10 +97,10 @@ Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成分开：41 �
 实验表明，LoRA 把难例 schema 合规率从 94.7\% 提升到 98.2\%，工具名准确率
 从 86.0\% 提升到 91.2\%；base + few-shot 虽然把 schema 提到 96.5\%，工具名
 仍只有 82.5\%，说明收益不只是 prompt 示例。OOD 上 LoRA 的工具名为 90.0\%，
-base 为 82.5\%，但参数归一化后，zero-shot 四个配置都是 32/32，base +
-few-shot 是 31/32，LoRA 的优势主要在工具选择。vLLM guided JSON 把
-hard/OOD schema 拉到 100\%，但 OOD 的 exact match 没有提高，说明约束解码
-只保证结构，不保证语义。
+base 为 82.5\%，排除 \path{final_answer} 后参数归一化的 32 条均为 32/32，
+base + few-shot 是 31/32，LoRA 的优势主要在工具选择。vLLM fp16 guided
+JSON 把 hard/OOD schema 拉到 100\%，但 OOD 归一化 exact 与无约束相同，
+说明约束解码只保证结构，不保证语义。
 
 在真实天气和真实检索下，55 条主实验的 sequential/supervisor 都是 98.2\%，
 debate 为 96.4\%；supervisor 没有成功率收益，延迟从 15.86~s 增到 25.14~s。
@@ -144,9 +144,10 @@ accuracy from 86.0\% to 91.2\%. A base + few-shot baseline reaches 96.5\% schema
 compliance but only 82.5\% tool-name accuracy, so the gain is not just prompt
 examples. On OOD cases, LoRA reaches 90.0\% tool-name accuracy versus 82.5\% for
 the base model, while normalized argument matching is 32/32 for the four
-zero-shot runs and 31/32 for base + few-shot. vLLM guided JSON raises
-hard/OOD schema to 100\%, but OOD exact match does not improve, so structural
-constraints do not replace semantic correctness.
+zero-shot runs (excluding final_answer) and 31/32 for base + few-shot.
+vLLM fp16 guided JSON raises hard/OOD schema to 100\%, but normalized OOD
+exact match is unchanged, so structural constraints do not replace semantic
+correctness.
 
 With real weather and search tools, the 55-task sequential and supervisor
 success rates are both 98.2\%, and debate is 96.4\%; supervisor adds latency
@@ -709,7 +710,7 @@ LoRA 仍然领先的是工具名：hard 91.2\% 对 82.5\%，OOD 90.0\% 对
 \begin{table}[htbp]
   \centering
   \small
-  \caption{vLLM guided JSON 约束解码（hard/OOD，温度 0）}
+  \caption{vLLM fp16 guided JSON 约束解码（hard/OOD，温度 0；OOD 参数已归一化）}
   \label{tab:constrained}
   \begin{tabular}{llccc}
     \toprule
@@ -797,15 +798,19 @@ adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7
   \small
   \caption{共享 adapter 与三角色 adapter 的 55 条对比（few-shot）}
   \label{tab:role55}
-  \begin{tabular}{lcccccc}
+  \begin{tabular}{lccccc}
     \toprule
-    配置 & n & sequential & supervisor & debate & Reviewer 通过 & 备注 \\
+    配置 & n & sequential & supervisor & debate & 平均延迟 \\
     \midrule
-    共享 adapter & 55 & 0.982 & 0.982 & 0.964 & 1.000/1.000/0.891 & 主基线 \\
-    三角色 adapter & 55 & 0.945 & 0.927 & 0.945 & 0.964/0.964/0.964 & 三个权重 \\
+    共享 adapter & 55 & 0.982 & 0.982 & 0.964 & 24.79~s \\
+    三角色 adapter & 55 & 0.945 & 0.927 & 0.945 & 23.44~s \\
     \bottomrule
   \end{tabular}
 \end{table}
+
+共享 adapter 的 Reviewer 通过率为 1.000/1.000/0.891，三角色 adapter 为
+0.964/0.964/0.964；角色专用让 debate 的通过率更均衡，但没有提高任务
+成功数。
 
 25 条 holdout 上，三角色 adapter 的 sequential/supervisor/debate 都是
 25/25（表~\ref{tab:holdout}）；但 holdout 只有 25 条，不能据此声称角色
@@ -1016,8 +1021,8 @@ OOD 上，LoRA 的工具名为 90.0\%，base 为 82.5\%；但语言代码和股�
 归一化后，zero-shot 的四个配置（base/LoRA × 温度 0/0.7）在非
 \path{final_answer} 样本上的参数匹配都是 32/32，base + few-shot 是
 31/32。因此，LoRA 的主要作用是把输出协议和工具名对齐，但没有证据表明它让
-参数推理更准。vLLM guided JSON 同样只把 schema 拉到 100\%，OOD exact
-match 没有提高，说明结构约束和语义能力要分开评估。
+参数推理更准。vLLM fp16 guided JSON 同样只把 schema 拉到 100\%，OOD
+归一化 exact 与无约束相同，说明结构约束和语义能力要分开评估。
 
 \textbf{RQ2：多智能体不自动优于单 Agent，拓扑有明确的延迟代价。}
 31 条主实验中 base sequential 为 71.0\%、LoRA sequential 为 77.4\%，
@@ -1052,14 +1057,15 @@ Reviewer 的完整性检查，以及约束解码和多工具 OOD 评测，而不
 \begin{itemize}
   \item \path{src/}：三角色 Agent、LangGraph 工作流、工具层和评测代码；
   \item \path{data/}：750 条主训练集、1,124 条扩展集、41/57/40 三套测试集、
-        31 条系统任务和 seed 配置；
+        31/55/25 三套系统任务、Planner 1,392 条和 Reviewer 2,784 条角色数据；
   \item \path{results/}：每个配置的逐样本 JSON 记录和 summary，不只保留聚合指标；
-  \item \path{configs/}：QLoRA 主配置、扩展数据配置和 6 个 seed 配置。
+  \item \path{configs/}：QLoRA 主配置、扩展数据配置、6 个 seed 配置和角色 adapter 配置。
 \end{itemize}
 代码仓库：\url{https://github.com/starthong/mas}。
-adapter 约 114MB，未放入 Git，保存在 Kaggle Dataset
-\texttt{starthong/mas-3b-toolcall-output}；报告结果对应主 adapter 和
-\texttt{results/} 中的记录。
+主 adapter 约 114MB，保存在 Kaggle Dataset
+\texttt{starthong/mas-3b-toolcall-output}；Planner/Reviewer adapter 分别保存在
+\texttt{mas-planner-lora} 和 \texttt{mas-reviewer-lora}。报告结果对应这些
+adapter 和 \texttt{results/} 中的记录。
 
 \paragraph{数据}
 训练集和简单测试集由 \path{scripts/build_toolcall_dataset.py} 生成；
@@ -1067,8 +1073,10 @@ adapter 约 114MB，未放入 Git，保存在 Kaggle Dataset
 \path{scripts/build_ood_test.py} 生成。
 
 \paragraph{训练}
-QLoRA 训练使用 LLaMA-Factory 和 \path{configs/train_qlora_kaggle.yaml}，
-在 Kaggle T4 上以 4-bit、rank 16、alpha 32 训练 3B 模型。
+主 QLoRA 训练使用 LLaMA-Factory 和 \path{configs/train_qlora_kaggle.yaml}，
+在 Kaggle T4 上以 4-bit、rank 16、alpha 32 训练 3B 模型。Planner 和
+Reviewer 分别使用 \path{configs/train_planner_lora.yaml} 和
+\path{configs/train_reviewer_lora.yaml} 训练独立 adapter。
 
 \paragraph{格式评测}
 \begin{verbatim}
