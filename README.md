@@ -108,6 +108,7 @@
 | max_rounds 1/2/3 | 14 条多步均为 85.7%（12/14）；延迟 24.64→27.11 s |
 | 温度 0 / 0.7 | 任务成功率 93.6% / 96.8% |
 | 5-seed hard schema | v1 .979±.008；v2 .975±.020 |
+| vLLM guided JSON | schema 100%；hard name 93.0%；OOD exact 无提升 |
 
 这些结果说明 LoRA 改善的是工具调用协议和工具选择，并不能替代规划与审查；
 增加角色或数据也不会自动提高任务完成率。
@@ -155,7 +156,7 @@ mas/
 - 天气和检索依赖外部服务；离线时需要 API key 或缓存，OOD 工具仍是 schema 级 mock；
 - Executor 一个子任务只调用一次工具，不是完整 ReAct 循环；
 - 微调只覆盖单步工具调用协议；Planner/Reviewer 使用单独的合成 SFT 数据（Planner 1,392 条，Reviewer 2,784 条），三角色 adapter 已完成 55 条和 25 条 holdout 对比；
-- 约束解码未完成：vLLM guided JSON 受 Kaggle PyTorch/TorchAudio CUDA 版本冲突影响；
+- 约束解码只覆盖顶层 JSON schema，不约束完整工具参数；schema 可达 100%，但 OOD exact 没有提升；
 - 系统任务 31 条、多步 7 条，扩展后 55 条、多步 14 条，但仍各只跑 1 轮；
 - 5-seed 对照只覆盖 v1/v2 格式评测，不覆盖全部系统任务；
 - 早期 Planner 干预没有提升 14 条多步任务；后续定位为 Executor 最终答案路由，修复后的 55/25 条结果见报告。

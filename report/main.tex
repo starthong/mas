@@ -98,7 +98,9 @@ Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成分开：41 �
 从 86.0\% 提升到 91.2\%；base + few-shot 虽然把 schema 提到 96.5\%，工具名
 仍只有 82.5\%，说明收益不只是 prompt 示例。OOD 上 LoRA 的工具名为 90.0\%，
 base 为 82.5\%，但参数归一化后，zero-shot 四个配置都是 32/32，base +
-few-shot 是 31/32，LoRA 的优势主要在工具选择。
+few-shot 是 31/32，LoRA 的优势主要在工具选择。vLLM guided JSON 把
+hard/OOD schema 拉到 100\%，但 OOD 的 exact match 没有提高，说明约束解码
+只保证结构，不保证语义。
 
 在真实天气和真实检索下，55 条主实验的 sequential/supervisor 都是 98.2\%，
 debate 为 96.4\%；supervisor 没有成功率收益，延迟从 15.86~s 增到 25.14~s。
@@ -142,7 +144,9 @@ accuracy from 86.0\% to 91.2\%. A base + few-shot baseline reaches 96.5\% schema
 compliance but only 82.5\% tool-name accuracy, so the gain is not just prompt
 examples. On OOD cases, LoRA reaches 90.0\% tool-name accuracy versus 82.5\% for
 the base model, while normalized argument matching is 32/32 for the four
-zero-shot runs and 31/32 for base + few-shot.
+zero-shot runs and 31/32 for base + few-shot. vLLM guided JSON raises
+hard/OOD schema to 100\%, but OOD exact match does not improve, so structural
+constraints do not replace semantic correctness.
 
 With real weather and search tools, the 55-task sequential and supervisor
 success rates are both 98.2\%, and debate is 96.4\%; supervisor adds latency
@@ -694,6 +698,35 @@ LoRA 仍然领先：hard 工具名 91.2\% 对 82.5\%，OOD 工具名 90.0\% 对
 31/32，差异只有一条。因此 LoRA 的收益不能简单归因于“多了几个示例”；
 它主要改善的是工具名选择和格式稳定性。
 
+\subsection{约束解码基线}
+为了区分“LoRA 学会了格式”与“解码器强制了格式”，用 vLLM guided JSON
+在 hard/OOD 上重跑 base 和 LoRA，顶层只允许
+\texttt{\{"name": ..., "arguments": ...\}}。表~\ref{tab:constrained}
+给出结果。
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{vLLM guided JSON 约束解码（hard/OOD，温度 0）}
+  \label{tab:constrained}
+  \begin{tabular}{llccc}
+    \toprule
+    测试集 & 配置 & Schema & 工具名 & 参数匹配 \\
+    \midrule
+    hard & base + guided JSON & 1.000 & 0.930 & 0.649 \\
+    hard & LoRA + guided JSON & 1.000 & 0.930 & 0.719 \\
+    OOD & base + guided JSON & 1.000 & 0.825 & 0.575 \\
+    OOD & LoRA + guided JSON & 1.000 & 0.875 & 0.550 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+约束解码把 schema 全部拉到 100\%，hard 工具名也从无约束的 86.0\%/91.2\%
+提高到 93.0\%。但 OOD 的 exact match 没有提高，LoRA 甚至从 57.5\% 降到
+55.0\%；说明约束只保证 JSON 结构，不保证工具名和参数语义。LoRA 在
+hard 参数上的优势仍然存在（71.9\% 对 64.9\%），但 OOD 参数没有优势。
+这也说明“格式收益”不能只归因于微调，约束解码本身就能消除一类格式错误。
+
 \subsection{多智能体任务}
 
 \paragraph{31 条主实验}
@@ -950,9 +983,10 @@ single 模式天然只能调用一次工具，不能把多步失败解释为模�
 注册，不执行真实操作。系统成功率的解释仍受外部工具质量影响，不能完全
 外推到开放域任务。
 
-第五，缺少约束解码基线。本文尝试了 vLLM guided JSON，但当前 Kaggle
-镜像的 PyTorch/TorchAudio CUDA 版本不匹配，未能得到完整对照；因此不能
-把格式收益完全归因于微调。token 成本和 P95 延迟只在部分实验中采集。
+第五，约束解码只覆盖顶层 JSON 结构，没有约束完整工具 schema。vLLM
+guided JSON 已把 hard/OOD schema 拉到 100\%，但 OOD 的 exact match 没有
+提高；这说明结构约束不能替代语义正确性。token 成本和 P95 延迟只在部分
+实验中采集。
 
 第六，Planner/Reviewer 已分别构建合成 SFT 数据（Planner 1,392 条、
 Reviewer 2,784 条）并训练独立 adapter，但三角色 adapter 在 55 条上为
@@ -978,7 +1012,8 @@ OOD 上，LoRA 的工具名为 90.0\%，base 为 82.5\%；但语言代码和股�
 归一化后，zero-shot 的四个配置（base/LoRA × 温度 0/0.7）在非
 \path{final_answer} 样本上的参数匹配都是 32/32，base + few-shot 是
 31/32。因此，LoRA 的主要作用是把输出协议和工具名对齐，但没有证据表明它让
-参数推理更准。
+参数推理更准。vLLM guided JSON 同样只把 schema 拉到 100\%，OOD exact
+match 没有提高，说明结构约束和语义能力要分开评估。
 
 \textbf{RQ2：多智能体不自动优于单 Agent，拓扑有明确的延迟代价。}
 31 条主实验中 base sequential 为 71.0\%、LoRA sequential 为 77.4\%，
