@@ -91,22 +91,23 @@
 sequential、supervisor 和 debate 三种拓扑；构造 750 条工具调用 SFT 数据，
 另构造 1,124 条扩展数据并训练 5 个 seed 做方差对照；用 4-bit QLoRA 微调
 Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成分开：41 条简单样本、
-57 条难例、40 条未见工具 OOD、31 条系统任务，并加入 base + few-shot、
-角色和温度消融。
+57 条难例、40 条未见工具 OOD、31 条主系统任务、55 条真实工具复核和
+25 条 holdout，并加入 base + few-shot、角色、温度和三角色 adapter 消融。
 
 实验表明，LoRA 把难例 schema 合规率从 94.7\% 提升到 98.2\%，工具名准确率
 从 86.0\% 提升到 91.2\%；base + few-shot 虽然把 schema 提到 96.5\%，工具名
 仍只有 82.5\%，说明收益不只是 prompt 示例。OOD 上 LoRA 的工具名为 90.0\%，
 base 为 82.5\%，但参数归一化后，zero-shot 四个配置都是 32/32，base +
 few-shot 是 31/32，LoRA 的优势主要在工具选择。
-系统任务上，base 的 sequential 成功率从 single 的 67.7\% 降到 51.6\%；
-LoRA sequential 为 80.6\%，few-shot 后为 83.9\%，但只比 single 多解决一条
-任务，延迟约为 6 倍；supervisor 成功率相同但延迟增加约 64\%，debate 降到
-80.6\% 且更慢。在 55 条扩展集上，sequential 和 supervisor 仍同为 74.5\%，
-debate 为 72.7\%；max\_rounds 从 1 增到 3 没有提高多步成功率，只增加
-延迟。温度 0.7 下 JSON/schema 仍为 100\%，任务成功率却降到
-74.2\%；5-seed 对照进一步说明，57/40 条格式测试上的小差异不能直接
-归因于数据量。
+
+在真实天气和真实检索下，55 条主实验的 sequential/supervisor 都是 98.2\%，
+debate 为 96.4\%；supervisor 没有成功率收益，延迟从 15.86~s 增到 25.14~s。
+三角色专用 adapter 在 55 条上为 94.5/92.7/94.5，低于共享 adapter；25 条
+holdout 上三者都是 25/25。31 条主实验中 base sequential 为 71.0\%，
+LoRA sequential 为 77.4\%，两者差距比旧版明显缩小。max\_rounds 从 1 增到
+3 没有提高 14 条多步任务的成功数（均 12/14）；温度 0.7 的任务成功率为
+96.8\%，没有低于温度 0 的 93.6\%。5-seed 对照进一步说明，57/40 条格式
+测试上的小差异不能直接归因于数据量。
 
 因此，LoRA 改善的是工具调用协议和工具选择，而不是规划和审查能力；“更多
 角色”或“更多数据”并不能自动保证更好的任务完成，协作拓扑的延迟和错误
@@ -130,24 +131,28 @@ seeds change the conclusion?
 We implement a Planner/Executor/Reviewer system on LangGraph and extend it with
 sequential, supervisor, and debate topologies. A 750-sample tool-calling SFT set
 is used to fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA; a 1,124-sample
-expanded set is also trained with three seeds for variance control. Evaluation
+expanded set is also trained with five seeds for variance control. Evaluation
 separates format, tool selection, and task success on 41 simple cases, 57 hard
-cases, 40 unseen-tool OOD cases, and 31 system tasks; we also run base +
-few-shot, role, temperature, and seed ablations.
+cases, 40 unseen-tool OOD cases, 31 main system tasks, 55 real-tool tasks, and
+25 holdout tasks; we also run base + few-shot, role, temperature,
+role-specific adapter, and seed ablations.
 
 LoRA raises hard-case schema compliance from 94.7\% to 98.2\% and tool-name
 accuracy from 86.0\% to 91.2\%. A base + few-shot baseline reaches 96.5\% schema
 compliance but only 82.5\% tool-name accuracy, so the gain is not just prompt
 examples. On OOD cases, LoRA reaches 90.0\% tool-name accuracy versus 82.5\% for
 the base model, while normalized argument matching is 32/32 for the four
-zero-shot runs and 31/32 for base + few-shot. On system
-tasks, base sequential success drops from 67.7\% (single-agent) to 51.6\%; LoRA
-sequential reaches 80.6\% (83.9\% with a few-shot Planner), but only solves one
-more task than single-agent at about 6$\times$ the latency. Supervisor matches
-sequential success with about 64\% more latency, and debate falls to 80.6\% and
-is slower. At temperature 0.7, JSON/schema remains 100\% but task success drops
-to 74.2\%, and the seed control shows that small differences on 57/40 format
-cases are within training variance.
+zero-shot runs and 31/32 for base + few-shot.
+
+With real weather and search tools, the 55-task sequential and supervisor
+success rates are both 98.2\%, and debate is 96.4\%; supervisor adds latency
+without a success gain. Three role-specific adapters score 94.5/92.7/94.5 on
+the 55 tasks, below the shared adapter, while all three reach 25/25 on the
+holdout. Base sequential improves to 71.0\% and LoRA sequential is 77.4\% on
+the 31 main tasks. Increasing max\_rounds from 1 to 3 does not change the
+12/14 multi-step success, and temperature 0.7 reaches 96.8\% task success,
+not lower than 93.6\% at temperature 0. The five-seed control shows that small
+differences on 57/40 format cases are within training variance.
 
 LoRA therefore improves the tool-calling protocol and tool selection, not
 planning or review. More roles or more data do not automatically improve task
@@ -189,9 +194,9 @@ stability
   \item 构造 750 条主训练集和 1,124 条扩展训练集，比较 base、LoRA、
         base + few-shot 在 41 条简单样本、57 条难例和 40 条未见工具 OOD
         上的差异，并用 5 个 seed 估计数据扩展的方差；
-  \item 在 31 条系统任务和 55 条扩展任务上做拓扑、角色、温度、
-        max\_rounds 和 seed 消融，报告负结果：更多角色、更多数据和
-        更复杂的辩论并不自动带来更高成功率。
+  \item 在 31 条主任务、55 条真实工具任务和 25 条 holdout 上做拓扑、
+        角色、温度、max\_rounds 和三角色 adapter 消融，报告负结果：
+        更多角色、更多数据和更复杂的辩论并不自动带来更高成功率。
 \end{itemize}
 
 第~\ref{sec:system} 节介绍系统设计，第~\ref{sec:data} 节介绍数据和微调，
@@ -251,10 +256,10 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
 保证实验不会因为一条坏输出中断。
 
 \subsection{工具层}
-工具通过 JSON Schema 注册，当前包含天气、计算器、本地检索和
-\texttt{final\_answer} 四类。天气和计算器是确定性 mock；本地检索
-包含 20 篇小文档，按关键词和字符重叠打分，返回 top 3 摘要。
-工具调用统一为：
+工具通过 JSON Schema 注册，当前包含天气、计算器、检索和
+\texttt{final\_answer} 四类。天气通过 Open-Meteo 实时查询；检索按
+Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
+\texttt{final\_answer} 是本地确定性实现。工具调用统一为：
 \begin{lstlisting}
 {"name": "calculator", "arguments": {"expression": "(23*17+9)/5"}}
 \end{lstlisting}
@@ -289,7 +294,7 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
 训练集；数据扩展实验使用 1,124 条，并训练 5 个 seed 估计方差；格式评测
 分为 41 条简单样本、57 条难例和 40 条未见工具 OOD；系统任务 31 条，
 其中 24 条单步、7 条多步；另构造 55 条扩展任务（41 单步 + 14 多步）
-做样本量复核。
+做样本量复核，并保留 25 条 holdout（15 单步 + 10 多步）不参与调参。
 
 \begin{table}[htbp]
   \centering
@@ -307,6 +312,9 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
     未见工具 OOD & 40 & 4 个训练中未出现的工具 \\
     系统任务 & 31 & 24 条单步 + 7 条多步 \\
     扩展系统任务 & 55 & 41 条单步 + 14 条多步，用于复核 \\
+    系统 holdout & 25 & 15 条单步 + 10 条多步，不参与调参 \\
+    Planner SFT & 1,392 & 合成规划数据，避开 55/holdout \\
+    Reviewer SFT & 2,784 & 正/负审查样本 \\
     seed 对照 & 2 数据 $\times$ 5 seed & 用于估计 adapter 方差 \\
     \bottomrule
   \end{tabular}
@@ -423,11 +431,11 @@ v1 基线。
 训练在 Kaggle 的 Linux 容器中完成，GPU 为 Tesla T4 16GB。
 基座模型为 Qwen2.5-3B-Instruct，LoRA adapter 文件大小约 114MB。
 推理使用 transformers + PEFT 的 4-bit 加载，与训练和评测端保持一致。
-本文没有把 serving 优化作为实验变量：当前流程是串行依赖调用，
-continuous batching 主要面向独立请求的吞吐，不改变单个任务内部的
-依赖延迟；在 31 条任务的评测规模下，引入新的 serving 栈会增加环境
-变量，不利于复现。vLLM 的吞吐收益属于后续部署工作，不是本文结论的
-一部分。
+主系统实验使用真实 Open-Meteo 天气和真实检索（Serper/Tavily/Sogou），
+不再使用固定天气表或本地 20 篇小文档。本文没有把 serving 优化作为主实验
+变量：多智能体流程是串行依赖调用，continuous batching 主要面向独立请求
+的吞吐，不改变单个任务内部的依赖延迟；在 55 条任务的评测规模下，引入新的
+serving 栈会增加环境和精度变量，不利于和 4-bit HF 结果直接比较。
 
 \subsection{任务与指标}
 格式评测使用 41 条简单样本和 57 条难例，指标包括 JSON 可解析率、
@@ -435,13 +443,14 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
 只接受原始输出，不在评测阶段做 JSON 修复；运行时的 Planner 解析则允许
 一次修复，避免单个坏输出中断整个流程。
 
-系统评测的任务集包含 31 条任务，其中 24 条为单步任务，7 条为多步任务。
+系统评测的任务集包含 31 条主任务（24 条单步 + 7 条多步）、55 条真实工具
+复核（41 单步 + 14 多步）和 25 条 holdout（15 单步 + 10 多步）。
 单步任务要求一次工具调用；多步任务要求按顺序完成两个及以上工具调用。
 数据规模上，主实验使用 750 条训练集；4.3 节另用 1,124 条扩展集训练
 5 个 seed，估计数据配方和训练方差。评测覆盖 41 条简单样本、57 条难例、
-40 条未见工具 OOD 和 31 条系统任务；对照包括 base、LoRA、base +
-few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度和
-seed。OOD 只检查格式和工具选择，不执行工具。
+40 条未见工具 OOD 和上述系统任务；对照包括 base、LoRA、base +
+few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度、
+三角色 adapter 和 max\_rounds。OOD 只检查格式和工具选择，不执行工具。
 
 报告的组织顺序是：4.3 节先给出 v1/v2 两套数据配方的格式对照；v1 是
 预先设定的基线，v2 是后续扩展消融。两者没有稳定差异，因此第 5 章沿用
@@ -686,238 +695,142 @@ LoRA 仍然领先：hard 工具名 91.2\% 对 82.5\%，OOD 工具名 90.0\% 对
 它主要改善的是工具名选择和格式稳定性。
 
 \subsection{多智能体任务}
+
+\paragraph{31 条主实验}
 表~\ref{tab:modes} 给出 31 条任务各执行一次的结果。任务集包含 24 条单步任务
-和 7 条多步任务，single 模式只能调用一次工具，因此多步任务在 single 下
-天然无法完成，single 的成功率不能直接和 sequential 等同看待。
+和 7 条多步任务。base 的 single 成功率为 67.7\%（21/31），sequential 为
+71.0\%（22/31）；LoRA 的 single 和 sequential 都是 77.4\%（24/31）。
+这说明在修复 Executor 的最终答案路由后，base 放进 MAS 不再出现旧版
+51.6\% 的大幅下降；单步任务和串行流程的差距明显缩小。
 
 \begin{table}[htbp]
   \centering
+  \small
   \caption{31 条任务上的协作模式对比（未加 few-shot，每条任务 1 次）}
   \label{tab:modes}
   \begin{tabular}{lcccc}
     \toprule
-    模式 & base 成功率 & LoRA 成功率 & base 延迟 & LoRA 延迟 \\
+    模式 & 成功数 & 成功率 & 95\% CI & 延迟 \\
     \midrule
-    single & 0.677 & 0.774 & 2.14~s & 3.33~s \\
-    sequential & 0.516 & 0.806 & 21.93~s & 20.07~s \\
+    base single & 21/31 & 0.677 & [0.501, 0.814] & 2.43~s \\
+    base sequential & 22/31 & 0.710 & [0.534, 0.839] & 19.25~s \\
+    LoRA single & 24/31 & 0.774 & [0.602, 0.886] & 3.69~s \\
+    LoRA sequential & 24/31 & 0.774 & [0.602, 0.886] & 14.62~s \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-base 的 single 成功率为 67.7\%（21/31），sequential 降到 51.6\%（16/31），
-并出现 3 次工具调用或 schema 错误；single 的 schema 合规率是 96.8\%，
-sequential 是 90.3\%。LoRA 的 single 成功率为 77.4\%（24/31），sequential
-为 80.6\%（25/31），两种模式的 schema 合规率都达到 100\%，errors 都为 0。
-
-这组结果有两个直接结论。第一，基座模型单独使用时还能完成大部分单步任务，
-但一旦放进 Planner/Executor/Reviewer 流程，工具调用错误会被放大；
-LoRA 微调显著恢复了 sequential 的成功率和 schema 合规率，说明微调
-对 MAS 中的工具调用稳定性有实际作用。第二，LoRA 的 sequential 相对
-single 只多解决了一条任务，延迟却约为单 Agent 的 6 倍。多出来的收益
-主要来自多步任务，但 7 条多步任务中只完成了 1 条，说明当前 Planner
-对多步任务的拆分仍然很弱。
-
-\paragraph{样本量与统计口径}
-31 条主实验中只有 7 条多步任务，单组结果不足以做稳定的显著性判断；
-55 条扩展集把多步任务增加到 14 条，但每组仍只跑 1 次。表~\ref{tab:ci}
-和表~\ref{tab:system55} 给出 Wilson 95\% 置信区间，区间大量重叠，说明
-系统成功率应作为描述性结果，而不是“显著优于”的证据。5 个 seed 的对照
-只用于 v1/v2 格式评测，不是系统任务各跑 5 次；温度稳定性另行跑了 3 次。
+\paragraph{真实工具下的 55 条复核}
+31 条主实验之外，另构造 55 条同协议任务（41 条单步 + 14 条多步），
+使用真实天气和真实检索，固定 v1 主 adapter，并开启 few-shot Planner。
+表~\ref{tab:system55} 给出结果：sequential 和 supervisor 都是 54/55
+（98.2\%），debate 为 53/55（96.4\%）；三者置信区间大幅重叠，
+supervisor 仍没有成功率收益，延迟却从 15.86~s 增加到 25.14~s。
 
 \begin{table}[htbp]
   \centering
   \small
-  \caption{系统任务成功率的 95\% Wilson 置信区间（n=31）}
-  \label{tab:ci}
-  \begin{tabular}{lccc}
-    \toprule
-    配置 & 成功数 & 成功率 & 95\% CI \\
-    \midrule
-    base single & 21/31 & 0.677 & [0.501, 0.814] \\
-    base sequential & 16/31 & 0.516 & [0.348, 0.680] \\
-    LoRA single & 24/31 & 0.774 & [0.602, 0.886] \\
-    LoRA sequential & 25/31 & 0.806 & [0.637, 0.908] \\
-    few-shot sequential & 26/31 & 0.839 & [0.674, 0.929] \\
-    supervisor & 26/31 & 0.839 & [0.674, 0.929] \\
-    debate & 25/31 & 0.806 & [0.637, 0.908] \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\paragraph{55 条扩展任务的复核}
-为检验 31 条任务上的结论是否只是小样本现象，另构造 55 条同协议任务
-（41 条单步 + 14 条多步），固定选定的 v1 adapter，并开启 few-shot
-Planner。表~\ref{tab:system55} 给出结果：sequential 和 supervisor 都是
-41/55（74.5\%），debate 为 40/55（72.7\%）；三者置信区间大量重叠，
-supervisor 仍没有成功率收益，延迟却从 17.39~s 增加到 28.63~s。
-
-\begin{table}[htbp]
-  \centering
-  \small
-  \caption{55 条扩展系统任务的复核（few-shot，v1 adapter，每条 1 次）}
+  \caption{55 条真实工具复核（共享 adapter，few-shot，每条 1 次）}
   \label{tab:system55}
+  \begin{tabular}{lccccc}
+    \toprule
+    模式 & 成功数 & 成功率 & 95\% CI & Reviewer 通过 & 延迟 \\
+    \midrule
+    sequential & 54/55 & 0.982 & [0.904, 0.997] & 1.000 & 15.86~s \\
+    supervisor & 54/55 & 0.982 & [0.904, 0.997] & 1.000 & 25.14~s \\
+    debate & 53/55 & 0.964 & [0.877, 0.990] & 0.891 & 33.38~s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+这组结果与旧 mock 工具下的 74.5/74.5/72.7 不可直接比较。旧工具对未列城市
+返回“暂无数据”，Reviewer 正确拒绝空结果，而旧 \texttt{task\_success} 仍
+把调用成功算成任务成功；换成真实 Open-Meteo 和真实检索后，成功与 Reviewer
+通过率才有一致口径。
+
+\paragraph{三角色 adapter}
+表~\ref{tab:role55} 比较共享 adapter 与三角色专用 adapter（Executor 主
+adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7/94.5，
+低于共享 adapter 的 98.2/98.2/96.4；在 25 条 holdout 上三者都是 25/25。
+因此角色专用 adapter 在当前数据上没有稳定收益，不能因为“三个权重都训练了”
+就声称更好。
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{共享 adapter 与三角色 adapter 的 55 条对比（few-shot）}
+  \label{tab:role55}
+  \begin{tabular}{lcccccc}
+    \toprule
+    配置 & n & sequential & supervisor & debate & Reviewer 通过 & 备注 \\
+    \midrule
+    共享 adapter & 55 & 0.982 & 0.982 & 0.964 & 1.000/1.000/0.891 & 主基线 \\
+    三角色 adapter & 55 & 0.945 & 0.927 & 0.945 & 0.964/0.964/0.964 & 三个权重 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+25 条 holdout 上，三角色 adapter 的 sequential/supervisor/debate 都是
+25/25（表~\ref{tab:holdout}）；但 holdout 只有 25 条，不能据此声称角色
+专用优于共享 adapter，55 条开发集的方向相反。
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{三角色 adapter 的 25 条 holdout（few-shot）}
+  \label{tab:holdout}
   \begin{tabular}{lcccc}
     \toprule
     模式 & 成功数 & 成功率 & 95\% CI & 延迟 \\
     \midrule
-    sequential & 41/55 & 0.745 & [0.617, 0.842] & 17.39~s \\
-    supervisor & 41/55 & 0.745 & [0.617, 0.842] & 28.63~s \\
-    debate & 40/55 & 0.727 & [0.598, 0.827] & 38.59~s \\
+    sequential & 25/25 & 1.000 & [0.867, 1.000] & 17.59~s \\
+    supervisor & 25/25 & 1.000 & [0.867, 1.000] & 28.43~s \\
+    debate & 25/25 & 1.000 & [0.867, 1.000] & 25.39~s \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-总体成功率低于 31 条 few-shot 的 83.9\%，不能直接解释为“模型退步”：
-55 条任务加入了更多 chat 和多步样本，任务组成不同。分类看，工具型单步
-任务仍基本饱和：sequential/supervisor 的单步合计 35/41（85.4\%），
-多步为 6/14（42.9\%），chat 为 5/11（45.5\%）；debate 的多步为 5/14。
-失败仍然集中在多步拆分和无需工具的 chat，而不是天气/计算/检索的工具
-调用本身。
+\paragraph{Executor 最终答案路由}
+早期 14 条多步任务只有 6/14 成功。检查 trace 后发现，Planner 已经给出
+2--3 个子任务，失败发生在 Executor：它把“总结/建议/比较”子任务又执行成
+上一次的 \texttt{get\_weather} 或 \texttt{search}，而不是 \texttt{final\_answer}。
+在 Executor 中加入“已有结果时，综合子任务必须调用 final\_answer”的约束后，
+14 条多步任务从 6/14 提升到 13/14；随后修正单个算式被拆分和 debate 合并
+查询的问题，55 条开发集达到 55/55。这个修复是系统结果变化的主因，而不是
+Planner 重试或 Planner SFT。
 
-\paragraph{max\_rounds 敏感性}
-在 14 条多步任务上把串行流程的最大重规划轮数设为 1、2、3，结果见
-表~\ref{tab:rounds}。三组成功率完全相同（6/14，42.9\%），但平均延迟从
-20.43~s 增加到 29.27~s。增加重规划预算没有救回多步任务，说明瓶颈在
-Planner 的初始拆分，而不是“轮数不够”。
+\paragraph{角色消融}
+表~\ref{tab:role} 比较五种角色分配（31 条，真实工具，未加 few-shot）。
+全 LoRA 为 77.4\%，无 Reviewer 也是 77.4\%，说明当前 Reviewer 没有带来
+成功率收益；base Planner + LoRA Reviewer 为 83.9\%，base Planner + base
+Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好”：在 31 条
+任务上，base Planner 反而更高。Reviewer 需要的是校准和完整的结果，而不是
+简单增加一个 LoRA 角色。
 
 \begin{table}[htbp]
   \centering
   \small
-  \caption{max\_rounds 敏感性（14 条多步任务，few-shot，v1）}
-  \label{tab:rounds}
-  \begin{tabular}{cccc}
-    \toprule
-    max\_rounds & 成功数 & 成功率 & 平均延迟 \\
-    \midrule
-    1 & 6/14 & 0.429 & 20.43~s \\
-    2 & 6/14 & 0.429 & 26.33~s \\
-    3 & 6/14 & 0.429 & 29.27~s \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\paragraph{Planner 干预的负结果}
-多步成功率低，先尝试了不改训练数据的方法：单次重试、3 次采样选最长
-计划、Planner 专用 SFT（49 条和 110 条合成数据），以及独立的 7B base
-Planner。表~\ref{tab:planner} 显示，六种设置都只完成 6/14，成功率完全
-相同；self-consistency 还把延迟从 25.1~s 拉到 47.7~s。连 7B base
-Planner 也没有改变子任务数量，说明问题不在 3B 提示词或采样，而在当前
-任务/数据下 Planner 没有学会稳定的多步拆分。这个负结果保留在报告中，
-不把多步任务写成已解决。
-
-\begin{table}[htbp]
-  \centering
-  \small
-  \caption{多步任务的 Planner 干预对比（14 条，few-shot，v1 executor）}
-  \label{tab:planner}
-  \begin{tabular}{lcc}
-    \toprule
-    设置 & 成功数 & 平均延迟 \\
-    \midrule
-    原 Planner & 6/14 & 25.1~s \\
-    单次重试 & 6/14 & 25.1~s \\
-    3 次采样选最长 & 6/14 & 47.7~s \\
-    Planner SFT（49 条） & 6/14 & 23.8~s \\
-    Planner SFT（110 条） & 6/14 & 26.4~s \\
-    7B base Planner & 6/14 & 21.3~s \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-Reviewer 的通过率从 base 的 54.8\% 提升到 LoRA 的 77.4\%。这个提升
-有一部分来自工具层：早期 \texttt{search} 是 mock，返回结果明确写着
-没有真实语料，Reviewer 判不通过是合理的；换成本地 20 篇文档的关键词
-检索后，search 任务才具备通过审查的条件。Reviewer 自身仍然不是完全
-可靠，后续需要用 base Reviewer 和去掉 Reviewer 的消融来区分“模型
-审查能力”与“工具结果质量”。
-
-\paragraph{多步任务的失败位置}
-在未加 few-shot 的 sequential 中，检查 7 条多步任务的 trace 后，问题比较集中。6 条任务的 Planner 只
-给出了 1 个子任务，Executor 也只调用 1 个工具；只有
-\path{multi_search_weather} 被拆成 2 个子任务并成功。也就是说，
-多步任务的失败首先发生在计划层，而不是工具格式层。
-
-Reviewer 也没有起到兜底作用。多条只完成第一步的结果被
-\texttt{pass=true} 放行；\path{multi_weather_compare} 首轮拆成
-3 个子任务，Reviewer 判不通过，重规划后只剩 1 个子任务，Reviewer
-反而通过，最终缺少上海天气。另有一条任务把两个检索词合并成一个
-query，Reviewer 给了 0.95 分，但严格按 expected calls 判定失败；
-这说明当前的成功率口径偏严，也说明 Reviewer 的“通过”不能直接当作
-任务完成。
-
-\subsection{角色消融}
-表~\ref{tab:role} 比较了五种角色分配。未加 few-shot 时，全 LoRA 配置的成功率最高，
-为 80.6\%；只把 Planner 换成 base 模型，成功率降到 71.0\%（LoRA
-Reviewer）和 74.2\%（base Reviewer）。只把 Reviewer 换成 base 模型，
-成功率为 77.4\%，也低于全 LoRA。去掉 Reviewer 后，成功率降到
-74.2\%，延迟从 20.07~s 降到 9.96~s。base Planner 产生的子任务更多
-（平均 1.26 和 1.42 个），但成功率没有提高，说明“拆得多”不等于
-“拆得对”。
-
-\begin{table}[htbp]
-  \centering
-  \caption{角色分配消融（未加 few-shot，31 条任务各 1 次）}
+  \caption{角色分配消融（31 条，真实工具，未加 few-shot）}
   \label{tab:role}
-  \begin{tabular}{lcccc}
+  \begin{tabular}{lccc}
     \toprule
-    配置 & 成功率 & Schema & Reviewer 通过 & 延迟 \\
+    配置 & 成功数 & 成功率 & 延迟 \\
     \midrule
-    全 LoRA & 0.806 & 1.000 & 0.774 & 20.07~s \\
-    LoRA Planner + base Reviewer & 0.774 & 1.000 & 0.516 & 22.32~s \\
-    LoRA Planner + 无 Reviewer & 0.742 & 1.000 & - & 9.96~s \\
-    base Planner + LoRA Reviewer & 0.710 & 1.000 & 0.871 & 22.55~s \\
-    base Planner + base Reviewer & 0.742 & 0.968 & 0.677 & 24.46~s \\
+    全 LoRA & 24/31 & 0.774 & 19.64~s \\
+    LoRA Planner + base Reviewer & 24/31 & 0.774 & 16.05~s \\
+    LoRA Planner + 无 Reviewer & 24/31 & 0.774 & 9.28~s \\
+    base Planner + LoRA Reviewer & 26/31 & 0.839 & 18.62~s \\
+    base Planner + base Reviewer & 27/31 & 0.871 & 21.11~s \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-这组结果说明 Reviewer 确实有价值，但代价很高：全 LoRA 比无 Reviewer
-多 6.4 个百分点成功率，却多花约 10 秒。把 Reviewer 换成 base 模型
-反而更差，说明“用更大的通用模型做审查”并不自动更好。base Planner
-的审查通过率更高，但端到端成功率更低；多步任务的失败可能同时来自
-Planner 的拆分粒度和 Executor 一次只调用一个工具的限制。下一步应
-单独检查多步任务的 trace，而不是继续换 Planner。
-
-\subsection{负结果分析：拓扑复杂度与任务收益的非正相关性}
-表~\ref{tab:collab} 给出 31 条任务上三种新拓扑的结果，Planner 都打开了
-few-shot，Reviewer 使用 LoRA。三种拓扑的 JSON/schema 都是 100\%，
-errors 为 0。
-
-\begin{table}[htbp]
-  \centering
-  \caption{协作模式扩展（31 条任务，Planner few-shot）}
-  \label{tab:collab}
-  \begin{tabular}{lcccc}
-    \toprule
-    模式 & 成功率 & 多步成功率 & 平均结果数 & 延迟 \\
-    \midrule
-    sequential & 0.839 & 3/7 & 1.29 & 17.86~s \\
-    supervisor & 0.839 & 3/7 & 1.29 & 29.22~s \\
-    debate & 0.806 & 2/7 & 1.35 & 40.94~s \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-few-shot 对 sequential 有效：成功率从旧版的 80.6\%（25/31）提高到
-83.9\%（26/31），多步任务从 1/7 提高到 3/7。代价是 \texttt{final\_06}
-这样的“推荐一本书”被误拆成 search 子任务，chat 从 6/6 降到 5/6；
-净收益只有一条任务。
-
-sequential 和 supervisor 的 95\% Wilson 置信区间都是 [0.674, 0.929]，
-debate 是 [0.637, 0.908]；区间大幅重叠，一轮 31 条任务不足以声称
-三种拓扑有显著差异。Supervisor 与 sequential 的逐任务结果完全相同，
-Debate 只比 sequential 少一条，McNemar 检验 p=1.0。延迟的长尾更明显：
-三者的 P95 延迟分别为 30.9~s、48.2~s 和 83.7~s。
-
-supervisor 的成功率与 sequential 完全相同，但延迟从 17.86~s 增到
-29.22~s。原因是 supervisor 的提前 review 被 guard 阻止后，实际行为
-退化为“逐个子任务执行 + 一次审查”，路由层只增加了调用开销。这是一
-个明确的负结果：主管角色没有带来更好的任务完成，只是更贵。
-
-debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94~s。Judge 有时
-选择“把两个查询合并成一个”的短计划，有时选择过度拆分的计划；它没
-有稳定地选出更可执行的方案。两个 Planner 加一个 Judge 的辩论，没有
-超过一个 few-shot Planner。
+\paragraph{协作拓扑}
+表~\ref{tab:system55} 与图~\ref{fig:tradeoff} 给出真实工具下 55 条的
+拓扑对比。sequential 与 supervisor 的成功数完全相同，但 supervisor 的
+平均延迟从 15.86~s 增到 25.14~s；debate 少一条任务，延迟最高。三者
+置信区间重叠，不能声称哪一拓扑显著更优，但“多角色没有提高完成率、
+只增加调用成本”这一方向与原负结果一致。
 
 \begin{figure}[htbp]
   \centering
@@ -927,59 +840,65 @@ debate 更差：成功率 80.6\%，多步只有 2/7，延迟 40.94~s。Judge 有
       height=5.5cm,
       xlabel={平均延迟（秒）},
       ylabel={成功率},
-      xmin=15, xmax=45,
-      ymin=0.79, ymax=0.85,
+      xmin=10, xmax=40,
+      ymin=0.94, ymax=1.00,
       grid=major,
       clip=false,
     ]
       \addplot[only marks, mark=*, mark size=3pt] coordinates {
-        (17.86,0.839)
-        (29.22,0.839)
-        (40.94,0.806)
+        (15.86,0.982)
+        (25.14,0.982)
+        (33.38,0.964)
       };
-      \node[font=\scriptsize, anchor=south] at (axis cs:17.86,0.839) {sequential};
-      \node[font=\scriptsize, anchor=south] at (axis cs:29.22,0.839) {supervisor};
-      \node[font=\scriptsize, anchor=north] at (axis cs:40.94,0.806) {debate};
+      \node[font=\scriptsize, anchor=south] at (axis cs:15.86,0.982) {sequential};
+      \node[font=\scriptsize, anchor=south] at (axis cs:25.14,0.982) {supervisor};
+      \node[font=\scriptsize, anchor=north] at (axis cs:33.38,0.964) {debate};
     \end{axis}
   \end{tikzpicture}
-  \caption{协作拓扑的成功率--延迟权衡（31 条任务，一轮）}
+  \caption{真实工具下协作拓扑的成功率--延迟权衡（55 条，共享 adapter）}
   \label{fig:tradeoff}
 \end{figure}
 
-图~\ref{fig:tradeoff} 中，supervisor 与 sequential 落在同一成功率
-水平，但横轴明显右移；debate 同时损失成功率和延迟。这张图比单看
-成功率更能说明“多一个角色”并不划算。
-
-\subsection{温度稳定性}
-表~\ref{tab:temperature} 给出全 LoRA 在温度 0 和 0.7 下各重复 3 次的
-结果。温度 0.7 下成功率从 80.6\% 降到 74.2\%，但 JSON 和 schema
-合规率仍然都是 100\%，errors 为 0。格式稳定性没有下降，下降的是任务
-成功率。
+\paragraph{max\_rounds 与温度}
+14 条多步任务上，max\_rounds=1/2/3 都是 12/14（85.7\%）；
+平均延迟从 24.64~s 增到 27.11~s，增加重规划预算没有提高成功数
+（表~\ref{tab:rounds}）。
 
 \begin{table}[htbp]
   \centering
-  \caption{温度对全 LoRA 串行流程的影响（未加 few-shot，31 条任务 $\times$ 3 次）}
-  \label{tab:temperature}
-  \begin{tabular}{lccccc}
+  \small
+  \caption{max\_rounds 敏感性（14 条多步，真实工具，三角色 adapter）}
+  \label{tab:rounds}
+  \begin{tabular}{cccc}
     \toprule
-    温度 & 成功率 & JSON/Schema & Reviewer 通过 & 平均结果数 & 延迟 \\
+    max\_rounds & 成功数 & 成功率 & 平均延迟 \\
     \midrule
-    0 & 0.806 & 1.000 & 0.774 & 1.03 & 20.26~s \\
-    0.7 & 0.742 & 1.000 & 0.860 & 1.17 & 21.05~s \\
+    1 & 12/14 & 0.857 & 24.64~s \\
+    2 & 12/14 & 0.857 & 25.60~s \\
+    3 & 12/14 & 0.857 & 27.11~s \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-按类别看，weather 和 search 在 0.7 下保持 18/18；calculator 从
-18/18 降到 13/18，chat 从 18/18 降到 17/18。多步任务在两个温度下
-都只有 3/21（7 条任务中只有 1 条在 3 次运行里都成功），温度并没有
-解决多步规划问题。
+温度 0 与 0.7 各跑 3 次（31 条 $\times$ 3），成功率分别为 93.6\% 和
+96.8\%（表~\ref{tab:temperature}）。温度 0.7 没有降低成功率，说明
+“温度越低越稳定”在本任务上不成立；但两组都只覆盖 31 条，不能据此
+选择温度。
 
-另一个值得注意的现象是 Reviewer 通过率从 77.4\% 升到 86.0\%，
-但任务成功率反而下降。温度升高让 Planner 产生更多子任务（平均结果数
-从 1.03 升到 1.17，部分任务出现 3 个子任务），但拆得多并没有带来
-更高的完成率；Reviewer 也更容易放行不完整的计划。这说明采样温度
-改变的是计划的波动性，而不是计划质量。
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{温度对全 LoRA 串行流程的影响（31 条 $\times$ 3 次，真实工具）}
+  \label{tab:temperature}
+  \begin{tabular}{lccc}
+    \toprule
+    温度 & 成功数 & 成功率 & 平均延迟 \\
+    \midrule
+    0 & 87/93 & 0.936 & 15.31~s \\
+    0.7 & 90/93 & 0.968 & 14.92~s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{问题与处理}
 实验过程中遇到的几个问题及处理方式如下。
@@ -1012,37 +931,32 @@ Reviewer prompt，而是先把工具结果做真实。这个现象说明，多�
 自由文本参数也没有做规范化。后续需要扩大 OOD，加入多工具调用，并对
 枚举参数和文本参数分别评测。
 
-第二，系统任务里 31 条主实验只跑了一轮，多步任务在未加 few-shot 时
-只完成了 1 条，加 few-shot 后提高到 3/7；55 条扩展集把多步任务增加到
-14 条，few-shot 下完成 6/14，仍有一半以上失败。single 模式天然只能
-调用一次工具，不能把多步失败解释为模型能力差；真正需要分析的是
-sequential 下 Planner 的拆分粒度和 Executor 的单步执行限制。base
-Planner 的子任务更多，但成功率反而下降，说明问题不只是“Planner 不拆”，
-还包括“拆得对不对”。55 条扩展集仍只跑一次，Planner 专用 SFT（110 条）
-和 7B base Planner 都没有提高 14 条多步任务的成功数；多步拆分仍是未解决
-的瓶颈，后续需要更多规划数据或更强模型。
+第二，系统任务里 31 条主实验和 55 条复核都只跑一轮；55 条的 14 条多步
+任务在修复 Executor 后完成 12/14，但 max\_rounds 从 1 到 3 都是 12/14，
+说明增加重规划预算没有提高完成数。25 条 holdout 全部成功，但样本仍小。
+single 模式天然只能调用一次工具，不能把多步失败解释为模型能力差；
+真正需要分析的是 Planner 的拆分粒度和 Executor 的工具选择。
 
-第三，Reviewer 的角色适配还不充分。LoRA 主要学习工具调用格式，并不
-保证它能做好计划审查。全 LoRA 的 Reviewer 通过率为 77.4\%，换成
-base Reviewer 后，LoRA Planner 下只有 51.6\%，base Planner 下为
-67.7\%。去掉 Reviewer 后成功率为 74.2\%，比全 LoRA 低 6.4 个百分点，
-但延迟减半。这说明 Reviewer 不是无效组件，但它的收益和成本需要一起
-看。
+第三，Reviewer 的校准仍不充分。55 条真实工具下 sequential/supervisor
+的 Reviewer 通过率为 100\%，debate 为 89.1\%；其中一部分是 Reviewer 对
+正确天气/计算结果的误拒，而不是任务失败。全 LoRA 与去掉 Reviewer 的
+31 条成功率同为 77.4\%，说明当前 Reviewer 没有带来稳定增益；它的收益
+和成本仍需分开评估。
 
-第四，工具层仍然很轻。天气和计算器是确定性 mock，search 是 20 篇
-文档的本地关键词检索，不能代表真实信息检索。系统成功率的解释要受
-这个限制，不能把结果外推到开放域任务。
+第四，工具层已接入真实 Open-Meteo 天气和真实检索，但检索依赖外部服务
+（Serper/Tavily/Sogou/Wikipedia）与网络可用性；OOD 工具仍只做 schema
+注册，不执行真实操作。系统成功率的解释仍受外部工具质量影响，不能完全
+外推到开放域任务。
 
-第五，缺少约束解码基线。本文比较了 base zero-shot、base + few-shot 和
-LoRA，但没有做 JSON mode、grammar-constrained decoding 或 LoRA + 约束
-解码的对照，因此不能把格式收益完全归因于微调。token 成本和 P95 延迟
-只在部分新实验中采集，早期稳定性结果没有逐样本 token 数；后续应在
-vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分开评估。
+第五，缺少约束解码基线。本文尝试了 vLLM guided JSON，但当前 Kaggle
+镜像的 PyTorch/TorchAudio CUDA 版本不匹配，未能得到完整对照；因此不能
+把格式收益完全归因于微调。token 成本和 P95 延迟只在部分实验中采集。
 
-第六，微调只覆盖单步工具调用协议，没有为 Planner 的任务拆解和 Reviewer
-的完整性检查构造专用训练数据；这些角色仍共享同一个 adapter，角色能力的
-差异不能完全归因于微调数据。后续可以分别构造“规划/审查”样本，并比较
-分角色 adapter 与共享 adapter 的差异。
+第六，Planner/Reviewer 已分别构建合成 SFT 数据（Planner 1,392 条、
+Reviewer 2,784 条）并训练独立 adapter，但三角色 adapter 在 55 条上为
+94.5/92.7/94.5，低于共享 adapter 的 98.2/98.2/96.4；25 条 holdout 上
+全部成功。角色专用 adapter 没有稳定收益，不能把“训练了三个权重”当成
+性能提升。
 
 \clearpage
 \section{结论}\label{sec:conclusion}
@@ -1051,8 +965,8 @@ vLLM 上接入 guided decoding，并把格式约束、微调和任务成功分�
 我们搭建了 LangGraph 三角色系统，构造 750 条主训练集和 1,124 条扩展
 训练集（后者用 5 个 seed 训练），并用 4-bit QLoRA 微调
 Qwen2.5-3B-Instruct；评测覆盖 41 条简单样本、57 条难例、40 条未见工具
-OOD 和 31 条系统任务，并用 55 条扩展任务复核。实验结果可以按三个研究
-问题总结。
+OOD、31 条主系统任务、55 条真实工具复核和 25 条 holdout。实验结果可以
+按三个研究问题总结。
 
 \textbf{RQ1：LoRA 改善的是格式和工具选择，并不主要改善参数细节。}
 在 57 条难例上，LoRA 把 schema 合规率从 94.7\% 提升到 98.2\%，工具名
@@ -1065,20 +979,18 @@ OOD 上，LoRA 的工具名为 90.0\%，base 为 82.5\%；但语言代码和股�
 参数推理更准。
 
 \textbf{RQ2：多智能体不自动优于单 Agent，拓扑有明确的延迟代价。}
-base 的 sequential 成功率从 single 的 67.7\% 降到 51.6\%，说明把基座模型
-直接放进 Planner/Executor/Reviewer 流程会放大工具调用错误。LoRA 把
-sequential 恢复到 80.6\%，few-shot 后为 83.9\%，但只比 single 多解决
-一条任务，延迟约为 6 倍；7 条多步任务仍有 4 条失败。supervisor 的成功率
-与 sequential 相同，延迟却增加约 64\%；debate 降到 80.6\%，延迟更高。
-55 条扩展集复核仍显示 sequential/supervisor 同为 74.5\%、debate 72.7\%；
-max\_rounds 从 1 增加到 3 没有提高多步成功率，只把延迟从 20.43~s 拉到
-29.27~s；Planner 重试、3 次采样、专用 SFT 和 7B base Planner 也都停在
-6/14。多出来的角色和消息没有转化为更高的完成率，瓶颈在 Planner 的拆分
-质量，而不是角色数量或重规划预算。
+31 条主实验中 base sequential 为 71.0\%、LoRA sequential 为 77.4\%，
+base 放进 MAS 不再出现旧版 51.6\% 的大幅下降；这说明旧结果的一部分
+来自 Executor 的最终答案路由错误。55 条真实工具下 sequential 和
+supervisor 都是 98.2\%，debate 为 96.4\%；supervisor 延迟从 15.86~s
+增到 25.14~s，debate 更慢。三角色专用 adapter 在 55 条上为
+94.5/92.7/94.5，低于共享 adapter；25 条 holdout 上三者都是 25/25。
+max\_rounds 从 1 到 3 都是 12/14，增加轮数没有提高成功数。多出来的角色
+和消息没有转化为更高的完成率，拓扑的主要代价是延迟。
 
 \textbf{RQ3：格式稳定不等于任务稳定，小样本差异需要方差控制。}
-温度 0.7 下 JSON/schema 仍是 100\%，任务成功率却从 80.6\% 降到 74.2\%；
-Reviewer 通过率反而升高，说明通过率不能直接当作任务完成率。v1（750）与
+温度 0.7 下 JSON/schema 仍是 100\%，任务成功率为 96.8\%，并没有低于
+温度 0 的 93.6\%；这说明“温度越低越稳定”在本任务上不成立。v1（750）与
 v2（1,124）各训练 5 个 seed 后，均值差异落在一个标准差以内，单次
 v1/v2 的 1--2 条格式差异不能直接支持“数据量有效/无效”的结论。本文
 已经用 5 个 seed 报告了均值和方差；后续其他小数据 adapter 比较也应

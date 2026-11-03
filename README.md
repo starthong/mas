@@ -55,8 +55,8 @@
 
 基座模型为 Qwen2.5-3B-Instruct，训练使用 4-bit QLoRA（rank 16，alpha 32，
 2 epoch，T4）。主 adapter 位于 Kaggle Dataset
-`starthong/mas-3b-toolcall-output`；报告中的 v1/v2 对照各训练 3 个 adapter，
-`configs/seeds/` 已扩展到 seed 42–46，seed 45/46 用于 5-seed 复核。
+`starthong/mas-3b-toolcall-output`；报告中的 v1/v2 对照各训练 5 个 adapter，
+`configs/seeds/` 已扩展到 seed 42–46。
 训练和测试按场景划分，避免同一模板同时出现在两边。
 
 ## 评测
@@ -79,6 +79,8 @@
 | `scripts/run_constrained.sh` | vLLM guided-JSON 约束解码基线（base/LoRA，hard/OOD） |
 | `scripts/build_planner_dataset.py` | 生成 Planner 专用 SFT 数据（与 55 条评测任务不重合） |
 | `scripts/train_planner.sh` | 训练独立 Planner LoRA adapter |
+| `scripts/build_reviewer_dataset.py` | 生成 Reviewer 正/负样本 |
+| `scripts/train_reviewer.sh` | 训练独立 Reviewer LoRA adapter |
 | `scripts/summarize_modes.py` | 从 run_modes 输出汇总成功率、Wilson 区间和延迟 |
 | `scripts/analyze_seeds.py` | 汇总 5 个 seed 的均值、标准差和差值 |
 | `configs/seeds/*-seed45.yaml`、`*-seed46.yaml` | v1/v2 的 5-seed 复核配置 |
@@ -98,15 +100,14 @@
 | hard 工具名，base → LoRA | 86.0% → 91.2% |
 | base + few-shot | schema 96.5%，工具名 82.5% |
 | OOD 工具名，base → LoRA | 82.5% → 90.0% |
-| base single → sequential | 67.7% → 51.6% |
-| LoRA sequential / few-shot | 80.6% / 83.9% |
-| supervisor | 成功率相同，延迟约 +64% |
-| debate | 80.6%，延迟 40.94 s |
-| 温度 0.7 | JSON/schema 100%，任务成功率 74.2% |
+| 31 条 base sequential | 71.0% |
+| 31 条 LoRA sequential | 77.4% |
+| 55 条共享 adapter | sequential/supervisor 98.2%，debate 96.4% |
+| 55 条三角色 adapter | 94.5 / 92.7 / 94.5% |
+| 25 条 holdout（三角色） | 100 / 100 / 100% |
+| max_rounds 1/2/3 | 14 条多步均为 85.7%（12/14）；延迟 24.64→27.11 s |
+| 温度 0 / 0.7 | 任务成功率 93.6% / 96.8% |
 | 5-seed hard schema | v1 .979±.008；v2 .975±.020 |
-| 5-seed hard 工具名 | v1 .895±.012；v2 .902±.016 |
-| 55 条 sequential/supervisor | 74.5%；debate 72.7% |
-| max_rounds 1/2/3 | 14 条多步均为 42.9%；延迟 20.43→29.27 s |
 
 这些结果说明 LoRA 改善的是工具调用协议和工具选择，并不能替代规划与审查；
 增加角色或数据也不会自动提高任务完成率。
@@ -153,8 +154,8 @@ mas/
 
 - 天气和检索依赖外部服务；离线时需要 API key 或缓存，OOD 工具仍是 schema 级 mock；
 - Executor 一个子任务只调用一次工具，不是完整 ReAct 循环；
-- 微调只覆盖单步工具调用协议；Planner/Reviewer 使用单独的合成 SFT 数据（Planner 1,392 条，Reviewer 2,784 条），但尚未与共享 adapter 做完整对比；
-- 没有 JSON mode / grammar-constrained decoding 基线；
+- 微调只覆盖单步工具调用协议；Planner/Reviewer 使用单独的合成 SFT 数据（Planner 1,392 条，Reviewer 2,784 条），三角色 adapter 已完成 55 条和 25 条 holdout 对比；
+- 约束解码未完成：vLLM guided JSON 受 Kaggle PyTorch/TorchAudio CUDA 版本冲突影响；
 - 系统任务 31 条、多步 7 条，扩展后 55 条、多步 14 条，但仍各只跑 1 轮；
 - 5-seed 对照只覆盖 v1/v2 格式评测，不覆盖全部系统任务；
 - 早期 Planner 干预没有提升 14 条多步任务；后续定位为 Executor 最终答案路由，修复后的 55/25 条结果见报告。
