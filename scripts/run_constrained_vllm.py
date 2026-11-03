@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import time
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.eval.metrics import (
     classify_format_error,
@@ -87,7 +90,7 @@ def main() -> int:
             max_tokens=args.max_tokens,
             guided_json=JSON_SCHEMA,
         )
-    except TypeError:
+    except Exception:
         from vllm.sampling_params import GuidedDecodingParams
 
         sampling = SamplingParams(
