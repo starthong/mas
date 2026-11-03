@@ -85,19 +85,28 @@ def main() -> int:
     )
 
     try:
-        sampling = SamplingParams(
-            temperature=0.0,
-            max_tokens=args.max_tokens,
-            guided_json=JSON_SCHEMA,
-        )
-    except Exception:
-        from vllm.sampling_params import GuidedDecodingParams
+        from vllm.sampling_params import StructuredOutputsParams
 
         sampling = SamplingParams(
             temperature=0.0,
             max_tokens=args.max_tokens,
-            guided_decoding=GuidedDecodingParams(json=JSON_SCHEMA),
+            structured_outputs=StructuredOutputsParams(json=JSON_SCHEMA),
         )
+    except Exception:
+        try:
+            from vllm.sampling_params import GuidedDecodingParams
+
+            sampling = SamplingParams(
+                temperature=0.0,
+                max_tokens=args.max_tokens,
+                guided_decoding=GuidedDecodingParams(json=JSON_SCHEMA),
+            )
+        except Exception:
+            sampling = SamplingParams(
+                temperature=0.0,
+                max_tokens=args.max_tokens,
+                guided_json=JSON_SCHEMA,
+            )
 
     lora_request = None
     if args.adapter:
