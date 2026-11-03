@@ -54,7 +54,45 @@ def tool_name_match(pred: Any, ref: Any) -> bool:
     )
 
 
+_LANGUAGE_ALIASES = {
+    "en": "English",
+    "english": "English",
+    "fr": "French",
+    "french": "French",
+    "ja": "Japanese",
+    "japanese": "Japanese",
+    "zh": "Chinese",
+    "chinese": "Chinese",
+    "de": "German",
+    "german": "German",
+    "es": "Spanish",
+    "spanish": "Spanish",
+    "ko": "Korean",
+    "korean": "Korean",
+    "ru": "Russian",
+    "russian": "Russian",
+}
+
+
+def normalize_call(call: Any) -> Any:
+    """把 OOD 中等价的枚举写法归一化，避免 en/English 被 exact match 判错。"""
+    if not isinstance(call, dict):
+        return call
+    normalized = json.loads(json.dumps(call, ensure_ascii=False))
+    if normalized.get("name") == "translate":
+        arguments = normalized.get("arguments")
+        if isinstance(arguments, dict):
+            language = arguments.get("target_language")
+            if isinstance(language, str):
+                arguments["target_language"] = _LANGUAGE_ALIASES.get(
+                    language.lower(), language
+                )
+    return normalized
+
+
 def exact_match(pred: Any, ref: Any) -> bool:
+    pred = normalize_call(pred)
+    ref = normalize_call(ref)
     return (
         isinstance(pred, dict)
         and isinstance(ref, dict)
