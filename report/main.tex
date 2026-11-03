@@ -599,16 +599,16 @@ LoRA 是 [0.907, 0.997]；按配对样本做 McNemar 检验，温度 0 的 p 值
 
 \begin{table}[htbp]
   \centering
-  \caption{未见工具 OOD 结果（40 条样本）}
+  \caption{未见工具 OOD 结果（40 条样本，参数含原始/归一化两列）}
   \label{tab:ood}
-  \begin{tabular}{lcccc}
+  \begin{tabular}{lccccc}
     \toprule
-    模型 & JSON & Schema & 工具名 & 参数完全匹配 \\
+    模型 & JSON & Schema & 工具名 & 原始参数 & 归一化参数 \\
     \midrule
-    base, 温度 0 & 0.975 & 0.975 & 0.825 & 0.625 \\
-    base, 温度 0.7 & 1.000 & 1.000 & 0.825 & 0.625 \\
-    LoRA, 温度 0 & 1.000 & 1.000 & 0.900 & 0.575 \\
-    LoRA, 温度 0.7 & 1.000 & 1.000 & 0.875 & 0.575 \\
+    base, 温度 0 & 0.975 & 0.975 & 0.825 & 0.625 & 0.725 \\
+    base, 温度 0.7 & 1.000 & 1.000 & 0.825 & 0.625 & 0.750 \\
+    LoRA, 温度 0 & 1.000 & 1.000 & 0.900 & 0.575 & 0.700 \\
+    LoRA, 温度 0.7 & 1.000 & 1.000 & 0.875 & 0.575 & 0.675 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -617,17 +617,18 @@ LoRA 是 [0.907, 0.997]；按配对样本做 McNemar 检验，温度 0 的 p 值
 90.0\%，温度 0.7 下从 82.5\% 提升到 87.5\%；LoRA 的 JSON/schema
 在两种温度下都保持 100\%，base 在温度 0 下有一条纯文本输出。
 
-原始参数完全匹配率从 62.5\% 降到 57.5\%，但这个数字不能解释为
-LoRA 更差。差异主要来自自由文本参数：模型把
+原始参数完全匹配率从 62.5\% 降到 57.5\%，但这是字符串口径，不是语义
+口径。差异主要来自枚举/自由文本参数：模型把
 \texttt{target\_language} 写成 \texttt{en}/\texttt{zh}，而参考答案写的是
 \texttt{English}/\texttt{Chinese}；股票查询把“腾讯控股”写成公司名而不是
-\texttt{0700.HK}；\texttt{final\_answer} 的 answer 本身就是自由文本，
-不可能逐字匹配。
+\texttt{0700.HK}；\texttt{final\_answer} 的 answer 本身就是自由文本。
 
-把语言代码和股票别名归一化，并排除 \texttt{final\_answer} 后，四个配置
-在剩余 32 条 OOD 样本上的参数匹配都是 32/32。也就是说，OOD 上并没有
-“LoRA 参数更准”的证据；LoRA 的收益只在工具名选择（82.5\% 到 90.0\%），
-schema 差异只有 0--1 条，McNemar 检验的 p 值为 1.0，不能称显著。
+把语言代码和股票别名归一化后，温度 0 下 base 为 72.5\%、LoRA 为 70.0\%；
+温度 0.7 下 base 为 75.0\%、LoRA 为 67.5\%。归一化后 LoRA **没有**参数
+优势。排除 \texttt{final\_answer} 后，各配置在剩余 32 条上的参数匹配都
+是 32/32；OOD 上并没有“LoRA 参数更准”的证据。LoRA 的收益只在工具名
+选择（82.5\% 到 90.0\%），schema 差异只有 0--1 条，McNemar 检验的
+p 值为 1.0，不能称显著。
 
 这说明 OOD 实验必须把“工具选对”和“参数写法一致”分开。对枚举型参数
 应该加 enum 或做规范化，对自由文本参数不应该用 exact match 直接比较；
@@ -674,28 +675,29 @@ zero-shot base、few-shot base 和 zero-shot LoRA。
 \begin{table}[htbp]
   \centering
   \small
-  \caption{base + few-shot 与 LoRA 的格式对比（温度 0）}
+  \caption{base + few-shot 与 LoRA 的格式对比（温度 0，OOD 参数已归一化）}
   \label{tab:fewshot}
   \begin{tabular}{lccccc}
     \toprule
     配置 & hard Schema & hard 工具名 & hard 参数 & OOD 工具名 & OOD 参数 \\
     \midrule
-    base zero-shot & 0.947 & 0.860 & 0.614 & 0.825 & 0.625 \\
+    base zero-shot & 0.947 & 0.860 & 0.614 & 0.825 & 0.725 \\
     base few-shot & 0.965 & 0.825 & 0.667 & 0.850 & 0.750 \\
-    LoRA zero-shot & 0.982 & 0.912 & 0.702 & 0.900 & 0.575 \\
+    LoRA zero-shot & 0.982 & 0.912 & 0.702 & 0.900 & 0.700 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 few-shot 确实缩小了格式差距：hard 的 schema 从 94.7\% 提到 96.5\%，
-OOD 的参数匹配从 62.5\% 提到 75.0\%。但 hard 的工具名从 86.0\% 降到
+OOD 的归一化参数匹配从 72.5\% 提到 75.0\%。但 hard 的工具名从 86.0\% 降到
 82.5\%，说明示例改变了输出分布，并没有稳定提升工具选择；OOD 工具名
 只从 82.5\% 提到 85.0\%。
 
-LoRA 仍然领先：hard 工具名 91.2\% 对 82.5\%，OOD 工具名 90.0\% 对
-85.0\%；schema 也保持在 98.2\%。OOD 的原始参数匹配看起来 LoRA 更低，
-但把语言代码和股票别名归一化后，LoRA 是 32/32，base few-shot 是
-31/32，差异只有一条。因此 LoRA 的收益不能简单归因于“多了几个示例”；
+LoRA 仍然领先的是工具名：hard 91.2\% 对 82.5\%，OOD 90.0\% 对
+85.0\%；schema 保持在 98.2\%。OOD 全 40 条归一化参数匹配 LoRA 为
+70.0\%，base few-shot 为 75.0\%，LoRA 并没有参数优势；排除自由文本
+\texttt{final\_answer} 后，LoRA 是 32/32，base few-shot 是 31/32，
+差异只有一条。因此 LoRA 的收益不能简单归因于“多了几个示例”；
 它主要改善的是工具名选择和格式稳定性。
 
 \subsection{约束解码基线}
@@ -715,17 +717,19 @@ LoRA 仍然领先：hard 工具名 91.2\% 对 82.5\%，OOD 工具名 90.0\% 对
     \midrule
     hard & base + guided JSON & 1.000 & 0.930 & 0.649 \\
     hard & LoRA + guided JSON & 1.000 & 0.930 & 0.719 \\
-    OOD & base + guided JSON & 1.000 & 0.825 & 0.575 \\
-    OOD & LoRA + guided JSON & 1.000 & 0.875 & 0.550 \\
+    OOD & base + guided JSON & 1.000 & 0.825 & 0.725 \\
+    OOD & LoRA + guided JSON & 1.000 & 0.875 & 0.700 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-约束解码把 schema 全部拉到 100\%，hard 工具名也从无约束的 86.0\%/91.2\%
-提高到 93.0\%。但 OOD 的 exact match 没有提高，LoRA 甚至从 57.5\% 降到
-55.0\%；说明约束只保证 JSON 结构，不保证工具名和参数语义。LoRA 在
-hard 参数上的优势仍然存在（71.9\% 对 64.9\%），但 OOD 参数没有优势。
-这也说明“格式收益”不能只归因于微调，约束解码本身就能消除一类格式错误。
+约束解码把 schema 全部拉到 100\%，hard 工具名从无约束的 86.0\%/91.2\%
+提高到 93.0\%。OOD 原始 exact match 从 62.5\%/57.5\% 变成 57.5\%/55.0\%，
+但差异来自 vLLM 把 \texttt{target\_language} 写成 \texttt{en}/\texttt{fr}；
+按语言代码归一化后，base/LoRA 分别为 72.5\%/70.0\%，与无约束相同。
+因此约束只保证 JSON 结构，不保证工具名和参数语义。LoRA 在 hard 参数上的
+优势仍然存在（71.9\% 对 64.9\%），但 OOD 参数没有优势。这也说明“格式收益”
+不能只归因于微调，约束解码本身就能消除一类格式错误。
 
 \subsection{多智能体任务}
 
