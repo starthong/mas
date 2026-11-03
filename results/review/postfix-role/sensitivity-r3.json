@@ -1,0 +1,1093 @@
+{
+  "summary": {
+    "model": "/kaggle/input/datasets/starthong/mas-3b-toolcall-output",
+    "backend": "hf",
+    "planner": "lora",
+    "reviewer": "lora",
+    "tasks": 14,
+    "runs": 1,
+    "groups": {
+      "sequential@0.0": {
+        "n": 14,
+        "success_rate": 0.8571428571428571,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 0.9285714285714286,
+        "avg_rounds": 1.1428571428571428,
+        "avg_results": 2.2857142857142856,
+        "avg_latency_ms": 27114.44950792871,
+        "p95_latency_ms": 38980.28990399871,
+        "avg_prompt_tokens": 3052.5714285714284,
+        "avg_completion_tokens": 179.78571428571428,
+        "avg_llm_calls": 4.857142857142857,
+        "errors": 0
+      }
+    }
+  },
+  "records": [
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice",
+      "category": "multi",
+      "task": "先查北京今天天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 19414.62528900047,
+      "prompt_tokens": 2134,
+      "completion_tokens": 121,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.4°C，体感 14.5°C，湿度 42%，风速 2.4 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据温度建议穿什么",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "根据今天的天气，建议穿一件薄外套。"
+          },
+          "result": "根据今天的天气，建议穿一件薄外套。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"根据今天的天气，建议穿一件薄外套。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary",
+      "category": "multi",
+      "task": "搜索 LangGraph，然后用三句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 24385.655619000318,
+      "prompt_tokens": 2617,
+      "completion_tokens": 160,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的相关资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[Wikipedia/zh] 崴崴孟孟: 2025年，崴寶以筆名「好崴寶（Weibert Weiberson）」出版《本地端Ollama × LangChain × LangGraph × LangSmith 開發手冊：打造 RAG、Agent、SQL 應用》一書，內容聚焦於透過Ollama系統在本地端執行大型語言模型。 | Python: SQLAlchemy：Python的SQL工具包和采用数据映射器模式的对象关系映射器（ORM）。 Graphene：GraphQL框架，支持各种数据源如SQLAlchemy、Mongo、Django和定制Python对象等。GQL是GraphQL客户端Python库。 Pillow（英语：Python Imaging | Rust (编程语言): The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）.  Specifying Dependencies - The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用三句话总结 LangGraph",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "LangGraph 是一个本地端Ollama系统在本地端执行大型语言模型的手册。它介绍了如何使用 Graphene 和 SQLAlchemy 等工具来开发 RAG、Agent 和 SQL 应用。"
+          },
+          "result": "LangGraph 是一个本地端Ollama系统在本地端执行大型语言模型的手册。它介绍了如何使用 Graphene 和 SQLAlchemy 等工具来开发 RAG、Agent 和 SQL 应用。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"LangGraph 是一个本地端Ollama系统在本地端执行大型语言模型的手册。它介绍了如何使用 Graphene 和 SQLAlchemy 等工具来开发 RAG、Agent 和 SQL 应用。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain",
+      "category": "multi",
+      "task": "计算 (23*17+9)/5，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 19207.558654999957,
+      "prompt_tokens": 2082,
+      "completion_tokens": 133,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算表达式 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 80。"
+          },
+          "result": "这个计算结果是 80。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 80。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare",
+      "category": "multi",
+      "task": "查北京和上海天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 26244.12448700059,
+      "prompt_tokens": 2970,
+      "completion_tokens": 168,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.4°C，体感 14.5°C，湿度 42%，风速 2.4 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询上海的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "上海：阴，18.6°C，体感 18.2°C，湿度 70%，风速 8.8 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较北京和上海的温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "北京：16.4°C，上海：18.6°C。"
+          },
+          "result": "北京：16.4°C，上海：18.6°C。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"北京：16.4°C，上海：18.6°C。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare",
+      "category": "multi",
+      "task": "搜索 LoRA 和 QLoRA，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 35683.71662299978,
+      "prompt_tokens": 4106,
+      "completion_tokens": 230,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LoRA 相关的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          },
+          "result": "[Wikipedia/zh] LoRa: （美国英语）.  Member Directory | LoRa Alliance. lora-alliance.org. [2019-02-09]. （原始内容存档于2021-02-03）.  LoRa Alliance passes 100 LoRaWAN network operator milestone | LoRA: LoRA（Low-Rank Adaptation，意为低秩适应）是一种用于大型语言模型及其他深度神经网络的参数高效微调技术。这项技术由微软研究人员于2021年提出。相较于传统的全模型微调，LoRA能在极大减少计算资源和可训练参数的前提下，将预训练模型适应至特定任务。 | Helium Network: Helium Network是一个利用LoRaWAN技术为物联网设备提供服务，另一个则通过Wi-Fi热点提供移动电话覆盖的无线系统，由Shawn Fning、Amir Haleem和Sean Carey于2013年创立。 物联网网络和移动网络都与加密货币Helium Network",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 QLoRA 相关的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          },
+          "result": "[Wikipedia/zh] LoRA: LoRA已广泛应用于训练后工作流，包括与直接偏好优化（DPO）等偏好优化方法相集成。它的参数高效变体（如QLoRA）支持在单块24 GB消费级GPU上微调300亿参数的模型。 LoRA的主要应用是以极低成本创建大型模型的定制版本。通过LoRA | 大型语言模型: 7197–7206 [2023-06-14]. （原始内容存档于2023-06-14）.  Mittal, Aayush Mittal. LoRa, QLoRA and QA-LoRA: Efficient Adaptability in Large Language Models Through Low-Rank | 優衣庫: 商品採購公司宇寧製衣廠有限公司時，由於註冊商號人員誤將「C」填寫為「Q」作商業登記名稱，此後社長柳井正將錯就錯也把日本全部店名全改為使用「UNI-QLO」作為商標。 1991年9月，母公司名稱改為Fast Retailing（ファーストリテイリング，迅銷）。創業初期，UNIQLO在日本開設了多間大",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"QLoRA\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 LoRA 和 QLoRA 的区别",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "LoRA 和 QLoRA 都是用于大型语言模型及其他深度神经网络的参数高效微调技术。它们的区别在于 QLoRA 是 LoRA 的参数高效变体，支持在单块 24 GB 消费级 GPU 上微调 300 亿参数的模型。"
+          },
+          "result": "LoRA 和 QLoRA 都是用于大型语言模型及其他深度神经网络的参数高效微调技术。它们的区别在于 QLoRA 是 LoRA 的参数高效变体，支持在单块 24 GB 消费级 GPU 上微调 300 亿参数的模型。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"LoRA 和 QLoRA 都是用于大型语言模型及其他深度神经网络的参数高效微调技术。它们的区别在于 QLoRA 是 LoRA 的参数高效变体，支持在单块 24 GB 消费级 GPU 上微调 300 亿参数的模型。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc",
+      "category": "multi",
+      "task": "查北京天气，然后计算 23*17",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          }
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 3,
+      "num_results": 2,
+      "latency_ms": 63628.8128060005,
+      "prompt_tokens": 6489,
+      "completion_tokens": 441,
+      "llm_calls": 12,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.4°C，体感 14.5°C，湿度 42%，风速 2.4 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算表达式 23*17",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.4°C，体感 14.5°C，湿度 42%，风速 2.4 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.2 round=1",
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.2 round=2",
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.2 round=3"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.2,
+        "issues": [
+          "执行结果缺失或不完整，应重新审查后补全缺失的子任务后重新审查。"
+        ],
+        "suggestion": "补全缺失的子任务后重新审查。",
+        "raw": "{\"pass\": false, \"score\": 0.2, \"issues\": [\"执行结果缺失或不完整，应重新审查后补全缺失的子任务后重新审查。\"], \"suggestion\": \"补全缺失的子任务后重新审查。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather",
+      "category": "multi",
+      "task": "搜索 LangGraph，再查北京天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 16597.969192000164,
+      "prompt_tokens": 2497,
+      "completion_tokens": 113,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 的相关资料",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[Wikipedia/zh] 崴崴孟孟: 2025年，崴寶以筆名「好崴寶（Weibert Weiberson）」出版《本地端Ollama × LangChain × LangGraph × LangSmith 開發手冊：打造 RAG、Agent、SQL 應用》一書，內容聚焦於透過Ollama系統在本地端執行大型語言模型。 | Python: SQLAlchemy：Python的SQL工具包和采用数据映射器模式的对象关系映射器（ORM）。 Graphene：GraphQL框架，支持各种数据源如SQLAlchemy、Mongo、Django和定制Python对象等。GQL是GraphQL客户端Python库。 Pillow（英语：Python Imaging | Rust (编程语言): The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）.  Specifying Dependencies - The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询北京的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.4°C，体感 14.5°C，湿度 42%，风速 2.4 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice_expanded",
+      "category": "multi",
+      "task": "先查上海天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 20151.80502899966,
+      "prompt_tokens": 2186,
+      "completion_tokens": 140,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "上海：阴，18.6°C，体感 18.2°C，湿度 70%，风速 8.8 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据上海的温度建议穿什么",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "上海的温度是18.6°C，体感18.2°C。建议穿长袖衬衫和短裤。"
+          },
+          "result": "上海的温度是18.6°C，体感18.2°C。建议穿长袖衬衫和短裤。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"上海的温度是18.6°C，体感18.2°C。建议穿长袖衬衫和短裤。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary_expanded",
+      "category": "multi",
+      "task": "搜索 RAG，然后用两句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 25557.81891799961,
+      "prompt_tokens": 2855,
+      "completion_tokens": 169,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 RAG 的相关资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          },
+          "result": "[Wikipedia/zh] 檢索增強生成: 检索增强生成（英語：Retrieval-augmented generation，縮寫：RAG）是一种使大语言模型（LLM）能够从外部数据源中检索并整合新信息的技术。 在RAG框架下，大语言模型首先查阅指定的文档集合，再对用户查询作出回应。这些文档补充了模型预训练数据中已有的信息，使模型能够利用训练 | 番茄肉醬: 番茄肉醬（義大利語：ragù alla bolognese、法語：sauce bolognaise），或音譯為博洛尼亚肉醬，是發源於義大利波隆那，以肉為主原料，並搭配芳香食材（芹菜、洋蔥和胡蘿蔔）製作的醬，通常還會加入番茄，搭配義式麵食一起食用。ragù為義大利語肉醬的意思。 1982年Accademia | 拉格泰姆: 拉格泰姆（英語：Ragtime）也稱為散拍（rag-time）、繁音拍子，是一種原始的音樂風格，1897年至1918年間十分普及。其主要特點是切分音，“衣衫襤褸”的節奏。位於美國中部的密蘇里州是拉格泰姆的中心。歐內斯特·霍根是幫助拉格泰姆發展音樂風格的關鍵先驅。拉格泰姆風格一词的使用也被归功于霍根",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用两句话总结 RAG",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "检索增強生成（RAG）是一种使大语言模型（LLM）能够从外部数据源中检索并整合新信息的技术。在RAG框架下，大语言模型首先查阅指定的文档集合，再对用户查询作出回应。"
+          },
+          "result": "检索增強生成（RAG）是一种使大语言模型（LLM）能够从外部数据源中检索并整合新信息的技术。在RAG框架下，大语言模型首先查阅指定的文档集合，再对用户查询作出回应。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"检索增強生成（RAG）是一种使大语言模型（LLM）能够从外部数据源中检索并整合新信息的技术。在RAG框架下，大语言模型首先查阅指定的文档集合，再对用户查询作出回应。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain_expanded",
+      "category": "multi",
+      "task": "计算 45/9+8，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "45/9+8"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 18214.49711600144,
+      "prompt_tokens": 2051,
+      "completion_tokens": 127,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算表达式 45/9+8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "45/9+8"
+          },
+          "result": "13.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"45/9+8\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 13。"
+          },
+          "result": "这个计算结果是 13。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 13。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare_expanded",
+      "category": "multi",
+      "task": "查广州和深圳天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 34856.85638799987,
+      "prompt_tokens": 3153,
+      "completion_tokens": 223,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "广州：多云，29.9°C，体感 32.6°C，湿度 59%，风速 11.0 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询深圳的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "深圳：晴间多云，28.2°C，体感 30.2°C，湿度 65%，风速 15.6 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较广州和深圳的温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "广州：多云，29.9°C，体感 32.6°C，湿度 59%，风速 11.0 km/h\n深圳：晴间多云，28.2°C，体感 30.2°C，湿度 65%，风速 15.6 km/h"
+          },
+          "result": "广州：多云，29.9°C，体感 32.6°C，湿度 59%，风速 11.0 km/h\n深圳：晴间多云，28.2°C，体感 30.2°C，湿度 65%，风速 15.6 km/h",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"广州：多云，29.9°C，体感 32.6°C，湿度 59%，风速 11.0 km/h\\n深圳：晴间多云，28.2°C，体感 30.2°C，湿度 65%，风速 15.6 km/h\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare_expanded",
+      "category": "multi",
+      "task": "搜索 RAG 和 vLLM，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 38980.28990399871,
+      "prompt_tokens": 4426,
+      "completion_tokens": 257,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 RAG 相关的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG"
+          },
+          "result": "[Wikipedia/zh] 檢索增強生成: 检索增强生成（英語：Retrieval-augmented generation，縮寫：RAG）是一种使大语言模型（LLM）能够从外部数据源中检索并整合新信息的技术。 在RAG框架下，大语言模型首先查阅指定的文档集合，再对用户查询作出回应。这些文档补充了模型预训练数据中已有的信息，使模型能够利用训练 | 番茄肉醬: 番茄肉醬（義大利語：ragù alla bolognese、法語：sauce bolognaise），或音譯為博洛尼亚肉醬，是發源於義大利波隆那，以肉為主原料，並搭配芳香食材（芹菜、洋蔥和胡蘿蔔）製作的醬，通常還會加入番茄，搭配義式麵食一起食用。ragù為義大利語肉醬的意思。 1982年Accademia | 拉格泰姆: 拉格泰姆（英語：Ragtime）也稱為散拍（rag-time）、繁音拍子，是一種原始的音樂風格，1897年至1918年間十分普及。其主要特點是切分音，“衣衫襤褸”的節奏。位於美國中部的密蘇里州是拉格泰姆的中心。歐內斯特·霍根是幫助拉格泰姆發展音樂風格的關鍵先驅。拉格泰姆風格一词的使用也被归功于霍根",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 vLLM 相关的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM"
+          },
+          "result": "[Wikipedia/zh] VLLM: vLLM - A High-Throughput and Memory-Efficient Inference and Serving Engine for LLMs. UC Berkeley, Sky Computing Lab （英语）.  GitHub - vllm-project/vllm: | PagedAttention: PagedAttention是一种用于高效服务大型语言模型（LLM）的注意力算法，于2023年由Woosuk Kwon及其同事在论文《Efficient Memory Management for Large Language Model Serving with PagedAttention》中提出，并与vLLM | 小米MiMo: 发者发放总计100万亿token的免费算力权益。 开源首日，MiMo-V2.5-Pro完成了与阿里、AMD、百度昆仑芯、燧原科技等多家主流芯片厂商的深度适配，并支持SGLang与vLLM等推理框架的Day-0部署。 MiMo-V2.5-Pro采用MoE架构，总参数1",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 RAG 和 vLLM 的区别",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "RAG 和 vLLM 都是用于大型语言模型的技术。RAG 是一种使大语言模型能够从外部数据源中检索并整合新信息的技术。它通过查阅指定的文档集合，再对用户查询作出回应。这些文档补充了模型预训练数据中已有的信息，使模型能够利用训练。vLLM 是一个高吞吐量和内存效率高的推理和服务引擎，适用于大型语言模型。"
+          },
+          "result": "RAG 和 vLLM 都是用于大型语言模型的技术。RAG 是一种使大语言模型能够从外部数据源中检索并整合新信息的技术。它通过查阅指定的文档集合，再对用户查询作出回应。这些文档补充了模型预训练数据中已有的信息，使模型能够利用训练。vLLM 是一个高吞吐量和内存效率高的推理和服务引擎，适用于大型语言模型。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"RAG 和 vLLM 都是用于大型语言模型的技术。RAG 是一种使大语言模型能够从外部数据源中检索并整合新信息的技术。它通过查阅指定的文档集合，再对用户查询作出回应。这些文档补充了模型预训练数据中已有的信息，使模型能够利用训练。vLLM 是一个高吞吐量和内存效率高的推理和服务引擎，适用于大型语言模型。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc_expanded",
+      "category": "multi",
+      "task": "查上海天气，然后计算 12.5*4",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "12.5*4"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17381.199512999956,
+      "prompt_tokens": 2108,
+      "completion_tokens": 121,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "上海：阴，18.6°C，体感 18.2°C，湿度 70%，风速 8.8 km/h（Open-Meteo，2026-11-03T15:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算表达式 12.5*4",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "12.5*4"
+          },
+          "result": "50.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"12.5*4\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather_expanded",
+      "category": "multi",
+      "task": "搜索 BM25，再查杭州天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "BM25"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          }
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 19297.363572000904,
+      "prompt_tokens": 3062,
+      "completion_tokens": 114,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 BM25 的相关资料",
+          "tool": "search",
+          "arguments": {
+            "query": "BM25"
+          },
+          "result": "[Wikipedia/zh] BM-30「龍捲風」火箭炮: BM-30「龍捲風」火箭炮（俄語：БМ-30 «Смерч»，羅馬化：BM-30 'Smerch'）是前苏联开发的一款自走多管火箭炮，GRAU制式代號為9K58，發射車最初命名為9A52，或稱BM-30，1989年服役。 BM-30研製起於1976年12月16日，由俄聯邦儀器設計局主導研製，198 | BM-13 多管火箭炮: BM-8轻型火箭炮、BM-13火箭炮、BM-31重型火箭炮均为战前产品。 BM-13-16火箭炮等同16台自走砲密集射擊(注意此圖是利用了冷戰時期更著名的BM-21火箭炮和2S19 MSTA-S自行榴彈炮作為對比) 俄罗斯紀念郵票的BM-31重型火箭炮 BM-13型 | BM-21火箭炮: BM-21 「冰雹」火箭炮（俄語：БМ-21 \"Град\"）是蘇聯於冷戰時代設計及生產的122毫米口徑拖動式多管火箭炮。其武器系統及所搭配的 M-21OF 火箭最初于1960年代早期研发，並於1969年3月第一次在中蘇邊界衝突中參與實戰。 该型號名字中的BM是Boyevaya Mashina （俄語：боевая",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"BM25\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询杭州的天气",
+          "tool": "search",
+          "arguments": {
+            "query": "杭州"
+          },
+          "result": "[Wikipedia/zh] 杭州市: 3%。至今共接纳进城务工子女义务教育阶段入学20.91万名。杭州第二中学、杭州学军中学、杭州高级中学、杭州第十四中学、杭州第四中学、杭州外国语学校、浙江大学附属中学、杭州师范大学附属中学、杭州长河高级中学、浙江省淳安中学等是省一级重点中学。有中职学校59所，在校生12万多。 目前位于杭州的高等院校共有44所，在校学生63.55万人，其中研究生12 | 杭州地铁: 杭州地铁是服务于中华人民共和国浙江省杭州市的城市轨道交通系统，由杭州地铁运营有限公司和杭港地铁分别运营不同的线路。其第一条线路（1号线）于2012年11月24日开通，这使杭州成为浙江省第一个、中国大陆第17个开通地铁的城市。截至2025年6月30日，杭州地铁共运营12条线路、262座车站，运营里程 | 杭州东站: 杭州东站位于中华人民共和国浙江省杭州市上城区天城路，是上海局集团杭州直属站管辖的车站。经过铁路有沪昆铁路、沪昆高速铁路、杭深铁路与宁杭高速铁路，以及规划中的沪杭磁悬浮。车站始建于1992年，2010年改造重建，新站房于2013年7月1日开通启用，曾为亞洲最大的铁路车站之一，被誉为中国高铁第一批次九大枢纽站的“收官之作”。",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    }
+  ]
+}

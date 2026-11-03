@@ -1,0 +1,1759 @@
+{
+  "summary": {
+    "model": "/kaggle/input/datasets/starthong/mas-3b-toolcall-output",
+    "backend": "hf",
+    "planner": "base",
+    "reviewer": "lora",
+    "tasks": 31,
+    "runs": 1,
+    "groups": {
+      "sequential@0.0": {
+        "n": 31,
+        "success_rate": 0.8387096774193549,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 0.967741935483871,
+        "avg_rounds": 1.1290322580645162,
+        "avg_results": 1.3870967741935485,
+        "avg_latency_ms": 18619.44070835483,
+        "p95_latency_ms": 46506.906649000026,
+        "avg_prompt_tokens": 1690.9032258064517,
+        "avg_completion_tokens": 174.3548387096774,
+        "avg_llm_calls": 3.806451612903226,
+        "errors": 0
+      }
+    }
+  },
+  "records": [
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_01",
+      "category": "weather",
+      "task": "北京今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12234.867905000101,
+      "prompt_tokens": 998,
+      "completion_tokens": 96,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.0°C，体感 13.3°C，湿度 32%，风速 3.4 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_02",
+      "category": "weather",
+      "task": "上海现在天气如何？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11243.52467000017,
+      "prompt_tokens": 983,
+      "completion_tokens": 88,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询上海当前的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "上海：阴，19.2°C，体感 18.8°C，湿度 64%，风速 7.2 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_03",
+      "category": "weather",
+      "task": "帮我查一下广州的天气",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10731.204455999887,
+      "prompt_tokens": 1005,
+      "completion_tokens": 83,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询广州的天气信息",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "广州"
+          },
+          "result": "广州：晴间多云，29.8°C，体感 33.0°C，湿度 59%，风速 8.1 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"广州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_04",
+      "category": "weather",
+      "task": "深圳今天出门需要带伞吗？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 16299.995853999917,
+      "prompt_tokens": 1762,
+      "completion_tokens": 137,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询深圳今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "深圳：晴，28.2°C，体感 30.1°C，湿度 64%，风速 16.3 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据查询结果判断是否需要带伞",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "深圳"
+          },
+          "result": "深圳：晴，28.2°C，体感 30.1°C，湿度 64%，风速 16.3 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"深圳\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_05",
+      "category": "weather",
+      "task": "杭州现在气温多少？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11745.26226800026,
+      "prompt_tokens": 1003,
+      "completion_tokens": 96,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询当前杭州的实时气温",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "杭州"
+          },
+          "result": "杭州：强毛毛雨，16.8°C，体感 17.5°C，湿度 84%，风速 4.3 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"杭州\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "weather_06",
+      "category": "weather",
+      "task": "成都今天热不热？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11018.675577000067,
+      "prompt_tokens": 982,
+      "completion_tokens": 86,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询成都今天的天气温度",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "成都"
+          },
+          "result": "成都：多云，18.1°C，体感 17.9°C，湿度 67%，风速 5.1 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"成都\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_01",
+      "category": "calculator",
+      "task": "计算 (23*17+9)/5",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 13950.00361700022,
+      "prompt_tokens": 972,
+      "completion_tokens": 138,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (23*17+9)/5",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_02",
+      "category": "calculator",
+      "task": "帮我算一下 57*46-12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 46066.76709600015,
+      "prompt_tokens": 975,
+      "completion_tokens": 560,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "帮我算一下 57*46-12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "57*46-12"
+          },
+          "result": "2610",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"57*46-12\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': 67}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_03",
+      "category": "calculator",
+      "task": "128/4+19 等于多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11848.242143999869,
+      "prompt_tokens": 984,
+      "completion_tokens": 112,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "128/4+19 等于多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "128/4+19"
+          },
+          "result": "51.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"128/4+19\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_04",
+      "category": "calculator",
+      "task": "计算 (45+55)*3",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 46506.906649000026,
+      "prompt_tokens": 955,
+      "completion_tokens": 559,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (45+55)*3",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(45+55)*3"
+          },
+          "result": "300",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(45+55)*3\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': ''}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_05",
+      "category": "calculator",
+      "task": "7*8+9 是多少？",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11086.358237999775,
+      "prompt_tokens": 940,
+      "completion_tokens": 105,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "7*8+9 是多少？",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "7*8+9"
+          },
+          "result": "65",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*8+9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "calc_06",
+      "category": "calculator",
+      "task": "算一下 100-37+12",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10291.182468999978,
+      "prompt_tokens": 992,
+      "completion_tokens": 90,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Calculate the result of 100 - 37 + 12",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "100-37+12"
+          },
+          "result": "75",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"100-37+12\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_01",
+      "category": "search",
+      "task": "搜索一下 LangGraph",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 9953.32112899996,
+      "prompt_tokens": 1179,
+      "completion_tokens": 79,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 相关信息",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[Wikipedia/zh] 崴崴孟孟: 2025年，崴寶以筆名「好崴寶（Weibert Weiberson）」出版《本地端Ollama × LangChain × LangGraph × LangSmith 開發手冊：打造 RAG、Agent、SQL 應用》一書，內容聚焦於透過Ollama系統在本地端執行大型語言模型。 | Python: SQLAlchemy：Python的SQL工具包和采用数据映射器模式的对象关系映射器（ORM）。 Graphene：GraphQL框架，支持各种数据源如SQLAlchemy、Mongo、Django和定制Python对象等。GQL是GraphQL客户端Python库。 Pillow（英语：Python Imaging | Rust (编程语言): The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）.  Specifying Dependencies - The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_02",
+      "category": "search",
+      "task": "我想了解多智能体系统",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11751.334853000117,
+      "prompt_tokens": 1220,
+      "completion_tokens": 82,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "获取多智能体系统的定义和基本概念",
+          "tool": "search",
+          "arguments": {
+            "query": "多智能体系统"
+          },
+          "result": "[Wikipedia/zh] 多智能体系统: 多智能体系统（英語：multi-agent system，縮寫M.A.S.），是由一个在一个环境中交互的多个智能体组成的计算系统。多智能体系统也能被用在解决分离的智能体以及单层系统难以解决的问题。智能可以由一些方法，函数，过程，搜索算法或加强学习来实现。尽管存在相当大的重叠，然而一个多智能体系统 | 智能代理: 智能代理（英語：intelligent agent），或译智能体、智慧代理，在人工智能领域指一个可以观察周遭环境并做出行动以达到目标，并且可以通过机器学习以及获取知识来提升自身性能的自主实体。它通常是指（但不一定是）一个软件程序。“智能代理”是目前人工智能研究的一个核心概念，统驭和联系着各个子领域的研究。 | 智能電視: 智能電視機（英語：Smart television），又稱智能電視，是以传统电视的基础結合網際網路技术的电视机。智能電視可以執行完整的作業系統，並含一個軟體平台，可以供應用軟體開發者開發他們自己的軟體在此運行，可以在上面实现各式多媒體功能。目前智能電視多搭載Android系統。智能",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"多智能体系统\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_03",
+      "category": "search",
+      "task": "帮我查查 LoRA 微调",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11510.457444999702,
+      "prompt_tokens": 1247,
+      "completion_tokens": 96,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询关于 LoRA 微调的相关信息和资源",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA 微调"
+          },
+          "result": "[Wikipedia/zh] 微调 (深度学习): adaptation, LoRA)是一种基于适配器的有效微调模型的技术。其基本思想是设计一个低秩矩阵，然后将其添加到原始矩阵中。 在这个背景下，“适配器”是一组低秩矩阵，当添加到基础模型时，产生一个微调模型。它允许在更少的空间需求下接近全模型微调的性能。拥有数十亿参数的语言模型可能只需数百万参数进行LoRA微调。 LoRA-based微调在Stable | LoRA: LoRA（Low-Rank Adaptation，意为低秩适应）是一种用于大型语言模型及其他深度神经网络的参数高效微调技术。这项技术由微软研究人员于2021年提出。相较于传统的全模型微调，LoRA能在极大减少计算资源和可训练参数的前提下，将预训练模型适应至特定任务。 | 大型语言模型: 量化后的模型通常被视为已冻结，权重修改（例如微调）仅应用于原始模型。可以使用低秩自适应（low-rank adaptation, LoRA）来微调量化后的模型。 以前大多数只能通过（昂贵的）微调才能实现的结果，都可以通过提示工程（prompt",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA 微调\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_04",
+      "category": "search",
+      "task": "介绍一下 ReAct 方法",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 4,
+      "latency_ms": 44882.92984899999,
+      "prompt_tokens": 6982,
+      "completion_tokens": 382,
+      "llm_calls": 9,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "研究并理解 ReAct 方法的基本概念和工作原理",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct 方法"
+          },
+          "result": "[Wikipedia/zh] React: React（也稱為React.js或ReactJS）是一個自由及开放源代码的前端JavaScript工具庫， 用於基於UI組件構建用戶界面。 它由Meta（前身為Facebook）和由個人開發者和公司組成的社群維護。 React可用作開發具有Next.js等框架的單頁、手機或伺服器渲染應用程式的基礎 | Next.js: js是一個構建於Node.js之上的開源Web開發框架，支援基於React的Web應用程序功能，例如伺服器端渲染和生成靜態網站。React於官方文件內的“推薦的工具鏈”中提及Next.js，建議將其作為“使用Node.js構建伺服器渲染網站”的解決方案。傳統的React應用程式只能在客戶端瀏覽器中渲染內容，Next | Melty Blood: Re·ACT MELTY BLOOD-Re・ACT- 公式攻略ガイドブック，2004年7月24日発売 MELTY BLOOD-Re・ACT- 公式攻略Guide Book，对应PC版 ISBN 978-4-7580-1021-4 Act Cadenza MELTY BLOOD Act Cadenza",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct 方法\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "整理出清晰、易于理解的介绍文档",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct 方法"
+          },
+          "result": "[Wikipedia/zh] React: React（也稱為React.js或ReactJS）是一個自由及开放源代码的前端JavaScript工具庫， 用於基於UI組件構建用戶界面。 它由Meta（前身為Facebook）和由個人開發者和公司組成的社群維護。 React可用作開發具有Next.js等框架的單頁、手機或伺服器渲染應用程式的基礎 | Next.js: js是一個構建於Node.js之上的開源Web開發框架，支援基於React的Web應用程序功能，例如伺服器端渲染和生成靜態網站。React於官方文件內的“推薦的工具鏈”中提及Next.js，建議將其作為“使用Node.js構建伺服器渲染網站”的解決方案。傳統的React應用程式只能在客戶端瀏覽器中渲染內容，Next | Melty Blood: Re·ACT MELTY BLOOD-Re・ACT- 公式攻略ガイドブック，2004年7月24日発売 MELTY BLOOD-Re・ACT- 公式攻略Guide Book，对应PC版 ISBN 978-4-7580-1021-4 Act Cadenza MELTY BLOOD Act Cadenza",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct 方法\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "审查并修正前一次提交的介绍文档",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct 方法"
+          },
+          "result": "[Wikipedia/zh] React: React（也稱為React.js或ReactJS）是一個自由及开放源代码的前端JavaScript工具庫， 用於基於UI組件構建用戶界面。 它由Meta（前身為Facebook）和由個人開發者和公司組成的社群維護。 React可用作開發具有Next.js等框架的單頁、手機或伺服器渲染應用程式的基礎 | Next.js: js是一個構建於Node.js之上的開源Web開發框架，支援基於React的Web應用程序功能，例如伺服器端渲染和生成靜態網站。React於官方文件內的“推薦的工具鏈”中提及Next.js，建議將其作為“使用Node.js構建伺服器渲染網站”的解決方案。傳統的React應用程式只能在客戶端瀏覽器中渲染內容，Next | Melty Blood: Re·ACT MELTY BLOOD-Re・ACT- 公式攻略ガイドブック，2004年7月24日発売 MELTY BLOOD-Re・ACT- 公式攻略Guide Book，对应PC版 ISBN 978-4-7580-1021-4 Act Cadenza MELTY BLOOD Act Cadenza",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct 方法\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "将修正后的介绍文档提交给评审",
+          "tool": "search",
+          "arguments": {
+            "query": "ReAct 方法"
+          },
+          "result": "[Wikipedia/zh] React: React（也稱為React.js或ReactJS）是一個自由及开放源代码的前端JavaScript工具庫， 用於基於UI組件構建用戶界面。 它由Meta（前身為Facebook）和由個人開發者和公司組成的社群維護。 React可用作開發具有Next.js等框架的單頁、手機或伺服器渲染應用程式的基礎 | Next.js: js是一個構建於Node.js之上的開源Web開發框架，支援基於React的Web應用程序功能，例如伺服器端渲染和生成靜態網站。React於官方文件內的“推薦的工具鏈”中提及Next.js，建議將其作為“使用Node.js構建伺服器渲染網站”的解決方案。傳統的React應用程式只能在客戶端瀏覽器中渲染內容，Next | Melty Blood: Re·ACT MELTY BLOOD-Re・ACT- 公式攻略ガイドブック，2004年7月24日発売 MELTY BLOOD-Re・ACT- 公式攻略Guide Book，对应PC版 ISBN 978-4-7580-1021-4 Act Cadenza MELTY BLOOD Act Cadenza",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"ReAct 方法\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.2 round=1",
+        "planner: 4 subtask(s)",
+        "executor: 4 result(s)",
+        "reviewer: pass=False score=0.2 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.2,
+        "issues": [
+          "执行结果缺失或不完整的问题后补审查缺失"
+        ],
+        "suggestion": "补全缺失的子任务后重新审查。",
+        "raw": "{\"pass\": false, \"score\": 0.2, \"issues\": [\"执行结果缺失或不完整的问题后补审查缺失\"], \"suggestion\": \"补全缺失的子任务后重新审查。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_05",
+      "category": "search",
+      "task": "找一些关于 RAG 检索增强的资料",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11299.781295999765,
+      "prompt_tokens": 1274,
+      "completion_tokens": 93,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索并收集至少3篇关于RAG检索增强技术的文章",
+          "tool": "search",
+          "arguments": {
+            "query": "RAG 检索增强"
+          },
+          "result": "[Wikipedia/zh] 檢索增強生成: 检索增强生成（英語：Retrieval-augmented generation，縮寫：RAG）是一种使大语言模型（LLM）能够从外部数据源中检索并整合新信息的技术。 在RAG框架下，大语言模型首先查阅指定的文档集合，再对用户查询作出回应。这些文档补充了模型预训练数据中已有的信息，使模型能够利用训练 | 可检索性: 检索到但排名过低而难以被用户发现，则该文档的可检索性较低。 可检索性可被视为可发现性的一个方面。 可检索性的应用包括检测搜索引擎偏见、衡量算法偏见、评估搜索技术的影响力、调优信息检索系统，以及评价语料集合中文档的质量。 可检索性也是检索增强生成（RAG）流程中的关键要素——RAG | 向量数据库: 向量数据库可用于相似性搜索（英语：Similarity search）、语义检索、多模态搜索（英语：Multimodal search）、推薦系統、大型语言模型（LLM）、物体识别等。 向量数据库也常用于实现檢索增強生成（RAG），这是一种提高大型语言模型在特定领域响应能力的方法。RAG的检索",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"RAG 检索增强\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "search_06",
+      "category": "search",
+      "task": "查一下 vLLM 推理",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10700.871660999837,
+      "prompt_tokens": 1212,
+      "completion_tokens": 84,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询 vLLM 的推理能力",
+          "tool": "search",
+          "arguments": {
+            "query": "vLLM 推理"
+          },
+          "result": "[Wikipedia/zh] VLLM: vLLM是一个用于大型语言模型及相关多模态模型的推理与部署服务的开源软件框架。该项目最初由加利福尼亞大學柏克萊分校的Sky Computing实验室开发，其核心是PagedAttention——一种面向Transformer模型键值（KV）缓存的内存管理方法，并支持连续批处理、分布式推理、量化以及兼容OpenAI的应用程序接口。 | PagedAttention: PagedAttention是一种用于高效服务大型语言模型（LLM）的注意力算法，于2023年由Woosuk Kwon及其同事在论文《Efficient Memory Management for Large Language Model Serving with PagedAttention》中提出，并与vLLM推理 | 大型语言模型: 推理）进行训练的情況下，LLM往往也能夠在這些任务中表现出色。 而这些功能以往通常需要定制系统才能实现。 此外，基於其跨任务泛化能力，也可以针对特定任务對LLM进行微调，或通过提示工程进行引导，從而在极少量特定任务数据下实现或增强特定功能，如对话代理、代码生成、知识检索和自动推理等功能。 LLM",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"vLLM 推理\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_01",
+      "category": "chat",
+      "task": "你好",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 9335.010839999995,
+      "prompt_tokens": 942,
+      "completion_tokens": 85,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and respond to the greeting '你好'",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你好！"
+          },
+          "result": "你好！",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你好！\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_02",
+      "category": "chat",
+      "task": "你是谁？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10251.97018200015,
+      "prompt_tokens": 941,
+      "completion_tokens": 95,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Identify the identity of the speaker",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "你是谁？"
+          },
+          "result": "你是谁？",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"你是谁？\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_03",
+      "category": "chat",
+      "task": "你能做什么？",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12437.510004999695,
+      "prompt_tokens": 993,
+      "completion_tokens": 114,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Identify the capabilities and functions that can be performed by the system or entity.",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "我可以执行任务，回答问题，提供信息。"
+          },
+          "result": "我可以执行任务，回答问题，提供信息。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"我可以执行任务，回答问题，提供信息。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_04",
+      "category": "chat",
+      "task": "谢谢",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 9981.561720000172,
+      "prompt_tokens": 953,
+      "completion_tokens": 92,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Understand and acknowledge the user's task.",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "谢谢"
+          },
+          "result": "谢谢",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"谢谢\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_05",
+      "category": "chat",
+      "task": "讲个笑话",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11681.16494900005,
+      "prompt_tokens": 989,
+      "completion_tokens": 98,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "Generate and deliver a short joke.",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。"
+          },
+          "result": "为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"为什么程序员总分不清万圣节和圣诞节？因为 Oct 31 == Dec 25。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "final_06",
+      "category": "chat",
+      "task": "推荐一本书",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10047.121009999955,
+      "prompt_tokens": 1281,
+      "completion_tokens": 80,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索并筛选出一本适合阅读的书籍",
+          "tool": "search",
+          "arguments": {
+            "query": "适合阅读"
+          },
+          "result": "[Wikipedia/zh] 閱讀: 阅读方法一般分为：通读、选读（择读）、精读（细读）。阅读按照阅读时是否出声又分为：朗读、默读。閱讀分為精讀、略讀、擇讀：「精讀」就是精確、反覆地閱讀，令文章在腦海中不停盤旋；「略讀」就是大概地閱讀，得到文章大概的內容；「擇讀」就是選擇性的閱讀，就像平日閱讀報紙時，選擇有趣的標題來看。閱讀 | 儿童文学: 儿童文学是指以儿童为阅读对象的文学作品。儿童文学在世上已有很长久的历史，最早的儿童文学并非指休闲读物，其多數由成人作品改編且具有說教意涵；若不適合孩子或未針對兒童而改編就不能算作兒童文學，像是原來是為了寫給成人閱讀且帶有情色的格林童話，經過多次的修改後才逐漸演變為兒童可以閱讀的兒童文學。 | 案头戏: 案头戏意指只適宜放在案头阅读，不适合舞台演出，甚至根本不能演出的戏剧文本。有時又叫做書房戲或书斋剧。 戏剧文本（即“剧本”）是一齣戏剧的基本要素，是一台戏的先决条件。剧本的写作，最重要的是能够被舞台上搬演，戏剧文本不算是艺术的完成，只能說完成了一半，直到舞台演出之后（即「演出文本」）才是最终艺术的呈",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"适合阅读\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_advice",
+      "category": "multi",
+      "task": "先查北京今天天气，再根据温度建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 8706.146724000064,
+      "prompt_tokens": 1002,
+      "completion_tokens": 74,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.0°C，体感 13.3°C，湿度 32%，风速 3.4 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_summary",
+      "category": "multi",
+      "task": "搜索 LangGraph，然后用三句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 5,
+      "latency_ms": 54741.193209999896,
+      "prompt_tokens": 7938,
+      "completion_tokens": 444,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 并获取相关信息",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[Wikipedia/zh] 崴崴孟孟: 2025年，崴寶以筆名「好崴寶（Weibert Weiberson）」出版《本地端Ollama × LangChain × LangGraph × LangSmith 開發手冊：打造 RAG、Agent、SQL 應用》一書，內容聚焦於透過Ollama系統在本地端執行大型語言模型。 | Python: SQLAlchemy：Python的SQL工具包和采用数据映射器模式的对象关系映射器（ORM）。 Graphene：GraphQL框架，支持各种数据源如SQLAlchemy、Mongo、Django和定制Python对象等。GQL是GraphQL客户端Python库。 Pillow（英语：Python Imaging | Rust (编程语言): The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）.  Specifying Dependencies - The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "用三句话总结搜索到的内容",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "LangGraph 是一个本地端Ollama系统开发的手册，聚焦于通过 Ollama 系统在本地端执行大型语言模型。它还介绍了 Graphene、GQL 和 SQLAlchemy 等工具。"
+          },
+          "result": "LangGraph 是一个本地端Ollama系统开发的手册，聚焦于通过 Ollama 系统在本地端执行大型语言模型。它还介绍了 Graphene、GQL 和 SQLAlchemy 等工具。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"LangGraph 是一个本地端Ollama系统开发的手册，聚焦于通过 Ollama 系统在本地端执行大型语言模型。它还介绍了 Graphene、GQL 和 SQLAlchemy 等工具。\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "进行执行审查并识别问题",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[Wikipedia/zh] 崴崴孟孟: 2025年，崴寶以筆名「好崴寶（Weibert Weiberson）」出版《本地端Ollama × LangChain × LangGraph × LangSmith 開發手冊：打造 RAG、Agent、SQL 應用》一書，內容聚焦於透過Ollama系統在本地端執行大型語言模型。 | Python: SQLAlchemy：Python的SQL工具包和采用数据映射器模式的对象关系映射器（ORM）。 Graphene：GraphQL框架，支持各种数据源如SQLAlchemy、Mongo、Django和定制Python对象等。GQL是GraphQL客户端Python库。 Pillow（英语：Python Imaging | Rust (编程语言): The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）.  Specifying Dependencies - The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "根据识别出的问题修改计划",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[Wikipedia/zh] 崴崴孟孟: 2025年，崴寶以筆名「好崴寶（Weibert Weiberson）」出版《本地端Ollama × LangChain × LangGraph × LangSmith 開發手冊：打造 RAG、Agent、SQL 應用》一書，內容聚焦於透過Ollama系統在本地端執行大型語言模型。 | Python: SQLAlchemy：Python的SQL工具包和采用数据映射器模式的对象关系映射器（ORM）。 Graphene：GraphQL框架，支持各种数据源如SQLAlchemy、Mongo、Django和定制Python对象等。GQL是GraphQL客户端Python库。 Pillow（英语：Python Imaging | Rust (编程语言): The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）.  Specifying Dependencies - The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 5,
+          "goal": "重新搜索 LangGraph 并用三句话总结",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "LangGraph 是一个本地端Ollama系统开发的手册，聚焦于通过 Ollama 系统在本地端执行大型语言模型。它还介绍了 Graphene、GQL 和 SQLAlchemy 等工具。"
+          },
+          "result": "LangGraph 是一个本地端Ollama系统开发的手册，聚焦于通过 Ollama 系统在本地端执行大型语言模型。它还介绍了 Graphene、GQL 和 SQLAlchemy 等工具。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"LangGraph 是一个本地端Ollama系统开发的手册，聚焦于通过 Ollama 系统在本地端执行大型语言模型。它还介绍了 Graphene、GQL 和 SQLAlchemy 等工具。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.2 round=1",
+        "planner: 5 subtask(s)",
+        "executor: 5 result(s)",
+        "reviewer: pass=True score=0.95 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_calc_explain",
+      "category": "multi",
+      "task": "计算 (23*17+9)/5，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10220.614490000116,
+      "prompt_tokens": 1003,
+      "completion_tokens": 90,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算表达式 (23*17+9)/5 的值",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(23*17+9)/5"
+          },
+          "result": "80.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(23*17+9)/5\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_compare",
+      "category": "multi",
+      "task": "查北京和上海天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 18960.34133000012,
+      "prompt_tokens": 2613,
+      "completion_tokens": 173,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京的天气信息",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.0°C，体感 13.3°C，湿度 32%，风速 3.4 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询上海的天气信息",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "上海"
+          },
+          "result": "上海：阴，19.2°C，体感 18.8°C，湿度 64%，风速 7.2 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"上海\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "将北京和上海的天气信息进行对比",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.0°C，体感 13.3°C，湿度 32%，风速 3.4 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_compare",
+      "category": "multi",
+      "task": "搜索 LoRA 和 QLoRA，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "QLoRA"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": false,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11429.134927999712,
+      "prompt_tokens": 1151,
+      "completion_tokens": 94,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索并收集关于 LoRA 和 QLoRA 的信息",
+          "tool": "search",
+          "arguments": {
+            "query": "LoRA QLoRA"
+          },
+          "result": "[Wikipedia/zh] LoRA: LoRA已广泛应用于训练后工作流，包括与直接偏好优化（DPO）等偏好优化方法相集成。它的参数高效变体（如QLoRA）支持在单块24 GB消费级GPU上微调300亿参数的模型。 LoRA的主要应用是以极低成本创建大型模型的定制版本。通过LoRA | 大型语言模型: 7197–7206 [2023-06-14]. （原始内容存档于2023-06-14）.  Mittal, Aayush Mittal. LoRa, QLoRA and QA-LoRA: Efficient Adaptability in Large Language Models Through Low-Rank",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LoRA QLoRA\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_weather_calc",
+      "category": "multi",
+      "task": "查北京天气，然后计算 23*17",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 2,
+      "latency_ms": 33507.82593400027,
+      "prompt_tokens": 3592,
+      "completion_tokens": 299,
+      "llm_calls": 8,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询北京今天的天气情况",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.0°C，体感 13.3°C，湿度 32%，风速 3.4 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 23 * 17",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "23*17"
+          },
+          "result": "391",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"23*17\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=False score=0.2 round=1",
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "base",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "multi_search_weather",
+      "category": "multi",
+      "task": "搜索 LangGraph，再查北京天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 2,
+      "latency_ms": 62781.379460999684,
+      "prompt_tokens": 3355,
+      "completion_tokens": 701,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 LangGraph 网站内容",
+          "tool": "search",
+          "arguments": {
+            "query": "LangGraph"
+          },
+          "result": "[Wikipedia/zh] 崴崴孟孟: 2025年，崴寶以筆名「好崴寶（Weibert Weiberson）」出版《本地端Ollama × LangChain × LangGraph × LangSmith 開發手冊：打造 RAG、Agent、SQL 應用》一書，內容聚焦於透過Ollama系統在本地端執行大型語言模型。 | Python: SQLAlchemy：Python的SQL工具包和采用数据映射器模式的对象关系映射器（ORM）。 Graphene：GraphQL框架，支持各种数据源如SQLAlchemy、Mongo、Django和定制Python对象等。GQL是GraphQL客户端Python库。 Pillow（英语：Python Imaging | Rust (编程语言): The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）.  Specifying Dependencies - The Cargo Book. doc.rust-lang.org. [2022-02-01]. （原始内容存档于2022-04-07）",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"LangGraph\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询北京天气信息",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "北京"
+          },
+          "result": "北京：晴，16.0°C，体感 13.3°C，湿度 32%，风速 3.4 km/h（Open-Meteo，2026-11-03T14:30）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"北京\"}}"
+        }
+      ],
+      "trace": [
+        "planner_error: ValueError: subtask has no goal: {'id': 6}",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.2 round=1",
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"\"}"
+      },
+      "run_error": null
+    }
+  ]
+}
