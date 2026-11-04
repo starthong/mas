@@ -81,88 +81,61 @@
 \pagenumbering{Roman}
 
 \begin{abstract}
-大语言模型已经能通过工具调用完成计算、检索和业务操作，但基座模型在角色
-切换和多轮协作中经常出现 JSON 字段、工具名或参数错误；多智能体系统虽然
-能拆分任务，也会放大这些错误并增加延迟。本文研究三个问题：LoRA 微调能否
-稳定多智能体流程中的工具调用；不同协作拓扑是否真的提升任务完成；温度、
-数据规模和随机种子会不会改变结论。
+本文研究小参数开源模型在多智能体系统中的工具调用稳定性，以及协作拓扑在工具流程完成率与额外延迟之间的权衡。本文在 LangGraph 上实现 Planner、Executor 和 Reviewer 三角色系统，并比较 single、sequential、supervisor 与 debate 四种执行模式；同时基于 Qwen2.5-3B-Instruct 使用 4-bit QLoRA 进行工具调用对齐。评测将\textbf{结构合规、工具选择、参数匹配与系统调用流程完成}分开。系统层的完成指标由可复现的 expected-call scorer 计算：要求预期工具/参数调用出现、工具无报错且返回非空；它不对 \texttt{final\_answer} 的自由文本做语义评分，因此不能直接解释为“最终答案正确率”。
 
-我们在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，并扩展出
-sequential、supervisor 和 debate 三种拓扑；构造 750 条工具调用 SFT 数据，
-另构造 1,124 条扩展数据并训练 5 个 seed 做方差对照；用 4-bit QLoRA 微调
-Qwen2.5-3B-Instruct。评测把格式、工具选择和任务完成分开：41 条简单样本、
-57 条难例、40 条未见工具 OOD、31 条主系统任务、55 条真实工具复核和
-25 条 holdout，并加入 base + few-shot、角色、温度和三角色 adapter 消融。
+工具调用评测包含 41 条简单样本、57 条难例和 40 条 OOD 样本。系统任务共有 80 条互不重复样本：其中 55 条为开发集，包含一个 31 条核心子集和 24 条扩展任务；另有 25 条不重叠 holdout。结果显示，在 57 条难例上，LoRA 将 schema 合规率由 94.7\% 提升至 98.2\%。但把“需要外部工具”和“应直接回答/拒绝”拆开后，42 条工具必需样本的工具名准确率仅由 40/42 提升到 41/42，而 15 条 \texttt{final\_answer} 路由由 9/15 提升到 11/15。40 条 OOD 中，32 条真正要求调用四个未见工具的样本上，base 与 LoRA 的工具名均为 32/32，规范化后的结构化参数也均为 32/32；整体工具名 82.5\% 到 90.0\% 的差异完全来自另外 8 条 \texttt{final\_answer} 样本（1/8 对 4/8）。因此，OOD 结果支持“基座模型已经能按给定 schema 选择未见工具”，而不是支持“LoRA 提升了未见工具选择”。guided JSON 可将 schema 合规率提升至 100\%，但同样不能保证语义正确。
 
-实验表明，LoRA 把难例 schema 合规率从 94.7\% 提升到 98.2\%，工具名准确率
-从 86.0\% 提升到 91.2\%；base + few-shot 虽然把 schema 提到 96.5\%，工具名
-仍只有 82.5\%，说明收益不只是 prompt 示例。OOD 上 LoRA 的工具名为 90.0\%，
-base 为 82.5\%，排除 \path{final_answer} 后参数归一化的 32 条均为 32/32，
-base + few-shot 是 31/32，LoRA 的优势主要在工具选择。vLLM fp16 guided
-JSON 把 hard/OOD schema 拉到 100\%，但 OOD 归一化 exact 与无约束相同，
-说明约束解码只保证结构，不保证语义。
+系统层面，55 条开发集上的 required-call completion 在 sequential、supervisor、debate 中分别为 54/55、54/55 和 53/55；平均延迟分别为 15.86~s、25.14~s 和 33.38~s。角色专用 adapter 在该开发集上没有超过共享 adapter；25 条 holdout 的三种模式均达到 25/25 的调用完成，但该指标仍不评判最终自由文本的语义质量。更多重规划轮次和更大训练数据配方也没有显示出稳定优势，5-seed 对照进一步说明，小样本上的 1--2 条差异容易落入训练随机性范围。
 
-在真实天气和真实检索下，55 条主实验的 sequential/supervisor 都是 98.2\%，
-debate 为 96.4\%；supervisor 没有成功率收益，延迟从 15.86~s 增到 25.14~s。
-三角色专用 adapter 在 55 条上为 94.5/92.7/94.5，低于共享 adapter；25 条
-holdout 上三者都是 25/25。31 条主实验中 base sequential 为 71.0\%，
-LoRA sequential 为 77.4\%，两者差距比旧版明显缩小。max\_rounds 从 1 增到
-3 没有提高 14 条多步任务的成功数（均 12/14）；温度 0.7 的任务成功率为
-96.8\%，没有低于温度 0 的 93.6\%。5-seed 对照进一步说明，57/40 条格式
-测试上的小差异不能直接归因于数据量。
-
-因此，LoRA 改善的是工具调用协议和工具选择，而不是规划和审查能力；“更多
-角色”或“更多数据”并不能自动保证更好的任务完成，协作拓扑的延迟和错误
-传播必须和成功率一起评估。
+本文因此得到更保守的结论：LoRA 在本设置中最明确的收益是\textbf{结构协议遵循}，并对部分“调用工具还是直接回答”的路由有帮助；对于真正的未见工具选择和结构化参数填写，当前测试已经接近饱和，不能声称 LoRA 有稳定优势。多智能体设计还必须把调用完成、最终回答语义质量、延迟、外部工具质量和训练方差分开报告。
 
 \vspace{0.5em}
-\noindent\textbf{关键词：}多智能体系统；工具调用；LoRA；LangGraph；稳定性
+\noindent\textbf{关键词：}多智能体系统；工具调用；LoRA；LangGraph；稳定性；消融实验
 \end{abstract}
 
 \clearpage
 \section*{Abstract}
-Large language models can call tools for computation, retrieval, and business
-operations, but base models still produce malformed JSON, wrong tool names, or
-wrong arguments when roles switch or a task needs several turns. A multi-agent
-system can decompose such a task, but it can also amplify these errors and add
-latency. This report asks three questions: can LoRA fine-tuning stabilize tool
-calling inside a multi-agent system; do different collaboration topologies
-actually improve task completion; and do temperature, data scale, and random
-seeds change the conclusion?
+This report studies tool-calling reliability in a small open-source multi-agent
+system and the trade-off between collaboration complexity and execution cost.
+We implement Planner, Executor, and Reviewer roles on LangGraph, compare
+single, sequential, supervisor, and debate modes, and fine-tune
+Qwen2.5-3B-Instruct with 4-bit QLoRA. Evaluation separates structural
+compliance, tool selection, argument matching, and system-level required-call
+completion. The system metric is a deterministic expected-call scorer: all
+required tool/argument calls must appear, return non-empty results, and have no
+tool error. It does not semantically grade free-text \texttt{final\_answer}
+content, so the reported completion rates are not final-answer accuracy.
 
-We implement a Planner/Executor/Reviewer system on LangGraph and extend it with
-sequential, supervisor, and debate topologies. A 750-sample tool-calling SFT set
-is used to fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA; a 1,124-sample
-expanded set is also trained with five seeds for variance control. Evaluation
-separates format, tool selection, and task success on 41 simple cases, 57 hard
-cases, 40 unseen-tool OOD cases, 31 main system tasks, 55 real-tool tasks, and
-25 holdout tasks; we also run base + few-shot, role, temperature,
-role-specific adapter, and seed ablations.
+The tool-calling evaluation contains 41 simple cases, 57 hard cases, and 40 OOD
+cases. The system evaluation contains 80 unique tasks: a 55-task development
+set, within which 31 tasks form the core ablation subset, plus a disjoint
+25-task holdout. On the hard set, LoRA raises schema compliance from 94.7\% to
+98.2\%. After separating tool-required cases from direct-answer cases, however,
+tool-name accuracy on the 42 tool-required hard cases changes only from 40/42
+to 41/42, while \texttt{final\_answer} routing changes from 9/15 to 11/15.
+On OOD, all 32 cases that genuinely require one of four unseen tools achieve
+32/32 tool-name accuracy for both base and LoRA, and normalized structured
+arguments are also 32/32. The aggregate 82.5\% versus 90.0\% tool-name result is
+entirely explained by the eight \texttt{final\_answer} cases (1/8 versus 4/8),
+not by unseen-tool selection. Guided JSON raises schema compliance to 100\%
+but does not guarantee semantic correctness.
 
-LoRA raises hard-case schema compliance from 94.7\% to 98.2\% and tool-name
-accuracy from 86.0\% to 91.2\%. A base + few-shot baseline reaches 96.5\% schema
-compliance but only 82.5\% tool-name accuracy, so the gain is not just prompt
-examples. On OOD cases, LoRA reaches 90.0\% tool-name accuracy versus 82.5\% for
-the base model, while normalized argument matching is 32/32 for the four
-zero-shot runs (excluding final_answer) and 31/32 for base + few-shot.
-vLLM fp16 guided JSON raises hard/OOD schema to 100\%, but normalized OOD
-exact match is unchanged, so structural constraints do not replace semantic
-correctness.
+On the 55-task development set, required-call completion is 54/55 for
+sequential, 54/55 for supervisor, and 53/55 for debate, with average latency of
+15.86 s, 25.14 s, and 33.38 s. Role-specific adapters do not outperform the
+shared adapter on this development set. All three role-specific modes reach
+25/25 required-call completion on the holdout, but this metric still does not
+score the semantic quality of free-text answers. Increasing replanning rounds
+or using the larger training-data recipe also shows no stable advantage; a
+five-seed comparison indicates that one- or two-example differences on these
+small format sets are within training variance.
 
-With real weather and search tools, the 55-task sequential and supervisor
-success rates are both 98.2\%, and debate is 96.4\%; supervisor adds latency
-without a success gain. Three role-specific adapters score 94.5/92.7/94.5 on
-the 55 tasks, below the shared adapter, while all three reach 25/25 on the
-holdout. Base sequential improves to 71.0\% and LoRA sequential is 77.4\% on
-the 31 main tasks. Increasing max\_rounds from 1 to 3 does not change the
-12/14 multi-step success, and temperature 0.7 reaches 96.8\% task success,
-not lower than 93.6\% at temperature 0. The five-seed control shows that small
-differences on 57/40 format cases are within training variance.
-
-LoRA therefore improves the tool-calling protocol and tool selection, not
-planning or review. More roles or more data do not automatically improve task
-completion; latency and error propagation must be evaluated together with
-success rate.
+The strongest supported conclusion is therefore narrower than a generic
+"better tool selection" claim: LoRA clearly improves structural protocol
+compliance and helps some tool-versus-direct-answer routing decisions, while
+the current unseen-tool and structured-argument tests are already near ceiling.
+Multi-agent evaluations should report call completion, final-answer semantic
+quality, latency, external-tool quality, and training variance separately.
 
 \vspace{0.5em}
 \noindent\textbf{Keywords:} multi-agent system; tool calling; LoRA; LangGraph;
@@ -174,51 +147,27 @@ stability
 \pagenumbering{arabic}
 
 \section{引言}
-大语言模型通过工具调用可以访问外部计算、检索和业务接口，但单 Agent
-在复杂任务上容易把规划、执行和检查混在一次生成中。多智能体系统通过
-角色分工把任务拆开，代价是更多的调用次数、更长的延迟和新的错误传播
-路径。另一个问题是基座模型的工具调用格式并不稳定，尤其在角色切换和
-多轮协作时，JSON 字段、工具名和参数都可能出错。
+大语言模型通过工具调用可以访问计算器、检索引擎、天气接口和业务 API，从而把“语言生成”扩展为“可执行任务”。然而，在真实 Agent 流程中，系统失败往往并不来自知识不足，而来自更基础的协议问题：模型输出无法解析的 JSON、选择错误工具、遗漏必填参数，或在多轮协作中偏离角色职责。多智能体系统进一步把一次模型调用扩展为多角色、多轮次的状态传递，因此既可能通过分工提升可靠性，也可能放大格式错误、语义误差与延迟成本。
 
-本文用一个三角色系统研究三个问题：
-
+本文不把“多智能体是否更强”作为预设结论，而是将问题拆成三个可检验的研究问题：
 \begin{itemize}
-  \item \textbf{RQ1（格式与工具选择）}：LoRA 微调能否提升工具调用 JSON
-        合规率、工具名准确率和参数匹配率？收益是否只是 few-shot prompt？
-  \item \textbf{RQ2（协作拓扑）}：single、sequential、supervisor、debate
-        四种拓扑在成功率、延迟和审查行为上有什么差异？
-  \item \textbf{RQ3（稳定性）}：温度、重复运行和数据规模变化会不会改变
-        结论？格式稳定是否等于任务稳定？
+  \item \textbf{RQ1：工具调用对齐是否有效？} LoRA 微调能否提升 JSON/schema 合规率，并改善“调用哪个工具”与“是否应直接回答”的路由？这种收益能否被 few-shot prompt 或约束解码替代？
+  \item \textbf{RQ2：协作拓扑是否值得？} single、sequential、supervisor 与 debate 在 required-call completion、Reviewer 行为和平均延迟上分别表现如何？
+  \item \textbf{RQ3：结论是否稳定？} 温度、重规划轮次、训练数据配方和随机种子变化是否会改变上述结论？
 \end{itemize}
 
-本文的主要贡献如下：
+为回答这些问题，本文在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，并基于 Qwen2.5-3B-Instruct 训练工具调用 LoRA adapter。实验设计遵循两个原则。第一，\textbf{把结构、调用流程与最终语义分开}：格式评测分别报告 JSON 可解析率、schema 合规率、工具名准确率与参数匹配率；系统层报告 required-call completion，但明确不把它等同于最终答案语义正确率。第二，\textbf{把模型效应与系统效应分开}：除 base/LoRA 外，还加入 few-shot、guided JSON、角色消融、拓扑消融、温度、max\_rounds 和多 seed 对照。
 
-\begin{itemize}
-  \item 在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，
-        并扩展到 supervisor 与 debate 两种拓扑，保留完整 trace 和重规划上限；
-  \item 构造 750 条主训练集和 1,124 条扩展训练集，比较 base、LoRA、
-        base + few-shot 在 41 条简单样本、57 条难例和 40 条未见工具 OOD
-        上的差异，并用 5 个 seed 估计数据扩展的方差；
-  \item 在 31 条主任务、55 条真实工具任务和 25 条 holdout 上做拓扑、
-        角色、温度、max\_rounds 和三角色 adapter 消融，报告负结果：
-        更多角色、更多数据和更复杂的辩论并不自动带来更高成功率。
-\end{itemize}
+本文的主要贡献不是提出新的多智能体算法，而是给出一套更严格的对照框架，并报告若干容易被忽略的负结果：LoRA 对结构合规有较一致的改善，但“工具名准确率”的总体提升很大一部分来自 \texttt{final\_answer} 路由，而不是实际工具之间的选择；32 条真正的未见工具 OOD 已在 base 上达到 32/32。supervisor 和 debate 增加了调用成本，却没有稳定提高 required-call completion；角色专用 adapter 和更大数据配方也没有自动带来收益。这些结果共同说明，结构对齐、路由、规划、审查与协作拓扑应被视为不同层级的问题，而不能用单一“成功率”概括。
 
-第~\ref{sec:system} 节介绍系统设计，第~\ref{sec:data} 节介绍数据和微调，
-第~\ref{sec:experiments} 节给出实验设置与结果，第~\ref{sec:conclusion}
-节总结。
-
+全文结构如下：第~\ref{sec:system} 节介绍系统与角色协议，第~\ref{sec:data} 节介绍数据和微调方法，第~\ref{sec:experiments} 节定义评测口径与对照设置，随后给出 RQ1--RQ3 的实验结果、局限性与结论。
 \clearpage
 \section{相关工作}
-多智能体系统通过角色分工与消息传递扩展单模型能力，已被用于任务规划、
-代码生成、信息检索和复杂问答等场景\cite{yao2023react}。LangGraph 用状态
-图描述节点和条件边，适合实现带循环的 Agent 流程\cite{langgraph}。现有
-工作往往关注拓扑设计或提示策略，较少在相同工具和任务集上同时控制模型
-微调与协作成本；本文把这两条线放在同一套评测下比较。
-工具调用评测通常把格式合法性和语义正确性分开，Berkeley Function Calling
-Leaderboard 就采用 AST 匹配和可执行性检查\cite{bfcl}。
-LoRA 以低秩适配降低微调成本\cite{hu2022lora}，QLoRA 进一步降低显存需求\cite{dettmers2023qlora}。
+\textbf{Agent 与多智能体协作。} ReAct 将推理与外部行动结合，为后续工具增强 Agent 奠定了常见范式\cite{yao2023react}。在工程层面，LangGraph 使用显式状态图、条件边和循环来组织 Agent 工作流，适合实现可追踪、可回退的多角色流程\cite{langgraph}。与只比较不同提示模板的工作不同，本文更关注一个工程上常被忽略的问题：当 Executor 的工具协议本身不稳定时，增加 Planner、Reviewer 或 Supervisor 是否真的能提高工具流程完成和最终回答质量，还是只会增加额外调用与错误传播路径。
 
+\textbf{工具调用评测。} 工具调用至少包含三个不同层次：输出是否满足结构约束、是否选择正确工具、参数是否在语义上正确。Berkeley Function Calling Leaderboard 等评测强调 AST/结构匹配与可执行性检查\cite{bfcl}，说明仅检查字符串或 JSON 可解析性不足以代表函数调用质量。本文沿用这一分层思想，并进一步把工具调用局部指标、required-call completion 与最终回答语义质量分开；对于语言代码、股票别名和自由文本等参数，还额外讨论 exact match 的局限。
+
+\textbf{参数高效微调。} LoRA 通过低秩更新降低微调参数量\cite{hu2022lora}，QLoRA 进一步结合低比特量化以降低显存需求\cite{dettmers2023qlora}。本文使用 4-bit QLoRA 的目的并非注入新的世界知识，而是对齐工具调用协议与角色输出。因而实验重点不在训练 loss 本身，而在微调是否能跨难例、未见工具与多智能体流程稳定迁移，以及这种收益是否超出 few-shot 或约束解码可以获得的效果。
 \clearpage
 \section{系统设计}\label{sec:system}
 \subsection{总体架构}
@@ -286,8 +235,8 @@ Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
 格式错误就会让后续角色拿到无效输入，错误被放大。本文用 QLoRA 做轻量
 对齐，目标不是让 3B 模型获得新的世界知识，而是让它稳定遵守工具调用
 协议，为后面的拓扑比较提供一个可预测的 Executor。需要强调的是，格式
-对齐不等于规划和审查能力，这也是后文把格式、工具选择和任务完成分开
-评测的原因。
+对齐不等于规划和审查能力，这也是后文把格式、路由、调用流程完成与最终语义分开
+讨论的原因。
 
 \subsection{数据构造}
 训练集包含 750 条样本，简单测试集包含 41 条样本，难例测试集包含 57 条样本，
@@ -297,9 +246,10 @@ Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
 
 表~\ref{tab:data} 汇总了本文用到的数据与评测规模。主实验使用 750 条
 训练集；数据扩展实验使用 1,124 条，并训练 5 个 seed 估计方差；格式评测
-分为 41 条简单样本、57 条难例和 40 条未见工具 OOD；系统任务 31 条，
-其中 24 条单步、7 条多步；另构造 55 条扩展任务（41 单步 + 14 多步）
-做样本量复核，并保留 25 条 holdout（15 单步 + 10 多步）不参与调参。
+分为 41 条简单样本、57 条难例和 40 条 OOD。系统任务需要特别说明集合关系：
+55 条开发集由原来的 31 条核心任务\textbf{加上}24 条扩展任务组成，因此
+31 并不是与 55 独立的另一套测试集；另保留 25 条与两者不重叠的 holdout。
+所以系统层共有 80 条互不重复任务，而不是 $31+55+25$ 条独立任务。
 
 \begin{table}[htbp]
   \centering
@@ -315,9 +265,9 @@ Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
     简单格式测试 & 41 & 模板内样本，base 已接近饱和 \\
     难例测试 & 57 & 未见城市/主题、缺参、格式诱导 \\
     未见工具 OOD & 40 & 4 个训练中未出现的工具 \\
-    系统任务 & 31 & 24 条单步 + 7 条多步 \\
-    扩展系统任务 & 55 & 41 条单步 + 14 条多步，用于复核 \\
-    系统 holdout & 25 & 15 条单步 + 10 条多步，不参与调参 \\
+    核心系统子集 & 31 & 55 条开发集的子集；用于受控消融 \\
+    系统开发集 & 55 & 31 条核心 + 24 条扩展；41 单步 + 14 多步 \\
+    系统 holdout & 25 & 与开发集不重叠；15 单步 + 10 多步 \\
     Planner SFT & 1,392 & 合成规划数据，避开 55/holdout \\
     Reviewer SFT & 2,784 & 正/负审查样本 \\
     seed 对照 & 2 数据 $\times$ 5 seed & 用于估计 adapter 方差 \\
@@ -328,8 +278,11 @@ Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
 数据首先按 LLaMA-Factory 的 \texttt{sharegpt} 格式组织：
 \texttt{system} 字段保存工具 schema 和输出协议，\texttt{conversations}
 字段保存 \texttt{human}/\texttt{gpt} 两轮对话。测试集保留 OpenAI
-\texttt{messages} 格式，供评测脚本直接截取上下文。训练和测试按场景划分，
-避免同一模板同时出现在两边。
+\texttt{messages} 格式，供评测脚本直接截取上下文。仓库审计发现，hard 中有
+5 条、OOD 中有 2 条通用直接回答请求（如“你好”“你能做什么？”）与主 SFT
+用户文本完全重合，且都属于 \texttt{final\_answer} 类；因此本文不把这些
+样本上的路由表现解释为严格的未见分布泛化。真正需要调用新工具的 32 条 OOD
+样本与这一问题分开报告。
 
 \subsection{QLoRA 配置}
 基座模型为 Qwen2.5-3B-Instruct，使用 4-bit QLoRA 在单张 T4 上训练。
@@ -337,97 +290,10 @@ LoRA rank 为 16，alpha 为 32，target 为全部线性层；学习率 $2\times
 训练 2 个 epoch，cutoff length 为 2048，开启 gradient checkpointing 和
 paged AdamW。T4 不支持 bf16，因此使用 fp16。
 
-第一次训练并未成功。数据文件使用了 OpenAI 的 \texttt{messages} 字段，
-而 LLaMA-Factory 的 \texttt{sharegpt} 转换器读取的是 \texttt{conversations}，
-训练在数据加载阶段报 \texttt{KeyError: 'conversations'}。将训练数据改为
-\texttt{system} + \texttt{conversations}，并在 \texttt{dataset\_info.json}
-中显式映射字段后，smoke 训练和全量训练才正常完成。这个问题说明，
-微调流程中最容易出错的不是模型本身，而是训练框架对数据 schema 的隐式约定。
+\subsection{数据扩展与随机种子对照}
+为了检验“训练数据更多是否一定更好”，本文额外构造 1,124 条扩展训练集。扩展内容包括更多城市、检索主题和随机四则运算。由于 v1（750 条）与 v2（1,124 条）同时改变了\textbf{数据量与数据组成}，该实验只能回答“这套扩展配方是否稳定优于原配方”，不能把差异单独归因于数据量。
 
-\subsection{训练数据扩展}
-为了验证“数据更多是否一定更好”，把训练集从 750 条扩到 1,124 条：
-增加未见城市和检索主题的模板，并补充 100 组随机四则运算。新 adapter 在
-同一 T4 上训练 2 个 epoch，耗时约 22 分钟，train loss 为 0.031，
-eval loss 为 0.012。表~\ref{tab:v2} 先给出一次运行的结果。
-
-\begin{table}[htbp]
-  \centering
-  \caption{训练数据扩展的单次对比（温度 0）}
-  \label{tab:v2}
-  \begin{tabular}{llccc}
-    \toprule
-    测试集 & Adapter & Schema & 工具名 & 参数匹配 \\
-    \midrule
-    hard & v1 (750) & 0.982 & 0.912 & 0.702 \\
-    hard & v2 (1,124) & 0.965 & 0.895 & 0.667 \\
-    OOD & v1 (750) & 1.000 & 0.900 & 0.575 \\
-    OOD & v2 (1,124) & 1.000 & 0.875 & 0.575 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-单次看，v2 的 hard schema 从 98.2\% 降到 96.5\%，参数匹配从 70.2\%
-降到 66.7\%，OOD 工具名从 90.0\% 降到 87.5\%。但这个差异只有 1--2 条
-样本，不能直接归因于数据量。为了区分真实效应和训练噪声，用 seed
-42--46 各训练一次 v1 和 v2，表~\ref{tab:seed} 给出均值和标准差。
-
-这里比较的不是同一组参数的两个 checkpoint：v1 和 v2 的 adapter 参数
-本来就会不同，因为训练数据不同。实验控制同一基座模型、同一超参、同一
-评测集和同一组 seed，把“数据配方”作为干预变量；seed 重复用来估计训练
-噪声。由于 v1/v2 同时改变了数据量和数据组成，这个对照只能回答“这套
-扩展配方是否稳定更好”，不能单独把差异归因于数据量。若要分离纯数据量，
-还需要构造 v1 重复到 1,124 条、或从 v2 中抽样 750 条的对照。
-
-\begin{table}[htbp]
-  \centering
-  \small
-  \caption{v1/v2 的 seed 稳定性（5 个 seed，温度 0）}
-  \label{tab:seed}
-  \begin{tabular}{llcc}
-    \toprule
-    测试集/指标 & v1 (750) & v2 (1,124) & v2$-$v1 \\
-    \midrule
-    hard schema & 0.979 $\pm$ 0.008 & 0.975 $\pm$ 0.020 & $-$0.004 \\
-    hard 工具名 & 0.895 $\pm$ 0.012 & 0.902 $\pm$ 0.016 & $+$0.007 \\
-    hard 参数 & 0.709 $\pm$ 0.032 & 0.723 $\pm$ 0.023 & $+$0.014 \\
-    OOD schema & 0.985 $\pm$ 0.014 & 0.990 $\pm$ 0.014 & $+$0.005 \\
-    OOD 工具名 & 0.870 $\pm$ 0.021 & 0.870 $\pm$ 0.021 & 0.000 \\
-    OOD 参数 & 0.580 $\pm$ 0.033 & 0.595 $\pm$ 0.021 & $+$0.015 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-seed 对照把结论改了回来：v2 并不稳定地更差。hard schema 的均值只低
-0.35 个百分点，而 v2 的 seed 标准差是 2.0 个百分点；hard 工具名和参数
-匹配的均值略高，OOD 工具名持平，OOD 参数也只高 1.5 个百分点。所有差值
-都在一个标准差以内，5 个 seed 仍不足以声称显著。
-
-单次 v2 的“下降”主要来自 seed42：它的 hard 是 0.947/0.877/0.684，
-而 seed43 是 0.982/0.912/0.737，seed44 是 1.000/0.912/0.737。也就是说，
-之前看到的是训练噪声，不是数据扩展的稳定负面效应。
-
-因此不能写“数据扩展让模型变差”。更准确的结论是：**从 750 扩到
-1,124 没有带来稳定提升，也没有稳定损害；v2 的均值略高，但差异在
-seed 方差内。** 最终报告保留 v1 作为主 adapter，原因是 750 条数据更小、
-训练更省，且没有证据表明 v2 更好；v2 作为“数据扩展的方差分析”保留。
-这里把 v1 视为预先设定的基线，v2 是后续的数据扩展消融；比较用于判断
-是否值得替换基线，而不是根据系统任务结果重新选模型。第 5 章因此沿用
-v1 基线。
-
-\IfFileExists{figures/v2_training_loss.png}{
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.75\linewidth]{figures/v2_training_loss.png}
-  \caption{v2 扩展数据训练的损失曲线}
-  \label{fig:loss}
-\end{figure}
-}{}
-
-图~\ref{fig:loss} 给出 v2 的损失曲线：横轴只到 step 60 左右（训练约
-64 个 optimizer steps），loss 从约 0.06 降到 0.02，中间在 step 30 附近
-有明显下降，step 40 之后波动趋缓。曲线不是单调下降，不能据此声称训练
-完全稳定；最终 train loss 为 0.031，eval loss 为 0.012，说明 2 个 epoch
-没有明显发散。
+为降低单次训练随机性的影响，v1 与 v2 均在相同基座模型、超参数和评测集上使用 seed 42--46 各训练一次，并报告均值与标准差。这里将 seed 重复视为训练方差估计，而不是显著性证明；5 个 seed 的样本量仍然有限。若要严格分离纯数据量效应，还需要额外构造“重复 v1 到 1,124 条”或“从 v2 抽样 750 条”的等组成对照。具体结果在 RQ3 中统一报告。
 
 \clearpage
 \section{实验设置}\label{sec:experiments}
@@ -436,7 +302,7 @@ v1 基线。
 训练在 Kaggle 的 Linux 容器中完成，GPU 为 Tesla T4 16GB。
 基座模型为 Qwen2.5-3B-Instruct，LoRA adapter 文件大小约 114MB。
 推理使用 transformers + PEFT 的 4-bit 加载，与训练和评测端保持一致。
-主系统实验使用真实 Open-Meteo 天气和真实检索（Serper/Tavily/Sogou），
+主系统实验使用真实 Open-Meteo 天气和真实检索（Serper/Tavily/Sogou/Wikipedia），
 不再使用固定天气表或本地 20 篇小文档。本文没有把 serving 优化作为主实验
 变量：多智能体流程是串行依赖调用，continuous batching 主要面向独立请求
 的吞吐，不改变单个任务内部的依赖延迟；在 55 条任务的评测规模下，引入新的
@@ -448,21 +314,26 @@ Schema 合规率、工具名准确率、参数完全匹配率和格式错误类�
 只接受原始输出，不在评测阶段做 JSON 修复；运行时的 Planner 解析则允许
 一次修复，避免单个坏输出中断整个流程。
 
-系统评测的任务集包含 31 条主任务（24 条单步 + 7 条多步）、55 条真实工具
-复核（41 单步 + 14 多步）和 25 条 holdout（15 单步 + 10 多步）。
-单步任务要求一次工具调用；多步任务要求按顺序完成两个及以上工具调用。
-数据规模上，主实验使用 750 条训练集；4.3 节另用 1,124 条扩展集训练
-5 个 seed，估计数据配方和训练方差。评测覆盖 41 条简单样本、57 条难例、
-40 条未见工具 OOD 和上述系统任务；对照包括 base、LoRA、base +
-few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度、
-三角色 adapter 和 max\_rounds。OOD 只检查格式和工具选择，不执行工具。
+系统评测以 55 条开发集为主体（41 条单步 + 14 条多步），其中 31 条核心任务
+（24 条单步 + 7 条多步）是其子集，用于 base/LoRA 与角色消融；另有 25 条与前述
+55 条不重叠的 holdout（15 条单步 + 10 条多步）。因此系统层共有 80 条互不重复
+任务，而不是 $31+55+25=111$ 条独立任务。单步任务定义一个 expected call，多步
+任务定义多个 expected calls；当前 scorer 检查这些调用是否出现，但不把调用顺序
+纳入 success 判定，因此本文不把该指标描述为“按顺序完成”。
 
-报告的组织顺序是：4.3 节先给出 v1/v2 两套数据配方的格式对照；v1 是
-预先设定的基线，v2 是后续扩展消融。两者没有稳定差异，因此第 5 章沿用
-v1 基线做系统任务与拓扑消融，不再更换 adapter。这样
-sequential/supervisor/debate 的差异可以归因于拓扑，而不是 adapter；
-若在系统任务上同时换 adapter，拓扑效应会和 adapter 效应混在一起，无法
-解释成功率变化来自哪里。
+数据规模上，主实验使用 750 条训练集；数据扩展对照另用 1,124 条扩展集并训练
+5 个 seed，用于估计数据配方差异与训练方差。评测覆盖 41 条简单样本、57 条难例、
+40 条 OOD 和上述系统任务；其中 OOD 进一步拆为 32 条真正要求四个训练中未出现
+工具的样本与 8 条 \texttt{final\_answer} 路由样本。对照包括 base、LoRA、base +
+few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度、
+三角色 adapter 和 max\_rounds。OOD 只检查格式、路由和参数匹配，不执行工具。
+
+v1 是预先设定的主 adapter，v2 仅作为数据扩展消融。为避免把 adapter 变化与拓扑变化混为一谈，sequential/supervisor/debate 的主系统比较统一固定 v1；v1/v2 的差异则在 RQ3 中独立报告。
+
+\subsection{评测口径与统计处理}
+本文避免把不同层级的指标混在一起。格式层面依次报告 JSON 可解析率、schema 合规率、工具名准确率和参数匹配率；对于 OOD，进一步把 32 条“必须调用新工具”的样本与 8 条 \texttt{final\_answer} 样本分开。系统层的 \texttt{success} 字段实际是\textbf{预期调用完成指标}：对每个 expected call，检查是否存在工具名与参数匹配的执行结果，同时要求工具无报错、返回非空且不是“暂无数据”。当 expected arguments 为 \texttt{None}（主要是 \texttt{final\_answer}）时，只检查工具是否被调用，并不判断自由文本内容是否正确；当前 scorer 也不把调用顺序纳入判定。因此下文将它称为 required-call completion，而不是端到端语义正确率。Reviewer 通过率同样仅用于分析审查行为，不作为 ground truth。
+
+二项比例的 95\% 置信区间采用 Wilson 区间。对同一批样本上的成对格式结果，使用 McNemar 检验作为辅助分析。由于多数系统配置仅运行一次，且任务数为 25--55 条，本文不把重叠置信区间或单次百分比差异解释为显著优劣；涉及训练数据扩展时，进一步通过 5 个随机种子报告均值与标准差。所有这些统计量用于约束结论强度，而不是替代更大规模重复实验。
 
 \subsection{对照与协作模式}
 对照模型为原始 Qwen2.5-3B-Instruct 和加载 LoRA adapter 后的模型。
@@ -530,7 +401,8 @@ Reviewer 还做了角色消融：使用 LoRA Reviewer、使用 base Reviewer，
 
 \clearpage
 \section{结果与分析}
-\subsection{格式评测}
+\subsection{RQ1：工具调用对齐是否有效？}
+\subsubsection{简单与难例格式评测}
 表~\ref{tab:format} 给出 41 条测试样本上的格式指标。base 和 LoRA 的
 JSON 可解析率和 Schema 合规率都是 100\%，格式错误数均为 0。LoRA 的
 工具名准确率从 97.6\% 提升到 100\%，参数完全匹配率从 85.4\% 提升到
@@ -547,7 +419,7 @@ JSON 可解析率和 Schema 合规率都是 100\%，格式错误数均为 0。Lo
     JSON 可解析率 & 1.000 & 1.000 & 0 \\
     Schema 合规率 & 1.000 & 1.000 & 0 \\
     工具名准确率 & 0.976 & 1.000 & +0.024 \\
-    参数完全匹配率 & 0.854 & 0.878 & +0.024 \\
+    参数完全匹配率（含 final 文本） & 0.854 & 0.878 & +0.024 \\
     格式错误数 & 0 & 0 & 0 \\
     \bottomrule
   \end{tabular}
@@ -564,7 +436,7 @@ JSON 可解析率和 Schema 合规率都是 100\%，格式错误数均为 0。Lo
   \label{tab:hard}
   \begin{tabular}{lcccc}
     \toprule
-    模型 & JSON & Schema & 工具名 & 参数完全匹配 \\
+    模型 & JSON & Schema & 工具名 & raw exact（含 final） \\
     \midrule
     base, 温度 0 & 0.947 & 0.947 & 0.860 & 0.614 \\
     base, 温度 0.7 & 0.912 & 0.912 & 0.807 & 0.614 \\
@@ -575,10 +447,11 @@ JSON 可解析率和 Schema 合规率都是 100\%，格式错误数均为 0。Lo
 \end{table}
 
 在难例上，LoRA 的 JSON/schema 合规率从 base 的 94.7\% 提升到 98.2\%
-（温度 0），温度 0.7 下从 91.2\% 提升到 98.2\%。参数完全匹配率在
-温度 0 下从 61.4\% 提升到 70.2\%，温度 0.7 下只从 61.4\% 提升到
-63.2\%。LoRA 在两种温度下都只错 1 条，base 在温度 0 下错 3 条，
-温度 0.7 下错 5 条。
+（温度 0），温度 0.7 下从 91.2\% 提升到 98.2\%。不过，整体“工具名准确率”
+混合了两类难度不同的决策。温度 0 下，42 条真正需要外部工具的样本中，base
+为 40/42、LoRA 为 41/42；15 条应走 \texttt{final\_answer} 的样本中，base
+为 9/15、LoRA 为 11/15。也就是说，整体 86.0\% 到 91.2\% 的提升并不等价于
+“实际工具之间的选择明显更准”，其中一部分来自直接回答/拒绝路由。
 
 把 \texttt{final\_answer} 的自由文本从参数匹配中剔除后，base 和 LoRA
 在温度 0 下分别是 83.3\% 和 90.5\%，温度 0.7 下是 83.3\% 和 85.7\%。
@@ -592,54 +465,46 @@ LoRA 是 [0.907, 0.997]；按配对样本做 McNemar 检验，温度 0 的 p 值
 失败模式比“完全不会调工具”更局部，也更容易通过约束解码或后处理
 修复。
 
-\subsection{未见工具 OOD}
-为了测试模型是否只会背训练里的四个工具，又构造了 40 条 OOD 样本。
-工具集换成训练中未出现的 \texttt{currency\_convert}、\texttt{calendar\_add}、
-\texttt{translate} 和 \texttt{get\_stock\_price}，并保留 \texttt{final\_answer}
-处理缺参数、歧义和拒绝。评测只检查格式与工具选择，不执行工具。
+\subsubsection{未见工具 OOD}
+为了测试模型是否能使用训练中没有出现过的工具，又构造了 40 条 OOD 样本：
+32 条要求调用 \texttt{currency\_convert}、\texttt{calendar\_add}、
+\texttt{translate} 或 \texttt{get\_stock\_price}，另外 8 条是缺参数、歧义
+或拒绝场景，参考动作是 \texttt{final\_answer}。这一拆分非常重要，因为后者
+并不是“未见工具选择”。评测只检查格式和调用决策，不执行这四个 OOD 工具。
 
 \begin{table}[htbp]
   \centering
-  \caption{未见工具 OOD 结果（40 条样本，参数含原始/归一化两列）}
+  \small
+  \caption{OOD 结果拆分：真正的未见工具调用与 \texttt{final\_answer} 路由}
   \label{tab:ood}
-  \begin{tabular}{lccccc}
+  \begin{tabular}{lcccc}
     \toprule
-    模型 & JSON & Schema & 工具名 & 原始参数 & 归一化参数 \\
+    配置 & Schema(40) & 新工具名(32) & 结构化参数(32) & final\_answer 路由(8) \\
     \midrule
-    base, 温度 0 & 0.975 & 0.975 & 0.825 & 0.625 & 0.725 \\
-    base, 温度 0.7 & 1.000 & 1.000 & 0.825 & 0.625 & 0.750 \\
-    LoRA, 温度 0 & 1.000 & 1.000 & 0.900 & 0.575 & 0.700 \\
-    LoRA, 温度 0.7 & 1.000 & 1.000 & 0.875 & 0.575 & 0.675 \\
+    base, 温度 0 & 39/40 & 32/32 & 32/32 & 1/8 \\
+    base, 温度 0.7 & 40/40 & 32/32 & 32/32 & 1/8 \\
+    LoRA, 温度 0 & 40/40 & 32/32 & 32/32 & 4/8 \\
+    LoRA, 温度 0.7 & 40/40 & 32/32 & 32/32 & 3/8 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-表~\ref{tab:ood} 显示，OOD 上的工具选择确实有提升：温度 0 下工具名准确率从 82.5\% 提升到
-90.0\%，温度 0.7 下从 82.5\% 提升到 87.5\%；LoRA 的 JSON/schema
-在两种温度下都保持 100\%，base 在温度 0 下有一条纯文本输出。
+表~\ref{tab:ood} 显示，若把 40 条全部混在一起，温度 0 的
+工具名准确率确实是 base 82.5\%、LoRA 90.0\%；但 32 条真正要求调用未见工具的
+样本上，两者都是 32/32，差异全部来自 8 条 \texttt{final\_answer} 场景
+（1/8 对 4/8）。因此本实验不能支持“LoRA 提升了未见工具选择准确率”，更准确
+的说法是：\textbf{基座模型已经能根据给定 schema 选择这四个新工具，LoRA 的
+差异主要体现在何时不应调用工具。}
 
-原始参数完全匹配率从 62.5\% 降到 57.5\%，但这是字符串口径，不是语义
-口径。差异主要来自枚举/自由文本参数：模型把
-\texttt{target\_language} 写成 \texttt{en}/\texttt{zh}，而参考答案写的是
-\texttt{English}/\texttt{Chinese}；股票查询把“腾讯控股”写成公司名而不是
-\texttt{0700.HK}；\texttt{final\_answer} 的 answer 本身就是自由文本。
+参数结论也类似。原始 exact match 会把 \texttt{en}/\texttt{English}、公司名/
+股票代码以及自由文本 answer 的表面差异算成错误；按语言代码和股票别名归一化，
+并只保留 32 条结构化新工具调用后，四个 zero-shot 配置都是 32/32。因而当前
+OOD 没有提供 LoRA 参数推理更准的证据。另一方面，hard/OOD 中少量
+\texttt{final\_answer} 用户文本与训练集完全重合，因此直接回答路由的提升也
+不能视为纯粹的 OOD 泛化。
 
-把语言代码和股票别名归一化后，温度 0 下 base 为 72.5\%、LoRA 为 70.0\%；
-温度 0.7 下 base 为 75.0\%、LoRA 为 67.5\%。归一化后 LoRA **没有**参数
-优势。排除 \texttt{final\_answer} 后，各配置在剩余 32 条上的参数匹配都
-是 32/32；OOD 上并没有“LoRA 参数更准”的证据。LoRA 的收益只在工具名
-选择（82.5\% 到 90.0\%），schema 差异只有 0--1 条，McNemar 检验的
-p 值为 1.0，不能称显著。
-
-这说明 OOD 实验必须把“工具选对”和“参数写法一致”分开。对枚举型参数
-应该加 enum 或做规范化，对自由文本参数不应该用 exact match 直接比较；
-否则会把 \texttt{en} 和 \texttt{English} 这种等价写法算成错误。就工具
-选择而言，LoRA 对未见工具仍有泛化能力；就参数规范化而言，当前评测
-口径偏严，不能拿原始 exact 差异下结论。
-
-图~\ref{fig:format} 把两个最关键的指标放在同一尺度上：hard schema 的
-提升较小，OOD 工具名的提升更明显；这也说明格式合规和工具选择不是
-同一个维度。
+图~\ref{fig:oodsplit} 把 OOD 拆成“真正的新工具调用”和“应直接回答/拒绝”
+两组，避免用 40 条聚合工具名掩盖 32/32 饱和与 8 条路由失败。
 
 \begin{figure}[htbp]
   \centering
@@ -650,58 +515,56 @@ p 值为 1.0，不能称显著。
       height=5.2cm,
       ymin=0, ymax=1.15,
       ylabel={比例},
-      symbolic x coords={hard,ood},
-      xtick={hard,ood},
-      xticklabels={hard schema, OOD name},
-      enlarge x limits=0.25,
+      symbolic x coords={newtool,final},
+      xtick={newtool,final},
+      xticklabels={OOD 新工具 (32), OOD final (8)},
+      enlarge x limits=0.30,
       legend style={at={(0.5,-0.22)}, anchor=north, legend columns=-1},
       nodes near coords,
       nodes near coords style={font=\tiny},
       bar width=24pt,
     ]
-      \addplot coordinates {(hard,0.947) (ood,0.825)};
-      \addplot coordinates {(hard,0.982) (ood,0.900)};
+      \addplot coordinates {(newtool,1.000) (final,0.125)};
+      \addplot coordinates {(newtool,1.000) (final,0.500)};
       \legend{base, LoRA}
     \end{axis}
   \end{tikzpicture}
-  \caption{硬样本 schema 合规率与 OOD 工具名准确率}
-  \label{fig:format}
+  \caption{OOD 拆分：32 条真正的新工具调用 base/LoRA 均为 32/32；8 条 final 路由为 1/8 对 4/8}
+  \label{fig:oodsplit}
 \end{figure}
 
-\subsection{base + few-shot 基线}
+\subsubsection{base + few-shot 基线}
 为了区分“LoRA 的提升”与“只是 prompt 里多了示例”，给 base 模型加入
-3 个 few-shot 示例，重新跑 hard 和 OOD。表~\ref{tab:fewshot} 对比
-zero-shot base、few-shot base 和 zero-shot LoRA。
+3 个 few-shot 示例，重新跑 hard 和 OOD。由于整体工具名会被
+\texttt{final\_answer} 场景显著影响，表~\ref{tab:fewshot} 直接拆分需要工具
+的样本与直接回答样本。
 
 \begin{table}[htbp]
   \centering
   \small
-  \caption{base + few-shot 与 LoRA 的格式对比（温度 0，OOD 参数已归一化）}
+  \caption{base + few-shot 与 LoRA 的拆分对比（温度 0）}
   \label{tab:fewshot}
   \begin{tabular}{lccccc}
     \toprule
-    配置 & hard Schema & hard 工具名 & hard 参数 & OOD 工具名 & OOD 参数 \\
+    配置 & hard Schema & hard 新/已有工具(42) & hard final(15) & OOD 新工具(32) & OOD final(8) \\
     \midrule
-    base zero-shot & 0.947 & 0.860 & 0.614 & 0.825 & 0.725 \\
-    base few-shot & 0.965 & 0.825 & 0.667 & 0.850 & 0.750 \\
-    LoRA zero-shot & 0.982 & 0.912 & 0.702 & 0.900 & 0.700 \\
+    base zero-shot & 0.947 & 40/42 & 9/15 & 32/32 & 1/8 \\
+    base few-shot & 0.965 & 40/42 & 7/15 & 32/32 & 2/8 \\
+    LoRA zero-shot & 0.982 & 41/42 & 11/15 & 32/32 & 4/8 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-few-shot 确实缩小了格式差距：hard 的 schema 从 94.7\% 提到 96.5\%，
-OOD 的归一化参数匹配从 72.5\% 提到 75.0\%。但 hard 的工具名从 86.0\% 降到
-82.5\%，说明示例改变了输出分布，并没有稳定提升工具选择；OOD 工具名
-只从 82.5\% 提到 85.0\%。
+few-shot 把 hard schema 从 94.7\% 提到 96.5\%，但没有改变 42 条工具必需样本
+的工具名结果（仍为 40/42），而 \texttt{final\_answer} 路由从 9/15 降到 7/15。
+LoRA 的 hard 工具必需样本是 41/42、直接回答是 11/15。OOD 上三种配置对
+32 条未见工具都是 32/32；base few-shot 的 \texttt{final\_answer} 路由为
+2/8，介于 base zero-shot 的 1/8 与 LoRA 的 4/8 之间。结构化参数方面，OOD
+的 base 与 LoRA zero-shot 都是 32/32，base few-shot 是 31/32。因此，LoRA
+不能被概括为“整体工具选择能力显著提升”；更稳妥的结论是它改善了格式稳定性，
+并在本数据上改善了一部分 tool-vs-final 路由。
 
-LoRA 仍然领先的是工具名：hard 91.2\% 对 82.5\%，OOD 90.0\% 对
-85.0\%；schema 保持在 98.2\%。OOD 全 40 条归一化参数匹配 LoRA 为
-70.0\%，base few-shot 为 75.0\%，LoRA 并没有参数优势；排除自由文本
-\texttt{final\_answer} 后，LoRA 是 32/32，base few-shot 是 31/32，
-差异只有一条。因此 LoRA 的收益不能简单归因于“多了几个示例”；
-它主要改善的是工具名选择和格式稳定性。
-
-\subsection{约束解码基线}
+\subsubsection{约束解码基线}
 为了区分“LoRA 学会了格式”与“解码器强制了格式”，用 vLLM guided JSON
 在 hard/OOD 上重跑 base 和 LoRA，顶层只允许
 \texttt{\{"name": ..., "arguments": ...\}}。表~\ref{tab:constrained}
@@ -710,33 +573,33 @@ LoRA 仍然领先的是工具名：hard 91.2\% 对 82.5\%，OOD 90.0\% 对
 \begin{table}[htbp]
   \centering
   \small
-  \caption{vLLM fp16 guided JSON 约束解码（hard/OOD，温度 0；OOD 参数已归一化）}
+  \caption{vLLM fp16 guided JSON 约束解码拆分结果（温度 0；OOD 参数已归一化）}
   \label{tab:constrained}
-  \begin{tabular}{llccc}
+  \begin{tabular}{llcccc}
     \toprule
-    测试集 & 配置 & Schema & 工具名 & 参数匹配 \\
+    测试集 & 配置 & Schema & 工具样本工具名 & 结构化参数 & final 路由 \\
     \midrule
-    hard & base + guided JSON & 1.000 & 0.930 & 0.649 \\
-    hard & LoRA + guided JSON & 1.000 & 0.930 & 0.719 \\
-    OOD & base + guided JSON & 1.000 & 0.825 & 0.725 \\
-    OOD & LoRA + guided JSON & 1.000 & 0.875 & 0.700 \\
+    hard & base + guided JSON & 57/57 & 42/42 & 37/42 & 11/15 \\
+    hard & LoRA + guided JSON & 57/57 & 42/42 & 39/42 & 11/15 \\
+    OOD & base + guided JSON & 40/40 & 32/32 & 32/32 & 1/8 \\
+    OOD & LoRA + guided JSON & 40/40 & 32/32 & 32/32 & 3/8 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-约束解码把 schema 全部拉到 100\%，hard 工具名从无约束的 86.0\%/91.2\%
-提高到 93.0\%。OOD 原始 exact match 从 62.5\%/57.5\% 变成 57.5\%/55.0\%，
-但差异来自 vLLM 把 \texttt{target\_language} 写成 \texttt{en}/\texttt{fr}；
-按语言代码归一化后，base/LoRA 分别为 72.5\%/70.0\%，与无约束相同。
-因此约束只保证 JSON 结构，不保证工具名和参数语义。LoRA 在 hard 参数上的
-优势仍然存在（71.9\% 对 64.9\%），但 OOD 参数没有优势。这也说明“格式收益”
-不能只归因于微调，约束解码本身就能消除一类格式错误。
+约束解码把 schema 全部拉到 100\%。进一步拆分后，hard 的 42 条工具必需样本
+在 base/LoRA 下都达到 42/42 工具名正确，15 条 \texttt{final\_answer} 路由均为
+11/15；OOD 的 32 条未见工具也仍是 32/32。也就是说，guided JSON 能消除
+结构性失败，甚至间接减少一部分工具名失败，但不能证明语义能力提升。hard 的
+结构化参数 exact 在 base/LoRA 下分别为 37/42 和 39/42；OOD 规范化后的
+结构化参数均为 32/32。这里 vLLM 使用 fp16，主实验使用 HF 4-bit；
+约束解码只作为结构基线，不能把绝对成功率与主实验直接混比。
 
-\subsection{多智能体任务}
+\subsection{RQ2：协作拓扑是否值得？}
 
-\paragraph{31 条主实验}
-表~\ref{tab:modes} 给出 31 条任务各执行一次的结果。任务集包含 24 条单步任务
-和 7 条多步任务。base 的 single 成功率为 67.7\%（21/31），sequential 为
+\paragraph{31 条核心子集消融}
+表~\ref{tab:modes} 给出 55 条开发集中的 31 条核心子集结果。该子集包含 24 条单步任务
+和 7 条多步任务。base 的 single required-call completion 为 67.7\%（21/31），sequential 为
 71.0\%（22/31）；LoRA 的 single 和 sequential 都是 77.4\%（24/31）。
 这说明在修复 Executor 的最终答案路由后，base 放进 MAS 不再出现旧版
 51.6\% 的大幅下降；单步任务和串行流程的差距明显缩小。
@@ -748,7 +611,7 @@ LoRA 仍然领先的是工具名：hard 91.2\% 对 82.5\%，OOD 90.0\% 对
   \label{tab:modes}
   \begin{tabular}{lcccc}
     \toprule
-    模式 & 成功数 & 成功率 & 95\% CI & 延迟 \\
+    模式 & 完成数 & 调用完成率 & 95\% CI & 延迟 \\
     \midrule
     base single & 21/31 & 0.677 & [0.501, 0.814] & 2.43~s \\
     base sequential & 22/31 & 0.710 & [0.534, 0.839] & 19.25~s \\
@@ -758,21 +621,21 @@ LoRA 仍然领先的是工具名：hard 91.2\% 对 82.5\%，OOD 90.0\% 对
   \end{tabular}
 \end{table}
 
-\paragraph{真实工具下的 55 条复核}
-31 条主实验之外，另构造 55 条同协议任务（41 条单步 + 14 条多步），
-使用真实天气和真实检索，固定 v1 主 adapter，并开启 few-shot Planner。
-表~\ref{tab:system55} 给出结果：sequential 和 supervisor 都是 54/55
+\paragraph{真实工具下的 55 条开发集}
+55 条开发集包含前述 31 条核心任务，并新增 24 条任务，总计 41 条单步 + 14 条多步。
+该集合在开发阶段用于真实工具接入和 Executor 路由修复，因此不能视为完全未触碰的最终测试集。正式比较固定 v1 主 adapter，并开启 few-shot Planner。
+表~\ref{tab:system55} 给出 required-call completion：sequential 和 supervisor 都是 54/55
 （98.2\%），debate 为 53/55（96.4\%）；三者置信区间大幅重叠，
-supervisor 仍没有成功率收益，延迟却从 15.86~s 增加到 25.14~s。
+supervisor 仍没有调用完成率收益，延迟却从 15.86~s 增加到 25.14~s。
 
 \begin{table}[htbp]
   \centering
   \small
-  \caption{55 条真实工具复核（共享 adapter，few-shot，每条 1 次）}
+  \caption{55 条真实工具开发集的 required-call completion（共享 adapter，few-shot，每条 1 次）}
   \label{tab:system55}
   \begin{tabular}{lccccc}
     \toprule
-    模式 & 成功数 & 成功率 & 95\% CI & Reviewer 通过 & 延迟 \\
+    模式 & 完成数 & 调用完成率 & 95\% CI & Reviewer 通过 & 延迟 \\
     \midrule
     sequential & 54/55 & 0.982 & [0.904, 0.997] & 1.000 & 15.86~s \\
     supervisor & 54/55 & 0.982 & [0.904, 0.997] & 1.000 & 25.14~s \\
@@ -782,21 +645,23 @@ supervisor 仍没有成功率收益，延迟却从 15.86~s 增加到 25.14~s。
 \end{table}
 
 这组结果与旧 mock 工具下的 74.5/74.5/72.7 不可直接比较。旧工具对未列城市
-返回“暂无数据”，Reviewer 正确拒绝空结果，而旧 \texttt{task\_success} 仍
-把调用成功算成任务成功；换成真实 Open-Meteo 和真实检索后，成功与 Reviewer
-通过率才有一致口径。
+返回“暂无数据”，后来 scorer 增加了“无报错、结果非空且不是暂无数据”的条件。
+但即使在当前真实工具结果中，required-call completion 仍不是语义正确率：例如
+“现在几点？”的一条记录调用了 \texttt{final\_answer} 并返回“当前时间”，
+scorer 与 Reviewer 都判为通过，却没有真正回答时间。这一反例说明 98.2\% 必须
+解释为\textbf{预期调用流程完成率}，不能写成 98.2\% 的端到端答对率。
 
 \paragraph{三角色 adapter}
 表~\ref{tab:role55} 比较共享 adapter 与三角色专用 adapter（Executor 主
 adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7/94.5，
-低于共享 adapter 的 98.2/98.2/96.4；在 25 条 holdout 上三者都是 25/25。
+低于共享 adapter 的 98.2/98.2/96.4；在 25 条 holdout 上三者的 required-call completion 都是 25/25。
 因此角色专用 adapter 在当前数据上没有稳定收益，不能因为“三个权重都训练了”
-就声称更好。
+就声称更好；这些数字也不评判最终自由文本答案。
 
 \begin{table}[htbp]
   \centering
   \small
-  \caption{共享 adapter 与三角色 adapter 的 55 条对比（few-shot）}
+  \caption{共享 adapter 与三角色 adapter 的 55 条开发集调用完成率对比（few-shot）}
   \label{tab:role55}
   \begin{tabular}{lccccc}
     \toprule
@@ -809,8 +674,7 @@ adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7
 \end{table}
 
 共享 adapter 的 Reviewer 通过率为 1.000/1.000/0.891，三角色 adapter 为
-0.964/0.964/0.964；角色专用让 debate 的通过率更均衡，但没有提高任务
-成功数。
+0.964/0.964/0.964；角色专用让 debate 的通过率更均衡，但没有提高 required-call completion。
 
 25 条 holdout 上，三角色 adapter 的 sequential/supervisor/debate 都是
 25/25（表~\ref{tab:holdout}）；但 holdout 只有 25 条，不能据此声称角色
@@ -819,11 +683,11 @@ adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7
 \begin{table}[htbp]
   \centering
   \small
-  \caption{三角色 adapter 的 25 条 holdout（few-shot）}
+  \caption{三角色 adapter 的 25 条 holdout required-call completion（few-shot）}
   \label{tab:holdout}
   \begin{tabular}{lcccc}
     \toprule
-    模式 & 成功数 & 成功率 & 95\% CI & 延迟 \\
+    模式 & 完成数 & 调用完成率 & 95\% CI & 延迟 \\
     \midrule
     sequential & 25/25 & 1.000 & [0.867, 1.000] & 17.59~s \\
     supervisor & 25/25 & 1.000 & [0.867, 1.000] & 28.43~s \\
@@ -833,18 +697,12 @@ adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7
 \end{table}
 
 \paragraph{Executor 最终答案路由}
-早期 14 条多步任务只有 6/14 成功。检查 trace 后发现，Planner 已经给出
-2--3 个子任务，失败发生在 Executor：它把“总结/建议/比较”子任务又执行成
-上一次的 \texttt{get\_weather} 或 \texttt{search}，而不是 \texttt{final\_answer}。
-在 Executor 中加入“已有结果时，综合子任务必须调用 final\_answer”的约束后，
-14 条多步任务从 6/14 提升到 13/14；随后修正单个算式被拆分和 debate 合并
-查询的问题，55 条开发集达到 55/55。这个修复是系统结果变化的主因，而不是
-Planner 重试或 Planner SFT。
+Trace 分析显示，多步失败中有一类并不是 Planner 没有拆出步骤，而是 Executor 在已有工具结果后仍重复调用天气或检索工具，没有把“总结/比较/建议”路由到 \texttt{final\_answer}。为此，系统加入了“已有结果时，综合型子任务优先路由到 \texttt{final\_answer}”的显式约束，并修正了单个算式被过度拆分与 debate 查询合并的问题。该修改属于\textbf{系统实现修复}，因此修复前后的调试批次不应与表~\ref{tab:system55} 的最终固定配置混合比较。它的意义是说明：早期流程失败相当一部分来自路由协议，而不是 Planner/Reviewer 本身；正式结果仅以修复后、配置冻结后的评测为准。
 
 \paragraph{角色消融}
 表~\ref{tab:role} 比较五种角色分配（31 条，真实工具，未加 few-shot）。
 全 LoRA 为 77.4\%，无 Reviewer 也是 77.4\%，说明当前 Reviewer 没有带来
-成功率收益；base Planner + LoRA Reviewer 为 83.9\%，base Planner + base
+required-call completion 收益；base Planner + LoRA Reviewer 为 83.9\%，base Planner + base
 Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好”：在 31 条
 任务上，base Planner 反而更高。Reviewer 需要的是校准和完整的结果，而不是
 简单增加一个 LoRA 角色。
@@ -856,7 +714,7 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
   \label{tab:role}
   \begin{tabular}{lccc}
     \toprule
-    配置 & 成功数 & 成功率 & 延迟 \\
+    配置 & 完成数 & 调用完成率 & 延迟 \\
     \midrule
     全 LoRA & 24/31 & 0.774 & 19.64~s \\
     LoRA Planner + base Reviewer & 24/31 & 0.774 & 16.05~s \\
@@ -871,8 +729,8 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
 表~\ref{tab:system55} 与图~\ref{fig:tradeoff} 给出真实工具下 55 条的
 拓扑对比。sequential 与 supervisor 的成功数完全相同，但 supervisor 的
 平均延迟从 15.86~s 增到 25.14~s；debate 少一条任务，延迟最高。三者
-置信区间重叠，不能声称哪一拓扑显著更优，但“多角色没有提高完成率、
-只增加调用成本”这一方向与原负结果一致。
+置信区间重叠，不能声称哪一拓扑显著更优；更准确地说，多角色没有提高
+required-call completion，却增加了调用成本。
 
 \begin{figure}[htbp]
   \centering
@@ -881,7 +739,7 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
       width=0.75\linewidth,
       height=5.5cm,
       xlabel={平均延迟（秒）},
-      ylabel={成功率},
+      ylabel={调用完成率},
       xmin=10, xmax=40,
       ymin=0.94, ymax=1.00,
       grid=major,
@@ -897,11 +755,71 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
       \node[font=\scriptsize, anchor=north] at (axis cs:33.38,0.964) {debate};
     \end{axis}
   \end{tikzpicture}
-  \caption{真实工具下协作拓扑的成功率--延迟权衡（55 条，共享 adapter）}
+  \caption{真实工具开发集上的调用完成率--延迟权衡（55 条，共享 adapter）}
   \label{fig:tradeoff}
 \end{figure}
 
-\paragraph{max\_rounds 与温度}
+\subsection{RQ3：结论对训练与推理扰动是否稳定？}
+\subsubsection{训练数据扩展与 seed 方差}
+表~\ref{tab:v2} 给出 v1/v2 在单个 seed 上的拆分对比。这里不再使用会把
+\texttt{final\_answer} 自由文本混入参数指标的全样本 raw exact，而是分别报告
+工具必需样本、结构化参数和 final 路由。单次运行看，v2 没有形成一致优势：hard
+的工具名同为 41/42，结构化参数从 38/42 变为 36/42；OOD 的新工具名同为
+32/32，规范化参数从 32/32 变为 31/32。差异都只有 0--2 条样本，不能据此
+解释为“更多数据导致退化”。
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{训练数据扩展的单次拆分对比（温度 0）}
+  \label{tab:v2}
+  \begin{tabular}{lcc}
+    \toprule
+    指标 & v1 (750) & v2 (1,124) \\
+    \midrule
+    hard Schema & 56/57 & 55/57 \\
+    hard 工具必需样本工具名 & 41/42 & 41/42 \\
+    hard 结构化参数 exact & 38/42 & 36/42 \\
+    hard final 路由 & 11/15 & 10/15 \\
+    OOD Schema & 40/40 & 40/40 \\
+    OOD 未见工具名 & 32/32 & 32/32 \\
+    OOD 结构化参数（归一化） & 32/32 & 31/32 \\
+    OOD final 路由 & 4/8 & 3/8 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+表~\ref{tab:seed} 再把同样的拆分口径用于 seed 42--46。真正的工具选择已经接近
+饱和：hard 工具必需样本的平均工具名准确率为 99.0\% 对 98.6\%，OOD 四个未见
+工具在两套数据配方的 5 个 seed 上全部为 100\%。hard 结构化参数的均值恰好同为
+90.5\%，OOD 规范化结构化参数也同为 98.8\%；final 路由的波动相对更大。
+因此，更稳妥的结论是：\textbf{当前扩展配方没有显示出稳定收益；观测差异主要
+处于训练波动或少量路由样本的尺度。} 本文继续使用更小的 v1 作为主 adapter，
+是基于训练成本和预先设定基线，而不是基于系统任务结果事后挑选模型。
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{v1/v2 的 seed 稳定性：拆分指标（5 个 seed，温度 0，均值 $\pm$ 样本标准差）}
+  \label{tab:seed}
+  \begin{tabular}{lcc}
+    \toprule
+    指标 & v1 (750) & v2 (1,124) \\
+    \midrule
+    hard Schema & 0.979 $\pm$ 0.008 & 0.975 $\pm$ 0.020 \\
+    hard 工具必需样本工具名 & 0.990 $\pm$ 0.013 & 0.986 $\pm$ 0.021 \\
+    hard 结构化参数 exact & 0.905 $\pm$ 0.029 & 0.905 $\pm$ 0.041 \\
+    hard final 路由 & 0.627 $\pm$ 0.060 & 0.667 $\pm$ 0.000 \\
+    OOD Schema & 0.985 $\pm$ 0.014 & 0.990 $\pm$ 0.014 \\
+    OOD 未见工具名 & 1.000 $\pm$ 0.000 & 1.000 $\pm$ 0.000 \\
+    OOD 结构化参数（归一化） & 0.988 $\pm$ 0.017 & 0.988 $\pm$ 0.017 \\
+    OOD final 路由 & 0.350 $\pm$ 0.105 & 0.350 $\pm$ 0.105 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{重规划轮次与温度}
+
 14 条多步任务上，max\_rounds=1/2/3 都是 12/14（85.7\%）；
 平均延迟从 24.64~s 增到 27.11~s，增加重规划预算没有提高成功数
 （表~\ref{tab:rounds}）。
@@ -913,7 +831,7 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
   \label{tab:rounds}
   \begin{tabular}{cccc}
     \toprule
-    max\_rounds & 成功数 & 成功率 & 平均延迟 \\
+    max\_rounds & 完成数 & 调用完成率 & 平均延迟 \\
     \midrule
     1 & 12/14 & 0.857 & 24.64~s \\
     2 & 12/14 & 0.857 & 25.60~s \\
@@ -922,8 +840,8 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
   \end{tabular}
 \end{table}
 
-温度 0 与 0.7 各跑 3 次（31 条 $\times$ 3），成功率分别为 93.6\% 和
-96.8\%（表~\ref{tab:temperature}）。温度 0.7 没有降低成功率，说明
+温度 0 与 0.7 各跑 3 次（31 条 $\times$ 3），required-call completion 分别为 93.6\% 和
+96.8\%（表~\ref{tab:temperature}）。温度 0.7 没有降低这一调用完成指标，说明
 “温度越低越稳定”在本任务上不成立；但两组都只覆盖 31 条，不能据此
 选择温度。
 
@@ -934,7 +852,7 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
   \label{tab:temperature}
   \begin{tabular}{lccc}
     \toprule
-    温度 & 成功数 & 成功率 & 平均延迟 \\
+    温度 & 完成数 & 调用完成率 & 平均延迟 \\
     \midrule
     0 & 87/93 & 0.936 & 15.31~s \\
     0.7 & 90/93 & 0.968 & 14.92~s \\
@@ -942,111 +860,92 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
   \end{tabular}
 \end{table}
 
-\subsection{问题与处理}
-实验过程中遇到的几个问题及处理方式如下。
+\subsection{实现细节与结果解释边界}
+实验中有三个实现问题会直接影响结果解释。其一，LLaMA-Factory 的 \texttt{sharegpt} 转换器要求 \texttt{conversations} 字段，早期使用 OpenAI \texttt{messages} 格式会在数据加载阶段失败；最终训练数据统一为 \texttt{system} + \texttt{conversations} 并显式映射字段。其二，Planner 运行时允许一次 JSON repair 并在失败时回退为单子任务，但格式评测坚持使用原始输出的严格解析，因此运行时鲁棒性不会被误计入模型格式能力。其三，Reviewer 曾出现对正确计算结果的误拒，说明 Reviewer 通过率不是客观真值，必须与 required-call completion、最终答案语义和工具返回结果分开分析。
 
-\paragraph{训练数据 schema 不一致}
-LLaMA-Factory 的 \texttt{sharegpt} 转换器读取 \texttt{conversations}，
-而最初的数据使用 OpenAI \texttt{messages}，训练在加载阶段直接失败。
-改为 \texttt{system} + \texttt{conversations}，并在
-\texttt{dataset\_info.json} 中显式映射字段后解决。
-
-\paragraph{Planner 输出坏 JSON}
-LoRA 模型在 Executor 角色上格式稳定，但换到 Planner 角色时会漏逗号或
-括号。运行时解析增加一次 \texttt{json\_repair} 修复，并在修复失败时
-回退为单子任务；评测仍然使用严格解析，不把修复后的结果算作格式正确。
-
-\paragraph{Reviewer 误判}
-Reviewer 通过率偏低并不完全等于模型能力差。早期 mock 工具对未列城市返回
-“暂无数据”，Reviewer 判不通过是合理的；换成 Open-Meteo 和真实检索后，
-空结果问题消失。剩余问题主要是 Reviewer 幻觉出不存在的“预期值”，例如把
-$(23*17+9)/5=80$ 判成应为 10、把 $(45+55)*3=300$ 判成应为 180。这类
-错误说明 Reviewer 需要校准，而不是继续改 Planner；多智能体系统的评测必须
-把工具质量、角色能力和协作协议分开看。
+这些细节也解释了为什么本文强调“冻结配置后的正式评测”。开发阶段的路由修复、mock 工具替换和提示词调整属于系统调试，不应与最终实验表中的数字直接拼接成性能提升曲线，否则会把实现变化误写成模型或拓扑收益。
 
 \clearpage
 \section{讨论与局限性}
-本文的结果还只是阶段性结果，主要有六个局限。
+本文的结果还只是阶段性结果，主要有七个局限。
 
 第一，简单格式测试只有 41 条，而且过于简单，base 的 JSON/schema 已经
-达到 100\%。57 条难例把 base 拉低到 91.2\%--94.7\%，LoRA 仍有 98.2\%。
-40 条 OOD 又加入了四个未见工具，LoRA 的工具名准确率为 90.0\%，base
-为 82.5\%。但 OOD 仍然只有 40 条，只检查格式和工具选择，不执行工具；
-自由文本参数也没有做规范化。后续需要扩大 OOD，加入多工具调用，并对
-枚举参数和文本参数分别评测。
+达到 100\%。57 条难例中 LoRA 的结构合规更稳定，但整体工具名指标混入了
+\texttt{final\_answer} 路由。40 条 OOD 的聚合工具名虽为 82.5\% 对 90.0\%，
+真正需要调用四个未见工具的 32 条却在 base/LoRA 上都是 32/32；差异来自 8 条
+直接回答/拒绝样本。hard 中 5 条、OOD 中 2 条这类通用用户文本还与训练集完全
+重合。因此当前 OOD 只能证明模型能读取新 schema，不能证明 LoRA 提升了新工具
+选择。后续应扩大 OOD、去除文本重叠，并把 abstention/final routing 单独评测。
 
-第二，系统任务里 31 条主实验和 55 条复核都只跑一轮；55 条的 14 条多步
-任务在修复 Executor 后完成 12/14，但 max\_rounds 从 1 到 3 都是 12/14，
-说明增加重规划预算没有提高完成数。25 条 holdout 全部成功，但样本仍小。
-single 模式天然只能调用一次工具，不能把多步失败解释为模型能力差；
-真正需要分析的是 Planner 的拆分粒度和 Executor 的工具选择。
+第二，系统层实际是 55 条开发集（其中 31 条为核心子集）加 25 条不重叠 holdout，而不是三个独立集合；单配置样本量仍然有限。max\_rounds 敏感性实验是在 14 条多步任务、三角色 adapter 的固定子设置上进行，1/2/3 轮均为 12/14；这一结果不能与共享 adapter 的 55 条总体调用完成数直接互换。single 模式天然只能调用一次工具，也不能把其多步失败简单解释为模型能力差；更需要区分 Planner 的拆分粒度、Executor 路由和外部工具返回质量。
 
 第三，Reviewer 的校准仍不充分。55 条真实工具下 sequential/supervisor
 的 Reviewer 通过率为 100\%，debate 为 89.1\%；其中一部分是 Reviewer 对
 正确天气/计算结果的误拒，而不是任务失败。全 LoRA 与去掉 Reviewer 的
-31 条成功率同为 77.4\%，说明当前 Reviewer 没有带来稳定增益；它的收益
+31 条调用完成率同为 77.4\%，说明当前 Reviewer 没有带来稳定增益；它的收益
 和成本仍需分开评估。
 
 第四，工具层已接入真实 Open-Meteo 天气和真实检索，但检索依赖外部服务
 （Serper/Tavily/Sogou/Wikipedia）与网络可用性；OOD 工具仍只做 schema
-注册，不执行真实操作。系统成功率的解释仍受外部工具质量影响，不能完全
+注册，不执行真实操作。系统调用完成率的解释仍受外部工具质量影响，不能完全
 外推到开放域任务。
 
 第五，约束解码只覆盖顶层 JSON 结构，没有约束完整工具 schema。vLLM
-guided JSON 已把 hard/OOD schema 拉到 100\%，但 OOD 的 exact match 没有
-提高；这说明结构约束不能替代语义正确性。token 成本和 P95 延迟只在部分
+guided JSON 已把 hard/OOD schema 拉到 100\%，但 OOD 的 32 条结构化新工具样本
+本来已接近饱和，约束后仍是 32/32；这说明结构约束不能替代语义正确性。token 成本和 P95 延迟只在部分
 实验中采集。
 
 第六，Planner/Reviewer 已分别构建合成 SFT 数据（Planner 1,392 条、
 Reviewer 2,784 条）并训练独立 adapter，但三角色 adapter 在 55 条上为
-94.5/92.7/94.5，低于共享 adapter 的 98.2/98.2/96.4；25 条 holdout 上
-全部成功。角色专用 adapter 没有稳定收益，不能把“训练了三个权重”当成
+94.5/92.7/94.5，低于共享 adapter 的 98.2/98.2/96.4；25 条 holdout 上三种模式的 required-call completion 均为 25/25。角色专用 adapter 没有稳定收益，不能把“训练了三个权重”当成
 性能提升。
+
+第七，也是最重要的度量限制：当前系统 scorer 只验证 expected calls 是否被执行，
+并不对 \texttt{final\_answer} 的自由文本做人工或程序化语义评分。例如“现在几点？”
+返回“当前时间”仍会被记为完成。因此本文所有 31/55/25 系统百分比都应理解为
+required-call completion，而不是用户层面的端到端正确率。若要把结论升级为
+“任务成功率”，需要为 chat、总结、建议和比较类样本增加人工标注或可校验的
+语义 rubric，并重新计算系统指标。
 
 \clearpage
 \section{结论}\label{sec:conclusion}
-本文围绕三个问题展开：LoRA 能否稳定多智能体中的工具调用，协作拓扑
-是否真的提升任务完成，以及温度、数据规模和随机种子会不会改变结论。
-我们搭建了 LangGraph 三角色系统，构造 750 条主训练集和 1,124 条扩展
-训练集（后者用 5 个 seed 训练），并用 4-bit QLoRA 微调
-Qwen2.5-3B-Instruct；评测覆盖 41 条简单样本、57 条难例、40 条未见工具
-OOD、31 条主系统任务、55 条真实工具复核和 25 条 holdout。实验结果可以
-按三个研究问题总结。
+本文围绕三个问题展开：LoRA 能否稳定多智能体中的工具调用，协作拓扑是否值得，
+以及温度、数据配方和随机种子是否改变结论。仓库与逐样本结果审计后，最重要的
+修正是把三个容易混淆的量分开：结构合规、required-call completion，以及最终
+自由文本的语义正确性。系统任务共有 80 条互不重复样本，其中 55 条为开发集，
+31 条核心任务包含在这 55 条之内，另有 25 条不重叠 holdout。
 
-\textbf{RQ1：LoRA 改善的是格式和工具选择，并不主要改善参数细节。}
-在 57 条难例上，LoRA 把 schema 合规率从 94.7\% 提升到 98.2\%，工具名
-准确率从 86.0\% 提升到 91.2\%。base + few-shot 能把 schema 提到 96.5\%，
-但工具名仍只有 82.5\%，说明收益不只是 prompt 示例。在 40 条未见工具
-OOD 上，LoRA 的工具名为 90.0\%，base 为 82.5\%；但语言代码和股票别名
-归一化后，zero-shot 的四个配置（base/LoRA × 温度 0/0.7）在非
-\path{final_answer} 样本上的参数匹配都是 32/32，base + few-shot 是
-31/32。因此，LoRA 的主要作用是把输出协议和工具名对齐，但没有证据表明它让
-参数推理更准。vLLM fp16 guided JSON 同样只把 schema 拉到 100\%，OOD
-归一化 exact 与无约束相同，说明结构约束和语义能力要分开评估。
+\textbf{RQ1：LoRA 最明确的收益是结构协议遵循；“工具选择提升”需要拆开解释。}
+57 条 hard 上，schema 合规率从 94.7\% 提高到 98.2\%。但温度 0 时，42 条真正
+需要工具的 hard 样本，工具名只从 40/42 变为 41/42；15 条
+\texttt{final\_answer} 路由则从 9/15 变为 11/15。40 条 OOD 的原始聚合工具名
+是 82.5\% 对 90.0\%，但 32 条真正要求四个未见工具的样本上 base 与 LoRA 都是
+32/32，规范化后的结构化参数也都是 32/32；差异来自 8 条直接回答/拒绝样本
+（1/8 对 4/8）。因此，当前证据支持 LoRA 改善结构稳定性和部分 tool-vs-final
+路由，却不支持“LoRA 让未见工具选择更准”这一更强结论。guided JSON 同样说明，
+结构可被约束到 100\%，但结构正确不等于语义正确。
 
-\textbf{RQ2：多智能体不自动优于单 Agent，拓扑有明确的延迟代价。}
-31 条主实验中 base sequential 为 71.0\%、LoRA sequential 为 77.4\%，
-base 放进 MAS 不再出现旧版 51.6\% 的大幅下降；这说明旧结果的一部分
-来自 Executor 的最终答案路由错误。55 条真实工具下 sequential 和
-supervisor 都是 98.2\%，debate 为 96.4\%；supervisor 延迟从 15.86~s
-增到 25.14~s，debate 更慢。三角色专用 adapter 在 55 条上为
-94.5/92.7/94.5，低于共享 adapter；25 条 holdout 上三者都是 25/25。
-max\_rounds 从 1 到 3 都是 12/14，增加轮数没有提高成功数。多出来的角色
-和消息没有转化为更高的完成率，拓扑的主要代价是延迟。
+\textbf{RQ2：更复杂的拓扑没有提高 required-call completion，却明显增加延迟。}
+31 条核心子集上，base sequential 为 22/31、LoRA sequential 为 24/31；
+55 条开发集上，共享 adapter 的 sequential/supervisor/debate 分别为
+54/55、54/55、53/55，而平均延迟为 15.86~s、25.14~s、33.38~s。
+三角色专用 adapter 在开发集上为 52/55、51/55、52/55，低于共享 adapter；
+25 条 holdout 上三种模式的 required-call completion 都是 25/25。由于系统
+scorer 不检查最终自由文本语义，这些数字不能表述为“98.2\% 的最终答案正确率”
+或“25/25 全部答对”。它们只说明预期调用流程是否完成。
 
-\textbf{RQ3：格式稳定不等于任务稳定，小样本差异需要方差控制。}
-温度 0.7 下 JSON/schema 仍是 100\%，任务成功率为 96.8\%，并没有低于
-温度 0 的 93.6\%；这说明“温度越低越稳定”在本任务上不成立。v1（750）与
-v2（1,124）各训练 5 个 seed 后，均值差异落在一个标准差以内，单次
-v1/v2 的 1--2 条格式差异不能直接支持“数据量有效/无效”的结论。本文
-已经用 5 个 seed 报告了均值和方差；后续其他小数据 adapter 比较也应
-沿用这一设置，而不是只看单次运行。
+\textbf{RQ3：小样本差异容易被训练和推理扰动淹没。}
+max\_rounds 从 1 到 3 的 14 条多步子集均为 12/14，增加重规划预算只增加延迟；
+温度 0 与 0.7 的 31 条 $\times$ 3 重复分别得到 87/93 和 90/93 的调用完成。
+v1（750）与 v2（1,124）各训练 5 个 seed 后，各格式指标的均值差异与训练方差
+处于同一量级，不能把单次 1--2 条差异归因于“更多数据更好/更差”。
 
-这些结果说明，LoRA 主要解决的是“模型会不会按协议调用工具”，并没有
-解决“模型会不会规划和审查”。多智能体系统的设计应同时报告成功率、延迟
-和错误传播；在工具协议稳定之后，更值得投入的是 Planner 的任务拆分、
-Reviewer 的完整性检查，以及约束解码和多工具 OOD 评测，而不是继续
-增加角色。
+总体而言，这个项目已经能比较可靠地回答“模型是否遵守工具协议、是否执行了预期
+调用以及不同拓扑的成本”这类问题；它还不能仅凭当前 scorer 回答“用户任务是否
+被语义上正确完成”。下一步最值得补的不是更多角色，而是一个独立、冻结的语义
+评测层：对 chat、总结、比较、解释和建议任务建立人工或确定性 rubric，并把
+required-call completion 与 final-answer correctness 同时报告。这样才能把
+当前工程上很有价值的结果进一步升级成更强的端到端结论。
 
 \clearpage
 \appendix
@@ -1057,9 +956,9 @@ Reviewer 的完整性检查，以及约束解码和多工具 OOD 评测，而不
 \begin{itemize}
   \item \path{src/}：三角色 Agent、LangGraph 工作流、工具层和评测代码；
   \item \path{data/}：750 条主训练集、1,124 条扩展集、41/57/40 三套测试集、
-        31/55/25 三套系统任务、Planner 1,392 条和 Reviewer 2,784 条角色数据；
+        31 核心子集 / 55 开发集 / 25 holdout、Planner 1,392 条和 Reviewer 2,784 条角色数据；
   \item \path{results/}：每个配置的逐样本 JSON 记录和 summary，不只保留聚合指标；
-  \item \path{configs/}：QLoRA 主配置、扩展数据配置、6 个 seed 配置和角色 adapter 配置。
+  \item \path{configs/}：QLoRA 主配置、扩展数据配置、10 个 seed 配置和角色 adapter 配置。
 \end{itemize}
 代码仓库：\url{https://github.com/starthong/mas}。
 主 adapter 约 114MB，保存在 Kaggle Dataset
@@ -1112,6 +1011,13 @@ Reviewer 的输出：
 {"pass":true,"score":0.0,"issues":[],"suggestion":"..."}
 \end{verbatim}
 supervisor 和 judge 只增加路由/选择字段，不改变工具调用协议。
+
+\section{实现与复现实务说明}
+\paragraph{训练数据格式}
+LLaMA-Factory 的 \texttt{sharegpt} 数据转换器读取 \texttt{conversations} 字段。本文最终训练数据统一使用 \texttt{system} + \texttt{conversations}，并在 \texttt{dataset\_info.json} 中显式配置映射；OpenAI \texttt{messages} 格式仅保留在评测端。该约定建议在复现实验前先通过小规模 smoke run 验证。
+
+\paragraph{结果可比性}
+正式表格只比较配置冻结后的运行。开发阶段发生过工具 mock 替换、Executor 最终答案路由修复、Planner few-shot 开关调整等变化，因此旧调试数字不能与最终真实工具结果直接做纵向“提升百分比”比较。复现时应以对应配置文件与逐样本结果记录为准。
 
 \clearpage
 \bibliographystyle{plain}
