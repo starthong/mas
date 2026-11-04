@@ -81,16 +81,13 @@
 \pagenumbering{Roman}
 
 \begin{abstract}
-本文研究小参数开源模型在多智能体系统中的工具调用稳定性，以及协作拓扑在调用完成率与延迟之间的权衡。系统在 LangGraph 上实现 Planner/Executor/Reviewer，并比较 single、sequential、supervisor、debate；用 4-bit QLoRA 微调 Qwen2.5-3B-Instruct。评测把结构合规、工具选择、参数匹配、required-call completion 与最终答案语义分开；系统 completion 只检查预期调用是否出现、工具是否无报错且结果非空，不评判 \texttt{final\_answer} 文本，因此不是端到端正确率。
+本文研究小参数开源模型在多智能体系统中的工具调用可靠性，以及协作拓扑的收益与延迟代价。系统在 LangGraph 上实现 Planner/Executor/Reviewer，比较 single、sequential、supervisor、debate，并用 4-bit QLoRA 微调 Qwen2.5-3B-Instruct。评测把结构合规、工具选择、参数匹配、required-call completion 和最终答案语义分开；系统指标只检查预期调用是否执行，不评价最终文本，因此不是端到端正确率。
 
-数据包含 41 条简单样本、57 条难例、40 条 OOD，以及 80 条互不重复系统任务（55 条开发集 + 25 条 holdout，31 条核心任务是前者的子集）。LoRA 把 hard schema 从 94.7\% 提升到 98.2\%；但 42 条工具必需样本的工具名只从 40/42 到 41/42，15 条 final 路由从 9/15 到 11/15。OOD 的 32 条真正新工具样本上，base/LoRA 都是 32/32；整体 82.5\%→90.0\% 完全来自 8 条 final 样本（1/8→4/8）。因此不能声称 LoRA 提升了未见工具选择。vLLM guided JSON 把 hard/OOD schema
-都拉到 100\%，hard 工具名 42/42；但 hard 结构化参数 base/LoRA 为 37/42 对
-39/42，OOD final 为 1/8 对 3/8，说明约束主要替代格式收益，不能替代语义。
+格式评测包含 41 条简单样本、57 条难例、40 条 OOD；系统任务为 55 条开发集加 25 条 holdout，共 80 条互不重复样本。LoRA 把 hard schema 从 94.7\% 提升到 98.2\%，但 42 条工具必需样本的工具名只从 40/42 到 41/42；32 条真正新工具样本上 base/LoRA 都是 32/32，整体 82.5\%→90.0\% 来自 8 条 final 样本（1/8→4/8）。因此，LoRA 的格式收益明确，但不能声称它提升了未见工具选择。
 
-55 条开发集上，sequential/supervisor/debate 的 required-call completion 为 54/55、54/55、53/55，延迟为 15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，没有超过共享 adapter；其 debate 延迟降到 25.68~s 但少完成 1 条，sequential/supervisor 反而更慢。25 条 holdout 上共享与三角色 adapter 三种模式均 25/25，完成率没有差异；
-角色 adapter 只在 debate 上更快，sequential/supervisor 更慢，且该指标仍
-不评判语义。max\_rounds 没有提高 12/14；温度 0.7 的 96.8\% 不低于温度 0
-的 93.6\%；5-seed 差异处于训练方差内。
+约束解码进一步区分了“格式”和“语义”：guided JSON 把 hard/OOD schema 都拉到 100\%，但 hard 结构化参数 base/LoRA 为 37/42 对 39/42，OOD final 为 1/8 对 3/8。也就是说，约束解码可以替代格式收益，不能替代语义能力。
+
+55 条开发集上，sequential/supervisor/debate 的 required-call completion 为 54/55、54/55、53/55，延迟为 15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，没有超过共享 adapter；其 debate 延迟降低但少完成 1 条，sequential/supervisor 反而更慢。25 条 holdout 上共享与三角色 adapter 均 25/25，完成率没有差异。max\_rounds 没有提高 12/14；温度 0.7 的 96.8\% 不低于温度 0 的 93.6\%；5-seed 差异处于训练方差内。
 
 因此，LoRA 最明确的收益是结构协议遵循和部分“调用工具还是直接回答”的路由；未见工具选择与结构化参数在当前测试上已接近饱和，不能声称稳定优势。多智能体评测应同时报告调用完成、最终语义、延迟、工具质量和训练方差。
 
