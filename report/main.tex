@@ -1013,48 +1013,37 @@ required-call completion，却增加了调用成本。
 
 \clearpage
 \section{讨论与局限性}
-本文的结果还只是阶段性结果，主要有七个局限。
+本文仍有五个限制。
 
-第一，简单格式测试只有 41 条，而且过于简单，base 的 JSON/schema 已经
-达到 100\%。57 条难例中 LoRA 的结构合规更稳定，但整体工具名指标混入了
-\texttt{final\_answer} 路由。40 条 OOD 的聚合工具名虽为 82.5\% 对 90.0\%，
-真正需要调用四个未见工具的 32 条却在 base/LoRA 上都是 32/32；差异来自 8 条
-直接回答/拒绝样本。hard 中 5 条、OOD 中 2 条这类通用用户文本还与训练集完全
-重合。因此当前 OOD 只能证明模型能读取新 schema，不能证明 LoRA 提升了新工具
-选择。后续应扩大 OOD、去除文本重叠，并把 abstention/final routing 单独评测。
+第一，\textbf{度量口径}。系统 scorer 只验证 expected calls 是否被执行，
+不检查调用顺序，也不对 \texttt{final\_answer} 做语义评分；“现在几点”返回
+“当前时间”仍会被记为完成。hard/OOD 的工具名指标还混入了 tool-vs-final
+路由，必须按 42/15 和 32/8 拆开；hard 5 条、OOD 2 条文本与训练集重合。
+因此 31/55/25 的百分比都是 required-call completion，不是端到端正确率，
+Reviewer 通过率也不是语义真值。
 
-第二，系统层实际是 55 条开发集（其中 31 条为核心子集）加 25 条不重叠 holdout，而不是三个独立集合；单配置样本量仍然有限。max\_rounds 敏感性实验是在 14 条多步任务、三角色 adapter 的固定子设置上进行，1/2/3 轮均为 12/14；这一结果不能与共享 adapter 的 55 条总体调用完成数直接互换。single 模式天然只能调用一次工具，也不能把其多步失败简单解释为模型能力差；更需要区分 Planner 的拆分粒度、Executor 路由和外部工具返回质量。另需注意，
-25 条 holdout 只跑了三角色 adapter，共享 adapter 的 holdout 没有运行，
-因此 holdout 不能作为共享 vs 角色的对照，只能验证角色 adapter 的流程完成。
+第二，\textbf{样本与设计}。系统层只有 80 条唯一任务：55 条开发集（31 条
+核心子集）加 25 条不重叠 holdout；多数配置只跑一次，置信区间是描述性的。
+25 条 holdout 目前只跑了三角色 adapter，共享 adapter holdout 未运行，
+不能做 holdout 上的共享 vs 角色对照。5 个 seed 只覆盖 v1/v2 格式评测，
+不覆盖系统任务；31 条子集也不足以支撑强显著性结论。
 
-第三，Reviewer 的校准仍不充分。55 条真实工具下 sequential/supervisor
-的 Reviewer 通过率为 100\%，debate 为 89.1\%；其中一部分是 Reviewer 对
-正确天气/计算结果的误拒，而不是任务失败。全 LoRA 与去掉 Reviewer 的
-31 条调用完成率同为 77.4\%，说明当前 Reviewer 没有带来稳定增益；它的收益
-和成本仍需分开评估。
+第三，\textbf{角色数据与 adapter}。Planner 1,392 条、Reviewer 2,784 条均为
+合成数据；Reviewer 负例主要来自删除/截断执行结果，没有覆盖错误工具、
+错误参数、错误 final 文本等审查错误。角色 adapter 与主 Executor 的 epoch、
+学习率、有效 batch 也不同，存在训练预算混杂；因此角色 adapter 没有完成率
+收益，debate 的延迟改善也不能写成全面加速。
 
-第四，工具层已接入真实 Open-Meteo 天气和真实检索，但检索依赖外部服务
-（Serper/Tavily/Sogou/Wikipedia）与网络可用性；OOD 工具仍只做 schema
-注册，不执行真实操作。系统调用完成率的解释仍受外部工具质量影响，不能完全
-外推到开放域任务。
-
-第五，约束解码只覆盖顶层 JSON 结构，没有约束完整工具 schema。vLLM
-guided JSON 已把 hard/OOD schema 拉到 100\%，但 OOD 的 32 条结构化新工具样本
-本来已接近饱和，约束后仍是 32/32；这说明结构约束不能替代语义正确性。token 成本和 P95 延迟只在部分
+第四，\textbf{工具与约束解码}。Open-Meteo 和检索是真实外部服务，但受网络
+和 API 可用性影响；OOD 工具仍只注册 schema、不执行。vLLM guided JSON 只
+约束顶层 JSON 结构，且用 fp16，与 HF 4-bit 主实验不能直接混比；它把
+schema 拉到 100%，但没有提供新的语义能力。token 成本和 P95 延迟只在部分
 实验中采集。
 
-第六，Planner/Reviewer 已分别构建合成 SFT 数据（Planner 1,392 条、
-Reviewer 2,784 条）并训练独立 adapter，但三角色 adapter 在 55 条上为
-94.5/92.7/94.5，低于共享 adapter 的 98.2/98.2/96.4；25 条 holdout 上三种模式的 required-call completion 均为 25/25。角色专用 adapter 没有稳定收益，不能把“训练了三个权重”当成
-性能提升。其 debate 延迟从 33.38~s 降到 25.68~s，但完成数从 53/55 降到
-52/55；sequential/supervisor 反而更慢，不能只引用 debate 的延迟收益。
-
-第七，也是最重要的度量限制：当前系统 scorer 只验证 expected calls 是否被执行，
-并不对 \texttt{final\_answer} 的自由文本做人工或程序化语义评分。例如“现在几点？”
-返回“当前时间”仍会被记为完成。因此本文所有 31/55/25 系统百分比都应理解为
-required-call completion，而不是用户层面的端到端正确率。若要把结论升级为
-“任务成功率”，需要为 chat、总结、建议和比较类样本增加人工标注或可校验的
-语义 rubric，并重新计算系统指标。
+第五，\textbf{外部有效性}。本文只研究 Qwen2.5-3B-Instruct 和单张 T4，
+没有人工语义评分，也没有冻结的最终测试集；55 条开发集参与过路由修复。
+因此结论应定位为“工具协议、调用流程与协作成本的受控研究”，不能外推为
+生产级 Agent 的端到端成功率。
 
 \clearpage
 \section{结论}\label{sec:conclusion}
