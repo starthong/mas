@@ -108,6 +108,7 @@
 | 31 条 base sequential / LoRA | 71.0% / 77.4% |
 | 55 条共享 adapter，required-call | sequential/supervisor 98.2%，debate 96.4% |
 | 55 条三角色 adapter | 94.5/92.7/94.5% |
+| 三角色 adapter 延迟 trade-off | debate 25.68 vs 33.38 s（完成 52 vs 53）；seq/sup 更慢 |
 | 25 条 holdout（三角色） | 25/25，三种模式 |
 | max_rounds 1/2/3 | 14 条多步均为 85.7%（12/14）；延迟 24.64→27.11 s |
 | 温度 0 / 0.7 | required-call completion 93.6% / 96.8% |
