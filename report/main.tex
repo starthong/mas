@@ -880,38 +880,12 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
 \end{table}
 
 \paragraph{协作拓扑}
-表~\ref{tab:system55} 与图~\ref{fig:tradeoff} 给出真实工具下 55 条的
-拓扑对比。sequential 与 supervisor 的成功数完全相同，但 supervisor 的
-平均延迟从 15.86~s 增到 25.14~s；debate 少一条任务，延迟最高。三者
-置信区间重叠，不能声称哪一拓扑显著更优；更准确地说，多角色没有提高
-required-call completion，却增加了调用成本。
-
-\begin{figure}[H]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      width=0.75\linewidth,
-      height=5.5cm,
-      xlabel={平均延迟（秒）},
-      ylabel={调用完成率},
-      xmin=10, xmax=40,
-      ymin=0.94, ymax=1.00,
-      grid=major,
-      clip=false,
-    ]
-      \addplot[only marks, mark=*, mark size=3pt] coordinates {
-        (15.86,0.982)
-        (25.14,0.982)
-        (33.38,0.964)
-      };
-      \node[font=\scriptsize, anchor=south] at (axis cs:15.86,0.982) {sequential};
-      \node[font=\scriptsize, anchor=south] at (axis cs:25.14,0.982) {supervisor};
-      \node[font=\scriptsize, anchor=north] at (axis cs:33.38,0.964) {debate};
-    \end{axis}
-  \end{tikzpicture}
-  \caption{真实工具开发集上的调用完成率--延迟权衡（55 条，共享 adapter）}
-  \label{fig:tradeoff}
-\end{figure}
+表~\ref{tab:system55} 与图~\ref{fig:roletradeoff} 给出真实工具下 55 条的
+拓扑对比（图中圆点为共享 adapter，方点为三角色 adapter）。sequential 与
+supervisor 的成功数完全相同，但 supervisor 的平均延迟从 15.86~s 增到
+25.14~s；debate 少一条任务，延迟最高。三者置信区间重叠，不能声称哪一
+拓扑显著更优；更准确地说，多角色没有提高 required-call completion，却
+增加了调用成本。
 
 \subsection{RQ3：结论对训练与推理扰动是否稳定？}
 \subsubsection{训练数据扩展与 seed 方差}
