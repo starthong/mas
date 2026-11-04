@@ -46,12 +46,14 @@
 | 扩展训练集 | 1,124 | 增加城市、主题和随机算式，用于数据配方对照 |
 | 简单格式测试 | 41 | 模板内样本，base 已接近饱和 |
 | 难例测试 | 57 | 未见城市/主题、缺参、格式诱导 |
-| 未见工具 OOD | 40 | 4 个训练中未出现的工具 |
-| 系统任务 | 31 | 24 条单步 + 7 条多步 |
-| 扩展系统任务 | 55 | 41 条单步 + 14 条多步，用于样本量复核 |
-| 系统 holdout | 25 | 15 单步 + 10 多步，不参与调参 |
+| 未见工具 OOD | 40 | 32 条四个未见工具 + 8 条 final 路由 |
+| 核心系统子集 | 31 | 55 条开发集的子集（24 单步 + 7 多步） |
+| 系统开发集 | 55 | 31 核心 + 24 扩展；41 单步 + 14 多步 |
+| 系统 holdout | 25 | 与开发集不重叠；15 单步 + 10 多步 |
 | Planner SFT | 1,392 | 合成规划数据，避开 55/holdout |
 | Reviewer SFT | 2,784 | 上述任务的正/负审查样本 |
+
+系统层共 **80 条互不重复任务**（55 开发 + 25 holdout），31 条不是独立的第三套测试集。
 
 基座模型为 Qwen2.5-3B-Instruct，训练使用 4-bit QLoRA（rank 16，alpha 32，
 2 epoch，T4）。主 adapter 位于 Kaggle Dataset
@@ -61,8 +63,10 @@
 
 ## 评测
 
-格式评测区分 JSON 可解析率、schema 合规率、工具名准确率和参数完全匹配率；
-系统评测区分工具调用正确性与任务完成。主要对照包括：
+格式评测区分 JSON 可解析率、schema 合规率、工具名准确率和参数匹配率；
+系统评测报告 **required-call completion**：预期工具/参数调用出现、工具无报错、
+结果非空。它不检查多步调用顺序，也不对 `final_answer` 自由文本做语义评分，
+因此 98.2% 等数字不是端到端答对率。主要对照包括：
 
 - base zero-shot、base + few-shot、LoRA；
 - single / sequential / supervisor / debate；
@@ -87,9 +91,9 @@
 
 这些脚本用于扩大样本量和参数敏感性检验，结果已写入报告和 `results/review/`。
 
-31 条系统任务只有 7 条多步任务，55 条扩展集把多步任务增加到 14 条。
-报告给出 Wilson 95% 置信区间，并将系统成功率作为描述性结果，而不是
-“显著优于”的证据。5 个 seed 只用于 v1/v2 格式对照；系统任务只跑了
+31 条核心子集只有 7 条多步任务，包含在 55 条开发集中；55 条把多步任务增加到
+14 条。报告给出 Wilson 95% 置信区间，并将 required-call completion 作为描述性
+结果，而不是“显著优于”的证据。5 个 seed 只用于 v1/v2 格式对照；系统任务只跑了
 1 轮，温度稳定性另行跑了 3 次。
 
 ## 主要结果
@@ -97,21 +101,22 @@
 | 指标 | 结果 |
 |---|---|
 | hard schema，base → LoRA | 94.7% → 98.2% |
-| hard 工具名，base → LoRA | 86.0% → 91.2% |
-| base + few-shot | schema 96.5%，工具名 82.5% |
-| OOD 工具名，base → LoRA | 82.5% → 90.0% |
-| 31 条 base sequential | 71.0% |
-| 31 条 LoRA sequential | 77.4% |
-| 55 条共享 adapter | sequential/supervisor 98.2%，debate 96.4% |
-| 55 条三角色 adapter | 94.5 / 92.7 / 94.5% |
-| 25 条 holdout（三角色） | 100 / 100 / 100% |
+| hard 42 条工具必需工具名 | 40/42 → 41/42 |
+| hard 15 条 final 路由 | 9/15 → 11/15 |
+| OOD 32 条新工具工具名 | 32/32 → 32/32 |
+| OOD 8 条 final 路由 | 1/8 → 4/8 |
+| 31 条 base sequential / LoRA | 71.0% / 77.4% |
+| 55 条共享 adapter，required-call | sequential/supervisor 98.2%，debate 96.4% |
+| 55 条三角色 adapter | 94.5/92.7/94.5% |
+| 25 条 holdout（三角色） | 25/25，三种模式 |
 | max_rounds 1/2/3 | 14 条多步均为 85.7%（12/14）；延迟 24.64→27.11 s |
-| 温度 0 / 0.7 | 任务成功率 93.6% / 96.8% |
+| 温度 0 / 0.7 | required-call completion 93.6% / 96.8% |
 | 5-seed hard schema | v1 .979±.008；v2 .975±.020 |
-| vLLM guided JSON | schema 100%；hard name 93.0%；OOD exact 无提升 |
+| vLLM fp16 guided JSON | schema 100%；hard 工具样本 42/42；OOD 参数无提升 |
 
-这些结果说明 LoRA 改善的是工具调用协议和工具选择，并不能替代规划与审查；
-增加角色或数据也不会自动提高任务完成率。
+这些结果说明 LoRA 最明确的收益是结构协议遵循和部分 tool-vs-final 路由；
+当前 32 条未见工具与结构化参数已经接近饱和，不能声称 LoRA 提升了未见工具选择。
+98.2% 是 required-call completion，不是最终答案语义正确率。
 
 ## 仓库结构
 
@@ -156,8 +161,9 @@ mas/
 - 天气和检索依赖外部服务；离线时需要 API key 或缓存，OOD 工具仍是 schema 级 mock；
 - Executor 一个子任务只调用一次工具，不是完整 ReAct 循环；
 - 微调只覆盖单步工具调用协议；Planner/Reviewer 使用单独的合成 SFT 数据（Planner 1,392 条，Reviewer 2,784 条），三角色 adapter 已完成 55 条和 25 条 holdout 对比；
-- 约束解码只覆盖顶层 JSON schema，不约束完整工具参数；schema 可达 100%，但 OOD exact 没有提升；
-- 系统任务 31 条、多步 7 条，扩展后 55 条、多步 14 条，但仍各只跑 1 轮；
+- 约束解码只覆盖顶层 JSON schema，不约束完整工具参数；schema 可达 100%，但 OOD 结构化参数没有提升；
+- 系统层是 55 条开发集（含 31 条核心子集）+ 25 条不重叠 holdout，共 80 条互不重复任务；31 不是独立第三套测试集；
+- 系统指标是 required-call completion，不检查多步调用顺序，也不对 final_answer 自由文本做语义评分；“现在几点”返回“当前时间”仍会被记为完成；
 - 5-seed 对照只覆盖 v1/v2 格式评测，不覆盖全部系统任务；
 - 早期 Planner 干预没有提升 14 条多步任务；后续定位为 Executor 最终答案路由，修复后的 55/25 条结果见报告。
 
