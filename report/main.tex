@@ -326,6 +326,18 @@ epoch。T4 不支持 bf16，因此统一使用 fp16 和 gradient checkpointing�
 
 为降低单次训练随机性的影响，v1 与 v2 均在相同基座模型、超参数和评测集上使用 seed 42--46 各训练一次，并报告均值与标准差。这里将 seed 重复视为训练方差估计，而不是显著性证明；5 个 seed 的样本量仍然有限。若要严格分离纯数据量效应，还需要额外构造“重复 v1 到 1,124 条”或“从 v2 抽样 750 条”的等组成对照。具体结果在 RQ3 中统一报告。
 
+\subsection{Planner 与 Reviewer 角色数据}
+Planner SFT 共 1,392 条，由城市天气、算式等模板合成；输入是任务，目标是
+不超过 5 个有序子任务的计划，使用与运行时相同的 Planner system prompt。
+Reviewer SFT 共 2,784 条，由上述 1,392 条 Planner 样本各生成一条正例和一条
+负例：正例的执行结果完整，负例删除或截断执行结果并标记为不通过。两者都
+避开了 55 条开发集和 25 条 holdout 的城市/主题。
+
+这组角色数据有明显局限：Reviewer 负例主要来自“结果缺失/不完整”，没有覆盖
+错误工具、错误参数、错误 final 文本或重复调用等更细的审查错误。因此
+Reviewer adapter 学到的是一个较窄的失败模式，不能把它当作完整的语义审查器；
+这也解释了角色 adapter 在 55 条开发集上没有稳定收益。
+
 \clearpage
 \section{实验设置}\label{sec:experiments}
 \subsection{环境与模型}
@@ -471,7 +483,9 @@ Judge。三者的消息数和失败模式因此不同，后文的延迟差异也
 sequential、supervisor 和 debate 都支持 \path{--planner-examples} 的
 few-shot Planner；该开关默认关闭，避免影响旧结果。
 Reviewer 还做了角色消融：使用 LoRA Reviewer、使用 base Reviewer，
-以及去掉 Reviewer。所有模式使用同一套工具和同一份任务集。
+以及去掉 Reviewer。角色消融中的 Executor 固定为主 v1 adapter；“全 LoRA”
+指 Executor + Planner + Reviewer 三个 adapter，“base”指该角色换回
+Qwen2.5-3B-Instruct 基座。所有模式使用同一套工具和同一份任务集。
 
 \clearpage
 \section{结果与分析}
@@ -706,6 +720,10 @@ final 路由无约束为 base 9/15、LoRA 11/15，约束后都是 11/15；OOD fi
   \end{tabular}
 \end{table}
 
+表中 LoRA 行使用主 v1 Executor + Planner/Reviewer 角色 adapter；base 行三个
+角色都使用基座模型。同一行内 single→sequential 可解释为拓扑差异；跨
+base/LoRA 行比较还包含模型和 adapter 差异，不能单独归因于拓扑。
+
 \paragraph{真实工具下的 55 条开发集}
 55 条开发集包含前述 31 条核心任务，并新增 24 条任务，总计 41 条单步 + 14 条多步。
 该集合在开发阶段用于真实工具接入和 Executor 路由修复，因此不能视为完全未触碰的最终测试集。正式比较固定 v1 主 adapter，并开启 few-shot Planner。
@@ -804,7 +822,9 @@ debate 的改善外推为“三角色 adapter 全面更快”。
 
 25 条 holdout 上，三角色 adapter 的 sequential/supervisor/debate 都是
 25/25（表~\ref{tab:holdout}）；但 holdout 只有 25 条，不能据此声称角色
-专用优于共享 adapter，55 条开发集的方向相反。
+专用优于共享 adapter，55 条开发集的方向相反。需要明确：共享 adapter 的
+25 条 holdout 没有运行，因此 holdout 只验证角色 adapter 的流程完成，
+不能作为共享 vs 角色的 holdout 对比。
 
 \begin{table}[H]
   \centering
@@ -1003,7 +1023,9 @@ required-call completion，却增加了调用成本。
 重合。因此当前 OOD 只能证明模型能读取新 schema，不能证明 LoRA 提升了新工具
 选择。后续应扩大 OOD、去除文本重叠，并把 abstention/final routing 单独评测。
 
-第二，系统层实际是 55 条开发集（其中 31 条为核心子集）加 25 条不重叠 holdout，而不是三个独立集合；单配置样本量仍然有限。max\_rounds 敏感性实验是在 14 条多步任务、三角色 adapter 的固定子设置上进行，1/2/3 轮均为 12/14；这一结果不能与共享 adapter 的 55 条总体调用完成数直接互换。single 模式天然只能调用一次工具，也不能把其多步失败简单解释为模型能力差；更需要区分 Planner 的拆分粒度、Executor 路由和外部工具返回质量。
+第二，系统层实际是 55 条开发集（其中 31 条为核心子集）加 25 条不重叠 holdout，而不是三个独立集合；单配置样本量仍然有限。max\_rounds 敏感性实验是在 14 条多步任务、三角色 adapter 的固定子设置上进行，1/2/3 轮均为 12/14；这一结果不能与共享 adapter 的 55 条总体调用完成数直接互换。single 模式天然只能调用一次工具，也不能把其多步失败简单解释为模型能力差；更需要区分 Planner 的拆分粒度、Executor 路由和外部工具返回质量。另需注意，
+25 条 holdout 只跑了三角色 adapter，共享 adapter 的 holdout 没有运行，
+因此 holdout 不能作为共享 vs 角色的对照，只能验证角色 adapter 的流程完成。
 
 第三，Reviewer 的校准仍不充分。55 条真实工具下 sequential/supervisor
 的 Reviewer 通过率为 100\%，debate 为 89.1\%；其中一部分是 Reviewer 对
@@ -1090,7 +1112,19 @@ adapter 和 \texttt{results/} 中的记录。
 \paragraph{数据}
 训练集和简单测试集由 \path{scripts/build_toolcall_dataset.py} 生成；
 难例和 OOD 分别由 \path{scripts/build_hard_test.py} 和
-\path{scripts/build_ood_test.py} 生成。
+\path{scripts/build_ood_test.py} 生成。Planner/Reviewer 角色数据分别由
+\path{scripts/build_planner_dataset.py} 和
+\path{scripts/build_reviewer_dataset.py} 生成。
+
+\paragraph{角色 adapter}
+\begin{verbatim}
+python scripts/build_planner_dataset.py
+python scripts/build_reviewer_dataset.py
+bash scripts/train_planner.sh
+bash scripts/train_reviewer.sh
+\end{verbatim}
+三个 adapter 分开挂载；评测时使用 \texttt{--planner-adapter} 和
+\texttt{--reviewer-adapter}，不把角色权重混在同一目录。
 
 \paragraph{训练}
 主 QLoRA 训练使用 LLaMA-Factory 和 \path{configs/train_qlora_kaggle.yaml}，
@@ -1132,6 +1166,13 @@ Reviewer 的输出：
 {"pass":true,"score":0.0,"issues":[],"suggestion":"..."}
 \end{verbatim}
 supervisor 和 judge 只增加路由/选择字段，不改变工具调用协议。
+
+\paragraph{约束解码}
+\begin{verbatim}
+bash scripts/run_constrained.sh
+\end{verbatim}
+该脚本使用 vLLM fp16，仅作为结构基线；结果在
+\path{results/constrained/}。
 
 \section{实现与复现实务说明}
 \paragraph{训练数据格式}

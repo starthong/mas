@@ -74,8 +74,29 @@ _LANGUAGE_ALIASES = {
 }
 
 
+_STOCK_ALIASES = {
+    "腾讯": "0700.HK",
+    "腾讯控股": "0700.HK",
+    "tencent": "0700.HK",
+    "特斯拉": "TSLA",
+    "tesla": "TSLA",
+    "阿里巴巴": "BABA",
+    "alibaba": "BABA",
+    "亚马逊": "AMZN",
+    "amazon": "AMZN",
+    "英伟达": "NVDA",
+    "nvidia": "NVDA",
+    "苹果": "AAPL",
+    "apple": "AAPL",
+    "微软": "MSFT",
+    "microsoft": "MSFT",
+    "谷歌": "GOOGL",
+    "google": "GOOGL",
+}
+
+
 def normalize_call(call: Any) -> Any:
-    """把 OOD 中等价的枚举写法归一化，避免 en/English 被 exact match 判错。"""
+    """把 OOD 中等价的枚举/别名写法归一化，避免 en/English、公司名/代码被 exact match 判错。"""
     if not isinstance(call, dict):
         return call
     normalized = json.loads(json.dumps(call, ensure_ascii=False))
@@ -86,6 +107,14 @@ def normalize_call(call: Any) -> Any:
             if isinstance(language, str):
                 arguments["target_language"] = _LANGUAGE_ALIASES.get(
                     language.lower(), language
+                )
+    if normalized.get("name") == "get_stock_price":
+        arguments = normalized.get("arguments")
+        if isinstance(arguments, dict):
+            symbol = arguments.get("symbol")
+            if isinstance(symbol, str):
+                arguments["symbol"] = _STOCK_ALIASES.get(
+                    symbol.strip().lower(), symbol
                 )
     return normalized
 
