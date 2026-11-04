@@ -87,7 +87,10 @@
 都拉到 100\%，hard 工具名 42/42；但 hard 结构化参数 base/LoRA 为 37/42 对
 39/42，OOD final 为 1/8 对 3/8，说明约束主要替代格式收益，不能替代语义。
 
-55 条开发集上，sequential/supervisor/debate 的 required-call completion 为 54/55、54/55、53/55，延迟为 15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，没有超过共享 adapter；其 debate 延迟降到 25.68~s 但少完成 1 条，sequential/supervisor 反而更慢。25 条 holdout 三种模式均 25/25，但该指标仍不评判语义。max\_rounds 没有提高 12/14；温度 0.7 的 96.8\% 不低于温度 0 的 93.6\%；5-seed 差异处于训练方差内。
+55 条开发集上，sequential/supervisor/debate 的 required-call completion 为 54/55、54/55、53/55，延迟为 15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，没有超过共享 adapter；其 debate 延迟降到 25.68~s 但少完成 1 条，sequential/supervisor 反而更慢。25 条 holdout 上共享与三角色 adapter 三种模式均 25/25，完成率没有差异；
+角色 adapter 只在 debate 上更快，sequential/supervisor 更慢，且该指标仍
+不评判语义。max\_rounds 没有提高 12/14；温度 0.7 的 96.8\% 不低于温度 0
+的 93.6\%；5-seed 差异处于训练方差内。
 
 因此，LoRA 最明确的收益是结构协议遵循和部分“调用工具还是直接回答”的路由；未见工具选择与结构化参数在当前测试上已接近饱和，不能声称稳定优势。多智能体评测应同时报告调用完成、最终语义、延迟、工具质量和训练方差。
 
@@ -123,10 +126,11 @@ On the 55-task development set, required-call completion is 54/55, 54/55, and
 53/55, with latency 15.86, 25.14, and 33.38 s. Role-specific adapters score
 52/55, 51/55, and 52/55, below the shared adapter; their debate latency drops to
 25.68 s but loses one completion, while sequential/supervisor become slower.
-All three modes reach 25/25 on the holdout, but this still does not grade
-semantics. max\_rounds does not improve 12/14; temperature 0.7 reaches 96.8\%,
-not below 93.6\% at temperature 0; five-seed differences are within training
-variance.
+Both shared and role-specific adapters reach 25/25 on the holdout, so completion
+does not differ; role-specific is faster only on debate and slower on sequential
+and supervisor, and this metric still does not grade semantics. max\_rounds does
+not improve 12/14; temperature 0.7 reaches 96.8\%, not below 93.6\% at
+temperature 0; five-seed differences are within training variance.
 
 The clearest benefit of LoRA is structural protocol compliance and some
 tool-versus-direct-answer routing. Unseen-tool and structured-argument tests are
@@ -820,24 +824,29 @@ debate 的改善外推为“三角色 adapter 全面更快”。
   \label{fig:roletradeoff}
 \end{figure}
 
-25 条 holdout 上，三角色 adapter 的 sequential/supervisor/debate 都是
-25/25（表~\ref{tab:holdout}）；但 holdout 只有 25 条，不能据此声称角色
-专用优于共享 adapter，55 条开发集的方向相反。共享 adapter 的旧 mock
-holdout 为 24/25，但使用旧工具和旧 Executor，不能作为当前真实工具对照；
-当前真实工具下的共享 holdout 尚未运行。
+25 条 holdout 上，共享 adapter 与三角色 adapter 的 sequential/supervisor/
+debate 都是 25/25（表~\ref{tab:holdout}）；完成率没有差异。延迟上，共享 adapter 为 16.42、26.34、
+33.43~s，三角色 adapter 为 17.59、28.43、25.39~s：角色 adapter 的
+debate 快约 8~s，但 sequential/supervisor 更慢。Reviewer 通过率方面，
+共享 adapter 为 1.00/1.00/0.84，角色 adapter 为 1.00/1.00/1.00。
+因此 holdout 只说明“两者都能完成调用”，不能说明角色 adapter 更好；25 条
+样本也不足以区分微小延迟差异。
 
 \begin{table}[H]
   \centering
   \small
-  \caption{三角色 adapter 的 25 条 holdout required-call completion（few-shot）}
+  \caption{共享与三角色 adapter 的 25 条 holdout（few-shot）}
   \label{tab:holdout}
-  \begin{tabular}{lcccc}
+  \begin{tabular}{llcccc}
     \toprule
-    模式 & 完成数 & 调用完成率 & 95\% CI & 延迟 \\
+    配置 & 模式 & 完成数 & 调用完成率 & Reviewer 通过 & 延迟 \\
     \midrule
-    sequential & 25/25 & 1.000 & [0.867, 1.000] & 17.59~s \\
-    supervisor & 25/25 & 1.000 & [0.867, 1.000] & 28.43~s \\
-    debate & 25/25 & 1.000 & [0.867, 1.000] & 25.39~s \\
+    共享 & sequential & 25/25 & 1.000 & 1.00 & 16.42~s \\
+    共享 & supervisor & 25/25 & 1.000 & 1.00 & 26.34~s \\
+    共享 & debate & 25/25 & 1.000 & 0.84 & 33.43~s \\
+    三角色 & sequential & 25/25 & 1.000 & 1.00 & 17.59~s \\
+    三角色 & supervisor & 25/25 & 1.000 & 1.00 & 28.43~s \\
+    三角色 & debate & 25/25 & 1.000 & 1.00 & 25.39~s \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1024,10 +1033,10 @@ Reviewer 通过率也不是语义真值。
 
 第二，\textbf{样本与设计}。系统层只有 80 条唯一任务：55 条开发集（31 条
 核心子集）加 25 条不重叠 holdout；多数配置只跑一次，置信区间是描述性的。
-25 条 holdout 目前只有三角色 adapter 的真实工具结果；共享 adapter 的旧
-mock 24/25 使用旧工具和旧 Executor，不能与当前真实工具结果比较。因此
-当前真实工具下没有共享 vs 角色的 holdout 对照。5 个 seed 只覆盖 v1/v2
-格式评测，不覆盖系统任务；31 条子集也不足以支撑强显著性结论。
+25 条 holdout 上共享与三角色 adapter 都是 25/25，完成率没有差异；角色
+adapter 只在 debate 上更快，sequential/supervisor 更慢。25 条样本不足以
+区分这些延迟差异，也不能据此声称角色 adapter 更好。5 个 seed 只覆盖
+v1/v2 格式评测，不覆盖系统任务；31 条子集也不足以支撑强显著性结论。
 
 第三，\textbf{角色数据与 adapter}。Planner 1,392 条、Reviewer 2,784 条均为
 合成数据；Reviewer 负例主要来自删除/截断执行结果，没有覆盖错误工具、
@@ -1065,9 +1074,10 @@ base/LoRA 为 37/42 对 39/42，OOD final 为 1/8 对 3/8。因此，约束解�
 \textbf{RQ2：在共享 adapter 上，更复杂的拓扑没有提高 required-call completion，却增加延迟。}
 31 条核心子集上 base/LoRA sequential 为 22/31、24/31；55 条开发集上共享
 adapter 的 sequential/supervisor/debate 为 54/55、54/55、53/55，延迟为
-15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，25 条
-holdout 三种模式均为 25/25；其 debate 延迟降到 25.68~s 但少完成 1 条，
-sequential/supervisor 更慢。以上都是调用完成，不是最终答案正确率。
+15.86、25.14、33.38~s。三角色 adapter 在开发集为 52/55、51/55、52/55；
+25 条 holdout 上共享与三角色 adapter 都是 25/25，完成率没有差异。角色
+adapter 的 debate 在 holdout 上更快（25.39 对 33.43~s），但 sequential/
+supervisor 更慢，不能写成全面加速。以上都是调用完成，不是最终答案正确率。
 
 \textbf{RQ3：小样本差异容易被训练和推理扰动淹没。}
 max\_rounds 1/2/3 在 14 条多步上都是 12/14；温度 0/0.7 的 31×3 次运行

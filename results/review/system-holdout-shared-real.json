@@ -1,0 +1,4608 @@
+{
+  "summary": {
+    "model": "/kaggle/input/datasets/starthong/mas-3b-toolcall-output",
+    "backend": "hf",
+    "planner": "lora",
+    "reviewer": "lora",
+    "tasks": 25,
+    "runs": 1,
+    "groups": {
+      "sequential@0.0": {
+        "n": 25,
+        "success_rate": 1.0,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 1.0,
+        "avg_rounds": 1.04,
+        "avg_results": 1.52,
+        "avg_latency_ms": 16423.02410572,
+        "p95_latency_ms": 29950.110374000018,
+        "avg_prompt_tokens": 1960.44,
+        "avg_completion_tokens": 113.36,
+        "avg_llm_calls": 3.64,
+        "errors": 0
+      },
+      "supervisor@0.0": {
+        "n": 25,
+        "success_rate": 1.0,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 1.0,
+        "avg_rounds": 1.04,
+        "avg_results": 1.52,
+        "avg_latency_ms": 26336.48451668002,
+        "p95_latency_ms": 47556.702624000085,
+        "avg_prompt_tokens": 3126.4,
+        "avg_completion_tokens": 185.84,
+        "avg_llm_calls": 6.24,
+        "errors": 0
+      },
+      "debate@0.0": {
+        "n": 25,
+        "success_rate": 1.0,
+        "json_parse_rate": 1.0,
+        "schema_rate": 1.0,
+        "review_pass_rate": 0.84,
+        "avg_rounds": 1.32,
+        "avg_results": 1.52,
+        "avg_latency_ms": 33434.499144079986,
+        "p95_latency_ms": 50042.027681000036,
+        "avg_prompt_tokens": 2879.68,
+        "avg_completion_tokens": 242.76,
+        "avg_llm_calls": 7.12,
+        "errors": 0
+      }
+    }
+  },
+  "records": [
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_01",
+      "category": "weather",
+      "task": "石家庄今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12603.870013999995,
+      "prompt_tokens": 1340,
+      "completion_tokens": 70,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询石家庄今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_02",
+      "category": "weather",
+      "task": "太原今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11552.779163999958,
+      "prompt_tokens": 1342,
+      "completion_tokens": 71,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询太原今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_03",
+      "category": "weather",
+      "task": "长春今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11934.059572000024,
+      "prompt_tokens": 1345,
+      "completion_tokens": 74,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询长春今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          },
+          "result": "长春：阴，-6.8°C，体感 -12.7°C，湿度 86%，风速 18.9 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"长春\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_04",
+      "category": "weather",
+      "task": "哈尔滨今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11963.241323999966,
+      "prompt_tokens": 1342,
+      "completion_tokens": 74,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询哈尔滨今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_01",
+      "category": "calculator",
+      "task": "计算 19*6+7",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11152.479798000002,
+      "prompt_tokens": 1322,
+      "completion_tokens": 81,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 19*6+7",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          },
+          "result": "121",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"19*6+7\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_02",
+      "category": "calculator",
+      "task": "计算 (81-9)/8",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10960.109012000088,
+      "prompt_tokens": 1317,
+      "completion_tokens": 79,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "(81-9)/8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(81-9)/8"
+          },
+          "result": "9.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(81-9)/8\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_03",
+      "category": "calculator",
+      "task": "计算 13**2-20",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11518.313679999892,
+      "prompt_tokens": 1330,
+      "completion_tokens": 83,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 13**2-20",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13**2-20"
+          },
+          "result": "149",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"13**2-20\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_04",
+      "category": "calculator",
+      "task": "计算 56/7+11",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 14792.933191999964,
+      "prompt_tokens": 1326,
+      "completion_tokens": 107,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 56/7+11",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          },
+          "result": "19.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56/7+11\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_01",
+      "category": "search",
+      "task": "搜索一下GraphRAG",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12196.559438000008,
+      "prompt_tokens": 1643,
+      "completion_tokens": 78,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 GraphRAG",
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          },
+          "result": "[Sogou] GraphRAG介绍 - ZacksTang - 博客园: GraphRAG GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，... 博客园https://www.cnblogs.com/z...2024-07-24 推荐您搜索.workbuddy-banner__wrap_01bc{display:flex;box-sizing:border-box;flex-wrap:wrap;justify-content:space-between;wid | GitHub - microsoft/graphrag: A modular graph-based Retrieval-...: items GraphRAG Warning GraphRAG is a research project that explores the functional use of graphs to form a targeted context for question answering. Since our first release in July ... GitHub https://github.com/m... 2天前 推荐您搜索.icon__saIcon_3a | GraphRAG的更多内容_CSDN技术社区: GraphRAG:知识图谱+RAG技术-CSDN博客 2025-06-13 由于RAG的一些缺陷,最近工作中用到了GraphRAG,可以简单理解为知识图谱+RAG工作,在进行QFS与深度推理上表现良好.老板希望,在类似于库存管理、预测上面,可以结...查看全部 CSDNhttps://blog.csdn.net/2...2025-06-13 GraphRAG是什么?从零基础入门到精通,看完这一篇就够了-CSDN... 2025-06-16 解读 Graph RAG:从大规模文",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"GraphRAG\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续搜索其他相关资源。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续搜索其他相关资源。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_02",
+      "category": "search",
+      "task": "搜索一下MoE",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11228.541314999915,
+      "prompt_tokens": 1615,
+      "completion_tokens": 70,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 MoE",
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          },
+          "result": "[Wikipedia/zh] 萌: 9%，女性以15~19歲最高，佔12.1%。 2005年，入選十大流行語。 2012年，香港有樂團以「萌」的羅馬音「MoE」為樂團名稱，並用動畫音樂及Cosplay宣傳萌文化。 2010年，臺灣東森幼幼台所製作的兒童電視劇系列《萌學園》，以講述萌學園的萌騎士團對抗闇黑勢力的故事。 | 混合专家模型: 混合专家模型（英語：mixture of experts，简称MoE），或译为多专家模型，是一种机器学习技术，通过门控（gating）模型将单一任务空间划分为多个子任务，再由多个专家网络（子模型）分别处理特定的子任务，最终得到整体的预测结果。混合专家模型与集成学习有相似之处，它们都应用多个子模型来 | 小米MiMo: 1，超越DeepSeek R1（79.8）。 2025年12月16日，小米在\"人车家全生态\"合作伙伴大会上发布并开源MiMo-V2-Flash，总参数309B，激活参数15B，采用MoE架构。模型在27万亿token上以FP8混合精度训练，采用5:1混合注意力机制（滑动窗口注意力与全局注意力协同）、多",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"MoE\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_03",
+      "category": "search",
+      "task": "搜索一下DPO",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 11231.030662000081,
+      "prompt_tokens": 1581,
+      "completion_tokens": 72,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_04",
+      "category": "search",
+      "task": "搜索一下FlashAttention",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12209.484116,
+      "prompt_tokens": 1492,
+      "completion_tokens": 78,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 FlashAttention",
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          },
+          "result": "[Wikipedia/zh] 线性注意力: Ermon, Stefano; Rudra, Atri; Ré, Christopher. FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. Advances in Neural Information | Mamba2: ​​，尽管通过结构化矩阵优化（如SSD算法）显著提升训练速度，但在短序列场景下的硬件利用率仍低于高度优化的Transformer实现（如FlashAttention-2），且超大状态维度（N>256）可能导致内存压力。​​功能特性上​​，模型简化了softmax注意力机制，虽提升效率却牺牲了动态权重 | Gemini (语言模型): 1.0使用了多查询注意力(multi-query attention)。 Gemini 2.5 系列：強化深層推論與長文本穩定度，包含適合高階專業任務的 Gemini 2.5 Pro 與著重效率的 Gemini 2.5 Flash。 Gemini 3",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"FlashAttention\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "继续搜索其他相关资源。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"继续搜索其他相关资源。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_01",
+      "category": "chat",
+      "task": "推荐一个学习路线",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 10877.267955000094,
+      "prompt_tokens": 1296,
+      "completion_tokens": 76,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "推荐一个学习路线",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "推荐的学习路线"
+          },
+          "result": "推荐的学习路线",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"推荐的学习路线\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_02",
+      "category": "chat",
+      "task": "解释一下过拟合",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 12260.679719999986,
+      "prompt_tokens": 1345,
+      "completion_tokens": 88,
+      "llm_calls": 3,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "解释过拟合",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。"
+          },
+          "result": "过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_03",
+      "category": "chat",
+      "task": "你有哪些限制",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 24948.089899000024,
+      "prompt_tokens": 2633,
+      "completion_tokens": 180,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解任务中的限制",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "任务中没有明确的限制。"
+          },
+          "result": "任务中没有明确的限制。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"任务中没有明确的限制。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.0 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.0,
+        "issues": [],
+        "suggestion": "任务中没有明确的限制。",
+        "raw": "{\"pass\": true, \"score\": 0.0, \"issues\": [], \"suggestion\": \"任务中没有明确的限制。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_compare",
+      "category": "multi",
+      "task": "查石家庄和太原天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 29950.110374000018,
+      "prompt_tokens": 3095,
+      "completion_tokens": 214,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询石家庄天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询太原天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较石家庄和太原的温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_summary",
+      "category": "multi",
+      "task": "搜索 GraphRAG，然后用两句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 23854.12618499993,
+      "prompt_tokens": 2842,
+      "completion_tokens": 169,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 GraphRAG 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          },
+          "result": "[Sogou] GraphRAG介绍 - ZacksTang - 博客园: GraphRAG GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，... 博客园https://www.cnblogs.com/z...2024-07-24 推荐您搜索.workbuddy-banner__wrap_01bc{display:flex;box-sizing:border-box;flex-wrap:wrap;justify-content:space-between;wid | GitHub - microsoft/graphrag: A modular graph-based Retrieval-...: items GraphRAG Warning GraphRAG is a research project that explores the functional use of graphs to form a targeted context for question answering. Since our first release in July ... GitHub https://github.com/m... 2天前 推荐您搜索.icon__saIcon_3a | GraphRAG的更多内容_CSDN技术社区: GraphRAG:知识图谱+RAG技术-CSDN博客 2025-06-13 由于RAG的一些缺陷,最近工作中用到了GraphRAG,可以简单理解为知识图谱+RAG工作,在进行QFS与深度推理上表现良好.老板希望,在类似于库存管理、预测上面,可以结...查看全部 CSDNhttps://blog.csdn.net/2...2025-06-13 GraphRAG是什么?从零基础入门到精通,看完这一篇就够了-CSDN... 2025-06-16 解读 Graph RAG:从大规模文",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"GraphRAG\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用两句话总结 GraphRAG",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，用于回答问题。"
+          },
+          "result": "GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，用于回答问题。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，用于回答问题。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成，但可以进一步优化。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成，但可以进一步优化。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_calc_explain",
+      "category": "multi",
+      "task": "计算 19*6+7，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17311.717417999942,
+      "prompt_tokens": 2046,
+      "completion_tokens": 125,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 19*6+7",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          },
+          "result": "121",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"19*6+7\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 121。"
+          },
+          "result": "这个计算结果是 121。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 121。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_calc",
+      "category": "multi",
+      "task": "查长春天气，然后计算 13*2",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13*2"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 16191.789593999943,
+      "prompt_tokens": 2083,
+      "completion_tokens": 115,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查长春天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          },
+          "result": "长春：阴，-6.8°C，体感 -12.7°C，湿度 86%，风速 18.9 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"长春\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 13*2",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13*2"
+          },
+          "result": "26",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"13*2\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_compare",
+      "category": "multi",
+      "task": "搜索 MoE 和 DPO，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 33404.25556500009,
+      "prompt_tokens": 4451,
+      "completion_tokens": 232,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 MoE 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          },
+          "result": "[Wikipedia/zh] 萌: 9%，女性以15~19歲最高，佔12.1%。 2005年，入選十大流行語。 2012年，香港有樂團以「萌」的羅馬音「MoE」為樂團名稱，並用動畫音樂及Cosplay宣傳萌文化。 2010年，臺灣東森幼幼台所製作的兒童電視劇系列《萌學園》，以講述萌學園的萌騎士團對抗闇黑勢力的故事。 | 混合专家模型: 混合专家模型（英語：mixture of experts，简称MoE），或译为多专家模型，是一种机器学习技术，通过门控（gating）模型将单一任务空间划分为多个子任务，再由多个专家网络（子模型）分别处理特定的子任务，最终得到整体的预测结果。混合专家模型与集成学习有相似之处，它们都应用多个子模型来 | 小米MiMo: 1，超越DeepSeek R1（79.8）。 2025年12月16日，小米在\"人车家全生态\"合作伙伴大会上发布并开源MiMo-V2-Flash，总参数309B，激活参数15B，采用MoE架构。模型在27万亿token上以FP8混合精度训练，采用5:1混合注意力机制（滑动窗口注意力与全局注意力协同）、多",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"MoE\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 MoE 和 DPO 的区别",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。"
+          },
+          "result": "MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_advice",
+      "category": "multi",
+      "task": "查哈尔滨天气，然后建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 16319.842739000023,
+      "prompt_tokens": 2101,
+      "completion_tokens": 116,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查哈尔滨天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据哈尔滨天气建议穿衣",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "建议穿羽绒服。"
+          },
+          "result": "建议穿羽绒服。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"建议穿羽绒服。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_weather",
+      "category": "multi",
+      "task": "搜索 FlashAttention，再查石家庄天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 16755.411439,
+      "prompt_tokens": 2410,
+      "completion_tokens": 117,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 FlashAttention 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          },
+          "result": "[Wikipedia/zh] 线性注意力: Ermon, Stefano; Rudra, Atri; Ré, Christopher. FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. Advances in Neural Information | Mamba2: ​​，尽管通过结构化矩阵优化（如SSD算法）显著提升训练速度，但在短序列场景下的硬件利用率仍低于高度优化的Transformer实现（如FlashAttention-2），且超大状态维度（N>256）可能导致内存压力。​​功能特性上​​，模型简化了softmax注意力机制，虽提升效率却牺牲了动态权重 | Gemini (语言模型): 1.0使用了多查询注意力(multi-query attention)。 Gemini 2.5 系列：強化深層推論與長文本穩定度，包含適合高階專業任務的 Gemini 2.5 Pro 與著重效率的 Gemini 2.5 Flash。 Gemini 3",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"FlashAttention\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询石家庄天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_calc_explain2",
+      "category": "multi",
+      "task": "计算 56/7+11，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17545.790216,
+      "prompt_tokens": 2055,
+      "completion_tokens": 126,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 56/7+11",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          },
+          "result": "19.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56/7+11\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 19。"
+          },
+          "result": "这个计算结果是 19。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 19。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_compare2",
+      "category": "multi",
+      "task": "查太原和哈尔滨天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 29894.467477000035,
+      "prompt_tokens": 3092,
+      "completion_tokens": 214,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查太原天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查哈尔滨天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较太原和哈尔滨温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "sequential",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_calc",
+      "category": "multi",
+      "task": "搜索 DPO，再计算 81/9",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "81/9"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 17918.652775000053,
+      "prompt_tokens": 2567,
+      "completion_tokens": 125,
+      "llm_calls": 4,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 81/9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "81/9"
+          },
+          "result": "9.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"81/9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_01",
+      "category": "weather",
+      "task": "石家庄今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 17613.57905700004,
+      "prompt_tokens": 1982,
+      "completion_tokens": 128,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询石家庄今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为查询石家庄今天的天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 还有未执行的子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_02",
+      "category": "weather",
+      "task": "太原今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 16827.58087000002,
+      "prompt_tokens": 1986,
+      "completion_tokens": 122,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询太原今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有完成的任务。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 还有未执行的子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_03",
+      "category": "weather",
+      "task": "长春今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 17365.81437699999,
+      "prompt_tokens": 1992,
+      "completion_tokens": 125,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询长春今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          },
+          "result": "长春：阴，-6.8°C，体感 -12.7°C，湿度 86%，风速 18.9 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"长春\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有完成的任务。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 还有未执行的子任务。",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_04",
+      "category": "weather",
+      "task": "哈尔滨今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 17279.426510999998,
+      "prompt_tokens": 1986,
+      "completion_tokens": 125,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询哈尔滨今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有执行的任务。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=review subtask=None 还有未执行的子任务。",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_01",
+      "category": "calculator",
+      "task": "计算 19*6+7",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 19252.20909099994,
+      "prompt_tokens": 1942,
+      "completion_tokens": 140,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 19*6+7",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          },
+          "result": "121",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"19*6+7\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 有未执行的任务。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor_error: ValueError: supervisor asked to execute with no subtasks left",
+        "supervisor: action=review subtask=None fallback: review completed plan",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_02",
+      "category": "calculator",
+      "task": "计算 (81-9)/8",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 18222.847118000005,
+      "prompt_tokens": 1932,
+      "completion_tokens": 132,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "(81-9)/8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(81-9)/8"
+          },
+          "result": "9.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(81-9)/8\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=review subtask=None 已经完成第一个子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_03",
+      "category": "calculator",
+      "task": "计算 13**2-20",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 19920.53209300002,
+      "prompt_tokens": 1957,
+      "completion_tokens": 145,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 13**2-20",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13**2-20"
+          },
+          "result": "149",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"13**2-20\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor_error: ValueError: supervisor asked to execute with no subtasks left",
+        "supervisor: action=review subtask=None fallback: review completed plan",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_04",
+      "category": "calculator",
+      "task": "计算 56/7+11",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 21969.902088000024,
+      "prompt_tokens": 1948,
+      "completion_tokens": 162,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 56/7+11",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          },
+          "result": "19.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56/7+11\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 有未执行的任务。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=review subtask=None 已经完成第一个子任务，需要检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_01",
+      "category": "search",
+      "task": "搜索一下GraphRAG",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 18677.72387299999,
+      "prompt_tokens": 2587,
+      "completion_tokens": 132,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 GraphRAG",
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          },
+          "result": "[Sogou] GraphRAG介绍 - ZacksTang - 博客园: GraphRAG GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，... 博客园https://www.cnblogs.com/z...2024-07-24 推荐您搜索.workbuddy-banner__wrap_01bc{display:flex;box-sizing:border-box;flex-wrap:wrap;justify-content:space-between;wid | GitHub - microsoft/graphrag: A modular graph-based Retrieval-...: items GraphRAG Warning GraphRAG is a research project that explores the functional use of graphs to form a targeted context for question answering. Since our first release in July ... GitHub https://github.com/m... 2天前 推荐您搜索.icon__saIcon_3a | GraphRAG的更多内容_CSDN技术社区: GraphRAG:知识图谱+RAG技术-CSDN博客 2025-06-13 由于RAG的一些缺陷,最近工作中用到了GraphRAG,可以简单理解为知识图谱+RAG工作,在进行QFS与深度推理上表现良好.老板希望,在类似于库存管理、预测上面,可以结...查看全部 CSDNhttps://blog.csdn.net/2...2025-06-13 GraphRAG是什么?从零基础入门到精通,看完这一篇就够了-CSDN... 2025-06-16 解读 Graph RAG:从大规模文",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"GraphRAG\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未完成的子任务。",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续搜索其他相关资源。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续搜索其他相关资源。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_02",
+      "category": "search",
+      "task": "搜索一下MoE",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 17755.802944999916,
+      "prompt_tokens": 2532,
+      "completion_tokens": 125,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 MoE",
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          },
+          "result": "[Wikipedia/zh] 萌: 9%，女性以15~19歲最高，佔12.1%。 2005年，入選十大流行語。 2012年，香港有樂團以「萌」的羅馬音「MoE」為樂團名稱，並用動畫音樂及Cosplay宣傳萌文化。 2010年，臺灣東森幼幼台所製作的兒童電視劇系列《萌學園》，以講述萌學園的萌騎士團對抗闇黑勢力的故事。 | 混合专家模型: 混合专家模型（英語：mixture of experts，简称MoE），或译为多专家模型，是一种机器学习技术，通过门控（gating）模型将单一任务空间划分为多个子任务，再由多个专家网络（子模型）分别处理特定的子任务，最终得到整体的预测结果。混合专家模型与集成学习有相似之处，它们都应用多个子模型来 | 小米MiMo: 1，超越DeepSeek R1（79.8）。 2025年12月16日，小米在\"人车家全生态\"合作伙伴大会上发布并开源MiMo-V2-Flash，总参数309B，激活参数15B，采用MoE架构。模型在27万亿token上以FP8混合精度训练，采用5:1混合注意力机制（滑动窗口注意力与全局注意力协同）、多",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"MoE\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为搜索 MoE。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未执行的任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_03",
+      "category": "search",
+      "task": "搜索一下DPO",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 18114.243104000023,
+      "prompt_tokens": 2464,
+      "completion_tokens": 129,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为搜索 DPO 的资料。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未完成的任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_04",
+      "category": "search",
+      "task": "搜索一下FlashAttention",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 18313.392138999916,
+      "prompt_tokens": 2286,
+      "completion_tokens": 132,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 FlashAttention",
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          },
+          "result": "[Wikipedia/zh] 线性注意力: Ermon, Stefano; Rudra, Atri; Ré, Christopher. FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. Advances in Neural Information | Mamba2: ​​，尽管通过结构化矩阵优化（如SSD算法）显著提升训练速度，但在短序列场景下的硬件利用率仍低于高度优化的Transformer实现（如FlashAttention-2），且超大状态维度（N>256）可能导致内存压力。​​功能特性上​​，模型简化了softmax注意力机制，虽提升效率却牺牲了动态权重 | Gemini (语言模型): 1.0使用了多查询注意力(multi-query attention)。 Gemini 2.5 系列：強化深層推論與長文本穩定度，包含適合高階專業任務的 Gemini 2.5 Pro 與著重效率的 Gemini 2.5 Flash。 Gemini 3",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"FlashAttention\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务存在。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=review subtask=None 还有未完成的子任务。",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "继续搜索其他相关资源。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"继续搜索其他相关资源。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_01",
+      "category": "chat",
+      "task": "推荐一个学习路线",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 18808.85031599996,
+      "prompt_tokens": 1894,
+      "completion_tokens": 137,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "推荐一个学习路线",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "推荐的学习路线"
+          },
+          "result": "推荐的学习路线",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"推荐的学习路线\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为推荐一个学习路线。",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 已完成第一个子任务，但需要检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_02",
+      "category": "chat",
+      "task": "解释一下过拟合",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20017.976477000047,
+      "prompt_tokens": 2020,
+      "completion_tokens": 140,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "解释过拟合",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。"
+          },
+          "result": "过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有完成的子任务。",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 已经完成第一个子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_03",
+      "category": "chat",
+      "task": "你有哪些限制",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 41447.85500000012,
+      "prompt_tokens": 3841,
+      "completion_tokens": 290,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解任务中的限制",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "任务中没有明确的限制。"
+          },
+          "result": "任务中没有明确的限制。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"任务中没有明确的限制。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 没有限制",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 任务中没有明确的限制，无需执行下一个子任务。",
+        "reviewer: pass=False score=0.0 round=1",
+        "planner: 1 subtask(s)",
+        "supervisor: action=execute subtask=1 guard: unexecuted subtasks remain",
+        "executor: subtask 1 -> final_answer error=None",
+        "supervisor: action=review subtask=None 任务中没有明确的限制，无需继续。",
+        "reviewer: pass=True score=0.0 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.0,
+        "issues": [],
+        "suggestion": "任务中没有明确的限制。",
+        "raw": "{\"pass\": true, \"score\": 0.0, \"issues\": [], \"suggestion\": \"任务中没有明确的限制。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_compare",
+      "category": "multi",
+      "task": "查石家庄和太原天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 47556.702624000085,
+      "prompt_tokens": 5290,
+      "completion_tokens": 324,
+      "llm_calls": 9,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询石家庄天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询太原天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较石家庄和太原的温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "supervisor: action=execute subtask=1 先查询石家庄的天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=2 已执行第一个任务，继续下一个。",
+        "executor: subtask 2 -> get_weather error=None",
+        "supervisor: action=execute subtask=3 guard: unexecuted subtasks remain",
+        "executor: subtask 3 -> final_answer error=None",
+        "supervisor: action=review subtask=None 已完成所有子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_summary",
+      "category": "multi",
+      "task": "搜索 GraphRAG，然后用两句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 36124.55773400006,
+      "prompt_tokens": 4818,
+      "completion_tokens": 250,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 GraphRAG 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          },
+          "result": "[Sogou] GraphRAG介绍 - ZacksTang - 博客园: GraphRAG GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，... 博客园https://www.cnblogs.com/z...2024-07-24 推荐您搜索.workbuddy-banner__wrap_01bc{display:flex;box-sizing:border-box;flex-wrap:wrap;justify-content:space-between;wid | GitHub - microsoft/graphrag: A modular graph-based Retrieval-...: items GraphRAG Warning GraphRAG is a research project that explores the functional use of graphs to form a targeted context for question answering. Since our first release in July ... GitHub https://github.com/m... 2天前 推荐您搜索.icon__saIcon_3a | GraphRAG的更多内容_CSDN技术社区: GraphRAG:知识图谱+RAG技术-CSDN博客 2025-06-13 由于RAG的一些缺陷,最近工作中用到了GraphRAG,可以简单理解为知识图谱+RAG工作,在进行QFS与深度推理上表现良好.老板希望,在类似于库存管理、预测上面,可以结...查看全部 CSDNhttps://blog.csdn.net/2...2025-06-13 GraphRAG是什么?从零基础入门到精通,看完这一篇就够了-CSDN... 2025-06-16 解读 Graph RAG:从大规模文",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"GraphRAG\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据检索结果用两句话总结 GraphRAG",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，用于回答问题。"
+          },
+          "result": "GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，用于回答问题。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，用于回答问题。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为搜索 GraphRAG。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> final_answer error=None",
+        "supervisor: action=review subtask=None 还有未完成的任务。",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成，但可以进一步优化。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成，但可以进一步优化。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_calc_explain",
+      "category": "multi",
+      "task": "计算 19*6+7，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 29066.745077000178,
+      "prompt_tokens": 3225,
+      "completion_tokens": 205,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 19*6+7",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          },
+          "result": "121",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"19*6+7\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 121。"
+          },
+          "result": "这个计算结果是 121。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 121。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务是第一个。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> final_answer error=None",
+        "supervisor: action=review subtask=None 所有子任务已完成。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_calc",
+      "category": "multi",
+      "task": "查长春天气，然后计算 13*2",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13*2"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 28738.92420600009,
+      "prompt_tokens": 3317,
+      "completion_tokens": 200,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查长春天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          },
+          "result": "长春：阴，-6.8°C，体感 -12.7°C，湿度 86%，风速 18.9 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"长春\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 13*2",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13*2"
+          },
+          "result": "26",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"13*2\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 先查长春天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=1 未执行的子任务1已完成，继续下一个。",
+        "executor: subtask 2 -> calculator error=None",
+        "supervisor: action=review subtask=None Subtask 2 has been completed successfully.",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_compare",
+      "category": "multi",
+      "task": "搜索 MoE 和 DPO，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 52090.70074900001,
+      "prompt_tokens": 8037,
+      "completion_tokens": 353,
+      "llm_calls": 9,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 MoE 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          },
+          "result": "[Wikipedia/zh] 萌: 9%，女性以15~19歲最高，佔12.1%。 2005年，入選十大流行語。 2012年，香港有樂團以「萌」的羅馬音「MoE」為樂團名稱，並用動畫音樂及Cosplay宣傳萌文化。 2010年，臺灣東森幼幼台所製作的兒童電視劇系列《萌學園》，以講述萌學園的萌騎士團對抗闇黑勢力的故事。 | 混合专家模型: 混合专家模型（英語：mixture of experts，简称MoE），或译为多专家模型，是一种机器学习技术，通过门控（gating）模型将单一任务空间划分为多个子任务，再由多个专家网络（子模型）分别处理特定的子任务，最终得到整体的预测结果。混合专家模型与集成学习有相似之处，它们都应用多个子模型来 | 小米MiMo: 1，超越DeepSeek R1（79.8）。 2025年12月16日，小米在\"人车家全生态\"合作伙伴大会上发布并开源MiMo-V2-Flash，总参数309B，激活参数15B，采用MoE架构。模型在27万亿token上以FP8混合精度训练，采用5:1混合注意力机制（滑动窗口注意力与全局注意力协同）、多",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"MoE\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 MoE 和 DPO 的区别",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。"
+          },
+          "result": "MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "supervisor: action=execute subtask=1 第一个子任务未执行。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=execute subtask=1 未执行的子任务1已完成，继续执行下一个子任务。",
+        "executor: subtask 2 -> search error=None",
+        "supervisor: action=execute subtask=2 已完成第一个搜索任务，现在进行第二个。",
+        "executor: subtask 3 -> final_answer error=None",
+        "supervisor: action=review subtask=None 未完成的 subtask 3 已经完成。",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_advice",
+      "category": "multi",
+      "task": "查哈尔滨天气，然后建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 27905.294349000087,
+      "prompt_tokens": 3325,
+      "completion_tokens": 200,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查哈尔滨天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据哈尔滨天气建议穿衣",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "建议穿羽绒服。"
+          },
+          "result": "建议穿羽绒服。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"建议穿羽绒服。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 先查询哈尔滨的天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> final_answer error=None",
+        "supervisor: action=review subtask=None Subtask 2 has not been executed yet.",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_weather",
+      "category": "multi",
+      "task": "搜索 FlashAttention，再查石家庄天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 28704.21280400001,
+      "prompt_tokens": 3978,
+      "completion_tokens": 200,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 FlashAttention 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          },
+          "result": "[Wikipedia/zh] 线性注意力: Ermon, Stefano; Rudra, Atri; Ré, Christopher. FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. Advances in Neural Information | Mamba2: ​​，尽管通过结构化矩阵优化（如SSD算法）显著提升训练速度，但在短序列场景下的硬件利用率仍低于高度优化的Transformer实现（如FlashAttention-2），且超大状态维度（N>256）可能导致内存压力。​​功能特性上​​，模型简化了softmax注意力机制，虽提升效率却牺牲了动态权重 | Gemini (语言模型): 1.0使用了多查询注意力(multi-query attention)。 Gemini 2.5 系列：強化深層推論與長文本穩定度，包含適合高階專業任務的 Gemini 2.5 Pro 與著重效率的 Gemini 2.5 Flash。 Gemini 3",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"FlashAttention\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询石家庄天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为搜索 FlashAttention",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=execute subtask=1 未完成第一个子任务",
+        "executor: subtask 2 -> get_weather error=None",
+        "supervisor: action=review subtask=None 下一个子任务已完成，先检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_calc_explain2",
+      "category": "multi",
+      "task": "计算 56/7+11，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 29077.52786500009,
+      "prompt_tokens": 3245,
+      "completion_tokens": 208,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 56/7+11",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          },
+          "result": "19.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56/7+11\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 19。"
+          },
+          "result": "这个计算结果是 19。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 19。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务是第一个。",
+        "executor: subtask 1 -> calculator error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> final_answer error=None",
+        "supervisor: action=review subtask=None 还有未完成的子任务。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_compare2",
+      "category": "multi",
+      "task": "查太原和哈尔滨天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 47397.234702999864,
+      "prompt_tokens": 5282,
+      "completion_tokens": 333,
+      "llm_calls": 9,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查太原天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查哈尔滨天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较太原和哈尔滨温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 3 subtask(s)",
+        "supervisor: action=execute subtask=1 先查太原的天气。",
+        "executor: subtask 1 -> get_weather error=None",
+        "supervisor: action=execute subtask=2 已执行第1个子任务，继续执行第2个子任务。",
+        "executor: subtask 2 -> get_weather error=None",
+        "supervisor: action=execute subtask=3 guard: unexecuted subtasks remain",
+        "executor: subtask 3 -> final_answer error=None",
+        "supervisor: action=review subtask=None 最后一个任务已完成，需要检查结果。",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "supervisor",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_calc",
+      "category": "multi",
+      "task": "搜索 DPO，再计算 81/9",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "81/9"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 30162.47774699991,
+      "prompt_tokens": 4294,
+      "completion_tokens": 209,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 81/9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "81/9"
+          },
+          "result": "9.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"81/9\"}}"
+        }
+      ],
+      "trace": [
+        "planner: 2 subtask(s)",
+        "supervisor: action=execute subtask=1 未执行的子任务为搜索 DPO 的资料。",
+        "executor: subtask 1 -> search error=None",
+        "supervisor: action=execute subtask=2 guard: unexecuted subtasks remain",
+        "executor: subtask 2 -> calculator error=None",
+        "supervisor: action=review subtask=None 已完成计算任务，下一步继续。",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_01",
+      "category": "weather",
+      "task": "石家庄今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 19134.250565000002,
+      "prompt_tokens": 1696,
+      "completion_tokens": 139,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询石家庄今天的天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies a single goal of querying the weather for today in Shijiazhuang, which is more focused and clear. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_02",
+      "category": "weather",
+      "task": "太原今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 43668.207321999944,
+      "prompt_tokens": 3535,
+      "completion_tokens": 319,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询太原今天的天气情况。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 provides a more detailed output with specific weather information. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 provides a more detailed output with specific weather information. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果不完整，缺少温度和湿度信息。"
+        ],
+        "suggestion": "请确保返回的天气信息包含温度和湿度。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果不完整，缺少温度和湿度信息。\"], \"suggestion\": \"请确保返回的天气信息包含温度和湿度。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_03",
+      "category": "weather",
+      "task": "长春今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 46017.516130999866,
+      "prompt_tokens": 3576,
+      "completion_tokens": 334,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询长春今天的天气情况，包括温度和体感温度。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          },
+          "result": "长春：阴，-6.8°C，体感 -12.7°C，湿度 86%，风速 18.9 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"长春\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 provides a specific output with detailed information about the weather, which is more complete and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 specifies the exact output and includes both temperature and body sensation, which Plan 1 does not. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成，但可以进一步优化输出格式。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成，但可以进一步优化输出格式。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_weather_04",
+      "category": "weather",
+      "task": "哈尔滨今天天气怎么样？",
+      "expected_tool": "get_weather",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 50042.027681000036,
+      "prompt_tokens": 3627,
+      "completion_tokens": 364,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查询哈尔滨今天的天气情况。",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 provides a specific output with detailed weather information, which is more complete and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 provides a more detailed output with multiple weather elements, which is more comprehensive. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "任务完成度高，但可以将结果中的时间信息更改为当前时间。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"任务完成度高，但可以将结果中的时间信息更改为当前时间。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_01",
+      "category": "calculator",
+      "task": "计算 19*6+7",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 41764.97175999998,
+      "prompt_tokens": 3434,
+      "completion_tokens": 304,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 19*6+7",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          },
+          "result": "121",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"19*6+7\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 executes the calculation and returns the exact result. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 executes the calculation and returns the exact result. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果为121，而不是119。"
+        ],
+        "suggestion": "检查计算公式。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果为121，而不是119。\"], \"suggestion\": \"检查计算公式。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_02",
+      "category": "calculator",
+      "task": "计算 (81-9)/8",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 39514.563774999944,
+      "prompt_tokens": 3416,
+      "completion_tokens": 287,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 (81-9)/8",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "(81-9)/8"
+          },
+          "result": "9.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(81-9)/8\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies the exact output, which makes it more executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 executes the calculation directly, while Plan 1 just checks the formula. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_03",
+      "category": "calculator",
+      "task": "计算 13**2-20",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 43084.726129000046,
+      "prompt_tokens": 3452,
+      "completion_tokens": 314,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 13**2-20",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13**2-20"
+          },
+          "result": "149",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"13**2-20\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers the exact calculation and output. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers the exact calculation and output. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "预期输出是 89，但实际结果是 149。"
+        ],
+        "suggestion": "检查计算公式。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"预期输出是 89，但实际结果是 149。\"], \"suggestion\": \"检查计算公式。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_calc_04",
+      "category": "calculator",
+      "task": "计算 56/7+11",
+      "expected_tool": "calculator",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": false,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 55659.119867999834,
+      "prompt_tokens": 3460,
+      "completion_tokens": 414,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 56/7+11",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          },
+          "result": "19.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56/7+11\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers the exact calculation and output. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=2 Plan 2 covers the exact calculation and output. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=2"
+      ],
+      "review": {
+        "pass": false,
+        "score": 0.0,
+        "issues": [
+          "结果应为整数，但实际结果是 19.0。"
+        ],
+        "suggestion": "将结果四舍五入到最接近的整数。",
+        "raw": "{\"pass\": false, \"score\": 0.0, \"issues\": [\"结果应为整数，但实际结果是 19.0。\"], \"suggestion\": \"将结果四舍五入到最接近的整数。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_01",
+      "category": "search",
+      "task": "搜索一下GraphRAG",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 19411.45603600012,
+      "prompt_tokens": 2016,
+      "completion_tokens": 141,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索一下GraphRAG",
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          },
+          "result": "[Sogou] GraphRAG介绍 - ZacksTang - 博客园: GraphRAG GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，... 博客园https://www.cnblogs.com/z...2024-07-24 推荐您搜索.workbuddy-banner__wrap_01bc{display:flex;box-sizing:border-box;flex-wrap:wrap;justify-content:space-between;wid | GitHub - microsoft/graphrag: A modular graph-based Retrieval-...: items GraphRAG Warning GraphRAG is a research project that explores the functional use of graphs to form a targeted context for question answering. Since our first release in July ... GitHub https://github.com/m... 2天前 推荐您搜索.icon__saIcon_3a | GraphRAG的更多内容_CSDN技术社区: GraphRAG:知识图谱+RAG技术-CSDN博客 2025-06-13 由于RAG的一些缺陷,最近工作中用到了GraphRAG,可以简单理解为知识图谱+RAG工作,在进行QFS与深度推理上表现良好.老板希望,在类似于库存管理、预测上面,可以结...查看全部 CSDNhttps://blog.csdn.net/2...2025-06-13 GraphRAG是什么?从零基础入门到精通,看完这一篇就够了-CSDN... 2025-06-16 解读 Graph RAG:从大规模文",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"GraphRAG\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 specifies a clear goal and expected output, covering the search process completely. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.95 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.95,
+        "issues": [],
+        "suggestion": "继续搜索其他相关资源。",
+        "raw": "{\"pass\": true, \"score\": 0.95, \"issues\": [], \"suggestion\": \"继续搜索其他相关资源。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_02",
+      "category": "search",
+      "task": "搜索一下MoE",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 16605.019728999876,
+      "prompt_tokens": 1963,
+      "completion_tokens": 122,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 MoE",
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          },
+          "result": "[Wikipedia/zh] 萌: 9%，女性以15~19歲最高，佔12.1%。 2005年，入選十大流行語。 2012年，香港有樂團以「萌」的羅馬音「MoE」為樂團名稱，並用動畫音樂及Cosplay宣傳萌文化。 2010年，臺灣東森幼幼台所製作的兒童電視劇系列《萌學園》，以講述萌學園的萌騎士團對抗闇黑勢力的故事。 | 混合专家模型: 混合专家模型（英語：mixture of experts，简称MoE），或译为多专家模型，是一种机器学习技术，通过门控（gating）模型将单一任务空间划分为多个子任务，再由多个专家网络（子模型）分别处理特定的子任务，最终得到整体的预测结果。混合专家模型与集成学习有相似之处，它们都应用多个子模型来 | 小米MiMo: 1，超越DeepSeek R1（79.8）。 2025年12月16日，小米在\"人车家全生态\"合作伙伴大会上发布并开源MiMo-V2-Flash，总参数309B，激活参数15B，采用MoE架构。模型在27万亿token上以FP8混合精度训练，采用5:1混合注意力机制（滑动窗口注意力与全局注意力协同）、多",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"MoE\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 covers the task of searching 'MoE' with a single step. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_03",
+      "category": "search",
+      "task": "搜索一下DPO",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 18898.85431799985,
+      "prompt_tokens": 1942,
+      "completion_tokens": 136,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies a single goal and expected output, which is more focused and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_search_04",
+      "category": "search",
+      "task": "搜索一下FlashAttention",
+      "expected_tool": "search",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 20074.499106000076,
+      "prompt_tokens": 1854,
+      "completion_tokens": 146,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 FlashAttention",
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          },
+          "result": "[Wikipedia/zh] 线性注意力: Ermon, Stefano; Rudra, Atri; Ré, Christopher. FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. Advances in Neural Information | Mamba2: ​​，尽管通过结构化矩阵优化（如SSD算法）显著提升训练速度，但在短序列场景下的硬件利用率仍低于高度优化的Transformer实现（如FlashAttention-2），且超大状态维度（N>256）可能导致内存压力。​​功能特性上​​，模型简化了softmax注意力机制，虽提升效率却牺牲了动态权重 | Gemini (语言模型): 1.0使用了多查询注意力(multi-query attention)。 Gemini 2.5 系列：強化深層推論與長文本穩定度，包含適合高階專業任務的 Gemini 2.5 Pro 與著重效率的 Gemini 2.5 Flash。 Gemini 3",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"FlashAttention\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies a single goal and expected output, which is more focused and executable than Plan 2. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "继续搜索其他相关资源。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"继续搜索其他相关资源。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_01",
+      "category": "chat",
+      "task": "推荐一个学习路线",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 22280.07715700005,
+      "prompt_tokens": 1716,
+      "completion_tokens": 164,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解学习目标，选择适合的资源和方法。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "先确定学习目标，再根据目标选择合适的资源和方法。"
+          },
+          "result": "先确定学习目标，再根据目标选择合适的资源和方法。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"先确定学习目标，再根据目标选择合适的资源和方法。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers a broader range of actions and goals, including resource selection and method choice, which makes it more comprehensive and executable. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_02",
+      "category": "chat",
+      "task": "解释一下过拟合",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 1,
+      "latency_ms": 18912.37109200006,
+      "prompt_tokens": 1695,
+      "completion_tokens": 139,
+      "llm_calls": 5,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "解释过拟合",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。"
+          },
+          "result": "过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"过拟合是指模型在训练数据上表现得非常好，但在新数据上表现不佳。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 covers the task of explaining overfitting with a single step. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_chat_03",
+      "category": "chat",
+      "task": "你有哪些限制",
+      "expected_tool": "final_answer",
+      "expected_calls": null,
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 2,
+      "num_results": 1,
+      "latency_ms": 40135.780142000156,
+      "prompt_tokens": 3369,
+      "completion_tokens": 294,
+      "llm_calls": 10,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "了解任务中的限制",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "任务中没有明确的限制。"
+          },
+          "result": "任务中没有明确的限制。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"任务中没有明确的限制。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 1 specifies a clear goal and expected output, while Plan 2 is incomplete. -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=False score=0.0 round=1",
+        "debate: choice=1 Plan 1更具体，且明确指出需要执行一次查询。 -> 1 subtask(s)",
+        "executor: 1 result(s)",
+        "reviewer: pass=True score=0.0 round=2"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.0,
+        "issues": [],
+        "suggestion": "任务中没有明确的限制。",
+        "raw": "{\"pass\": true, \"score\": 0.0, \"issues\": [], \"suggestion\": \"任务中没有明确的限制。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_compare",
+      "category": "multi",
+      "task": "查石家庄和太原天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 44322.48119799988,
+      "prompt_tokens": 3587,
+      "completion_tokens": 323,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查石家庄天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查太原天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        },
+        {
+          "subtask_id": 4,
+          "goal": "比较石家庄和太原的温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "石家庄温度：9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原温度：5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。"
+          },
+          "result": "石家庄温度：9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原温度：5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"石家庄温度：9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h。太原温度：5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers all required actions and queries without merging them. -> 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_summary",
+      "category": "multi",
+      "task": "搜索 GraphRAG，然后用两句话总结",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 39643.14041999978,
+      "prompt_tokens": 3347,
+      "completion_tokens": 288,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 GraphRAG",
+          "tool": "search",
+          "arguments": {
+            "query": "GraphRAG"
+          },
+          "result": "[Sogou] GraphRAG介绍 - ZacksTang - 博客园: GraphRAG GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，... 博客园https://www.cnblogs.com/z...2024-07-24 推荐您搜索.workbuddy-banner__wrap_01bc{display:flex;box-sizing:border-box;flex-wrap:wrap;justify-content:space-between;wid | GitHub - microsoft/graphrag: A modular graph-based Retrieval-...: items GraphRAG Warning GraphRAG is a research project that explores the functional use of graphs to form a targeted context for question answering. Since our first release in July ... GitHub https://github.com/m... 2天前 推荐您搜索.icon__saIcon_3a | GraphRAG的更多内容_CSDN技术社区: GraphRAG:知识图谱+RAG技术-CSDN博客 2025-06-13 由于RAG的一些缺陷,最近工作中用到了GraphRAG,可以简单理解为知识图谱+RAG工作,在进行QFS与深度推理上表现良好.老板希望,在类似于库存管理、预测上面,可以结...查看全部 CSDNhttps://blog.csdn.net/2...2025-06-13 GraphRAG是什么?从零基础入门到精通,看完这一篇就够了-CSDN... 2025-06-16 解读 Graph RAG:从大规模文",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"GraphRAG\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "用两句话总结 GraphRAG",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，从而提高信息检索的准确性和效率。"
+          },
+          "result": "GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，从而提高信息检索的准确性和效率。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"GraphRAG 是一种基于图的检索增强方法，由微软开发并开源。它通过结合LLM和图机器学习的技术，从非结构化的文本中提取结构化的数据，从而提高信息检索的准确性和效率。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 ensures that both actions (searching and summarizing) are done separately, which makes it more modular and easier to execute. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=0.9 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.9,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 0.9, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_calc_explain",
+      "category": "multi",
+      "task": "计算 19*6+7，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 30361.23543099984,
+      "prompt_tokens": 2499,
+      "completion_tokens": 221,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 19*6+7 的结果",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "19*6+7"
+          },
+          "result": "121",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"19*6+7\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释计算结果 101。",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "计算结果是 101。"
+          },
+          "result": "计算结果是 101。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"计算结果是 101。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 completes the calculation and provides an output, while Plan 1 leaves the calculation step as a goal without an expected output. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "任务完成。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"任务完成。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_calc",
+      "category": "multi",
+      "task": "查长春天气，然后计算 13*2",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13*2"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 28690.143072999945,
+      "prompt_tokens": 2523,
+      "completion_tokens": 208,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查长春天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "长春"
+          },
+          "result": "长春：阴，-6.8°C，体感 -12.7°C，湿度 86%，风速 18.9 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"长春\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 13*2",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "13*2"
+          },
+          "result": "26",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"13*2\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers both tasks with distinct tool calls, while Plan 1 merges them into one query which is not allowed. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_compare",
+      "category": "multi",
+      "task": "搜索 MoE 和 DPO，比较区别",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          }
+        },
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 43903.742114000124,
+      "prompt_tokens": 4907,
+      "completion_tokens": 310,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 MoE 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "MoE"
+          },
+          "result": "[Wikipedia/zh] 萌: 9%，女性以15~19歲最高，佔12.1%。 2005年，入選十大流行語。 2012年，香港有樂團以「萌」的羅馬音「MoE」為樂團名稱，並用動畫音樂及Cosplay宣傳萌文化。 2010年，臺灣東森幼幼台所製作的兒童電視劇系列《萌學園》，以講述萌學園的萌騎士團對抗闇黑勢力的故事。 | 混合专家模型: 混合专家模型（英語：mixture of experts，简称MoE），或译为多专家模型，是一种机器学习技术，通过门控（gating）模型将单一任务空间划分为多个子任务，再由多个专家网络（子模型）分别处理特定的子任务，最终得到整体的预测结果。混合专家模型与集成学习有相似之处，它们都应用多个子模型来 | 小米MiMo: 1，超越DeepSeek R1（79.8）。 2025年12月16日，小米在\"人车家全生态\"合作伙伴大会上发布并开源MiMo-V2-Flash，总参数309B，激活参数15B，采用MoE架构。模型在27万亿token上以FP8混合精度训练，采用5:1混合注意力机制（滑动窗口注意力与全局注意力协同）、多",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"MoE\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "搜索 DPO 的资料",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较 MoE 和 DPO 的区别",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。"
+          },
+          "result": "MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"MoE 是一种机器学习技术，通过门控模型将单一任务空间划分为多个子任务，再由多个专家网络分别处理特定的子任务，最终得到整体的预测结果。而 DPO 可以指 维持和平行动部、数字政策办公室、区间振荡指标等。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 2 covers all goals with a single query and comparison, making it more efficient and clear.；多动作任务选择更长计划 -> 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=0.8 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 0.8,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 0.8, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_advice",
+      "category": "multi",
+      "task": "查哈尔滨天气，然后建议穿什么",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 28064.10767599982,
+      "prompt_tokens": 2540,
+      "completion_tokens": 201,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查哈尔滨天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "根据天气情况建议穿什么",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "建议穿羽绒服。"
+          },
+          "result": "建议穿羽绒服。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"建议穿羽绒服。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 merges the two goals into one query, which is more efficient. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_weather",
+      "category": "multi",
+      "task": "搜索 FlashAttention，再查石家庄天气",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 28780.000966999978,
+      "prompt_tokens": 2850,
+      "completion_tokens": 207,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 FlashAttention",
+          "tool": "search",
+          "arguments": {
+            "query": "FlashAttention"
+          },
+          "result": "[Wikipedia/zh] 线性注意力: Ermon, Stefano; Rudra, Atri; Ré, Christopher. FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. Advances in Neural Information | Mamba2: ​​，尽管通过结构化矩阵优化（如SSD算法）显著提升训练速度，但在短序列场景下的硬件利用率仍低于高度优化的Transformer实现（如FlashAttention-2），且超大状态维度（N>256）可能导致内存压力。​​功能特性上​​，模型简化了softmax注意力机制，虽提升效率却牺牲了动态权重 | Gemini (语言模型): 1.0使用了多查询注意力(multi-query attention)。 Gemini 2.5 系列：強化深層推論與長文本穩定度，包含適合高階專業任務的 Gemini 2.5 Pro 與著重效率的 Gemini 2.5 Flash。 Gemini 3",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"FlashAttention\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查询石家庄天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "石家庄"
+          },
+          "result": "石家庄：晴，9.6°C，体感 8.7°C，湿度 92%，风速 2.6 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"石家庄\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 covers both tasks with distinct queries, while Plan 1 merges them into one. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_calc_explain2",
+      "category": "multi",
+      "task": "计算 56/7+11，然后解释结果",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 26485.823539000194,
+      "prompt_tokens": 2468,
+      "completion_tokens": 192,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "计算 56/7+11",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "56/7+11"
+          },
+          "result": "19.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"56/7+11\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "解释这个计算结果",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "这个计算结果是 19。"
+          },
+          "result": "这个计算结果是 19。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"这个计算结果是 19。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 2 completes the calculation and provides the result, which Plan 1 does not do.；多动作任务选择更长计划 -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "None",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": null}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_weather_compare2",
+      "category": "multi",
+      "task": "查太原和哈尔滨天气，比较温度",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          }
+        },
+        {
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "arguments": null
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 3,
+      "latency_ms": 39657.15110000019,
+      "prompt_tokens": 3524,
+      "completion_tokens": 285,
+      "llm_calls": 7,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "查太原天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "太原"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"太原\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "查哈尔滨天气",
+          "tool": "get_weather",
+          "arguments": {
+            "city": "哈尔滨"
+          },
+          "result": "哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h（Open-Meteo，2026-11-04T21:45）",
+          "error": null,
+          "raw": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"哈尔滨\"}}"
+        },
+        {
+          "subtask_id": 3,
+          "goal": "比较太原和哈尔滨温度",
+          "tool": "final_answer",
+          "arguments": {
+            "answer": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。"
+          },
+          "result": "太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。",
+          "error": null,
+          "raw": "{\"name\": \"final_answer\", \"arguments\": {\"answer\": \"太原：晴，5.8°C，体感 4.0°C，湿度 86%，风速 2.5 km/h。哈尔滨：阴，0.8°C，体感 -2.3°C，湿度 91%，风速 6.2 km/h。\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=1 Plan 2 covers all goals with a single query, which is more efficient and avoids merging queries.；多动作任务选择更长计划 -> 3 subtask(s)",
+        "executor: 3 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成任务。\"}"
+      },
+      "run_error": null
+    },
+    {
+      "mode": "debate",
+      "planner": "lora",
+      "reviewer": "lora",
+      "temperature": 0.0,
+      "run": 1,
+      "task_id": "hold_multi_search_calc",
+      "category": "multi",
+      "task": "搜索 DPO，再计算 81/9",
+      "expected_tool": null,
+      "expected_calls": [
+        {
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          }
+        },
+        {
+          "tool": "calculator",
+          "arguments": {
+            "expression": "81/9"
+          }
+        }
+      ],
+      "success": true,
+      "json_parse_ok": true,
+      "schema_ok": true,
+      "review_pass": true,
+      "rounds": 1,
+      "num_results": 2,
+      "latency_ms": 30751.212272999965,
+      "prompt_tokens": 2996,
+      "completion_tokens": 217,
+      "llm_calls": 6,
+      "results": [
+        {
+          "subtask_id": 1,
+          "goal": "搜索 DPO",
+          "tool": "search",
+          "arguments": {
+            "query": "DPO"
+          },
+          "result": "[Wikipedia/zh] DPO: DPO可以指： 維持和平行動部（Department of Peacekeeping Operations），聯合國和平行動部的舊名。 數字政策辦公室（Digital Policy Office），是香港特區政府於2024年設立的資訊科技管理部門，隸屬創新科技及工業局。 數位螢光示波器（Digital | 區間振盪指標: 區間振盪指標（detrended price oscillator，縮寫DPO）是一種技術分析指標，旨在排除長期趨勢對價格的影響，以顯示股價的短期波動區間，協助投資人辨識價格趨勢的週期。 計算DPO公式，需要先指定一段時間為 n（比如時間期間為7日，n=7），大於這段時間的長期價格趨勢將被排除，只留下短期的振盪。 | 共識機制: 權益證明（Proof-of-Stake，PoS，又譯持有量證明），典型案例：以太坊 股份授权證明（Delegated-Proof-of-Stake，DPoS），典型案例：EOS 容量證明（Proof-of-space，PoSpace，又稱 Proof-of-Capacity，PoC），典型案例：Filecoin",
+          "error": null,
+          "raw": "{\"name\": \"search\", \"arguments\": {\"query\": \"DPO\"}}"
+        },
+        {
+          "subtask_id": 2,
+          "goal": "计算 81/9",
+          "tool": "calculator",
+          "arguments": {
+            "expression": "81/9"
+          },
+          "result": "9.0",
+          "error": null,
+          "raw": "{\"name\": \"calculator\", \"arguments\": {\"expression\": \"81/9\"}}"
+        }
+      ],
+      "trace": [
+        "debate: choice=2 Plan 2 does not merge the two distinct tool calls into one query, and it covers every required lookup or action exactly once. -> 2 subtask(s)",
+        "executor: 2 result(s)",
+        "reviewer: pass=True score=1.0 round=1"
+      ],
+      "review": {
+        "pass": true,
+        "score": 1.0,
+        "issues": [],
+        "suggestion": "继续完成下一个任务。",
+        "raw": "{\"pass\": true, \"score\": 1.0, \"issues\": [], \"suggestion\": \"继续完成下一个任务。\"}"
+      },
+      "run_error": null
+    }
+  ]
+}
