@@ -68,10 +68,12 @@
   \vfill
   \begin{tabular}{rl}
     报告类型 & 技术报告 \\
-    开发环境 & Ubuntu 22.04 / Python 3.11 \\
+    开发环境 & Ubuntu 22.04 / Python 3.11.17 \\
+    训练环境 & Kaggle Linux / 单张 Tesla T4 16GB \\
     系统框架 & LangGraph \\
     基座模型 & Qwen2.5-3B-Instruct \\
-    微调方法 & 4-bit QLoRA \\
+    微调方法 & 4-bit QLoRA（rank 16，alpha 32） \\
+    角色 adapter & Executor / Planner / Reviewer \\
   \end{tabular}
   \vfill
 
