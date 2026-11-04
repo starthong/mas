@@ -193,7 +193,7 @@ stability
     \draw[->] (reviewer.north) -- ++(0,0.9) -| node[pos=0.25, above] {不通过，带 critique 重规划} (planner.north);
     \node[below=0.5cm of reviewer, align=center] {通过 $\rightarrow$ 输出};
   \end{tikzpicture}
-  \caption{三角色多智能体协作流程}
+  \caption{三角色串行协作基本流程（supervisor/debate 见 5.4）}
   \label{fig:architecture}
 \end{figure}
 
@@ -214,7 +214,7 @@ Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{s
 \subsection{工具层}
 工具通过 JSON Schema 注册，当前包含天气、计算器、检索和
 \texttt{final\_answer} 四类。天气通过 Open-Meteo 实时查询；检索按
-Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
+Serper、Tavily、Sogou、Wikipedia 的顺序回退；计算器和
 \texttt{final\_answer} 是本地确定性实现。工具调用统一为：
 \begin{lstlisting}
 {"name": "calculator", "arguments": {"expression": "(23*17+9)/5"}}
@@ -333,7 +333,8 @@ epoch。T4 不支持 bf16，因此统一使用 fp16 和 gradient checkpointing�
 \section{实验设置}\label{sec:experiments}
 \subsection{环境与模型}
 开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码。训练在 Kaggle
-Linux 容器中完成，实验固定使用单张 Tesla T4 16GB（`CUDA_VISIBLE_DEVICES=0`），
+Linux 容器中完成，实验固定使用单张 Tesla T4 16GB
+（\texttt{CUDA\_VISIBLE\_DEVICES=0}），
 避免多卡通信和显存差异引入额外变量。基座模型为 Qwen2.5-3B-Instruct，主
 LoRA adapter 约 114MB；Executor、Planner、Reviewer 分别加载独立 adapter。
 训练使用 LLaMA-Factory 的 4-bit QLoRA（rank 16，alpha 32，cutoff 2048，
@@ -421,9 +422,11 @@ Schema 合规率、工具名准确率、参数匹配率和格式错误类型。�
   \item \textbf{debate}：两个 Planner 分别提出计划，Judge 选一个，再执行和审查。
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \begin{tikzpicture}[
+    scale=0.9,
+    transform shape,
     box/.style={draw, rounded corners, minimum width=2.0cm,
       minimum height=0.65cm, align=center, font=\small},
     >=Latex
