@@ -150,7 +150,7 @@ stability
 
 为回答这些问题，本文在 LangGraph 上实现 Planner/Executor/Reviewer 三角色系统，并基于 Qwen2.5-3B-Instruct 训练工具调用 LoRA adapter。实验设计遵循两个原则。第一，\textbf{把结构、调用流程与最终语义分开}：格式评测分别报告 JSON 可解析率、schema 合规率、工具名准确率与参数匹配率；系统层报告 required-call completion，但明确不把它等同于最终答案语义正确率。第二，\textbf{把模型效应与系统效应分开}：除 base/LoRA 外，还加入 few-shot、guided JSON、角色消融、拓扑消融、温度、max\_rounds 和多 seed 对照。
 
-本文的主要贡献不是提出新的多智能体算法，而是给出一套更严格的对照框架，并报告若干容易被忽略的负结果：LoRA 对结构合规有较一致的改善，但“工具名准确率”的总体提升很大一部分来自 \texttt{final\_answer} 路由，而不是实际工具之间的选择；32 条真正的未见工具 OOD 已在 base 上达到 32/32。supervisor 和 debate 增加了调用成本，却没有稳定提高 required-call completion；角色专用 adapter 和更大数据配方也没有自动带来收益。这些结果共同说明，结构对齐、路由、规划、审查与协作拓扑应被视为不同层级的问题，而不能用单一“成功率”概括。
+本文的主要贡献不是提出新的多智能体算法，而是给出一套更严格的对照框架，并报告若干容易被忽略的负结果：LoRA 在难例上改善了结构合规，但“工具名准确率”的总体提升很大一部分来自 \texttt{final\_answer} 路由，而不是实际工具之间的选择；32 条真正的未见工具 OOD 已在 base 上达到 32/32。在共享 adapter 的 55 条开发集上，supervisor 和 debate 增加了调用成本，却没有稳定提高 required-call completion；角色专用 adapter 没有完成率收益，更大数据配方也没有自动带来收益。这些结果共同说明，结构对齐、路由、规划、审查与协作拓扑应被视为不同层级的问题，而不能用单一“成功率”概括。
 
 全文结构如下：第~\ref{sec:system} 节介绍系统与角色协议，第~\ref{sec:data} 节介绍数据和微调方法，第~\ref{sec:experiments} 节定义评测口径与对照设置，随后给出 RQ1--RQ3 的实验结果、局限性与结论。
 \clearpage
