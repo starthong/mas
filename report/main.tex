@@ -822,9 +822,9 @@ debate 的改善外推为“三角色 adapter 全面更快”。
 
 25 条 holdout 上，三角色 adapter 的 sequential/supervisor/debate 都是
 25/25（表~\ref{tab:holdout}）；但 holdout 只有 25 条，不能据此声称角色
-专用优于共享 adapter，55 条开发集的方向相反。需要明确：共享 adapter 的
-25 条 holdout 没有运行，因此 holdout 只验证角色 adapter 的流程完成，
-不能作为共享 vs 角色的 holdout 对比。
+专用优于共享 adapter，55 条开发集的方向相反。共享 adapter 的旧 mock
+holdout 为 24/25，但使用旧工具和旧 Executor，不能作为当前真实工具对照；
+当前真实工具下的共享 holdout 尚未运行。
 
 \begin{table}[H]
   \centering
@@ -1024,9 +1024,10 @@ Reviewer 通过率也不是语义真值。
 
 第二，\textbf{样本与设计}。系统层只有 80 条唯一任务：55 条开发集（31 条
 核心子集）加 25 条不重叠 holdout；多数配置只跑一次，置信区间是描述性的。
-25 条 holdout 目前只跑了三角色 adapter，共享 adapter holdout 未运行，
-不能做 holdout 上的共享 vs 角色对照。5 个 seed 只覆盖 v1/v2 格式评测，
-不覆盖系统任务；31 条子集也不足以支撑强显著性结论。
+25 条 holdout 目前只有三角色 adapter 的真实工具结果；共享 adapter 的旧
+mock 24/25 使用旧工具和旧 Executor，不能与当前真实工具结果比较。因此
+当前真实工具下没有共享 vs 角色的 holdout 对照。5 个 seed 只覆盖 v1/v2
+格式评测，不覆盖系统任务；31 条子集也不足以支撑强显著性结论。
 
 第三，\textbf{角色数据与 adapter}。Planner 1,392 条、Reviewer 2,784 条均为
 合成数据；Reviewer 负例主要来自删除/截断执行结果，没有覆盖错误工具、
