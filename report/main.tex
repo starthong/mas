@@ -332,37 +332,77 @@ epoch。T4 不支持 bf16，因此统一使用 fp16 和 gradient checkpointing�
 \clearpage
 \section{实验设置}\label{sec:experiments}
 \subsection{环境与模型}
-开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码；
-训练在 Kaggle 的 Linux 容器中完成，GPU 为 Tesla T4 16GB。
-基座模型为 Qwen2.5-3B-Instruct，LoRA adapter 文件大小约 114MB。
-推理使用 transformers + PEFT 的 4-bit 加载，与训练和评测端保持一致。
-主系统实验使用真实 Open-Meteo 天气和真实检索（Serper/Tavily/Sogou/Wikipedia），
-不再使用固定天气表或本地 20 篇小文档。本文没有把 serving 优化作为主实验
-变量：多智能体流程是串行依赖调用，continuous batching 主要面向独立请求
-的吞吐，不改变单个任务内部的依赖延迟；在 55 条任务的评测规模下，引入新的
-serving 栈会增加环境和精度变量，不利于和 4-bit HF 结果直接比较。
+开发环境为 Ubuntu 22.04，Python 3.11.17，使用 Git 管理代码。训练在 Kaggle
+Linux 容器中完成，实验固定使用单张 Tesla T4 16GB（`CUDA_VISIBLE_DEVICES=0`），
+避免多卡通信和显存差异引入额外变量。基座模型为 Qwen2.5-3B-Instruct，主
+LoRA adapter 约 114MB；Executor、Planner、Reviewer 分别加载独立 adapter。
+训练使用 LLaMA-Factory 的 4-bit QLoRA（rank 16，alpha 32，cutoff 2048，
+paged AdamW，fp16），推理使用 transformers + PEFT 的 4-bit 加载，与训练端
+保持同一精度。
+
+环境与依赖汇总在表~\ref{tab:env}。主系统实验使用真实 Open-Meteo 天气和
+真实检索（Serper/Tavily/Sogou/Wikipedia）；请求设置超时和缓存，检索服务
+按可用性回退。约束解码另用 vLLM fp16，仅作为独立的结构基线，不与 HF
+4-bit 主实验混合比较。本文没有把 serving 优化作为主实验变量：多智能体流程
+是串行依赖调用，continuous batching 主要面向独立请求的吞吐，不改变单个
+任务内部的依赖延迟。
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{实验环境与主要依赖}
+  \label{tab:env}
+  \begin{tabular}{ll}
+    \toprule
+    项目 & 配置 \\
+    \midrule
+    开发环境 & Ubuntu 22.04，Python 3.11.17，Git \\
+    训练环境 & Kaggle Linux 容器，单张 Tesla T4 16GB \\
+    基座模型 & Qwen2.5-3B-Instruct \\
+    训练框架 & LLaMA-Factory，4-bit QLoRA，rank 16，alpha 32 \\
+    推理后端 & transformers + PEFT，4-bit \\
+    角色 adapter & Executor / Planner / Reviewer 分开挂载 \\
+    工具服务 & Open-Meteo、Serper、Tavily、Sogou、Wikipedia \\
+    约束解码 & vLLM fp16，独立结构基线 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{任务与指标}
-格式评测使用 41 条简单样本和 57 条难例，指标包括 JSON 可解析率、
-Schema 合规率、工具名准确率、参数完全匹配率和格式错误类型。严格评测
-只接受原始输出，不在评测阶段做 JSON 修复；运行时的 Planner 解析则允许
-一次修复，避免单个坏输出中断整个流程。
+格式评测使用 41 条简单样本、57 条难例和 40 条 OOD；指标包括 JSON 可解析率、
+Schema 合规率、工具名准确率、参数匹配率和格式错误类型。严格评测只接受原始
+输出，不在评测阶段做 JSON 修复；运行时的 Planner 解析则允许一次修复，避免
+单个坏输出中断整个流程。OOD 进一步拆成 32 条真正要求四个未见工具的样本和
+8 条 \texttt{final\_answer} 路由样本，参数指标对语言代码和股票别名做归一化。
 
-系统评测以 55 条开发集为主体（41 条单步 + 14 条多步），其中 31 条核心任务
-（24 条单步 + 7 条多步）是其子集，用于 base/LoRA 与角色消融；另有 25 条与前述
-55 条不重叠的 holdout（15 条单步 + 10 条多步）。因此系统层共有 80 条互不重复
-任务，而不是 $31+55+25=111$ 条独立任务。单步任务定义一个 expected call，多步
-任务定义多个 expected calls；当前 scorer 检查这些调用是否出现，但不把调用顺序
-纳入 success 判定，因此本文不把该指标描述为“按顺序完成”。
+系统评测以 55 条开发集为主体（41 单步 + 14 多步），其中 31 条核心任务
+（24 单步 + 7 多步）是其子集；另有 25 条与 55 条不重叠的 holdout（15 单步
++ 10 多步）。系统层共 80 条互不重复任务，31 不是独立的第三套测试集。
+单步任务定义一个 expected call，多步任务定义多个 expected calls；指标定义
+详见 5.3 节，简言之它是 required-call completion，不是最终答案语义正确率。
 
-数据规模上，主实验使用 750 条训练集；数据扩展对照另用 1,124 条扩展集并训练
-5 个 seed，用于估计数据配方差异与训练方差。评测覆盖 41 条简单样本、57 条难例、
-40 条 OOD 和上述系统任务；其中 OOD 进一步拆为 32 条真正要求四个训练中未出现
-工具的样本与 8 条 \texttt{final\_answer} 路由样本。对照包括 base、LoRA、base +
-few-shot，消融包括角色、sequential/supervisor/debate 拓扑、温度、
-三角色 adapter 和 max\_rounds。OOD 只检查格式、路由和参数匹配，不执行工具。
+表~\ref{tab:protocol} 汇总了本文实际运行的实验组、数据规模和重复次数。
+主系统比较固定 v1 adapter；v2 仅作为数据扩展消融，在 RQ3 中单独报告。
 
-v1 是预先设定的主 adapter，v2 仅作为数据扩展消融。为避免把 adapter 变化与拓扑变化混为一谈，sequential/supervisor/debate 的主系统比较统一固定 v1；v1/v2 的差异则在 RQ3 中独立报告。
+\begin{table}[H]
+  \centering
+  \small
+  \caption{实验矩阵：任务、变量与运行次数}
+  \label{tab:protocol}
+  \begin{tabular}{llll}
+    \toprule
+    实验组 & 变量/对照 & 数据 & 运行 \\
+    \midrule
+    格式与约束 & base/LoRA/few-shot/guided JSON & 41 + 57 + 40 & 1 \\
+    系统拓扑 & single/sequential/supervisor/debate & 31 核心 / 55 开发 & 1 \\
+    角色 adapter & 共享 adapter vs 三角色 adapter & 55 开发 / 25 holdout & 1 \\
+    角色消融 & 全 LoRA、base Planner/Reviewer、无 Reviewer & 31 核心 & 1 \\
+    温度 & 0 / 0.7 & 31 核心 $\times$ 3 & 3 \\
+    重规划 & max\_rounds = 1 / 2 / 3 & 14 多步 & 1 \\
+    数据配方 & v1 (750) / v2 (1,124) & hard / OOD & 5 seed \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{评测口径与统计处理}
 本文避免把不同层级的指标混在一起。格式层面依次报告 JSON 可解析率、schema 合规率、工具名准确率和参数匹配率；对于 OOD，进一步把 32 条“必须调用新工具”的样本与 8 条 \texttt{final\_answer} 样本分开。系统层的 \texttt{success} 字段实际是\textbf{预期调用完成指标}：对每个 expected call，检查是否存在工具名与参数匹配的执行结果，同时要求工具无报错、返回非空且不是“暂无数据”。当 expected arguments 为 \texttt{None}（主要是 \texttt{final\_answer}）时，只检查工具是否被调用，并不判断自由文本内容是否正确；当前 scorer 也不把调用顺序纳入判定。因此下文将它称为 required-call completion，而不是端到端语义正确率。Reviewer 通过率同样仅用于分析审查行为，不作为 ground truth。
