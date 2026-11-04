@@ -81,13 +81,13 @@
 \pagenumbering{Roman}
 
 \begin{abstract}
-本文研究小参数开源模型在多智能体系统中的工具调用稳定性，以及协作拓扑在工具流程完成率与额外延迟之间的权衡。本文在 LangGraph 上实现 Planner、Executor 和 Reviewer 三角色系统，并比较 single、sequential、supervisor 与 debate 四种执行模式；同时基于 Qwen2.5-3B-Instruct 使用 4-bit QLoRA 进行工具调用对齐。评测将\textbf{结构合规、工具选择、参数匹配与系统调用流程完成}分开。系统层的完成指标由可复现的 expected-call scorer 计算：要求预期工具/参数调用出现、工具无报错且返回非空；它不对 \texttt{final\_answer} 的自由文本做语义评分，因此不能直接解释为“最终答案正确率”。
+本文研究小参数开源模型在多智能体系统中的工具调用稳定性，以及协作拓扑在调用完成率与延迟之间的权衡。系统在 LangGraph 上实现 Planner/Executor/Reviewer，并比较 single、sequential、supervisor、debate；用 4-bit QLoRA 微调 Qwen2.5-3B-Instruct。评测把结构合规、工具选择、参数匹配、required-call completion 与最终答案语义分开；系统 completion 只检查预期调用是否出现、工具是否无报错且结果非空，不评判 \texttt{final\_answer} 文本，因此不是端到端正确率。
 
-工具调用评测包含 41 条简单样本、57 条难例和 40 条 OOD 样本。系统任务共有 80 条互不重复样本：其中 55 条为开发集，包含一个 31 条核心子集和 24 条扩展任务；另有 25 条不重叠 holdout。结果显示，在 57 条难例上，LoRA 将 schema 合规率由 94.7\% 提升至 98.2\%。但把“需要外部工具”和“应直接回答/拒绝”拆开后，42 条工具必需样本的工具名准确率仅由 40/42 提升到 41/42，而 15 条 \texttt{final\_answer} 路由由 9/15 提升到 11/15。40 条 OOD 中，32 条真正要求调用四个未见工具的样本上，base 与 LoRA 的工具名均为 32/32，规范化后的结构化参数也均为 32/32；整体工具名 82.5\% 到 90.0\% 的差异完全来自另外 8 条 \texttt{final\_answer} 样本（1/8 对 4/8）。因此，OOD 结果支持“基座模型已经能按给定 schema 选择未见工具”，而不是支持“LoRA 提升了未见工具选择”。guided JSON 可将 schema 合规率提升至 100\%，但同样不能保证语义正确。
+数据包含 41 条简单样本、57 条难例、40 条 OOD，以及 80 条互不重复系统任务（55 条开发集 + 25 条 holdout，31 条核心任务是前者的子集）。LoRA 把 hard schema 从 94.7\% 提升到 98.2\%；但 42 条工具必需样本的工具名只从 40/42 到 41/42，15 条 final 路由从 9/15 到 11/15。OOD 的 32 条真正新工具样本上，base/LoRA 都是 32/32；整体 82.5\%→90.0\% 完全来自 8 条 final 样本（1/8→4/8）。因此不能声称 LoRA 提升了未见工具选择；guided JSON 只保证 schema，不保证语义。
 
-系统层面，55 条开发集上的 required-call completion 在 sequential、supervisor、debate 中分别为 54/55、54/55 和 53/55；平均延迟分别为 15.86~s、25.14~s 和 33.38~s。角色专用 adapter 在该开发集上没有超过共享 adapter；但它的 debate 延迟从 33.38~s 降到 25.68~s（完成少 1 条），sequential/supervisor 反而更慢，因此不能把局部延迟改善写成全面加速。25 条 holdout 的三种模式均达到 25/25 的调用完成，但该指标仍不评判最终自由文本的语义质量。更多重规划轮次和更大训练数据配方也没有显示出稳定优势，5-seed 对照进一步说明，小样本上的 1--2 条差异容易落入训练随机性范围。
+55 条开发集上，sequential/supervisor/debate 的 required-call completion 为 54/55、54/55、53/55，延迟为 15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，没有超过共享 adapter；其 debate 延迟降到 25.68~s 但少完成 1 条，sequential/supervisor 反而更慢。25 条 holdout 三种模式均 25/25，但该指标仍不评判语义。max\_rounds 没有提高 12/14；温度 0.7 的 96.8\% 不低于温度 0 的 93.6\%；5-seed 差异处于训练方差内。
 
-本文因此得到更保守的结论：LoRA 在本设置中最明确的收益是\textbf{结构协议遵循}，并对部分“调用工具还是直接回答”的路由有帮助；对于真正的未见工具选择和结构化参数填写，当前测试已经接近饱和，不能声称 LoRA 有稳定优势。多智能体设计还必须把调用完成、最终回答语义质量、延迟、外部工具质量和训练方差分开报告。
+因此，LoRA 最明确的收益是结构协议遵循和部分“调用工具还是直接回答”的路由；未见工具选择与结构化参数在当前测试上已接近饱和，不能声称稳定优势。多智能体评测应同时报告调用完成、最终语义、延迟、工具质量和训练方差。
 
 \vspace{0.5em}
 \noindent\textbf{关键词：}多智能体系统；工具调用；LoRA；LangGraph；稳定性；消融实验
@@ -97,47 +97,37 @@
 \section*{Abstract}
 This report studies tool-calling reliability in a small open-source multi-agent
 system and the trade-off between collaboration complexity and execution cost.
-We implement Planner, Executor, and Reviewer roles on LangGraph, compare
-single, sequential, supervisor, and debate modes, and fine-tune
-Qwen2.5-3B-Instruct with 4-bit QLoRA. Evaluation separates structural
-compliance, tool selection, argument matching, and system-level required-call
-completion. The system metric is a deterministic expected-call scorer: all
-required tool/argument calls must appear, return non-empty results, and have no
-tool error. It does not semantically grade free-text \texttt{final\_answer}
-content, so the reported completion rates are not final-answer accuracy.
+We implement Planner/Executor/Reviewer on LangGraph, compare single, sequential,
+supervisor, and debate, and fine-tune Qwen2.5-3B-Instruct with 4-bit QLoRA.
+Evaluation separates structural compliance, tool selection, argument matching,
+required-call completion, and final-answer semantics. The system metric only
+checks that expected calls appear, tools do not error, and results are non-empty;
+it does not grade free-text \texttt{final\_answer}, so it is not end-to-end
+accuracy.
 
-The tool-calling evaluation contains 41 simple cases, 57 hard cases, and 40 OOD
-cases. The system evaluation contains 80 unique tasks: a 55-task development
-set, within which 31 tasks form the core ablation subset, plus a disjoint
-25-task holdout. On the hard set, LoRA raises schema compliance from 94.7\% to
-98.2\%. After separating tool-required cases from direct-answer cases, however,
-tool-name accuracy on the 42 tool-required hard cases changes only from 40/42
-to 41/42, while \texttt{final\_answer} routing changes from 9/15 to 11/15.
-On OOD, all 32 cases that genuinely require one of four unseen tools achieve
-32/32 tool-name accuracy for both base and LoRA, and normalized structured
-arguments are also 32/32. The aggregate 82.5\% versus 90.0\% tool-name result is
-entirely explained by the eight \texttt{final\_answer} cases (1/8 versus 4/8),
-not by unseen-tool selection. Guided JSON raises schema compliance to 100\%
-but does not guarantee semantic correctness.
+The data contain 41 simple cases, 57 hard cases, 40 OOD cases, and 80 unique
+system tasks (55 development + 25 holdout; 31 core tasks are a subset of the
+development set). LoRA raises hard schema compliance from 94.7\% to 98.2\%.
+However, tool-name accuracy on the 42 tool-required hard cases moves only from
+40/42 to 41/42, and final routing from 9/15 to 11/15. On the 32 genuinely
+unseen-tool OOD cases, both base and LoRA are 32/32; the aggregate 82.5\% versus
+90.0\% is entirely due to eight final cases (1/8 versus 4/8). Thus LoRA does not
+improve unseen-tool selection; guided JSON enforces schema but not semantics.
 
-On the 55-task development set, required-call completion is 54/55 for
-sequential, 54/55 for supervisor, and 53/55 for debate, with average latency of
-15.86 s, 25.14 s, and 33.38 s. Role-specific adapters do not outperform the
-shared adapter on this development set. Their debate latency drops from
-33.38 s to 25.68 s but loses one completion, while sequential and supervisor
-become slower, so this is not a uniform speedup. All three role-specific modes
-reach 25/25 required-call completion on the holdout, but this metric still
-does not score the semantic quality of free-text answers. Increasing
-replanning rounds or using the larger training-data recipe also shows no
-stable advantage; a five-seed comparison indicates that one- or two-example
-differences on these small format sets are within training variance.
+On the 55-task development set, required-call completion is 54/55, 54/55, and
+53/55, with latency 15.86, 25.14, and 33.38 s. Role-specific adapters score
+52/55, 51/55, and 52/55, below the shared adapter; their debate latency drops to
+25.68 s but loses one completion, while sequential/supervisor become slower.
+All three modes reach 25/25 on the holdout, but this still does not grade
+semantics. max\_rounds does not improve 12/14; temperature 0.7 reaches 96.8\%,
+not below 93.6\% at temperature 0; five-seed differences are within training
+variance.
 
-The strongest supported conclusion is therefore narrower than a generic
-"better tool selection" claim: LoRA clearly improves structural protocol
-compliance and helps some tool-versus-direct-answer routing decisions, while
-the current unseen-tool and structured-argument tests are already near ceiling.
-Multi-agent evaluations should report call completion, final-answer semantic
-quality, latency, external-tool quality, and training variance separately.
+The clearest benefit of LoRA is structural protocol compliance and some
+tool-versus-direct-answer routing. Unseen-tool and structured-argument tests are
+near ceiling, so no stable advantage should be claimed. Multi-agent evaluations
+should report call completion, final-answer semantics, latency, tool quality,
+and training variance separately.
 
 \vspace{0.5em}
 \noindent\textbf{Keywords:} multi-agent system; tool calling; LoRA; LangGraph;
@@ -173,8 +163,9 @@ stability
 \clearpage
 \section{系统设计}\label{sec:system}
 \subsection{总体架构}
-系统包含任务分解 Agent、执行 Agent 与审查/评估 Agent，三者通过共享状态与消息传递协作。
-图~\ref{fig:architecture} 给出整体流程。
+系统包含任务分解 Agent、执行 Agent 与审查/评估 Agent，三者通过共享状态与
+消息传递协作。图~\ref{fig:architecture} 给出 sequential 的基本流程；
+supervisor 与 debate 的调度差异在 5.4 节展开。
 
 \begin{figure}[H]
   \centering
@@ -204,7 +195,8 @@ Planner 接收任务，输出不超过 5 个有序子任务，每个子任务包
 Executor 接收当前子任务和历史结果，选择工具并输出
 \texttt{name} 和 \texttt{arguments}；一个子任务只调用一次工具。
 Reviewer 接收任务、计划和执行结果，返回 \texttt{pass}、\texttt{score}、
-\texttt{issues} 和 \texttt{suggestion}。
+\texttt{issues} 和 \texttt{suggestion}。Reviewer 的 pass 只是审查信号，
+不是最终答案的语义真值；后文把它与 required-call completion 分开报告。
 
 共享状态保存任务、计划、执行结果、审查结果、轮数和 trace。
 串行流程最多重规划 2 轮；Reviewer 通过或达到轮数上限时结束。
