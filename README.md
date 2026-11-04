@@ -142,10 +142,12 @@ mas/
 
 - 源码、训练/测试数据和原始评测记录都在仓库中；
 - `results/` 保存每个配置的逐样本 JSON 和 summary，不只保留聚合表；
-- `configs/` 保存主训练、扩展数据和 6 个 seed 配置；
+- `configs/` 保存主训练、扩展数据、10 个 seed 配置（v1/v2 × seed 42–46）和 Planner/Reviewer 角色配置；
 - 主 adapter（约 114 MB）不放入 Git，保存在 Kaggle Dataset
   `starthong/mas-3b-toolcall-output`；
-- 报告源文件为 `report/main.tex`，使用 XeLaTeX 编译。
+- Planner adapter 保存在 `mas-planner-lora`，Reviewer adapter 保存在
+  `mas-reviewer-lora`；两者同样不放入 Git；
+- 报告源文件为 `report/main.tex`，使用 XeLaTeX 编译；图表使用 `[H]` 随文放置。
 
 主要入口：
 

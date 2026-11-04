@@ -174,7 +174,7 @@ stability
 系统包含任务分解 Agent、执行 Agent 与审查/评估 Agent，三者通过共享状态与消息传递协作。
 图~\ref{fig:architecture} 给出整体流程。
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \begin{tikzpicture}[
     node distance=1.5cm and 1.8cm,
@@ -251,7 +251,7 @@ Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
 31 并不是与 55 独立的另一套测试集；另保留 25 条与两者不重叠的 holdout。
 所以系统层共有 80 条互不重复任务，而不是 $31+55+25$ 条独立任务。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{数据与评测规模}
@@ -408,7 +408,7 @@ JSON 可解析率和 Schema 合规率都是 100\%，格式错误数均为 0。Lo
 工具名准确率从 97.6\% 提升到 100\%，参数完全匹配率从 85.4\% 提升到
 87.8\%，但两者都只对应一条样本的差异。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{格式评测结果（41 条样本）}
   \label{tab:format}
@@ -430,7 +430,7 @@ JSON 可解析率和 Schema 合规率都是 100\%，格式错误数均为 0。Lo
 又构造了 57 条难例，包含未见城市/主题、缺参数、工具误导和格式诱导。
 表~\ref{tab:hard} 给出四组结果。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{难例格式评测结果（57 条样本）}
   \label{tab:hard}
@@ -472,7 +472,7 @@ LoRA 是 [0.907, 0.997]；按配对样本做 McNemar 检验，温度 0 的 p 值
 或拒绝场景，参考动作是 \texttt{final\_answer}。这一拆分非常重要，因为后者
 并不是“未见工具选择”。评测只检查格式和调用决策，不执行这四个 OOD 工具。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{OOD 结果拆分：真正的未见工具调用与 \texttt{final\_answer} 路由}
@@ -506,7 +506,7 @@ OOD 没有提供 LoRA 参数推理更准的证据。另一方面，hard/OOD 中�
 图~\ref{fig:oodsplit} 把 OOD 拆成“真正的新工具调用”和“应直接回答/拒绝”
 两组，避免用 40 条聚合工具名掩盖 32/32 饱和与 8 条路由失败。
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -539,7 +539,7 @@ OOD 没有提供 LoRA 参数推理更准的证据。另一方面，hard/OOD 中�
 \texttt{final\_answer} 场景显著影响，表~\ref{tab:fewshot} 直接拆分需要工具
 的样本与直接回答样本。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{base + few-shot 与 LoRA 的拆分对比（温度 0）}
@@ -570,7 +570,7 @@ LoRA 的 hard 工具必需样本是 41/42、直接回答是 11/15。OOD 上三�
 \texttt{\{"name": ..., "arguments": ...\}}。表~\ref{tab:constrained}
 给出结果。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{vLLM fp16 guided JSON 约束解码拆分结果（温度 0；OOD 参数已归一化）}
@@ -604,7 +604,7 @@ LoRA 的 hard 工具必需样本是 41/42、直接回答是 11/15。OOD 上三�
 这说明在修复 Executor 的最终答案路由后，base 放进 MAS 不再出现旧版
 51.6\% 的大幅下降；单步任务和串行流程的差距明显缩小。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{31 条任务上的协作模式对比（未加 few-shot，每条任务 1 次）}
@@ -628,7 +628,7 @@ LoRA 的 hard 工具必需样本是 41/42、直接回答是 11/15。OOD 上三�
 （98.2\%），debate 为 53/55（96.4\%）；三者置信区间大幅重叠，
 supervisor 仍没有调用完成率收益，延迟却从 15.86~s 增加到 25.14~s。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{55 条真实工具开发集的 required-call completion（共享 adapter，few-shot，每条 1 次）}
@@ -658,7 +658,7 @@ adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7
 因此角色专用 adapter 在当前数据上没有稳定收益，不能因为“三个权重都训练了”
 就声称更好；这些数字也不评判最终自由文本答案。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{共享 adapter 与三角色 adapter 的 55 条开发集调用完成率对比（few-shot）}
@@ -680,7 +680,7 @@ adapter、Planner SFT、Reviewer SFT）。角色专用在 55 条上为 94.5/92.7
 25/25（表~\ref{tab:holdout}）；但 holdout 只有 25 条，不能据此声称角色
 专用优于共享 adapter，55 条开发集的方向相反。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{三角色 adapter 的 25 条 holdout required-call completion（few-shot）}
@@ -707,7 +707,7 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
 任务上，base Planner 反而更高。Reviewer 需要的是校准和完整的结果，而不是
 简单增加一个 LoRA 角色。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{角色分配消融（31 条，真实工具，未加 few-shot）}
@@ -732,7 +732,7 @@ Reviewer 为 87.1\%。这组结果不支持“角色专用 adapter 一定更好�
 置信区间重叠，不能声称哪一拓扑显著更优；更准确地说，多角色没有提高
 required-call completion，却增加了调用成本。
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -768,7 +768,7 @@ required-call completion，却增加了调用成本。
 32/32，规范化参数从 32/32 变为 31/32。差异都只有 0--2 条样本，不能据此
 解释为“更多数据导致退化”。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{训练数据扩展的单次拆分对比（温度 0）}
@@ -797,7 +797,7 @@ required-call completion，却增加了调用成本。
 处于训练波动或少量路由样本的尺度。} 本文继续使用更小的 v1 作为主 adapter，
 是基于训练成本和预先设定基线，而不是基于系统任务结果事后挑选模型。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{v1/v2 的 seed 稳定性：拆分指标（5 个 seed，温度 0，均值 $\pm$ 样本标准差）}
@@ -824,7 +824,7 @@ required-call completion，却增加了调用成本。
 平均延迟从 24.64~s 增到 27.11~s，增加重规划预算没有提高成功数
 （表~\ref{tab:rounds}）。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{max\_rounds 敏感性（14 条多步，真实工具，三角色 adapter）}
@@ -845,7 +845,7 @@ required-call completion，却增加了调用成本。
 “温度越低越稳定”在本任务上不成立；但两组都只覆盖 31 条，不能据此
 选择温度。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \small
   \caption{温度对全 LoRA 串行流程的影响（31 条 $\times$ 3 次，真实工具）}
