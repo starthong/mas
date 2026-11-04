@@ -1032,7 +1032,7 @@ OOD 的 32 条新工具样本上 base/LoRA 都是 32/32，结构化参数也都�
 82.5\%→90.0\% 的聚合差异来自 8 条 final 样本（1/8→4/8）。guided JSON 能把
 schema 约束到 100\%，但结构正确不等于语义正确。
 
-\textbf{RQ2：更复杂的拓扑没有提高 required-call completion，却增加延迟。}
+\textbf{RQ2：在共享 adapter 上，更复杂的拓扑没有提高 required-call completion，却增加延迟。}
 31 条核心子集上 base/LoRA sequential 为 22/31、24/31；55 条开发集上共享
 adapter 的 sequential/supervisor/debate 为 54/55、54/55、53/55，延迟为
 15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，25 条
