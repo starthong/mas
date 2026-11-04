@@ -83,7 +83,9 @@
 \begin{abstract}
 本文研究小参数开源模型在多智能体系统中的工具调用稳定性，以及协作拓扑在调用完成率与延迟之间的权衡。系统在 LangGraph 上实现 Planner/Executor/Reviewer，并比较 single、sequential、supervisor、debate；用 4-bit QLoRA 微调 Qwen2.5-3B-Instruct。评测把结构合规、工具选择、参数匹配、required-call completion 与最终答案语义分开；系统 completion 只检查预期调用是否出现、工具是否无报错且结果非空，不评判 \texttt{final\_answer} 文本，因此不是端到端正确率。
 
-数据包含 41 条简单样本、57 条难例、40 条 OOD，以及 80 条互不重复系统任务（55 条开发集 + 25 条 holdout，31 条核心任务是前者的子集）。LoRA 把 hard schema 从 94.7\% 提升到 98.2\%；但 42 条工具必需样本的工具名只从 40/42 到 41/42，15 条 final 路由从 9/15 到 11/15。OOD 的 32 条真正新工具样本上，base/LoRA 都是 32/32；整体 82.5\%→90.0\% 完全来自 8 条 final 样本（1/8→4/8）。因此不能声称 LoRA 提升了未见工具选择；guided JSON 只保证 schema，不保证语义。
+数据包含 41 条简单样本、57 条难例、40 条 OOD，以及 80 条互不重复系统任务（55 条开发集 + 25 条 holdout，31 条核心任务是前者的子集）。LoRA 把 hard schema 从 94.7\% 提升到 98.2\%；但 42 条工具必需样本的工具名只从 40/42 到 41/42，15 条 final 路由从 9/15 到 11/15。OOD 的 32 条真正新工具样本上，base/LoRA 都是 32/32；整体 82.5\%→90.0\% 完全来自 8 条 final 样本（1/8→4/8）。因此不能声称 LoRA 提升了未见工具选择。vLLM guided JSON 把 hard/OOD schema
+都拉到 100\%，hard 工具名 42/42；但 hard 结构化参数 base/LoRA 为 37/42 对
+39/42，OOD final 为 1/8 对 3/8，说明约束主要替代格式收益，不能替代语义。
 
 55 条开发集上，sequential/supervisor/debate 的 required-call completion 为 54/55、54/55、53/55，延迟为 15.86、25.14、33.38~s。三角色 adapter 为 52/55、51/55、52/55，没有超过共享 adapter；其 debate 延迟降到 25.68~s 但少完成 1 条，sequential/supervisor 反而更慢。25 条 holdout 三种模式均 25/25，但该指标仍不评判语义。max\_rounds 没有提高 12/14；温度 0.7 的 96.8\% 不低于温度 0 的 93.6\%；5-seed 差异处于训练方差内。
 
@@ -112,7 +114,10 @@ However, tool-name accuracy on the 42 tool-required hard cases moves only from
 40/42 to 41/42, and final routing from 9/15 to 11/15. On the 32 genuinely
 unseen-tool OOD cases, both base and LoRA are 32/32; the aggregate 82.5\% versus
 90.0\% is entirely due to eight final cases (1/8 versus 4/8). Thus LoRA does not
-improve unseen-tool selection; guided JSON enforces schema but not semantics.
+improve unseen-tool selection. vLLM guided JSON raises hard/OOD schema to 100\%
+and hard tool names to 42/42; however, hard structured arguments are 37/42
+versus 39/42 and OOD final routing is 1/8 versus 3/8. Constraint decoding
+substitutes for the format gain, not for semantics.
 
 On the 55-task development set, required-call completion is 54/55, 54/55, and
 53/55, with latency 15.86, 25.14, and 33.38 s. Role-specific adapters score
@@ -634,8 +639,10 @@ LoRA 的 hard 工具必需样本是 41/42、直接回答是 11/15。OOD 上三�
 并在本数据上改善了一部分 tool-vs-final 路由。
 
 \subsubsection{约束解码基线}
-为了区分“LoRA 学会了格式”与“解码器强制了格式”，用 vLLM guided JSON
-在 hard/OOD 上重跑 base 和 LoRA，顶层只允许
+这个实验不是追求更高的任务成功率，而是回答一个对照问题：如果只需要
+JSON/schema 正确，约束解码能否替代 LoRA？如果能，LoRA 的独特价值就应看
+工具名、参数和路由；如果不能，才说明微调学到了约束之外的能力。
+用 vLLM guided JSON 在 hard/OOD 上重跑 base 和 LoRA，顶层只允许
 \texttt{\{"name": ..., "arguments": ...\}}。表~\ref{tab:constrained}
 给出结果。
 
@@ -663,6 +670,15 @@ LoRA 的 hard 工具必需样本是 41/42、直接回答是 11/15。OOD 上三�
 结构化参数 exact 在 base/LoRA 下分别为 37/42 和 39/42；OOD 规范化后的
 结构化参数均为 32/32。这里 vLLM 使用 fp16，主实验使用 HF 4-bit；
 约束解码只作为结构基线，不能把绝对成功率与主实验直接混比。
+
+把约束结果与无约束结果并排看，结论更具体。无约束时 hard 结构化参数为
+base 35/42、LoRA 38/42；约束后变为 37/42、39/42，LoRA 只剩 2 条优势。
+final 路由无约束为 base 9/15、LoRA 11/15，约束后都是 11/15；OOD final
+无约束为 1/8、4/8，约束后为 1/8、3/8，LoRA 仍多 2 条但差异缩小。
+也就是说，guided JSON 能复现“schema 和工具名变好”这部分收益，也能部分
+保留路由差异，但没有带来新的语义能力。若部署只关心结构合规，约束解码是
+比微调更直接的结构方案；若关心参数和路由，LoRA 的剩余优势很小且不稳定，
+仍需独立语义评测。
 
 \subsection{RQ2：协作拓扑是否值得？}
 
@@ -1029,8 +1045,10 @@ required-call completion 与最终答案语义分开。系统任务共 80 条互
 57 条 hard 上 schema 从 94.7\% 提高到 98.2\%；但 42 条工具必需样本的工具名
 只从 40/42 到 41/42，15 条 \texttt{final\_answer} 路由从 9/15 到 11/15。
 OOD 的 32 条新工具样本上 base/LoRA 都是 32/32，结构化参数也都是 32/32；
-82.5\%→90.0\% 的聚合差异来自 8 条 final 样本（1/8→4/8）。guided JSON 能把
-schema 约束到 100\%，但结构正确不等于语义正确。
+82.5\%→90.0\% 的聚合差异来自 8 条 final 样本（1/8→4/8）。guided JSON 把
+hard/OOD schema 都拉到 100\%，hard 工具名 42/42；但 hard 结构化参数
+base/LoRA 为 37/42 对 39/42，OOD final 为 1/8 对 3/8。因此，约束解码
+可以替代格式收益，却不能替代语义；LoRA 的剩余差异很小且不一致。
 
 \textbf{RQ2：在共享 adapter 上，更复杂的拓扑没有提高 required-call completion，却增加延迟。}
 31 条核心子集上 base/LoRA sequential 为 22/31、24/31；55 条开发集上共享
