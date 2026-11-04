@@ -242,8 +242,8 @@ Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
 
 \subsection{数据构造}
 本文的数据分为训练、格式评测和系统评测三部分。主训练集包含 750 条样本，
-覆盖天气查询、四则运算、本地检索和无需工具的直接回答四类场景；为检验数据
-配方，另构造 1,124 条扩展训练集，并用 5 个 seed 估计训练方差。格式评测由
+覆盖天气查询、四则运算、本地检索和无需工具的直接回答四类场景；另构造
+1,124 条扩展训练集，用于 4.4 节的数据配方对照。格式评测由
 41 条简单样本、57 条难例和 40 条 OOD 组成，其中 OOD 进一步分为 32 条真正
 要求四个未见工具的样本，以及 8 条应直接回答或拒绝的 \texttt{final\_answer}
 样本。
@@ -292,12 +292,35 @@ Serper、Tavily、Sogou 的顺序调用外部服务；计算器和
 
 \subsection{QLoRA 配置}
 基座模型为 Qwen2.5-3B-Instruct，使用 4-bit QLoRA 在单张 T4 上训练。
-LoRA rank 为 16，alpha 为 32，target 为全部线性层；学习率 $2\times10^{-4}$，
-训练 2 个 epoch，cutoff length 为 2048，开启 gradient checkpointing 和
-paged AdamW。T4 不支持 bf16，因此使用 fp16。
+三套 adapter 共享 rank 16、alpha 32、cutoff length 2048、4-bit 量化和
+paged AdamW；差异在训练数据、epoch、学习率和有效 batch（表~\ref{tab:train}）。
+主 Executor 使用 750 条数据、学习率 $2\times10^{-4}$、2 个 epoch；v2 数据
+配方沿用同一配置。Planner 使用 1,392 条数据、学习率 $1\times10^{-4}$、
+4 个 epoch；Reviewer 使用 2,784 条数据、学习率 $1\times10^{-4}$、3 个
+epoch。T4 不支持 bf16，因此统一使用 fp16 和 gradient checkpointing。
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{三套 adapter 的 QLoRA 训练配置}
+  \label{tab:train}
+  \begin{tabular}{lcccc}
+    \toprule
+    配置 & 数据量 & epoch & 学习率 & batch $\times$ 累积 \\
+    \midrule
+    Executor v1/v2 & 750 / 1,124 & 2 & $2\times10^{-4}$ & $1\times16$ \\
+    Planner & 1,392 & 4 & $1\times10^{-4}$ & $2\times4$ \\
+    Reviewer & 2,784 & 3 & $1\times10^{-4}$ & $2\times4$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{数据扩展与随机种子对照}
-为了检验“训练数据更多是否一定更好”，本文额外构造 1,124 条扩展训练集。扩展内容包括更多城市、检索主题和随机四则运算。由于 v1（750 条）与 v2（1,124 条）同时改变了\textbf{数据量与数据组成}，该实验只能回答“这套扩展配方是否稳定优于原配方”，不能把差异单独归因于数据量。
+4.2 节表~\ref{tab:data} 已列出 1,124 条扩展集的规模；本节说明为什么要做
+这个对照，以及它能回答什么。扩展集增加了更多城市、检索主题和随机四则运算；
+由于 v1（750 条）与 v2（1,124 条）同时改变了\textbf{数据量与数据组成}，
+该实验只能回答“这套扩展配方是否稳定优于原配方”，不能把差异单独归因于
+数据量。
 
 为降低单次训练随机性的影响，v1 与 v2 均在相同基座模型、超参数和评测集上使用 seed 42--46 各训练一次，并报告均值与标准差。这里将 seed 重复视为训练方差估计，而不是显著性证明；5 个 seed 的样本量仍然有限。若要严格分离纯数据量效应，还需要额外构造“重复 v1 到 1,124 条”或“从 v2 抽样 750 条”的等组成对照。具体结果在 RQ3 中统一报告。
 
