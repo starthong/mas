@@ -638,7 +638,7 @@ OOD 没有提供 LoRA 参数推理更准的证据。另一方面，hard/OOD 中�
   \label{tab:fewshot}
   \begin{tabular}{lccccc}
     \toprule
-    配置 & hard Schema & hard 新/已有工具(42) & hard final(15) & OOD 新工具(32) & OOD final(8) \\
+    配置 & hard Schema & hard 工具调用(42) & hard final 路由(15) & OOD 新工具(32) & OOD final 路由(8) \\
     \midrule
     base zero-shot & 0.947 & 40/42 & 9/15 & 32/32 & 1/8 \\
     base few-shot & 0.965 & 40/42 & 7/15 & 32/32 & 2/8 \\
@@ -646,6 +646,9 @@ OOD 没有提供 LoRA 参数推理更准的证据。另一方面，hard/OOD 中�
     \bottomrule
   \end{tabular}
 \end{table}
+
+表中的 final 列只检查是否选择 \texttt{final\_answer} 这一路由，不评价
+answer 文本内容；它不是最终答案正确率。
 
 few-shot 把 hard schema 从 94.7\% 提到 96.5\%，但没有改变 42 条工具必需样本
 的工具名结果（仍为 40/42），而 \texttt{final\_answer} 路由从 9/15 降到 7/15。
